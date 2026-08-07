@@ -1,0 +1,7 @@
+# Projekt-Anweisungen
+
+- **QGIS-Teil mitpflegen:** Bei jeder Änderung am Signaturenkatalog (`atlas/signaturen.js`), an `atlas/farben.js` oder an Kartenblättern immer prüfen, ob die QGIS-Artefakte nachgezogen werden müssen — sonst veralten sie: `QGIS-Kartensatz.dc.html`, `atlas/paletten/*.gpl`, die Export-Skripte unter `atlas/geodaten/` und das Blatt „Werkstatt · QGIS, QField, Paletten" in der `Zeichenerklaerung.dc.html`. Beschreibungen dort müssen den aktuellen Signaturen entsprechen (z. B. Tiegel statt Branchenquadrat, Grundriss-Städtesignatur, Texturen unter Flächenfarben).
+- Nebenbei refactorieren, wo der QGIS-Teil Dopplungen oder harte Hex-Werte trägt: Farben kommen aus `atlas/farben.js` bzw. der `.gpl`, nicht als neue Literale.
+
+- **Ton:** Verspieltheit raus aus allen Deliverables — kein fnord, kein Kaffeering, keine Marquees. Erlaubt bleibt genau ein dezentes Zahlen-Gimmick pro Dokument: die 137 (Standard), auf Hanf-Blättern wahlweise die 420.
+- **E-Mail-Verbinder:** In Adressen das Sternprodukt im LaTeX-Register statt Ꙩ. Prioritär, wo MathJax läuft (Web, Deck): echtes LaTeX `\mathbin{\star_{\scriptscriptstyle\mathrm{\hbar}}}` — also `jan $\mathbin{\star_{\scriptscriptstyle\mathrm{\hbar}}}$ sternprodukt.de`. Nur wo kein MathJax verfügbar ist (Plaintext-Mail, Dateiname, CLI) die Unicode-Näherung `jan ⋆ₕ sternprodukt.de`, gesetzt als `&#8902;<sub>&#8463;</sub>` in der Serifen-Schrift.
