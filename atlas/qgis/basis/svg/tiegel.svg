@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+  <path d="M4.7 7.1 L15.3 7.1 L13.3 15.4 L6.7 15.4 z" fill="param(fill) #434462"></path>
+  <path d="M4.7 7.1 L2.1 5.0" stroke="param(outline) #434462" stroke-width="1.6" stroke-linecap="round" fill="none"></path>
+  <path d="M4.1 9.4 A 5.9 5.9 0 0 1 15.9 9.4" fill="none" stroke="param(outline) #434462" stroke-width="1.1"></path>
+</svg>
