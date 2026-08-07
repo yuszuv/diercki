@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Rumänien · Wirtschaft — Sternprodukt-Atlas</title>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<script src="atlas/geodaten/blatt15-daten.js"></script>
+<script src="atlas/geodaten/blatt18-daten.js"></script>
+<style>
+  body{margin:0}
+  doc-page:not(:defined){visibility:hidden}
+  a{color:#2f6f74}
+  a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#6f7538"/><rect x="14" y="20" width="30" height="24" fill="#e7dcab"/><rect x="52" y="32" width="34" height="30" fill="#ccd5a9"/><circle cx="34" cy="66" r="9" fill="#cb5a2a"/><text x="50" y="92" font-size="15" font-family="Georgia,serif" fill="#fff" text-anchor="middle">BLATT 18</text></svg></template>
+<doc-page width="420mm" height="297mm">
+<section class="page" id="blatt18" data-screen-label="Blatt 18 · Rumänien Wirtschaft" style="position:relative;box-sizing:border-box;padding:10mm 13mm 8mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2.5px solid #2a231c;padding-top:6px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:22px;font-weight:600;letter-spacing:-.02em">Rum&auml;nien &middot; Wirtschaft</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:10px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 18</div>
+  </div>
+  <div style="font-style:italic;font-size:13px;color:#4a4139;margin:4px 0 5mm;max-width:250mm;text-wrap:pretty">Bodennutzung als Fl&auml;che, Standorte als Zeichen: neun Nutzungsklassen nach CORINE, dar&uuml;ber Bergbau, Industrie und Energie. Die verh&uuml;ttende Industrie tr&auml;gt den Tiegel, die Branchen den Kennbuchstaben, die Betriebsgr&ouml;&szlig;e die Staffelung.</div>
+  <div style="height:214mm;display:flex;gap:7mm;min-height:0">
+    <div id="map" style="flex:1;min-width:0;position:relative"><div id="lade" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:11px;letter-spacing:.08em;color:#8b8173">KARTE L&Auml;DT &hellip;</div></div>
+    <div style="width:74mm;flex:none;display:flex;flex-direction:column;font-size:11px;overflow:hidden">
+      <div id="legende" style="flex:none"></div>
+      <div style="flex:none;font-size:13px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:2.5mm 0 1.5mm">Zur Wirtschaft</div>
+      <div style="flex:none;font-size:10px;line-height:1.4;color:#2a231c;text-wrap:pretty">Der Karpatenbogen teilt auch die Wirtschaft: innen Gr&uuml;nland und Gas, au&szlig;en Acker und &Ouml;l. Die Schwerindustrie sitzt an ihren Rohstoffen &mdash; Hunedoara und Re&#537;i&#539;a am Erz, Slatina am Strom, Gala&#539;i am Wasser &mdash; und die Raffinerien dort, wo seit 1857 gebohrt wird: um Ploie&#537;ti. Der Weinbau h&auml;ngt an den H&uuml;gelr&auml;ndern, der Hanf ist von einst 45&nbsp;000 Hektar auf Reste geschrumpft &mdash; die Nebenkarte erz&auml;hlt es.</div>
+      <div id="europa" style="margin-top:auto;flex:none"></div>
+    </div>
+  </div>
+  <div style="margin-top:3.5mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:5px">
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.05em;color:#8b8173">BODENNUTZUNG: CORINE LAND COVER 2018 (COPERNICUS), GENERALISIERT &middot; STANDORTE: EIGENE ZUSAMMENSTELLUNG NACH DIERCKE-VORBILD &middot; K&Uuml;STEN UND STAATEN: NATURAL EARTH 1:50 M &middot; PROJEKTION: LAMBERT KONFORM KONISCH 44&deg;/48&deg; N &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;color:#8b8173">137</div>
+  </div>
+</section>
+</doc-page>
+<script src="doc-page.js"></script>
+<script>
+window.__mapTweaks = { register: true, nebenkarten: true, betriebsgroesse: true };
+window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (window.__redrawMap) window.__redrawMap(); };
+
+(async function () {
+  const MM = 96 / 25.4;
+  const FB = (await import('./atlas/farben.js')).F;
+  // Chrome-Ergänzungen (Karten-Interna, nicht Teil des Farbsystems); alles Übrige aus farben.js
+  const F = Object.assign({}, FB, { nachbar: '#eeeae1', meer: FB.b0, dunkel: '#4a4139', register: FB.orange });
+  const SERIF = "'Gentium Book Plus','Noto Serif',serif";
+  const MONO = "'Noto Sans Mono',monospace";
+
+  const D = window.__blatt18Daten;
+  // Ringe sphärisch korrekt wickeln — sonst deutet d3 die Fläche als Weltkugel minus Polygon
+  const rewindF = f => { if (d3.geoArea(f) > Math.PI) f.geometry.coordinates[0] = f.geometry.coordinates[0].slice().reverse(); return f; };
+  const rewind = fcoll => { fcoll.features.forEach(rewindF); return fcoll; };
+  Object.values(D.NUTZUNG).forEach(rewind);
+  rewind(D.HANF1980);
+  const { gewaesser } = window.__blatt15Daten;
+  const topo = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').then(r => r.json());
+  await customElements.whenDefined('doc-page');
+  await new Promise(r => { requestAnimationFrame(() => requestAnimationFrame(r)); setTimeout(r, 250); });
+  const countries = topojson.feature(topo, topo.objects.countries);
+  const RO = countries.features.find(f => String(f.id) === '642');
+  document.getElementById('lade')?.remove();
+
+  const box = document.getElementById('map').getBoundingClientRect();
+  const W = Math.round(box.width), H = Math.round(box.height);
+  const RAND = 5.2 * MM, inset = 1.2 * MM;
+  const feld = { x: inset + RAND, y: inset + RAND, w: W - 2 * (inset + RAND), h: H - 2 * (inset + RAND) };
+  const proj = d3.geoConicConformal().parallels([44, 48]).rotate([-25.5, 0])
+    .fitExtent([[feld.x + 16, feld.y + 14], [feld.x + feld.w - 16, feld.y + feld.h - 16]], RO);
+  const path = d3.geoPath(proj);
+
+  const fc = feats => ({ type: 'FeatureCollection', features: feats });
+  const rivers = { haupt: [], mittel: [] };
+  for (const f of gewaesser.features) {
+    const r = f.properties.rang;
+    if (r <= 2) rivers.haupt.push(f); else if (r <= 7) rivers.mittel.push(f);
+  }
+  const coast = topojson.mesh(topo, topo.objects.countries, (a, b) => a === b);
+  const fremd = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && String(a.id) !== '642' && String(b.id) !== '642');
+  const roGrenze = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && (String(a.id) === '642' || String(b.id) === '642'));
+
+  // ——— Signatur-Zeichner (identisch zur Zeichenerklärung, Maße in mm)
+  function tiegel(g, x, y, sizeMM, color) {
+    const r = sizeMM / 2 * MM, a = r * 1.05, h = r * 1.25;
+    g.append('path').attr('d', `M${x - a} ${y - h * .55} L${x + a} ${y - h * .55} L${x + a * .62} ${y + h} L${x - a * .62} ${y + h} z`).attr('fill', color);
+    g.append('path').attr('d', `M${x - a} ${y - h * .55} L${x - a * 1.5} ${y - h * .95}`).attr('stroke', color).attr('stroke-width', .45 * MM).attr('stroke-linecap', 'round');
+    g.append('path').attr('d', `M${x - a * 1.12} ${y - h * .2} A ${a * 1.12} ${a * 1.12} 0 0 1 ${x + a * 1.12} ${y - h * .2}`).attr('fill', 'none').attr('stroke', color).attr('stroke-width', .3 * MM);
+  }
+  function branchenkreis(g, x, y, sizeMM, color, buchstabe) {
+    const r = sizeMM / 2 * MM;
+    g.append('circle').attr('cx', x).attr('cy', y).attr('r', r).attr('fill', color).attr('stroke', F.tinte).attr('stroke-width', .13 * MM);
+    g.append('text').attr('x', x).attr('y', y + r * .42).attr('text-anchor', 'middle')
+      .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', r * 1.15).attr('fill', F.papier).text(buchstabe);
+  }
+  function rohstoff(g, x, y, typ) {
+    const s = 3.2, r = s / 2 * MM;
+    const tri = `M${x} ${y - r * 1.15} L${x - r} ${y + r * .8} L${x + r} ${y + r * .8} z`;
+    const dia = `M${x} ${y - r * 1.15} L${x + r * .85} ${y} L${x} ${y + r * 1.15} L${x - r * .85} ${y} z`;
+    const glyphIn = (t, c) => g.append('text').attr('x', x).attr('y', y + 2.6).attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', c).text(t);
+    const labelBei = t => g.append('text').attr('x', x + r + 3).attr('y', y + 3).attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7.5).attr('fill', F.tinte)
+      .attr('stroke', F.papier).attr('stroke-width', 2.2).attr('paint-order', 'stroke').text(t);
+    switch (typ) {
+      case 'oel': g.append('rect').attr('x', x - r).attr('y', y - r).attr('width', 2 * r).attr('height', 2 * r).attr('fill', F.tinte); glyphIn('Öl', F.papier); break;
+      case 'gas': g.append('rect').attr('x', x - r).attr('y', y - r).attr('width', 2 * r).attr('height', 2 * r).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', .5 * MM); glyphIn('G', F.tinte); break;
+      case 'steinkohle': g.append('rect').attr('x', x - r).attr('y', y - r).attr('width', 2 * r).attr('height', 2 * r).attr('fill', F.tinte); glyphIn('C', F.papier); break;
+      case 'braunkohle': g.append('rect').attr('x', x - r).attr('y', y - r).attr('width', 2 * r).attr('height', 2 * r).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', .5 * MM); glyphIn('C', F.tinte); break;
+      case 'feerz': g.append('path').attr('d', tri).attr('fill', F.tinte); labelBei('Fe'); break;
+      case 'kupfer': g.append('path').attr('d', tri).attr('fill', F.tinte); labelBei('Cu'); break;
+      case 'pbzn': g.append('path').attr('d', tri).attr('fill', F.tinte); labelBei('Pb·Zn'); break;
+      case 'bauxit': g.append('path').attr('d', tri).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .5 * MM); labelBei('Al'); break;
+      case 'gold': g.append('circle').attr('cx', x).attr('cy', y).attr('r', r).attr('fill', F.ocker).attr('stroke', F.tinte).attr('stroke-width', .13 * MM); labelBei('Au'); break;
+      case 'salz': g.append('path').attr('d', dia).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .5 * MM); labelBei('Na'); break;
+    }
+  }
+  function kraftwerk(g, x, y, typ) {
+    const farbe = { ke: F.pflaume, wa: F.petrol, wi: F.petrolDeep, th: F.tinte }[typ];
+    const kurz = { ke: 'Ke', wa: 'Wa', wi: 'Wi', th: 'Th' }[typ];
+    const r = 1.7 * MM;
+    g.append('circle').attr('cx', x).attr('cy', y).attr('r', r).attr('fill', F.papier).attr('stroke', farbe).attr('stroke-width', .4 * MM);
+    g.append('circle').attr('cx', x).attr('cy', y).attr('r', r * .55).attr('fill', 'none').attr('stroke', farbe).attr('stroke-width', .3 * MM);
+    g.append('text').attr('x', x + r + 2.5).attr('y', y + 3).attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7.5).attr('fill', farbe)
+      .attr('stroke', F.papier).attr('stroke-width', 2.2).attr('paint-order', 'stroke').text(kurz);
+  }
+  const brok = (cx, cy, s, color) => `<g transform="translate(${cx} ${cy}) scale(${s})"><path d="M-1.3 1 L-1.8 4.6 L1.8 4.6 L1.3 1 Z M0 -5.6 c1.9 0 3.4 1.2 3.6 2.8 c1.3 .3 2.2 1.3 2.2 2.5 c0 1.4 -1.3 2.5 -2.9 2.5 l-5.8 0 c-1.6 0 -2.9 -1.1 -2.9 -2.5 c0 -1.2 .9 -2.2 2.2 -2.5 c.2 -1.6 1.7 -2.8 3.6 -2.8 z" fill="${color}"/></g>`;
+
+  function patternDefs(defs, prefix = '') {
+    const P = (id, w, h, rot) => defs.append('pattern').attr('id', prefix + id).attr('width', w).attr('height', h)
+      .attr('patternUnits', 'userSpaceOnUse').attr('patternTransform', rot ? 'rotate(45)' : null);
+    let p = P('wein', 2.6 * MM, 20); p.append('line').attr('x1', 1.3 * MM).attr('y1', 0).attr('x2', 1.3 * MM).attr('y2', 20).attr('stroke', F.pflaume).attr('stroke-width', .3 * MM);
+    p = P('obst', 3.4 * MM, 3.4 * MM); p.append('circle').attr('cx', 1.7 * MM).attr('cy', 1.7 * MM).attr('r', .4 * MM).attr('fill', F.orangeDeep);
+    p = P('gemuese', 2.4 * MM, 2.4 * MM);
+    p.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 2.4 * MM).attr('stroke', F.olivDeep).attr('stroke-width', .28 * MM).attr('opacity', .5);
+    p.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 2.4 * MM).attr('y2', 0).attr('stroke', F.olivDeep).attr('stroke-width', .28 * MM).attr('opacity', .5);
+    p = P('steppe', 3.2 * MM, 3.2 * MM, true);
+    p.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 3.2 * MM).attr('stroke', F.oliv).attr('stroke-width', .22 * MM).attr('opacity', .45);
+    p.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 3.2 * MM).attr('y2', 0).attr('stroke', F.oliv).attr('stroke-width', .22 * MM).attr('opacity', .45);
+    p = P('sumpf', 10, 7.5);
+    p.append('rect').attr('width', 10).attr('height', 7.5).attr('fill', '#eef3f1');
+    p.append('path').attr('d', 'M.8 2.2 H5 M6 5.9 H10.2').attr('stroke', F.wasser).attr('stroke-width', .75).attr('opacity', .9);
+  }
+
+  function draw() {
+    const t = window.__mapTweaks;
+    d3.select('#map').selectAll('svg').remove();
+    const svg = d3.select('#map').append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H).style('display', 'block');
+    const defs = svg.append('defs');
+    patternDefs(defs);
+    svg.append('clipPath').attr('id', 'feld').append('rect').attr('x', feld.x).attr('y', feld.y).attr('width', feld.w).attr('height', feld.h);
+    svg.append('clipPath').attr('id', 'roclip').append('path').attr('d', path(RO));
+    const g = svg.append('g').attr('clip-path', 'url(#feld)');
+
+    // Meer, Küstensaum, Land
+    g.append('rect').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('fill', F.meer);
+    for (const [w, o] of [[2.6, .07], [1.4, .12], [.55, .2]])
+      g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w * MM).attr('opacity', o);
+    g.selectAll('path.land').data(countries.features).join('path')
+      .attr('d', path).attr('fill', d => String(d.id) === '642' ? F.acker : F.nachbar);
+
+    // ——— Bodennutzung, auf Rumänien beschnitten (Ackerland ist der Grundton)
+    const nutz = g.append('g').attr('clip-path', 'url(#roclip)');
+    const N = D.NUTZUNG;
+    const area = (fcoll, fill, pat) => {
+      nutz.append('path').attr('d', path(fcoll)).attr('fill', fill);
+      if (pat) nutz.append('path').attr('d', path(fcoll)).attr('fill', `url(#${pat})`);
+    };
+    area(N.GRUENLAND, F.gruenland);
+    area(N.STEPPE, F.weideExt, 'steppe');
+    area(N.WALD, F.wald);
+    area(N.FEUCHT, '#eef3f1', 'sumpf');
+    area(N.WEINBAU, F.sonderkultur, 'wein');
+    area(N.OBSTBAU, F.sonderkultur, 'obst');
+    area(N.GEMUESE, F.sonderkultur, 'gemuese');
+    area(N.STADT, F.bebaut);
+
+    // Gradnetz, Flüsse, Grenzen
+    const grat = d3.geoGraticule().step([1, 1]).extent([[19.4, 42.7], [31.2, 49.3]]);
+    g.append('path').attr('d', path(grat())).attr('fill', 'none').attr('stroke', F.bleistift).attr('stroke-width', .14 * MM).attr('opacity', .25);
+    g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', .3 * MM);
+    g.append('path').attr('d', path(fremd)).attr('fill', 'none').attr('stroke', F.dim)
+      .attr('stroke-width', .3 * MM).attr('stroke-dasharray', `${1.5 * MM} ${.48 * MM} ${.18 * MM} ${.48 * MM}`);
+    for (const [feats, w, op] of [[rivers.mittel, .3, .7], [rivers.haupt, .6, .9]])
+      g.append('path').attr('d', path(fc(feats))).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w * MM)
+        .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('opacity', op);
+    g.append('path').attr('d', path(roGrenze)).attr('fill', 'none').attr('stroke', F.tinte)
+      .attr('stroke-width', .5 * MM).attr('stroke-dasharray', `${2.2 * MM} ${.7 * MM} ${.3 * MM} ${.7 * MM}`);
+
+    // ——— Hanf-Streusignatur (heute)
+    for (const [lon, lat] of D.HANFHEUTE) {
+      const p = proj([lon, lat]); if (!p) continue;
+      g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 2.1 * MM / 2 + 2.2).attr('fill', F.papier).attr('opacity', .55);
+      g.append('g').html(brok(p[0], p[1] + .5, .82, F.olivDeep));
+    }
+
+    // ——— Rohstoffe, Energie, Industrie (in dieser Stapelfolge)
+    const gs = g.append('g');
+    for (const [lon, lat, typ] of D.ROHSTOFFE) { const p = proj([lon, lat]); if (p) rohstoff(gs, p[0], p[1], typ); }
+    for (const [lon, lat, typ] of D.ENERGIE) { const p = proj([lon, lat]); if (p) kraftwerk(gs, p[0], p[1], typ); }
+    const BR = { m: [F.bleistift, 'M'], f: [F.orange, 'F'], s: [F.petrol, 'S'], c: [F.pflaume, 'C'], r: [F.pflaume, 'R'],
+                 e: [F.petrolDeep, 'E'], t: [F.ocker, 'T'], n: [F.oliv, 'N'], p: [F.olivDeep, 'P'], z: [F.dim, 'Z'] };
+    for (const [lon, lat, typ, size] of D.INDUSTRIE) {
+      const p = proj([lon, lat]); if (!p) continue;
+      const s = t.betriebsgroesse ? size : 3.4;
+      if (typ === 'fe') tiegel(gs, p[0], p[1], s, F.bleistift);
+      else if (typ === 'bunt') tiegel(gs, p[0], p[1], s, F.ockerDeep);
+      else if (typ === 'al') tiegel(gs, p[0], p[1], s, F.dim);
+      else branchenkreis(gs, p[0], p[1], s, BR[typ][0], BR[typ][1]);
+    }
+
+    // ——— Orte
+    const MAG = { 1: 4.2, 2: 3.0, 3: 2.3, 4: 1.7 };
+    const belegt = [];
+    const beleg = n => { try { const b = n.getBBox(); belegt.push([b.x, b.y, b.x + b.width, b.y + b.height]); } catch (e) {} };
+    const frei = (x0, y0, x1, y1) => !belegt.some(([a0, b0, a1, b1]) => x0 < a1 + 2 && x1 > a0 - 2 && y0 < b1 + 2 && y1 > b0 - 2);
+    for (const [lon, lat, name, rang, off] of D.ORTE) {
+      const p = proj([lon, lat]); if (!p) continue;
+      const r = MAG[rang];
+      if (rang === 1) {
+        g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', r).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1.4);
+        g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', r * .42).attr('fill', F.tinte);
+      } else {
+        g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', r).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', rang === 2 ? 1.2 : .9);
+      }
+      const size = rang === 1 ? 13 : rang === 2 ? 11 : rang === 3 ? 9.5 : 8.6;
+      const kandidaten = [off, [off[0], -off[1] + (off[1] > 0 ? -6 : 6), off[2]], [-off[0], off[1], off[2] === 'end' ? 'start' : 'end'], [0, -r - 5, 'middle'], [0, r + 10, 'middle']];
+      for (const k of kandidaten) {
+        const n = g.append('text').attr('x', p[0] + k[0]).attr('y', p[1] + k[1]).attr('text-anchor', k[2] || 'start')
+          .attr('font-family', SERIF).attr('font-weight', rang <= 2 ? 600 : 400).attr('font-size', size)
+          .attr('fill', F.tinte).attr('stroke', F.papier).attr('stroke-width', 2.6).attr('paint-order', 'stroke').text(name);
+        const b = n.node().getBBox();
+        if (frei(b.x, b.y, b.x + b.width, b.y + b.height)) { beleg(n.node()); break; }
+        n.remove();
+      }
+    }
+
+    // ——— Nebenkarten
+    if (t.nebenkarten) { nebenkarteDelta(svg, defs); nebenkarteHanf(svg); }
+
+    // ——— Rahmen und Registerband
+    const SP = 12, ZE = 8;
+    svg.append('rect').attr('x', inset).attr('y', inset).attr('width', W - 2 * inset).attr('height', H - 2 * inset)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1);
+    svg.append('rect').attr('x', feld.x).attr('y', feld.y).attr('width', feld.w).attr('height', feld.h)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1.6);
+    if (t.register) {
+      const buch = 'ABCDEFGHIJKL'.split('');
+      const cw = feld.w / SP, ch = feld.h / ZE;
+      for (let i = 0; i <= SP; i++) {
+        const x = feld.x + i * cw;
+        for (const y of [[inset, feld.y], [feld.y + feld.h, H - inset]])
+          svg.append('line').attr('x1', x).attr('y1', y[0]).attr('x2', x).attr('y2', y[1]).attr('stroke', F.tinte).attr('stroke-width', .5);
+      }
+      for (let i = 0; i <= ZE; i++) {
+        const y = feld.y + i * ch;
+        for (const x of [[inset, feld.x], [feld.x + feld.w, W - inset]])
+          svg.append('line').attr('x1', x[0]).attr('y1', y).attr('x2', x[1]).attr('y2', y).attr('stroke', F.tinte).attr('stroke-width', .5);
+      }
+      for (let i = 0; i < SP; i++) for (const y of [inset + RAND * .68, H - inset - RAND * .3])
+        svg.append('text').attr('x', feld.x + (i + .5) * cw).attr('y', y).attr('text-anchor', 'middle')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8.5).attr('fill', F.register).text(buch[i]);
+      for (let i = 0; i < ZE; i++) for (const x of [inset + RAND * .5, W - inset - RAND * .5])
+        svg.append('text').attr('x', x).attr('y', feld.y + (i + .5) * ch + 3).attr('text-anchor', 'middle')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8.5).attr('fill', F.register).text(i + 1);
+    }
+    zeichneLegende();
+    zeichneEuropa();
+  }
+
+  // ——— Nebenkarte 1: Donaudelta
+  function nebenkarteDelta(svg, defs) {
+    const NB = { w: 62 * MM, h: 46 * MM };
+    NB.x = feld.x + 3; NB.y = feld.y + feld.h - 3 - NB.h;
+    const n = svg.append('g');
+    n.append('rect').attr('x', NB.x).attr('y', NB.y).attr('width', NB.w).attr('height', NB.h).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', 1.1);
+    const clip = defs.append('clipPath').attr('id', 'nbdelta');
+    clip.append('rect').attr('x', NB.x + 1).attr('y', NB.y + 1).attr('width', NB.w - 2).attr('height', NB.h - 2);
+    const ng = n.append('g').attr('clip-path', 'url(#nbdelta)');
+    const rahmen = rewindF({ type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[28.5, 45.55], [29.95, 45.55], [29.95, 44.5], [28.5, 44.5], [28.5, 45.55]]] } });
+    const pN = d3.geoConicConformal().parallels([44, 48]).rotate([-29.2, 0]).fitExtent([[NB.x + 3, NB.y + 14], [NB.x + NB.w - 3, NB.y + NB.h - 3]], rahmen);
+    const paN = d3.geoPath(pN);
+    ng.append('rect').attr('x', NB.x).attr('y', NB.y).attr('width', NB.w).attr('height', NB.h).attr('fill', F.meer);
+    ng.selectAll('path.c').data(countries.features).join('path').attr('d', paN).attr('fill', d => String(d.id) === '642' ? F.papier : F.nachbar);
+    ng.append('path').attr('d', paN(D.NUTZUNG.FEUCHT.features[1])).attr('fill', 'url(#sumpf)').attr('stroke', F.wasser).attr('stroke-width', .18 * MM);
+    const arm = (coords, w) => ng.append('path').attr('d', paN({ type: 'Feature', geometry: { type: 'LineString', coordinates: coords } }))
+      .attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w).attr('stroke-linecap', 'round');
+    arm([[28.5, 45.25], [28.75, 45.22]], 2.6);
+    arm([[28.75, 45.22], [29.0, 45.32], [29.35, 45.37], [29.65, 45.42], [29.78, 45.34]], 2.0);
+    arm([[28.78, 45.16], [29.1, 45.16], [29.68, 45.15]], 1.6);
+    arm([[28.78, 45.12], [29.05, 45.02], [29.3, 44.9], [29.6, 44.87]], 1.6);
+    const bio = rewindF({ type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[28.65, 45.42], [29.85, 45.5], [29.85, 44.62], [28.72, 44.72], [28.65, 45.42]]] } });
+    ng.append('path').attr('d', paN(bio)).attr('fill', 'none').attr('stroke', F.oliv).attr('stroke-width', 1.1).attr('stroke-dasharray', '5 2.4');
+    const ort = (lon, lat, name, dx, dy, anchor) => {
+      const p = pN([lon, lat]);
+      ng.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', 2).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', .9);
+      ng.append('text').attr('x', p[0] + dx).attr('y', p[1] + dy).attr('text-anchor', anchor || 'start').attr('font-family', SERIF).attr('font-size', 8.6)
+        .attr('fill', F.tinte).attr('stroke', F.papier).attr('stroke-width', 2.4).attr('paint-order', 'stroke').text(name);
+    };
+    ort(28.80, 45.17, 'Tulcea', -5, 10, 'end');
+    ort(29.65, 45.15, 'Sulina', 4, 10);
+    const armName = (lon, lat, name, rot) => {
+      const p = pN([lon, lat]);
+      ng.append('text').attr('transform', `translate(${p[0]},${p[1]}) rotate(${rot})`).attr('text-anchor', 'middle')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 7.6).attr('fill', F.wasser)
+        .attr('stroke', F.papier).attr('stroke-width', 2.2).attr('paint-order', 'stroke').text(name);
+    };
+    armName(29.3, 45.42, 'Brațul Chilia', 3);
+    armName(29.35, 45.11, 'Brațul Sulina', 0);
+    armName(29.25, 44.85, 'Brațul Sf. Gheorghe', -8);
+    n.append('text').attr('x', NB.x + 4).attr('y', NB.y + 11).attr('font-family', MONO).attr('font-weight', 500)
+      .attr('font-size', 7.5).attr('letter-spacing', '.08em').attr('fill', F.dunkel)
+      .attr('stroke', F.papier).attr('stroke-width', 2.6).attr('paint-order', 'stroke').text('DONAUDELTA · BIOSPHÄRENRESERVAT SEIT 1990');
+  }
+
+  // ——— Nebenkarte 2: Hanf 1980 und heute
+  function nebenkarteHanf(svg) {
+    const NB = { w: 76 * MM, h: 34 * MM };
+    NB.x = feld.x + 3 + 62 * MM + 4 * MM; NB.y = feld.y + feld.h - 3 - NB.h;
+    const n = svg.append('g');
+    n.append('rect').attr('x', NB.x).attr('y', NB.y).attr('width', NB.w).attr('height', NB.h).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', 1.1);
+    n.append('text').attr('x', NB.x + 4).attr('y', NB.y + 11).attr('font-family', MONO).attr('font-weight', 500)
+      .attr('font-size', 7.5).attr('letter-spacing', '.08em').attr('fill', F.dunkel).text('HANF — VOM WELTRANG ZUM REST');
+    const half = NB.w / 2;
+    for (const [i, titel, wert] of [[0, '1980', '≈ 45 000 ha'], [1, '2026', '< 2 000 ha']]) {
+      const bx = NB.x + i * half;
+      const pM = d3.geoConicConformal().parallels([44, 48]).rotate([-25.5, 0])
+        .fitExtent([[bx + 8, NB.y + 15], [bx + half - 8, NB.y + NB.h - 13]], RO);
+      const paM = d3.geoPath(pM);
+      n.append('path').attr('d', paM(RO)).attr('fill', '#f4f0e6').attr('stroke', F.dim).attr('stroke-width', .6);
+      if (i === 0) n.append('path').attr('d', paM(D.HANF1980)).attr('fill', F.hanf).attr('opacity', .85);
+      else for (const [lon, lat] of D.HANFHEUTE) {
+        const p = pM([lon, lat]);
+        n.append('g').html(brok(p[0], p[1], .5, F.olivDeep));
+      }
+      n.append('text').attr('x', bx + half / 2).attr('y', NB.y + NB.h - 4).attr('text-anchor', 'middle')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.dunkel).text(titel + ' · ' + wert);
+    }
+    n.append('line').attr('x1', NB.x + half).attr('y1', NB.y + 13).attr('x2', NB.x + half).attr('y2', NB.y + NB.h - 2).attr('stroke', '#e5ddce');
+  }
+
+  // ——— Legendenspalte (verschachtelt)
+  function zeichneLegende() {
+    const el = document.getElementById('legende');
+    const kopf = txt => `<div style="font-size:13px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 1.5mm">${txt}</div>`;
+    const zeile = (icon, txt) => `<div style="display:flex;align-items:center;gap:2.5mm;padding:.3mm 0"><div style="width:13mm;flex:none;display:flex;justify-content:center">${icon}</div><div style="font-size:9.5px;line-height:1.2">${txt}</div></div>`;
+    const S = (inner, w = 44, h = 13) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block">${inner}</svg>`;
+    const flaeche = (fill, pat) => {
+      const u = 'lg' + Math.random().toString(36).slice(2, 7);
+      let defs = '';
+      if (pat === 'wein') defs = `<pattern id="${u}" width="5" height="12" patternUnits="userSpaceOnUse"><line x1="2.5" y1="0" x2="2.5" y2="12" stroke="${F.pflaume}" stroke-width="1.1"/></pattern>`;
+      if (pat === 'obst') defs = `<pattern id="${u}" width="6.4" height="6.4" patternUnits="userSpaceOnUse"><circle cx="3.2" cy="3.2" r="1.5" fill="${F.orangeDeep}"/></pattern>`;
+      if (pat === 'gemuese') defs = `<pattern id="${u}" width="4.5" height="4.5" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="4.5" stroke="${F.olivDeep}" stroke-width="1" opacity=".5"/><line x1="0" y1="0" x2="4.5" y2="0" stroke="${F.olivDeep}" stroke-width="1" opacity=".5"/></pattern>`;
+      if (pat === 'steppe') defs = `<pattern id="${u}" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="${F.oliv}" stroke-width=".8" opacity=".45"/><line x1="0" y1="0" x2="6" y2="0" stroke="${F.oliv}" stroke-width=".8" opacity=".45"/></pattern>`;
+      if (pat === 'sumpf') defs = `<pattern id="${u}" width="10" height="7.5" patternUnits="userSpaceOnUse"><rect width="10" height="7.5" fill="#eef3f1"/><path d="M.8 2.2 H5 M6 5.9 H10.2" stroke="${F.wasser}" stroke-width=".75" opacity=".9"/></pattern>`;
+      return `<svg width="44" height="13" viewBox="0 0 44 13" style="display:block"><defs>${defs}</defs><rect x="4" y="1" width="36" height="11" fill="${fill}" stroke="#cfc7b8" stroke-width=".5"/>${defs ? `<rect x="4" y="1" width="36" height="11" fill="url(#${u})"/>` : ''}</svg>`;
+    };
+    let html = kopf('Bodennutzung');
+    html += zeile(flaeche(F.acker), 'Ackerland (Grundton)');
+    html += zeile(flaeche(F.gruenland), 'Grünland, Weide');
+    html += zeile(flaeche(F.wald), 'Wald, Forstwirtschaft');
+    html += zeile(flaeche(F.sonderkultur, 'wein'), 'Weinbau');
+    html += zeile(flaeche(F.sonderkultur, 'obst'), 'Obstbau');
+    html += zeile(flaeche(F.sonderkultur, 'gemuese'), 'Gemüse, Sonderkulturen');
+    html += zeile(flaeche(F.weideExt, 'steppe'), 'Extensive Weide, Steppe');
+    html += zeile(flaeche('#eef3f1', 'sumpf'), 'Feuchtgebiet, Aue, Delta');
+    html += zeile(flaeche(F.bebaut), 'Städtische Fläche');
+    html += zeile(S(brok(22, 6.5, .78, F.olivDeep)), 'Hanfanbau heute (Streusignatur)');
+
+    html += kopf('Bergbau und Rohstoffe').replace('margin:0', 'margin:2.5mm 0');
+    html += `<div style="display:grid;grid-template-columns:1fr 1fr;column-gap:3mm">`;
+    const roh = (inner, txt) => `<div style="display:flex;align-items:center;gap:1.8mm;padding:.3mm 0"><div style="width:8mm;flex:none;display:flex;justify-content:center">${inner}</div><div style="font-size:9px">${txt}</div></div>`;
+    html += roh(S(`<rect x="11" y="2" width="9" height="9" fill="${F.tinte}"/><text x="15.5" y="9.2" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${F.papier}">Öl</text>`, 31), 'Erdöl');
+    html += roh(S(`<rect x="11" y="2" width="9" height="9" fill="${F.papier}" stroke="${F.tinte}" stroke-width="1.6"/><text x="15.5" y="9.2" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${F.tinte}">G</text>`, 31), 'Erdgas');
+    html += roh(S(`<rect x="11" y="2" width="9" height="9" fill="${F.tinte}"/><text x="15.5" y="9.2" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${F.papier}">C</text>`, 31), 'Steinkohle');
+    html += roh(S(`<rect x="11" y="2" width="9" height="9" fill="${F.papier}" stroke="${F.tinte}" stroke-width="1.6"/><text x="15.5" y="9.2" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${F.tinte}">C</text>`, 31), 'Braunkohle');
+    html += roh(S(`<path d="M15.5 2 L10.5 11 L20.5 11 z" fill="${F.tinte}"/>`, 31), 'Eisenerz Fe');
+    html += roh(S(`<path d="M15.5 2 L10.5 11 L20.5 11 z" fill="${F.tinte}"/>`, 31), 'Cu · Pb·Zn');
+    html += roh(S(`<path d="M15.5 2 L10.5 11 L20.5 11 z" fill="none" stroke="${F.tinte}" stroke-width="1.6"/>`, 31), 'Bauxit Al');
+    html += roh(S(`<circle cx="15.5" cy="6.5" r="4.6" fill="${F.ocker}" stroke="${F.tinte}" stroke-width=".5"/>`, 31), 'Gold Au');
+    html += roh(S(`<path d="M15.5 1.5 L20 6.5 L15.5 11.5 L11 6.5 z" fill="none" stroke="${F.tinte}" stroke-width="1.6"/>`, 31), 'Steinsalz');
+    html += `</div>`;
+
+    html += kopf('Industrie').replace('margin:0', 'margin:2.5mm 0');
+    html += zeile(S(`<g transform="translate(22 6)"><path d="M-5.5 -3 L5.5 -3 L3.4 6.5 L-3.4 6.5 z" fill="${F.bleistift}"/><path d="M-5.5 -3 L-8.2 -5.2" stroke="${F.bleistift}" stroke-width="1.7" stroke-linecap="round"/><path d="M-6.2 -1 A 6.2 6.2 0 0 1 6.2 -1" fill="none" stroke="${F.bleistift}" stroke-width="1.1"/></g>`), 'Tiegel: Eisen und Stahl');
+    html += zeile(S(`<g transform="translate(22 6)"><path d="M-5.5 -3 L5.5 -3 L3.4 6.5 L-3.4 6.5 z" fill="${F.ockerDeep}"/><path d="M-5.5 -3 L-8.2 -5.2" stroke="${F.ockerDeep}" stroke-width="1.7" stroke-linecap="round"/><path d="M-6.2 -1 A 6.2 6.2 0 0 1 6.2 -1" fill="none" stroke="${F.ockerDeep}" stroke-width="1.1"/></g>`), 'Tiegel: Buntmetall · <span style="color:#8b8173">grau: Aluminium</span>');
+    html += zeile(S(`<circle cx="22" cy="6.5" r="6" fill="${F.orange}" stroke="${F.tinte}" stroke-width=".5"/><text x="22" y="9.3" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="7.5" fill="${F.papier}">F</text>`), 'Branchenkreis mit Kennbuchstabe');
+    html += `<div style="font-family:${MONO};font-weight:500;font-size:8px;line-height:1.5;color:#4a4139;padding:.5mm 0 0 15.5mm">M Maschinen · F Fahrzeuge · S Schiffe · C Chemie<br>R Raffinerie · E Elektro · T Textil · P Papier · Z Zement</div>`;
+    html += zeile(S(`<circle cx="10" cy="6.5" r="3" fill="${F.bleistift}" stroke="${F.tinte}" stroke-width=".4"/><circle cx="20" cy="6.5" r="4.6" fill="${F.bleistift}" stroke="${F.tinte}" stroke-width=".4"/><circle cx="33" cy="6.5" r="6.4" fill="${F.bleistift}" stroke="${F.tinte}" stroke-width=".4"/>`), 'Betriebsgröße: klein · mittel · groß');
+
+    html += kopf('Energie').replace('margin:0', 'margin:2.5mm 0');
+    const kw = (farbe, kurz, txt) => zeile(S(`<circle cx="22" cy="6.5" r="5.6" fill="${F.papier}" stroke="${farbe}" stroke-width="1.4"/><circle cx="22" cy="6.5" r="3" fill="none" stroke="${farbe}" stroke-width="1"/>`), `<span style="font-family:${MONO};font-weight:500;font-size:8.5px;color:${farbe}">${kurz}</span> ${txt}`);
+    html += kw(F.pflaume, 'Ke', 'Kernkraft Cernavodă');
+    html += kw(F.petrol, 'Wa', 'Wasserkraft Porțile de Fier');
+    html += kw(F.petrolDeep, 'Wi', 'Windparks Dobrudscha');
+    html += kw(F.tinte, 'Th', 'Wärmekraft Turceni');
+    el.innerHTML = html;
+  }
+
+  // ——— Nebenkarte 3: Rumänien in Europa (Legendenspalte)
+  function zeichneEuropa() {
+    const el = document.getElementById('europa');
+    el.innerHTML = '';
+    const w = el.getBoundingClientRect().width || 260, h = w * .62;
+    const svg = d3.select(el).append('svg').attr('viewBox', `0 0 ${w} ${h}`).attr('width', w).attr('height', h).style('display', 'block');
+    svg.append('rect').attr('x', .5).attr('y', .5).attr('width', w - 1).attr('height', h - 1).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', 1.1);
+    const pN = d3.geoAzimuthalEqualArea().rotate([-20, -48]).clipAngle(52).fitExtent([[4, 4], [w - 4, h - 4]], { type: 'Sphere' });
+    const paN = d3.geoPath(pN);
+    const defs = svg.append('defs');
+    defs.append('clipPath').attr('id', 'euclip').append('rect').attr('x', 1).attr('y', 1).attr('width', w - 2).attr('height', h - 2);
+    const g = svg.append('g').attr('clip-path', 'url(#euclip)');
+    g.append('path').attr('d', paN({ type: 'Sphere' })).attr('fill', F.meer);
+    g.selectAll('path.c').data(countries.features).join('path').attr('d', paN)
+      .attr('fill', d => String(d.id) === '642' ? '#cb5a2a' : F.nachbar)
+      .attr('stroke', F.dim).attr('stroke-width', .3).attr('opacity', d => String(d.id) === '642' ? 1 : .9);
+    svg.append('text').attr('x', 5).attr('y', 12).attr('font-family', MONO).attr('font-weight', 500)
+      .attr('font-size', 7.5).attr('letter-spacing', '.08em').attr('fill', F.dunkel)
+      .attr('stroke', F.papier).attr('stroke-width', 2.6).attr('paint-order', 'stroke').text('RUMÄNIEN IN EUROPA · EU SEIT 2007');
+  }
+
+  window.__redrawMap = draw;
+  draw();
+})();
+</script>
+</body>
+</html>
