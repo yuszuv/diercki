@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Rumänien · Physische Übersicht — Sternprodukt-Atlas</title>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<script src="atlas/geodaten/blatt15-daten.js"></script>
+<style>
+  body{margin:0}
+  doc-page:not(:defined){visibility:hidden}
+  a{color:#2f6f74}
+  a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#a1704b"/><path d="M12 74 L34 40 L48 58 L62 30 L88 74 Z" fill="#dec990"/><text x="50" y="92" font-size="15" font-family="Georgia,serif" fill="#fff" text-anchor="middle">BLATT 17</text></svg></template>
+<doc-page width="420mm" height="297mm">
+<section class="page" id="blatt17" data-screen-label="Blatt 17 · Rumänien physisch" style="position:relative;box-sizing:border-box;padding:10mm 13mm 8mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2.5px solid #2a231c;padding-top:6px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:22px;font-weight:600;letter-spacing:-.02em">Rum&auml;nien &middot; Physische &Uuml;bersicht</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:10px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 17</div>
+  </div>
+  <div style="font-style:italic;font-size:13px;color:#4a4139;margin:4px 0 5mm;max-width:250mm;text-wrap:pretty">H&ouml;henschichten und Schummerung aus SRTM. Der Karpatenbogen umschlie&szlig;t das Siebenb&uuml;rgische Becken; jenseits davon liegen die beiden Tiefebenen, im Osten das Moldauische Tafelland. Zw&ouml;lf Gipfel, acht P&auml;sse, sechs Stauseen sind beziffert.</div>
+  <div style="height:214mm;display:flex;gap:7mm;min-height:0">
+    <div id="map" style="flex:1;min-width:0;position:relative"><div id="lade" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:11px;letter-spacing:.08em;color:#8b8173">KARTE L&Auml;DT — GEL&Auml;NDE AUS SRTM-KACHELN …</div></div>
+    <div style="width:74mm;flex:none;display:flex;flex-direction:column;font-size:11px;overflow:hidden">
+      <div id="legende" style="flex:none"></div>
+      <div style="flex:none;font-size:13px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:3mm 0 1.5mm">Zum Relief</div>
+      <div style="flex:none;font-size:10px;line-height:1.4;color:#2a231c;text-wrap:pretty">Rum&auml;nien ist ein Land aus drei Dritteln: ein Drittel Gebirge, ein Drittel H&uuml;gel- und Tafelland, ein Drittel Ebene. Der Karpatenbogen l&auml;uft von Norden her ein, biegt bei Bra&#537;ov nach Westen und endet an der Donau &mdash; er trennt nicht zwei H&auml;lften, sondern schlie&szlig;t eine ein. Das Siebenb&uuml;rgische Becken liegt darin, 300 bis 600 m hoch, und entw&auml;ssert nach Westen durch die Durchbr&uuml;che von Some&#537;, Mure&#537; und Cri&#537;. Die beiden H&ouml;chsten stehen im selben Gebirge: Moldoveanu und Negoiu im F&#259;g&#259;ra&#537; trennen 9 Meter.</div>
+      <div style="margin-top:auto;flex:none;font-size:8.6px;line-height:1.38;color:#4a4139;text-wrap:pretty">H&ouml;henschichtung aus SRTM gerechnet, an den Klassengrenzen entsprechend unscharf &mdash; Einzelwerte sind ihr nicht zu entnehmen. Nachbarl&auml;nder bleiben ohne H&ouml;henzeichnung, wie auf Blatt 15 und 16.</div>
+    </div>
+  </div>
+  <div style="margin-top:3.5mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:5px">
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.05em;color:#8b8173">GEL&Auml;NDE: TERRAIN TILES (SRTM, AWS) Z8 &middot; K&Uuml;STEN UND STAATEN: NATURAL EARTH 1:50 M &middot; GEW&Auml;SSER: NATURAL EARTH &middot; GIPFEL UND P&Auml;SSE: ATLAS/QUELLEN/BLATT-17-PHYSISCH.MD &middot; PROJEKTION: LAMBERT KONFORM KONISCH 44&deg;/48&deg; N &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;color:#8b8173">137</div>
+  </div>
+</section>
+</doc-page>
+<script src="doc-page.js"></script>
+<script>
+window.__mapTweaks = { schummerung: 'mittel', register: true, uebersicht: true, landschaften: true };
+window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (window.__redrawMap) window.__redrawMap(); };
+
+(async function () {
+  const MM = 96 / 25.4;
+  const F = { papier: '#fdfdfd', tinte: '#2a231c', dim: '#8b8173', nachbar: '#eeeae1', meer: '#dce7e4',
+              bleistift: '#434462', dunkel: '#4a4139', wasser: '#35707b', register: '#cb5a2a' };
+  // Höhenstufen, auf Rumänien zugeschnitten — die Skala von Blatt 15 auf sieben Stufen gestreckt
+  const HYPS = [
+    [0,    200,  '#bcca9a', '0 – 200 m'],
+    [200,  500,  '#d4d1a2', '200 – 500 m'],
+    [500,  1000, '#dec990', '500 – 1000 m'],
+    [1000, 1500, '#cfae74', '1000 – 1500 m'],
+    [1500, 2000, '#bf9a64', '1500 – 2000 m'],
+    [2000, 2500, '#ac7d52', '2000 – 2500 m'],
+    [2500, Infinity, '#96654a', 'über 2500 m'],
+  ];
+  const SENKE = '#9db884';
+  const SERIF = "'Gentium Book Plus','Noto Serif',serif";
+  const MONO = "'Noto Sans Mono',monospace";
+
+  const { gewaesser } = window.__blatt15Daten;
+  const topo = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').then(r => r.json());
+  await customElements.whenDefined('doc-page');
+  await new Promise(r => { requestAnimationFrame(() => requestAnimationFrame(r)); setTimeout(r, 250); });
+  const countries = topojson.feature(topo, topo.objects.countries);
+  const RO = countries.features.find(f => String(f.id) === '642');
+
+  const box = document.getElementById('map').getBoundingClientRect();
+  const W = Math.round(box.width), H = Math.round(box.height);
+  const RAND = 5.2 * MM;              // Breite des Registerbandes zwischen Außen- und Kartenrahmen
+  const inset = 1.2 * MM;
+  const feld = { x: inset + RAND, y: inset + RAND, w: W - 2 * (inset + RAND), h: H - 2 * (inset + RAND) };
+  const proj = d3.geoConicConformal().parallels([44, 48]).rotate([-25.5, 0])
+    .fitExtent([[feld.x + 16, feld.y + 14], [feld.x + feld.w - 16, feld.y + feld.h - 14]], RO);
+  const path = d3.geoPath(proj);
+
+  // ——— Gelände: Höhenklassen + Schummerung aus terrarium-Kacheln (z8, feiner als Blatt 15)
+  async function buildTerrain() {
+    const Z = 8, X0 = 142, X1 = 156, Y0 = 87, Y1 = 93, T = 256;
+    const cols = X1 - X0 + 1, rows = Y1 - Y0 + 1;
+    const mc = document.createElement('canvas'); mc.width = cols * T; mc.height = rows * T;
+    const mctx = mc.getContext('2d', { willReadFrequently: true });
+    const jobs = [];
+    for (let x = X0; x <= X1; x++) for (let y = Y0; y <= Y1; y++) jobs.push([x, y]);
+    for (let i = 0; i < jobs.length; i += 14) {           // in Schüben laden, sonst wirft der Kachelserver
+      await Promise.all(jobs.slice(i, i + 14).map(([x, y]) => new Promise((res, rej) => {
+        const img = new Image(); img.crossOrigin = 'anonymous';
+        img.onload = () => { mctx.drawImage(img, (x - X0) * T, (y - Y0) * T); res(); };
+        img.onerror = () => rej(new Error('Kachel ' + Z + '/' + x + '/' + y));
+        img.src = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${Z}/${x}/${y}.png`;
+      })));
+    }
+    const mw = mc.width, mh = mc.height, md = mctx.getImageData(0, 0, mw, mh).data;
+    const rawElev = (px, py) => {
+      px = Math.max(0, Math.min(mw - 1, px)); py = Math.max(0, Math.min(mh - 1, py));
+      const i = (py * mw + px) * 4;
+      return md[i] * 256 + md[i + 1] + md[i + 2] / 256 - 32768;
+    };
+    const n = 2 ** Z;
+    const elevAt = (lon, lat) => {
+      const latR = lat * Math.PI / 180;
+      const fx = ((lon + 180) / 360 * n - X0) * T;
+      const fy = ((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2 * n - Y0) * T;
+      const x0 = Math.floor(fx), y0 = Math.floor(fy), u = fx - x0, v = fy - y0;
+      return rawElev(x0, y0) * (1 - u) * (1 - v) + rawElev(x0 + 1, y0) * u * (1 - v)
+           + rawElev(x0, y0 + 1) * (1 - u) * v + rawElev(x0 + 1, y0 + 1) * u * v;
+    };
+    const ev = new Float32Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const ll = proj.invert([x + .5, y + .5]);
+      ev[y * W + x] = ll ? elevAt(ll[0], ll[1]) : 0;
+    }
+    return ev;
+  }
+  let ev = null;
+  try { ev = await buildTerrain(); }
+  catch (e) { console.warn('Gelände übersprungen:', e.message); }
+  document.getElementById('lade')?.remove();
+
+  function terrainURL(staerke) {
+    if (!ev) return null;
+    const k = { flach: .0026, mittel: .0048, kraeftig: .0082 }[staerke] ?? .0048;
+    const rgb = HYPS.map(h => { const c = d3.rgb(h[2]); return [c.r, c.g, c.b]; });
+    const senke = (() => { const c = d3.rgb(SENKE); return [c.r, c.g, c.b]; })();
+    const cls = e => { if (e < 0) return null; for (let i = 0; i < HYPS.length; i++) if (e < HYPS[i][1]) return i; return HYPS.length - 1; };
+    const tc = document.createElement('canvas'); tc.width = W; tc.height = H;
+    const tctx = tc.getContext('2d');
+    const out = tctx.createImageData(W, H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const i = y * W + x, ci = cls(ev[i]);
+      const c = ci === null ? senke : rgb[ci];
+      const dzdx = (ev[y * W + Math.min(W - 1, x + 1)] - ev[y * W + Math.max(0, x - 1)]) / 2;
+      const dzdy = (ev[Math.min(H - 1, y + 1) * W + x] - ev[Math.max(0, y - 1) * W + x]) / 2;
+      const shade = Math.max(.72, Math.min(1.16, 1 - (dzdx + dzdy) / 2 * k)); // Licht aus Nordwest
+      const o = i * 4;
+      out.data[o] = c[0] * shade; out.data[o + 1] = c[1] * shade; out.data[o + 2] = c[2] * shade; out.data[o + 3] = 255;
+    }
+    tctx.putImageData(out, 0, 0);
+    return tc.toDataURL('image/png');
+  }
+
+  const fc = feats => ({ type: 'FeatureCollection', features: feats });
+  const rivers = { haupt: [], mittel: [], klein: [] };
+  for (const f of gewaesser.features) {
+    const r = f.properties.rang;
+    (r <= 2 ? rivers.haupt : r <= 7 ? rivers.mittel : rivers.klein).push(f);
+  }
+  const poly = ring => ({ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [ring] } });
+  const DELTA = poly([[28.72, 45.19], [28.90, 45.245], [29.08, 45.29], [29.28, 45.325], [29.50, 45.355],
+    [29.70, 45.31], [29.74, 45.18], [29.71, 45.05], [29.62, 44.905], [29.34, 44.895], [29.08, 44.925],
+    [28.93, 45.005], [28.82, 45.10], [28.72, 45.19]]);
+  const LAGUNEN = [
+    poly([[28.85, 45.00], [29.06, 44.975], [29.11, 44.875], [29.02, 44.785], [28.87, 44.805], [28.81, 44.90], [28.85, 45.00]]),
+    poly([[28.74, 44.735], [28.90, 44.715], [28.93, 44.585], [28.78, 44.565], [28.70, 44.645], [28.74, 44.735]]),
+  ];
+  const coast = topojson.mesh(topo, topo.objects.countries, (a, b) => a === b);
+  const fremd = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && String(a.id) !== '642' && String(b.id) !== '642');
+  const roGrenze = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && (String(a.id) === '642' || String(b.id) === '642'));
+
+  // [lon, lat, Name, Rang, [dx, dy, anchor], deutscher Zweitname]
+  const C = [
+    [26.10, 44.43, 'București', 1, [10, 16], 'Bukarest'],
+    [23.60, 46.77, 'Cluj-Napoca', 2, [8, -7], 'Klausenburg'],
+    [21.23, 45.75, 'Timișoara', 2, [8, -7], 'Temeswar'],
+    [27.60, 47.16, 'Iași', 2, [9, 3], 'Jassy'],
+    [28.63, 44.17, 'Constanța', 2, [8, 13], null],
+    [23.80, 44.32, 'Craiova', 2, [7, 14], null],
+    [25.60, 45.65, 'Brașov', 2, [9, 11], 'Kronstadt'],
+    [28.05, 45.44, 'Galați', 2, [9, -5], null],
+    [26.02, 44.94, 'Ploiești', 3, [9, 2], null],
+    [21.93, 47.07, 'Oradea', 3, [-7, -7, 'end'], 'Großwardein'],
+    [27.98, 45.27, 'Brăila', 3, [8, 10], null],
+    [21.32, 46.17, 'Arad', 3, [8, 11], null],
+    [24.87, 44.86, 'Pitești', 3, [-5, 13, 'end'], null],
+    [24.15, 45.79, 'Sibiu', 3, [2, -8], 'Hermannstadt'],
+    [26.91, 46.57, 'Bacău', 3, [9, 3], null],
+    [24.56, 46.54, 'Târgu Mureș', 3, [8, -5], 'Neumarkt'],
+    [23.58, 47.66, 'Baia Mare', 3, [8, -5], null],
+    [26.82, 45.15, 'Buzău', 3, [8, 5], null],
+    [26.66, 47.75, 'Botoșani', 3, [8, -4], null],
+    [22.88, 47.79, 'Satu Mare', 3, [-7, -6, 'end'], null],
+    [24.37, 45.10, 'Râmnicu Vâlcea', 3, [-7, 4, 'end'], null],
+    [22.66, 44.63, 'Drobeta-Turnu Severin', 3, [-7, 12, 'end'], null],
+    [26.26, 47.65, 'Suceava', 3, [8, -4], null],
+    [26.37, 46.93, 'Piatra Neamț', 3, [-7, -5, 'end'], null],
+    [27.18, 45.70, 'Focșani', 3, [8, 5], null],
+    [25.46, 44.93, 'Târgoviște', 3, [-7, -5, 'end'], null],
+    [28.80, 45.17, 'Tulcea', 4, [-7, -5, 'end'], null],
+    [22.90, 45.88, 'Deva', 4, [-6, -6, 'end'], null],
+    [23.57, 46.07, 'Alba Iulia', 4, [-6, 9, 'end'], 'Karlsburg'],
+    [24.50, 47.13, 'Bistrița', 4, [6, -5], 'Bistritz'],
+    [23.06, 47.19, 'Zalău', 4, [-6, 9, 'end'], null],
+    [25.80, 46.36, 'Miercurea Ciuc', 4, [7, 5], null],
+    [25.79, 45.87, 'Sfântu Gheorghe', 4, [7, 9], null],
+    [21.89, 45.30, 'Reșița', 4, [-6, 6, 'end'], null],
+    [23.27, 45.04, 'Târgu Jiu', 4, [-6, -5, 'end'], null],
+    [24.37, 44.43, 'Slatina', 4, [6, 10], null],
+    [25.33, 43.98, 'Alexandria', 4, [-6, 9, 'end'], null],
+    [27.33, 44.20, 'Călărași', 4, [7, 10], null],
+    [27.37, 44.57, 'Slobozia', 4, [7, -5], null],
+    [27.73, 46.64, 'Vaslui', 4, [7, 5], null],
+    [27.67, 46.23, 'Bârlad', 4, [7, 5], null],
+    [25.97, 43.90, 'Giurgiu', 4, [-8, 6, 'end'], null],
+  ];
+
+  // [lon, lat, Höhe, Name, Gebirge, [dx, dy, anchor]]
+  const GIPFEL = [
+    [24.7333, 45.6000, 2544, 'Moldoveanu', 'Făgăraș', [6, -3]],
+    [24.5333, 45.5833, 2535, 'Negoiu', 'Făgăraș', [-6, 9, 'end']],
+    [23.5333, 45.3333, 2519, 'Parângu Mare', 'Parâng', [-6, 8, 'end']],
+    [22.8833, 45.3667, 2509, 'Peleaga', 'Retezat', [-6, -3, 'end']],
+    [25.4569, 45.4453, 2505, 'Omu', 'Bucegi', [6, 8]],
+    [24.6333, 47.5972, 2303, 'Pietrosul Rodnei', 'Rodna', [-6, -3, 'end']],
+    [24.8833, 47.5333, 2279, 'Ineu', 'Rodna', [6, 9]],
+    [25.2333, 47.1167, 2100, 'Pietrosul Călimani', 'Călimani', [6, -3]],
+    [25.9333, 45.5167, 1954, 'Ciucaș', 'Ciucaș', [6, 5]],
+    [25.9500, 46.9667, 1907, 'Ocolașul Mare', 'Ceahlău', [6, 5]],
+    [22.6833, 46.5000, 1849, 'Curcubăta Mare', 'Bihor', [-6, 5, 'end']],
+    [22.0500, 45.1667, 1447, 'Semenic', 'Semenic', [6, 6]],
+  ];
+
+  // [lon, lat, Höhe, Name, [dx, dy, anchor]]
+  const PAESSE = [
+    [25.5667, 45.5000, 1033, 'Predeal', [6, 4]],
+    [24.3167, 45.6167, 350, 'Turnu Roșu', [-6, 4, 'end']],
+    [25.3667, 45.5167, 1290, 'Bran', [-6, -4, 'end']],
+    [24.8333, 47.6167, 1416, 'Prislop', [6, -3]],
+    [25.1667, 47.2500, 1201, 'Tihuța', [6, 5]],
+    [23.2833, 45.3667, 1621, 'Vâlcan', [-6, 5, 'end']],
+    [26.2000, 46.0500, 866, 'Oituz', [6, 4]],
+    [22.3000, 45.1667, 540, 'Poarta Orientală', [6, 5]],
+  ];
+
+  // [lon, lat, Name, [dx, dy, anchor]]
+  const STAUSEEN = [
+    [22.5333, 44.6667, 'Porțile de Fier', [4, 11]],
+    [26.0333, 46.9167, 'Izvorul Muntelui', [6, 4]],
+    [24.6333, 45.3667, 'Vidraru', [-6, -3, 'end']],
+    [23.6167, 45.3500, 'Vidra', [-6, 6, 'end']],
+    [27.2167, 47.7833, 'Stânca-Costești', [-6, 5, 'end']],
+    [22.8000, 45.3500, 'Gura Apelor', [-6, 8, 'end']],
+  ];
+
+  // [lon, lat, Name, Winkel, Größe, deutscher Zweitname]
+  const LANDSCHAFTEN = [
+    [25.85, 46.55, 'CARPAȚII ORIENTALI', -62, 15, 'Ostkarpaten'],
+    [23.95, 45.28, 'CARPAȚII MERIDIONALI', -4, 15, 'Südkarpaten'],
+    [22.85, 46.42, 'MUNȚII APUSENI', -34, 12, 'Westkarpaten'],
+    [24.15, 46.45, 'PODIȘUL TRANSILVANIEI', 0, 12, 'Siebenbürgisches Becken'],
+    [25.55, 44.12, 'CÂMPIA ROMÂNĂ', 0, 14, 'Walachische Tiefebene'],
+    [27.55, 46.85, 'PODIȘUL MOLDOVEI', -76, 11, 'Moldauisches Tafelland'],
+    [28.35, 44.65, 'DOBROGEA', -78, 11, 'Dobrudscha'],
+    [21.15, 46.30, 'CÂMPIA DE VEST', -84, 10, 'Westl. Tiefebene'],
+    [27.30, 44.72, 'BĂRĂGAN', -14, 10, null],
+    [29.12, 45.16, 'DELTA DUNĂRII', -12, 9, 'Donaudelta'],
+  ];
+
+  // [lon, lat, Name, Winkel, [dx, dy]]
+  const FLUESSE = [
+    [24.15, 44.03, 'Dunărea', -6], [28.35, 45.30, 'Dunărea', -30],
+    [22.35, 46.05, 'Mureș', -12], [24.35, 44.62, 'Olt', -76],
+    [26.95, 46.20, 'Siret', -74], [27.95, 46.90, 'Prut', -66],
+    [23.35, 44.55, 'Jiu', -80], [25.55, 44.45, 'Argeș', -50],
+    [22.55, 47.35, 'Someș', -18], [21.55, 45.55, 'Timiș', -34],
+    [26.65, 44.62, 'Ialomița', -20], [26.35, 46.55, 'Bistrița', -50],
+  ];
+
+  const MAG = { 1: 4.6, 2: 3.4, 3: 2.6, 4: 1.9 };
+
+  function draw() {
+    const t = window.__mapTweaks;
+    d3.select('#map').selectAll('svg').remove();
+    const svg = d3.select('#map').append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H).style('display', 'block');
+    const defs = svg.append('defs');
+    svg.append('clipPath').attr('id', 'feld').append('rect').attr('x', feld.x).attr('y', feld.y).attr('width', feld.w).attr('height', feld.h);
+    svg.append('clipPath').attr('id', 'roclip').append('path').attr('d', path(RO));
+    const g = svg.append('g').attr('clip-path', 'url(#feld)');
+
+    const belegt = [];
+    const beleg = n => { try { const b = n.getBBox(); belegt.push([b.x, b.y, b.x + b.width, b.y + b.height]); } catch (e) {} };
+    const frei = (x0, y0, x1, y1) => !belegt.some(([a0, b0, a1, b1]) => x0 < a1 + 2 && x1 > a0 - 2 && y0 < b1 + 2 && y1 > b0 - 2);
+    const imFeld = (x0, y0, x1, y1) => x0 > feld.x + 3 && x1 < feld.x + feld.w - 3 && y0 > feld.y + 3 && y1 < feld.y + feld.h - 3;
+
+    // Platz für das Übersichtskärtchen vorab sperren
+    const NB = { w: 52 * MM, h: 38 * MM };
+    NB.x = feld.x + 3; NB.y = feld.y + feld.h - 3 - NB.h;
+    if (t.uebersicht) belegt.push([NB.x - 4, NB.y - 4, NB.x + NB.w + 4, NB.y + NB.h + 4]);
+
+    // Meer, Küstensaum, Landflächen
+    g.append('rect').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('fill', F.meer);
+    for (const [w, o] of [[2.6, .07], [1.4, .12], [.55, .2]])
+      g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w * MM).attr('opacity', o);
+    g.selectAll('path.land').data(countries.features).join('path')
+      .attr('d', path).attr('fill', d => String(d.id) === '642' ? F.papier : F.nachbar);
+
+    const url = terrainURL(t.schummerung);
+    if (url) g.append('image').attr('href', url).attr('x', 0).attr('y', 0).attr('width', W).attr('height', H)
+      .attr('clip-path', 'url(#roclip)').attr('preserveAspectRatio', 'none');
+
+    const grat = d3.geoGraticule().step([1, 1]).extent([[19.4, 42.7], [31.2, 49.3]]);
+    g.append('path').attr('d', path(grat())).attr('fill', 'none').attr('stroke', F.bleistift).attr('stroke-width', .14 * MM).attr('opacity', .28);
+
+    g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', .3 * MM);
+    g.append('path').attr('d', path(fremd)).attr('fill', 'none').attr('stroke', F.dim)
+      .attr('stroke-width', .3 * MM).attr('stroke-dasharray', `${1.5 * MM} ${.48 * MM} ${.18 * MM} ${.48 * MM}`);
+
+    // Delta: Sumpfsignatur
+    const sumpf = defs.append('pattern').attr('id', 'sumpf').attr('width', 10).attr('height', 7.5).attr('patternUnits', 'userSpaceOnUse');
+    sumpf.append('rect').attr('width', 10).attr('height', 7.5).attr('fill', d3.rgb(F.wasser).brighter(2.5).formatHex()).attr('opacity', .45);
+    sumpf.append('path').attr('d', 'M.8 2.2 H5 M6 5.9 H10.2').attr('stroke', F.wasser).attr('stroke-width', .75).attr('opacity', .9);
+    g.append('path').attr('d', path(DELTA)).attr('fill', 'url(#sumpf)').attr('stroke', F.wasser).attr('stroke-width', .18 * MM);
+    for (const l of LAGUNEN) g.append('path').attr('d', path(l)).attr('fill', F.wasser).attr('opacity', .3)
+      .attr('stroke', F.wasser).attr('stroke-width', .18 * MM);
+
+    for (const [feats, w, op] of [[rivers.klein, .22, .75], [rivers.mittel, .38, .85], [rivers.haupt, .68, .95]])
+      g.append('path').attr('d', path(fc(feats))).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w * MM)
+        .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('opacity', op);
+
+    g.append('path').attr('d', path(roGrenze)).attr('fill', 'none').attr('stroke', F.tinte)
+      .attr('stroke-width', .5 * MM).attr('stroke-dasharray', `${2.2 * MM} ${.7 * MM} ${.3 * MM} ${.7 * MM}`);
+
+    // ——— Landschaftsnamen, gesperrt kursiv, unter allem anderen im Textstapel
+    if (t.landschaften) for (const [lon, lat, name, rot, size, de] of LANDSCHAFTEN) {
+      const p = proj([lon, lat]); if (!p) continue;
+      const gg = g.append('g').attr('transform', `translate(${p[0]},${p[1]}) rotate(${rot})`);
+      gg.append('text').attr('text-anchor', 'middle').attr('font-family', SERIF).attr('font-style', 'italic')
+        .attr('font-size', size).attr('letter-spacing', size * .34).attr('fill', F.dunkel).attr('opacity', .82)
+        .attr('stroke', F.papier).attr('stroke-width', 2.6).attr('paint-order', 'stroke').text(name);
+      if (de) gg.append('text').attr('y', size * .95).attr('text-anchor', 'middle').attr('font-family', SERIF)
+        .attr('font-style', 'italic').attr('font-size', size * .62).attr('letter-spacing', size * .1)
+        .attr('fill', F.dim).attr('stroke', F.papier).attr('stroke-width', 2.2).attr('paint-order', 'stroke').text(de);
+      beleg(gg.node());
+    }
+
+    // ——— Flussnamen
+    for (const [lon, lat, name, rot] of FLUESSE) {
+      const p = proj([lon, lat]); if (!p) continue;
+      const n = g.append('text').attr('transform', `translate(${p[0]},${p[1]}) rotate(${rot})`).attr('text-anchor', 'middle')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 9.5).attr('fill', F.wasser)
+        .attr('stroke', F.papier).attr('stroke-width', 2.4).attr('paint-order', 'stroke').text(name);
+      beleg(n.node());
+    }
+
+    // ——— Stauseen
+    for (const [lon, lat, name, off] of STAUSEEN) {
+      const p = proj([lon, lat]); if (!p) continue;
+      g.append('path').attr('d', `M${p[0] - 3.2},${p[1]} l3.2,-2.6 l3.2,2.6 l-3.2,2.6 z`).attr('fill', F.wasser).attr('opacity', .9);
+      g.append('path').attr('d', `M${p[0] - 3.6},${p[1] - 3.4} v6.8`).attr('stroke', F.tinte).attr('stroke-width', 1.3);
+      const n = g.append('text').attr('x', p[0] + off[0]).attr('y', p[1] + off[1]).attr('text-anchor', off[2] || 'start')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 9).attr('fill', F.wasser)
+        .attr('stroke', F.papier).attr('stroke-width', 2.4).attr('paint-order', 'stroke').text(name);
+      beleg(n.node());
+    }
+
+    // ——— Pässe
+    for (const [lon, lat, hoehe, name, off] of PAESSE) {
+      const p = proj([lon, lat]); if (!p) continue;
+      g.append('path').attr('d', `M${p[0] - 4},${p[1] + 2.6} q4,-6 8,0`).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1.1);
+      g.append('path').attr('d', `M${p[0] - 4},${p[1] - 2.6} q4,6 8,0`).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1.1);
+      const n = g.append('text').attr('x', p[0] + off[0]).attr('y', p[1] + off[1]).attr('text-anchor', off[2] || 'start')
+        .attr('font-family', SERIF).attr('font-size', 8.6).attr('fill', F.dunkel)
+        .attr('stroke', F.papier).attr('stroke-width', 2.4).attr('paint-order', 'stroke').text(name + ' ' + hoehe);
+      beleg(n.node());
+    }
+
+    // ——— Gipfel
+    for (const [lon, lat, hoehe, name, geb, off] of GIPFEL) {
+      const p = proj([lon, lat]); if (!p) continue;
+      g.append('path').attr('d', `M${p[0]},${p[1] - 3.4} l3,5.2 h-6 z`).attr('fill', F.tinte);
+      const n = g.append('text').attr('x', p[0] + off[0]).attr('y', p[1] + off[1]).attr('text-anchor', off[2] || 'start')
+        .attr('font-family', SERIF).attr('font-size', 9.4).attr('font-weight', 600).attr('fill', F.tinte)
+        .attr('stroke', F.papier).attr('stroke-width', 2.6).attr('paint-order', 'stroke').text(name);
+      const h = g.append('text').attr('x', p[0] + off[0]).attr('y', p[1] + off[1] + 9).attr('text-anchor', off[2] || 'start')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8.2).attr('fill', F.dunkel)
+        .attr('stroke', F.papier).attr('stroke-width', 2.4).attr('paint-order', 'stroke').text(hoehe);
+      beleg(n.node()); beleg(h.node());
+    }
+
+    // ——— Orte
+    for (const [lon, lat, name, rang, off, de] of C) {
+      const p = proj([lon, lat]); if (!p) continue;
+      const r = MAG[rang];
+      if (rang === 1) {
+        g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', r).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1.4);
+        g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', r * .42).attr('fill', F.tinte);
+      } else if (rang === 4) {
+        g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', r).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', .9);
+      } else {
+        g.append('circle').attr('cx', p[0]).attr('cy', p[1]).attr('r', r).attr('fill', F.tinte);
+      }
+      const size = rang === 1 ? 14 : rang === 2 ? 11.5 : rang === 3 ? 10 : 9;
+      const kandidaten = [off, [off[0], -off[1] + (off[1] > 0 ? -6 : 6), off[2]], [-off[0], off[1], off[2] === 'end' ? 'start' : 'end'], [0, -r - 5, 'middle'], [0, r + 11, 'middle']];
+      let node = null;
+      for (const k of kandidaten) {
+        const n = g.append('text').attr('x', p[0] + k[0]).attr('y', p[1] + k[1]).attr('text-anchor', k[2] || 'start')
+          .attr('font-family', SERIF).attr('font-weight', rang <= 2 ? 600 : 400).attr('font-size', size)
+          .attr('fill', F.tinte).attr('stroke', F.papier).attr('stroke-width', 2.8).attr('paint-order', 'stroke').text(name);
+        const b = n.node().getBBox();
+        if (frei(b.x, b.y, b.x + b.width, b.y + b.height) && imFeld(b.x, b.y, b.x + b.width, b.y + b.height)) { node = n; break; }
+        n.remove();
+      }
+      if (!node) continue;
+      beleg(node.node());
+      if (de && rang <= 3) {
+        const b = node.node().getBBox();
+        const d = g.append('text').attr('x', +node.attr('x')).attr('y', +node.attr('y') + size * .92).attr('text-anchor', node.attr('text-anchor'))
+          .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', size * .72).attr('fill', F.dim)
+          .attr('stroke', F.papier).attr('stroke-width', 2.4).attr('paint-order', 'stroke').text(de);
+        const db = d.node().getBBox();
+        if (frei(db.x, db.y, db.x + db.width, db.y + db.height)) beleg(d.node()); else d.remove();
+      }
+    }
+
+    // ——— Gradnetz-Beschriftung am Kartenrahmen
+    for (let lat = 44; lat <= 48; lat++) {
+      for (const [lon, anchor, dx] of [[19.6, 'start', 3], [30.9, 'end', -3]]) {
+        const p = proj([lon, lat]); if (!p || p[1] < feld.y + 8 || p[1] > feld.y + feld.h - 8) continue;
+        const x = anchor === 'start' ? feld.x + 3 : feld.x + feld.w - 3;
+        svg.append('text').attr('x', x).attr('y', p[1] - 2).attr('text-anchor', anchor)
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8).attr('fill', F.dunkel).text(lat + '°');
+      }
+    }
+    for (let lon = 21; lon <= 29; lon++) {
+      const p = proj([lon, 43.4]); if (!p) continue;
+      if (p[0] < feld.x + 10 || p[0] > feld.x + feld.w - 10) continue;
+      svg.append('text').attr('x', p[0]).attr('y', feld.y + feld.h - 4).attr('text-anchor', 'middle')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8).attr('fill', F.dunkel).text(lon + '°');
+    }
+
+    // ——— Übersichtskärtchen: Rumänien in Europa
+    if (t.uebersicht) {
+      const n = svg.append('g');
+      n.append('rect').attr('x', NB.x).attr('y', NB.y).attr('width', NB.w).attr('height', NB.h)
+        .attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', 1.1);
+      const clip = defs.append('clipPath').attr('id', 'nbclip');
+      clip.append('rect').attr('x', NB.x + 1).attr('y', NB.y + 1).attr('width', NB.w - 2).attr('height', NB.h - 2);
+      const ng = n.append('g').attr('clip-path', 'url(#nbclip)');
+      const pN = d3.geoAzimuthalEqualArea().rotate([-20, -48]).clipAngle(52)
+        .fitExtent([[NB.x + 4, NB.y + 4], [NB.x + NB.w - 4, NB.y + NB.h - 4]], { type: 'Sphere' });
+      const paN = d3.geoPath(pN);
+      ng.append('path').attr('d', paN({ type: 'Sphere' })).attr('fill', F.meer);
+      ng.selectAll('path.c').data(countries.features).join('path').attr('d', paN)
+        .attr('fill', d => String(d.id) === '642' ? '#cb5a2a' : F.nachbar)
+        .attr('stroke', F.dim).attr('stroke-width', .3).attr('opacity', d => String(d.id) === '642' ? 1 : .9);
+      n.append('text').attr('x', NB.x + 4).attr('y', NB.y + 11).attr('font-family', MONO).attr('font-weight', 500)
+        .attr('font-size', 7.5).attr('letter-spacing', '.08em').attr('fill', F.dunkel)
+        .attr('stroke', F.papier).attr('stroke-width', 2.6).attr('paint-order', 'stroke').text('RUMÄNIEN IN EUROPA');
+    }
+
+    // ——— Rahmen und Registerband
+    const SP = 12, ZE = 8; // Spalten A–L, Zeilen 1–8
+    svg.append('rect').attr('x', inset).attr('y', inset).attr('width', W - 2 * inset).attr('height', H - 2 * inset)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1);
+    svg.append('rect').attr('x', feld.x).attr('y', feld.y).attr('width', feld.w).attr('height', feld.h)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1.6);
+    if (t.register) {
+      const buch = 'ABCDEFGHIJKL'.slice(0, SP).split('');
+      const cw = feld.w / SP, ch = feld.h / ZE;
+      for (let i = 0; i <= SP; i++) {
+        const x = feld.x + i * cw;
+        for (const y of [[inset, feld.y], [feld.y + feld.h, H - inset]])
+          svg.append('line').attr('x1', x).attr('y1', y[0]).attr('x2', x).attr('y2', y[1]).attr('stroke', F.tinte).attr('stroke-width', .5);
+      }
+      for (let i = 0; i <= ZE; i++) {
+        const y = feld.y + i * ch;
+        for (const x of [[inset, feld.x], [feld.x + feld.w, W - inset]])
+          svg.append('line').attr('x1', x[0]).attr('y1', y).attr('x2', x[1]).attr('y2', y).attr('stroke', F.tinte).attr('stroke-width', .5);
+      }
+      for (let i = 0; i < SP; i++) for (const y of [inset + RAND * .68, H - inset - RAND * .3])
+        svg.append('text').attr('x', feld.x + (i + .5) * cw).attr('y', y).attr('text-anchor', 'middle')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8.5).attr('fill', F.register).text(buch[i]);
+      for (let i = 0; i < ZE; i++) for (const x of [inset + RAND * .5, W - inset - RAND * .5])
+        svg.append('text').attr('x', x).attr('y', feld.y + (i + .5) * ch + 3).attr('text-anchor', 'middle')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8.5).attr('fill', F.register).text(i + 1);
+    }
+
+    zeichneLegende();
+  }
+
+  // ——— Legendenspalte
+  function zeichneLegende() {
+    const el = document.getElementById('legende');
+    el.innerHTML = '';
+    const kopf = txt => `<div style="font-size:13px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 1.5mm">${txt}</div>`;
+    const zeile = (svgIcon, txt) => `<div style="display:flex;align-items:center;gap:2.5mm;padding:.35mm 0"><div style="width:13mm;flex:none;display:flex;justify-content:center">${svgIcon}</div><div style="font-size:10px;line-height:1.2">${txt}</div></div>`;
+    const S = (inner, w = 44, h = 13) => `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block">${inner}</svg>`;
+
+    let html = kopf('Höhenschichten');
+    html += '<div style="display:flex;flex-direction:column;gap:0;margin-bottom:2.5mm">';
+    for (let i = HYPS.length - 1; i >= 0; i--)
+      html += `<div style="display:flex;align-items:center;gap:2.5mm"><div style="width:13mm;height:4.6mm;flex:none;background:${HYPS[i][2]};border:.5px solid #cfc7b8"></div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;color:#2a231c">${HYPS[i][3]}</div></div>`;
+    html += `<div style="display:flex;align-items:center;gap:2.5mm"><div style="width:13mm;height:4.6mm;flex:none;background:${SENKE};border:.5px solid #cfc7b8"></div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;color:#2a231c">unter 0 m</div></div>`;
+    html += '</div>';
+
+    html += kopf('Einzelzeichen');
+    html += zeile(S(`<path d="M22 3 l3.4 5.9 h-6.8 z" fill="#2a231c"/>`), 'Berghöhe mit Meterzahl');
+    html += zeile(S(`<path d="M17 8.6 q5,-6.4 10,0" fill="none" stroke="#2a231c" stroke-width="1.2"/><path d="M17 4.4 q5,6.4 10,0" fill="none" stroke="#2a231c" stroke-width="1.2"/>`), 'Pass mit Scheitelhöhe');
+    html += zeile(S(`<path d="M18.6 6.5 l3.4,-2.8 l3.4,2.8 l-3.4,2.8 z" fill="#35707b"/><path d="M18.2 2.8 v7.4" stroke="#2a231c" stroke-width="1.4"/>`), 'Stausee, Staumauer');
+    html += zeile(S(`<rect x="8" y="3" width="28" height="7.5" fill="#eef3f1"/><path d="M9 5.2 H18 M24 8.6 H35" stroke="#35707b" stroke-width=".8" opacity=".8"/>`), 'Sumpf und Röhricht');
+    html += zeile(S(`<path d="M6 9 C14 3, 20 11, 28 5 S38 6, 40 4" fill="none" stroke="#35707b" stroke-width="1.6" stroke-linecap="round"/>`), 'Fluss, nach Größenrang');
+
+    html += kopf('Orte');
+    html += zeile(S(`<circle cx="22" cy="6.5" r="4.6" fill="none" stroke="#2a231c" stroke-width="1.4"/><circle cx="22" cy="6.5" r="1.9" fill="#2a231c"/>`), 'Hauptstadt');
+    html += zeile(S(`<circle cx="22" cy="6.5" r="3.4" fill="#2a231c"/>`), 'über 250 000 Ew.');
+    html += zeile(S(`<circle cx="22" cy="6.5" r="2.6" fill="#2a231c"/>`), '100 000 – 250 000 Ew.');
+    html += zeile(S(`<circle cx="22" cy="6.5" r="1.9" fill="#fdfdfd" stroke="#2a231c" stroke-width=".9"/>`), 'Kreisstadt darunter');
+    html += zeile(S(`<text x="22" y="10" text-anchor="middle" font-family="'Gentium Book Plus',serif" font-style="italic" font-size="8" letter-spacing="1.6" fill="#4a4139">GEB</text>`), 'gesperrt: Landschaft');
+
+    html += kopf('Grenzen');
+    html += zeile(S(`<path d="M4 6.5 H40" stroke="#2a231c" stroke-width="1.9" stroke-dasharray="8.3 2.6 1.1 2.6"/>`), 'Staatsgrenze Rumäniens');
+    html += zeile(S(`<path d="M4 6.5 H40" stroke="#8b8173" stroke-width="1.1" stroke-dasharray="5.7 1.8 .7 1.8"/>`), 'sonstige Staatsgrenze');
+
+    html += kopf('Maßstab');
+    html += '<div id="scalebar"></div>';
+    el.innerHTML = html;
+
+    // Maßstabsbalken aus der laufenden Projektion
+    const a = proj([25.0, 45.0]), b = proj([26.0, 45.0]);
+    const pxProGrad = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const kmProGrad = 111.32 * Math.cos(45 * Math.PI / 180);
+    const pxProKm = pxProGrad / kmProGrad;
+    const L = 100 * pxProKm, ges = 2 * L;
+    const nenner = Math.round(1000 / (pxProKm / (96 / 25.4)) * 1000 / 1000) * 1000;
+    d3.select('#scalebar').html(
+      `<svg width="${Math.ceil(ges) + 2}" height="30" viewBox="0 0 ${Math.ceil(ges) + 2} 30" style="display:block;margin-top:1mm">
+        <rect x="1" y="10" width="${L}" height="6" fill="#2a231c"/>
+        <rect x="${1 + L}" y="10" width="${L}" height="6" fill="#fdfdfd" stroke="#2a231c" stroke-width=".8"/>
+        <text x="1" y="7" font-family="'Noto Sans Mono',monospace" font-weight="500" font-size="8.5" fill="#2a231c">0</text>
+        <text x="${1 + L}" y="7" text-anchor="middle" font-family="'Noto Sans Mono',monospace" font-weight="500" font-size="8.5" fill="#2a231c">100</text>
+        <text x="${1 + ges}" y="7" text-anchor="end" font-family="'Noto Sans Mono',monospace" font-weight="500" font-size="8.5" fill="#2a231c">200 km</text>
+      </svg>
+      <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;color:#8b8173;margin-top:.5mm">1 : ${nenner.toLocaleString('de-DE')} (Blattmitte)</div>`);
+  }
+
+  window.__redrawMap = draw;
+  draw();
+})();
+</script>
+</body>
+</html>
