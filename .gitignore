@@ -10,6 +10,14 @@ source.gpkg
 *_attachments.zip
 .qfieldsync/
 
+# Referenz-Scans des gedruckten Diercke-Atlas — unreferenziert, groß (die volle
+# Fassung überschreitet GitHubs 100-MB-Limit pro Datei), bei Bedarf lokal neu ablegen
+/diercke-rumänien.pdf
+/diercke-rumänien-klein.pdf
+
+# QA-Screenshots aus der Design-Session — unreferenziert, kein Deliverable
+/screenshots/
+
 # Betriebssystem
 .DS_Store
 Thumbs.db
