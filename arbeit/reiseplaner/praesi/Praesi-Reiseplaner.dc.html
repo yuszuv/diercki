@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{background:#d8d8da;margin:0}a{color:#2f6f74}a:hover{color:#2a231c}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--pri:var(--petrol);--acc:var(--orange);--logo-filter:brightness(0) invert(1);display:flex;flex-direction:column;gap:22px;padding:22px 0;align-items:center">
+
+<section data-screen-label="01 Titel" style="width:1280px;height:720px;background:var(--paper);position:relative;box-sizing:border-box;display:flex;font-family:var(--font-serif);color:var(--ink);overflow:hidden">
+<div style="width:474px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+<div style="position:absolute;bottom:-30px;right:-14px;font-size:210px;line-height:1;color:rgba(255,255,255,0.06);font-family:var(--font-symbol);letter-spacing:-0.05em">⋆<span style="font-size:100px;vertical-align:-10px">ℏ</span></div>
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:72px;width:auto;align-self:flex-start;filter:var(--logo-filter,brightness(0) invert(1));opacity:0.6" />
+<div style="position:relative">
+<div style="font:500 16px/1 var(--font-mono);letter-spacing:0.24em;text-transform:uppercase;opacity:0.75">sternprodukt</div>
+<div style="font-size:20px;margin-top:12px;opacity:0.85">Jan Paki — IT &amp; Naturschutz, Prignitz</div>
+</div>
+</div>
+<div style="flex:1;box-sizing:border-box;padding:72px 76px;display:flex;flex-direction:column;justify-content:center;position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:26px">Entscheidungsvorlage · August 2026</div>
+<h1 style="font-size:66px;font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin:0 0 22px;max-width:15ch">Reiseführer Banat &amp; România</h1>
+<p style="font-size:26px;color:var(--grey-dark);margin:0;max-width:28ch">Der Atlas kann drucken. Der Vorschlag: er lernt laufen — als QField-App in der Hosentasche.</p>
+<div style="width:88px;height:6px;background:var(--acc,var(--orange));margin-top:34px"></div>
+<sc-if value="{{ pageNumbers }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;right:76px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">01 / 12</span></sc-if>
+</div>
+</section>
+
+<section data-screen-label="02 Agenda" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Agenda</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Vier Kapitel bis zur Entscheidung</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 84px">
+<div style="display:flex;gap:26px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:22px 0"><span style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol))">01</span><div><div style="font-size:29px;font-weight:600">Was schon da ist</div><div style="font-size:19px;color:var(--grey-dark);margin-top:4px">Atlas, Signaturen, Geodaten, QFieldCloud</div></div></div>
+<div style="display:flex;gap:26px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:22px 0"><span style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol))">02</span><div><div style="font-size:29px;font-weight:600">Die App</div><div style="font-size:19px;color:var(--grey-dark);margin-top:4px">Sieben Themen, zwei Screens, offline</div></div></div>
+<div style="display:flex;gap:26px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:22px 0"><span style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol))">03</span><div><div style="font-size:29px;font-weight:600">Technik</div><div style="font-size:19px;color:var(--grey-dark);margin-top:4px">Eine Datenquelle, Cloud-Sync, Bahn per GTFS</div></div></div>
+<div style="display:flex;gap:26px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:22px 0"><span style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol))">04</span><div><div style="font-size:29px;font-weight:600">Entscheidung</div><div style="font-size:19px;color:var(--grey-dark);margin-top:4px">Werkzeug, Pilot, Go/No-Go</div></div></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">02 / 12</span></sc-if>
+</section>
+
+<section data-screen-label="03 Ausgangslage" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Was schon da ist</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Die teure Hälfte ist bezahlt</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">01</div><p style="font-size:24px;line-height:1.4;margin:0">Der <strong>Rumänien-Atlas</strong>: Kartenblätter von Physisch bis Wirtschaft, ein Signaturenkatalog nach Diercke-Vorbild, Geodaten als saubere Module.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">02</div><p style="font-size:24px;line-height:1.4;margin:0">Der komplette <strong>QGIS-Stil der Marke</strong>: Symbolbibliothek, Layerstile, Palette — Druck und App sprechen dieselbe Sprache.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">03</div><p style="font-size:24px;line-height:1.4;margin:0">Eine laufende <strong>eigene QFieldCloud-Instanz</strong> — Verteilung und Updates kosten keinen Dienstleister.</p></div>
+</div>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;gap:18px;border-top:1px solid var(--grey-light);padding-top:12px;font:500 15px var(--font-mono);color:var(--grey-dark)"><sc-if value="{{ playful }}" hint-placeholder-val="{{ true }}"><span>#atlas</span><span>#qgis</span><span>#qfieldcloud</span></sc-if><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto;font-weight:400;color:var(--grey)">03 / 12</span></sc-if></div>
+</section>
+
+<section data-screen-label="04 Themen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Die App</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 34px">Sieben Themen, ein Reiseführer</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 60px">
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">DRACULA</span><span style="font-size:21px">Bran, Sighișoara, Poenari — der Mythos als POI-Layer</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">DELTA</span><span style="font-size:21px">Donaudelta: Anleger, Kanäle, Vogelbeobachtung</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">NATUR</span><span style="font-size:21px">14 Naturparks als Flächen, Verwaltungs-Link antippbar</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">BETON</span><span style="font-size:21px">Brutalismus-Touren Bukarest, 18 Stationen</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">ROUTEN</span><span style="font-size:21px">Hauptachsen Auto + Bahn, vorgerechnete Zeiten</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">BAHN</span><span style="font-size:21px">Auskunft per Deep-Link — ein Tipp, der Browser übernimmt</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">HANF</span><span style="font-size:21px">Anbau- und Verarbeitungsstandorte, das Haus-Thema</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:11px 0"><span style="font:500 15px var(--font-mono);color:var(--acc,var(--orange));min-width:110px">DAZU</span><span style="font-size:21px">Eigener Standort als Marker + Kompassnadel</span></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">04 / 12</span></sc-if>
+</section>
+
+<section data-screen-label="05 Mockup Karte" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;gap:70px;align-items:center">
+<div style="flex:1">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Mockup · Hauptscreen</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 22px;max-width:14ch">Die Karte ist die App</h2>
+<div style="font-size:23px;line-height:1.5;color:var(--grey-dark);max-width:34ch">
+<p style="margin:0 0 14px">Themen als <strong>Chips</strong> über der Karte — an, aus, fertig. Der eigene Standort läuft als Marker mit Kompassnadel mit.</p>
+<p style="margin:0">Ein POI öffnet ein <strong>Bottom-Sheet</strong>: Beschreibung, Website, und der Bahn-Deep-Link ab dem nächsten Bahnhof.</p>
+</div>
+</div>
+<figure style="margin:0;flex-shrink:0">
+<img src="../wf-a.png" alt="Wireframe Hauptscreen" style="width:288px;border:var(--border-frame);padding:3px;background:var(--paper-white);box-sizing:border-box;display:block" />
+<figcaption style="font:14px var(--font-mono);color:var(--grey);margin:8px 0 0">Wireframe, Stand August 2026 — Hi-Fi folgt nach dem Go.</figcaption>
+</figure>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">05 / 12</span></sc-if>
+</section>
+
+<section data-screen-label="06 Mockup Themen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;gap:70px;align-items:center">
+<figure style="margin:0;flex-shrink:0">
+<img src="../wf-b.png" alt="Wireframe Themenwahl" style="width:288px;border:var(--border-frame);padding:3px;background:var(--paper-white);box-sizing:border-box;display:block" />
+<figcaption style="font:14px var(--font-mono);color:var(--grey);margin:8px 0 0">Ebenenwahl im Legendenstil des Atlas.</figcaption>
+</figure>
+<div style="flex:1">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Mockup · Themenwahl</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 22px;max-width:16ch">Ebenen wie im Atlas</h2>
+<div style="font-size:23px;line-height:1.5;color:var(--grey-dark);max-width:34ch">
+<p style="margin:0 0 14px">Jedes Thema ist ein Layer mit seiner <strong>Atlas-Signatur</strong> — was auf dem Papier gilt, gilt auf dem Bildschirm.</p>
+<p style="margin:0">Die Tab-Leiste trägt den <strong>Sync</strong>: neue POI kommen über die eigene QFieldCloud, ohne Kabel, ohne Store-Update.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">06 / 12</span></sc-if>
+</section>
+
+<section data-screen-label="07 Architektur" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Technik</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 30px">Eine Datenquelle, zwei Ausgaben</h2>
+<pre data-om-raster style="background:var(--surface-sunken);border:1px solid var(--code-border);padding:28px 34px;font:21px/1.75 var(--font-mono);margin:0;overflow:hidden">reiseplaner.gpkg  (EPSG: UTM 35N — Meter, Hektar rechenbar)
+ ├─ poi_dracula · poi_delta · naturparks · touren_beton
+ ├─ routen_auto · bahnhoefe (+ Deep-Link-Spalte) · hanf
+ │
+ ├──→  Atlas-Blätter (Druck)     Signaturenkatalog
+ └──→  QField-Projekt (App)      dieselben Signaturen als .qml</pre>
+<p style="font-size:22px;color:var(--ink-pencil);margin:24px 0 0;font-style:italic">Wer die Karte pflegt, pflegt die App gleich mit — es gibt keinen zweiten Datenbestand.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">07 / 12</span></sc-if>
+</section>
+
+<section data-screen-label="08 QFieldCloud" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Technik · Verteilung</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Die eigene QFieldCloud macht den Vertrieb</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">PACKEN</div><p style="font-size:24px;line-height:1.4;margin:0">Projekt einmal packen: Layer, Stile, Offline-Basiskarte auf Rumänien beschnitten.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">VERTEILEN</div><p style="font-size:24px;line-height:1.4;margin:0">Jedes Gerät zieht das Projekt aus der eigenen Instanz — kein App-Store, keine Fremd-Cloud.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">PFLEGEN</div><p style="font-size:24px;line-height:1.4;margin:0">Neue POI oder korrigierte Links: einmal einspielen, alle Geräte syncen beim nächsten WLAN.</p></div>
+</div>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;gap:18px;border-top:1px solid var(--grey-light);padding-top:12px;font:500 15px var(--font-mono);color:var(--grey-dark)"><sc-if value="{{ playful }}"><span>#qfieldcloud</span><span>#selbstgehostet</span></sc-if><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto;font-weight:400;color:var(--grey)">08 / 12</span></sc-if></div>
+</section>
+
+<section data-screen-label="09 Bahn-Werkstatt" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Technik · Werkstatt</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 30px">Bahn-Auskunft: GTFS rein, Deep-Link raus</h2>
+<pre data-om-raster style="background:var(--surface-sunken);border:1px solid var(--code-border);padding:28px 34px;font:21px/1.75 var(--font-mono);margin:0;overflow:hidden">Format-Empfehlung   GTFS (statisch) — Standard, QGIS-importierbar
+Eigene API          liefert gtfs.zip + Bahnhofs-IDs, mehr nicht
+Im Feld             bahnhoefe.deep_link →
+                    cfrcalatori.ro/bilete-online/?from=Brașov&amp;to=Bran
+Später (optional)   GTFS-RT für Live-Abfahrten im Web-Begleiter</pre>
+<p style="font-size:22px;color:var(--ink-pencil);margin:24px 0 0;font-style:italic">Die App bleibt offline — den Fahrplan rechnet der Browser des Reisenden, nicht wir.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">09 / 12</span></sc-if>
+</section>
+
+<section data-screen-label="10 Werkzeugwahl" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Entscheidung · Werkzeug</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Empfehlung: QField zuerst, Web später</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:60px">
+<div style="border-top:2px solid var(--ink);padding-top:18px">
+<div style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:12px">QFIELD · JETZT</div>
+<p style="font-size:23px;line-height:1.45;margin:0">Offline im Delta und auf dem Pass, GPS + Kompass eingebaut, Verteilung über die eigene Cloud, null Lizenzkosten. Der Reiseführer <em>funktioniert dort, wo kein Netz ist</em> — genau da will man hin.</p>
+</div>
+<div style="border-top:2px solid var(--grey-light);padding-top:18px">
+<div style="font:500 17px var(--font-mono);color:var(--grey-dark);margin-bottom:12px">WEB-KARTE · SPÄTER</div>
+<p style="font-size:23px;line-height:1.45;margin:0;color:var(--grey-dark)">Gleiche Daten als Leaflet-Begleiter fürs Teilen und für Live-Abfahrten (GTFS-RT). Lohnt, sobald der Pilot steht — nicht davor.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">10 / 12</span></sc-if>
+</section>
+
+<section data-screen-label="11 Pilot" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Entscheidung · Pilot</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 50px">Pilot: ganz Rumänien, drei Schritte</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:36px 44px">
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:78px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--acc,var(--orange))">1</div><div style="font:14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark);margin-top:10px">WOCHE — GEOPACKAGE-SCHEMA + SIGNATUREN ALS .QML</div></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:78px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--acc,var(--orange))">2</div><div style="font:14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark);margin-top:10px">WOCHEN — POI-ERFASSUNG, TOUREN, DEEP-LINKS, PACKEN</div></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:78px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--acc,var(--orange))">1</div><div style="font:14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark);margin-top:10px">REISE — PRAXISTEST VOR ORT, RÜCKSYNC, BERICHT</div></div>
+</div>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;border-top:1px solid var(--grey-light);padding-top:12px"><span style="font:14px var(--font-mono);color:var(--grey)">Werkzeuge: QGIS + QField + eigene QFieldCloud — Lizenzkosten 0 €</span><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto;font:14px var(--font-mono);color:var(--grey)">11 / 12</span></sc-if></div>
+</section>
+
+<section data-screen-label="12 Schluss" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:76px 84px;font-family:var(--font-serif);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden">
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:46px;width:auto;margin-bottom:26px;filter:var(--logo-filter,brightness(0) invert(1));opacity:0.8" />
+<h2 style="font-size:80px;font-weight:600;letter-spacing:-0.02em;margin:0 0 26px">Go für den Pilot?</h2>
+<p style="font-size:24px;margin:0;opacity:0.85;max-width:34ch">Vier Wochen, null Lizenzkosten, und der Atlas fährt mit nach Rumänien.</p>
+<p style="font:18px/1.7 var(--font-mono);margin:30px 0 0;opacity:0.9">jan <span style="font-family:var(--font-serif)">&#8902;<sub style="font-size:11px">&#8463;</sub></span> sternprodukt.de · 0157 8867 2952</p>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;border-top:1px solid rgba(255,255,255,0.2);padding-top:12px"><sc-if value="{{ playful }}"><span style="font:11px var(--font-mono);color:rgba(255,255,255,0.5)">137</span></sc-if><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">12 / 12</span></sc-if></div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Oliv&quot;,&quot;Orange&quot;,&quot;Aubergine&quot;],&quot;default&quot;:&quot;Petrol&quot;,&quot;tsType&quot;:&quot;'Petrol'|'Oliv'|'Orange'|'Aubergine'&quot;,&quot;section&quot;:&quot;Farben&quot;},&quot;logo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Weiß&quot;,&quot;Orange&quot;,&quot;Original&quot;],&quot;default&quot;:&quot;Weiß&quot;,&quot;tsType&quot;:&quot;'Weiß'|'Orange'|'Original'&quot;,&quot;section&quot;:&quot;Farben&quot;},&quot;pageNumbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Stil&quot;},&quot;playful&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Stil&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  priHex() {
+    const map = { 'Petrol': 'var(--petrol)', 'Oliv': 'var(--olive)', 'Orange': 'var(--orange-deep)', 'Aubergine': 'var(--plum)' };
+    return map[this.props.primaryColor] ?? 'var(--petrol)';
+  }
+  logoFilter() {
+    const map = {
+      'Weiß': 'brightness(0) invert(1)',
+      'Orange': 'brightness(0) saturate(100%) invert(43%) sepia(72%) saturate(1180%) hue-rotate(343deg) brightness(92%) contrast(90%)',
+      'Original': 'none'
+    };
+    return map[this.props.logo] ?? 'brightness(0) invert(1)';
+  }
+  applyAcc() {
+    const el = this.rootRef.current; if (!el) return;
+    el.style.setProperty('--pri', this.priHex());
+    el.style.setProperty('--logo-filter', this.logoFilter());
+  }
+  componentDidMount() { this.applyAcc(); }
+  componentDidUpdate() { this.applyAcc(); }
+  renderVals() {
+    return {
+      rootRef: this.rootRef,
+      pageNumbers: this.props.pageNumbers ?? true,
+      playful: this.props.playful ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

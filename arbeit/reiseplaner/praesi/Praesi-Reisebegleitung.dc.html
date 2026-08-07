@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{background:#d8d8da;margin:0}a{color:#2f6f74}a:hover{color:#2a231c}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--pri:var(--petrol);--acc:var(--orange);display:flex;flex-direction:column;gap:22px;padding:22px 0;align-items:center">
+
+<section data-screen-label="01 Titel" style="width:1280px;height:720px;background:var(--paper);position:relative;box-sizing:border-box;display:flex;font-family:var(--font-serif);color:var(--ink);overflow:hidden">
+<div style="width:474px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+<div style="position:absolute;bottom:-30px;right:-14px;font-size:210px;line-height:1;color:rgba(255,255,255,0.06);font-family:var(--font-symbol);letter-spacing:-0.05em">⋆<span style="font-size:100px;vertical-align:-10px">ℏ</span></div>
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:72px;width:auto;align-self:flex-start;filter:brightness(0) invert(1);opacity:0.6" />
+<div style="position:relative">
+<div style="font:500 16px/1 var(--font-mono);letter-spacing:0.24em;text-transform:uppercase;opacity:0.75">sternprodukt</div>
+<div style="font-size:20px;margin-top:12px;opacity:0.85">Jan Paki — Reisevorbereitung</div>
+</div>
+</div>
+<div style="flex:1;box-sizing:border-box;padding:72px 76px;display:flex;flex-direction:column;justify-content:center;position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:26px">Reisevorbereitung · August 2026</div>
+<h1 style="font-size:64px;font-weight:600;line-height:1.08;letter-spacing:-0.02em;margin:0 0 22px;max-width:14ch">Eine Karte für Rumänien</h1>
+<p style="font-size:26px;color:var(--grey-dark);margin:0;max-width:30ch">Für die Reise gibt es jetzt einen selbst gebauten Reiseführer. Diese Folien erklären, was er kann ;)</p>
+<div style="width:88px;height:6px;background:var(--acc,var(--orange));margin-top:34px"></div>
+<sc-if value="{{ pageNumbers }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;right:76px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">01 / 10</span></sc-if>
+</div>
+</section>
+
+<section data-screen-label="02 Was das ist" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Worum es geht</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Ein Reiseführer, der auf dem Handy wohnt</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">01</div><p style="font-size:24px;line-height:1.4;margin:0">Eine <strong>Karte von ganz Rumänien</strong> — gezeichnet wie ein alter Schulatlas, nur eben zum Anfassen.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">02</div><p style="font-size:24px;line-height:1.4;margin:0">Sie funktioniert <strong>ohne Netz</strong>. Im Donaudelta, auf dem Karpatenpass, im Funkloch hinter Sighișoara.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">03</div><p style="font-size:24px;line-height:1.4;margin:0">Und sie ist <strong>für zwei gedacht</strong> — dieselbe Karte auf zwei Handys, und abends finden die beiden zueinander. Dazu gleich mehr.</p></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">02 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="03 Was drin ist" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Der Inhalt</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 34px">Sieben Ebenen, zum An- und Ausknipsen</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 60px">
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">DRACULA</span><span style="font-size:21px">Bran, Sighișoara, Poenari — der ganze Mythos, ehrlich beschriftet</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">DELTA</span><span style="font-size:21px">Donaudelta mit Anlegern und Kanälen — Pelikane inklusive</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">NATUR</span><span style="font-size:21px">14 Naturparks als Flächen, Website einen Fingertipp entfernt</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">BETON</span><span style="font-size:21px">Brutalismus-Spaziergänge durch Bukarest — <em>schöner</em> als es klingt</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">ROUTEN</span><span style="font-size:21px">Hauptachsen für Auto und Bahn, mit ehrlichen Fahrzeiten</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">BAHN</span><span style="font-size:21px">Ein Tipp auf den Bahnhof öffnet die Verbindungssuche</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--pri,var(--petrol));min-width:110px">HANF</span><span style="font-size:21px">Berufsbedingtes Spezialthema — musste mit.</span></div>
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:12px 0"><span style="font:500 15px var(--font-mono);color:var(--acc,var(--orange));min-width:110px">DAZU</span><span style="font-size:21px">Der eigene Standort läuft als Marker mit Kompassnadel mit</span></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">03 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="04 So sieht es aus" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;gap:70px;align-items:center">
+<div style="flex:1">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">So sieht es aus</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 22px;max-width:14ch">Keine App-Bedienung zu lernen</h2>
+<div style="font-size:23px;line-height:1.5;color:var(--grey-dark);max-width:34ch">
+<p style="margin:0 0 14px">Oben die Themen zum Anknipsen, in der Mitte die Karte, unten die Beschreibung des zuletzt angetippten Ortes.</p>
+<p style="margin:0">Das ist alles. Wer eine Wanderkarte lesen kann, kann das hier <em>deutlich</em> besser.</p>
+</div>
+</div>
+<figure style="margin:0;flex-shrink:0">
+<img src="../wf-a.png" alt="Entwurf des Hauptscreens" style="width:288px;border:var(--border-frame);padding:3px;background:var(--paper-white);box-sizing:border-box;display:block" />
+<figcaption style="font:14px var(--font-mono);color:var(--grey);margin:8px 0 0">Entwurf — die hübsche Fassung folgt.</figcaption>
+</figure>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">04 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="05 Zwei Handys" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Der eigentliche Trick</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 30px">Eine Karte, zwei Handys</h2>
+<pre data-om-raster style="background:var(--surface-sunken);border:1px solid var(--code-border);padding:28px 34px;font:21px/1.75 var(--font-mono);margin:0;overflow:hidden">   Handy № 1  ───┐                      ┌───  Handy № 2
+                  │   abends im WLAN:    │
+                  └──►  die Karten  ◄────┘
+                       finden zueinander
+
+   Was tagsüber markiert wird, ist abends auf beiden Handys.
+   Automatisch — am Ende des Tages stimmt alles überein.</pre>
+<p style="font-size:22px;color:var(--ink-pencil);margin:24px 0 0;font-style:italic">Die Technik läuft auf einem eigenen Server — und wenn der mal schläft, hilft eine kleine App namens <strong style="font-style:normal">Syncthing</strong>: einmal gegenseitig den QR-Code scannen, danach tauschen die zwei Handys ihre Karten von ganz allein.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">05 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="06 Drei Spielarten" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Zusammen&raquo;arbeit&laquo;</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Drei Spielarten, alle unter einer Minute</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div style="border-top:2px solid var(--ink);padding-top:18px"><div style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:12px">DIE MERKLISTE</div><p style="font-size:22px;line-height:1.45;margin:0">Etwas auf der Karte entdeckt, &raquo;da will ich hin&laquo; gedacht — ein Stern drauf, fertig. Alle Sterne landen auf derselben Karte, und wo sie sich häufen, ist die Route schon fast entschieden.</p></div>
+<div style="border-top:2px solid var(--ink);padding-top:18px"><div style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:12px">DIE FUNDSTÜCKE</div><p style="font-size:22px;line-height:1.45;margin:0">Unterwegs getrennt losgezogen? Foto + zwei Wörter an den Ort geheftet — das gute Café, der Aussichtspunkt, der seltsame Brunnen. Abends werden aus zwei Tagen eine gemeinsame Karte.</p></div>
+<div style="border-top:2px solid var(--ink);padding-top:18px"><div style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:12px">DIE ARBEITSTEILUNG</div><p style="font-size:22px;line-height:1.45;margin:0">Vor der Reise: Delta und Naturparks auf der einen Seite, Beton und Bahn auf der anderen. Jeder pflegt seine Ebenen, keiner funkt dem anderen dazwischen — das Zusammenfügen übernimmt die Karte.</p></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">06 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="07 Ein Reisetag" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Ein Reisetag damit</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Morgens, tagsüber, abends</h2>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:32px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:20px 0"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));min-width:150px">08:00 · WLAN</span><span style="font-size:24px">Kaffee, Karte auf, einmal Sync — die Sterne vom Vorabend sind jetzt auf beiden Handys.</span></div>
+<div style="display:flex;gap:32px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:20px 0"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));min-width:150px">tagsüber</span><span style="font-size:24px">Kein Netz, kein Problem — Karte, Standort und alle Sterne sind an Bord. Fundstücke sammeln sich lokal.</span></div>
+<div style="display:flex;gap:32px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:20px 0"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));min-width:150px">abends</span><span style="font-size:24px">Wieder WLAN, wieder ein Sync — und die zwei Tage liegen auf <em>einer</em> Karte, ohne dass jemand etwas abtippen muss.</span></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">07 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="08 Was es braucht" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Aufwand, ehrlich gerechnet</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Was es braucht — und was nicht</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:60px">
+<div style="border-top:2px solid var(--ink);padding-top:18px">
+<div style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">BRAUCHT ES</div>
+<div style="font-size:23px;line-height:1.75">Die App <strong>QField</strong> (kostenlos, Android wie iPhone)<br>Ein Login — liegt schon bereit<br>Zehn Minuten Einrichtung, Betreuung inklusive</div>
+</div>
+<div style="border-top:2px solid var(--grey-light);padding-top:18px">
+<div style="font:500 17px var(--font-mono);color:var(--grey-dark);margin-bottom:14px">BRAUCHT ES NICHT</div>
+<div style="font-size:23px;line-height:1.75;color:var(--grey-dark)">Ein Konto bei irgendeinem Konzern<br>Dauernd Internet oder Roaming-Sorgen<br>Irgendein Verständnis für Geoinformatik</div>
+</div>
+</div>
+<p style="font-size:22px;color:var(--ink-pencil);margin:36px 0 0;font-style:italic">Bewährte Regel: läuft etwas nicht, liegt es an der Karte — nie an der Bedienung.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">08 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="09 Erste Sterne" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Zur Einstimmung</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Drei Vorschläge für die ersten Sterne</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div><div style="font:500 22px var(--font-mono);color:var(--acc,var(--orange));margin-bottom:14px">★</div><p style="font-size:23px;line-height:1.45;margin:0"><strong>Sighișoara bei Dämmerung.</strong> Die einzige bewohnte mittelalterliche Festung Europas — und Geburtshaus von du-weißt-schon-wem.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--acc,var(--orange));margin-bottom:14px">★</div><p style="font-size:23px;line-height:1.45;margin:0"><strong>Mit dem Boot durch das Delta.</strong> 3 500 km² Schilf, Kanäle und Pelikane. Netz gibt es dort keins — die Karte weiß trotzdem, wo wir sind.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--acc,var(--orange));margin-bottom:14px">★</div><p style="font-size:23px;line-height:1.45;margin:0"><strong>Bukarest, Beton bei Morgenlicht.</strong> Achtzehn Stationen. Ob das <em>schön</em> ist, klärt sich am besten vor Ort.</p></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">09 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="10 Schluss" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:76px 84px;font-family:var(--font-serif);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden">
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:46px;width:auto;margin-bottom:26px;filter:brightness(0) invert(1);opacity:0.8" />
+<h2 style="font-size:80px;font-weight:600;letter-spacing:-0.02em;margin:0 0 26px">Der erste Stern ist frei.</h2>
+<p style="font-size:24px;margin:0;opacity:0.85;max-width:36ch">Die Karte ist fertig, der Login liegt bereit. Der Rest ist Rumänien.</p>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;border-top:1px solid rgba(255,255,255,0.2);padding-top:12px"><span style="font:11px var(--font-mono);color:rgba(255,255,255,0.5)">α⁻¹ = 137</span><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">10 / 10</span></sc-if></div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Oliv&quot;,&quot;Orange&quot;,&quot;Aubergine&quot;],&quot;default&quot;:&quot;Orange&quot;,&quot;tsType&quot;:&quot;'Petrol'|'Oliv'|'Orange'|'Aubergine'&quot;,&quot;section&quot;:&quot;Farben&quot;},&quot;pageNumbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Stil&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  applyAcc() {
+    const el = this.rootRef.current; if (!el) return;
+    const map = { 'Petrol': 'var(--petrol)', 'Oliv': 'var(--olive)', 'Orange': 'var(--orange-deep)', 'Aubergine': 'var(--plum)' };
+    el.style.setProperty('--pri', map[this.props.primaryColor] ?? 'var(--petrol)');
+  }
+  componentDidMount() { this.applyAcc(); }
+  componentDidUpdate() { this.applyAcc(); }
+  renderVals() {
+    return { rootRef: this.rootRef, pageNumbers: this.props.pageNumbers ?? true };
+  }
+}
+</script>
+</body>
+</html>
