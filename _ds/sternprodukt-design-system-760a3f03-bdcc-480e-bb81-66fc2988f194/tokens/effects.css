@@ -1,0 +1,34 @@
+/* Sternprodukt — Linien, Schatten, Bild-Look, Bewegung.
+   Zwei Grundsätze: (1) Hierarchie entsteht aus Linien und Weißraum, nicht aus Erhebung —
+   deshalb genau ein Schatten im ganzen System. (2) Jedes Bild wird erst entsättigt, dann
+   gefärbt; nur so wirken Fotos verschiedener Herkunft nebeneinander wie eine Serie.
+   Ausführlich: docs/illustration.md. */
+:root{
+/* ---- Linien: flach, eckig, grau. Radius ist überall 0, auch auf Karten und in QGIS ---- */
+--radius-none:0;
+--border-frame:2px solid var(--grey);            /* Bilderrahmen (img.newspaper), innen 3px weißes Passepartout */
+--border-rule:2px solid var(--grey);             /* die Regel unter Seiten- und Folientiteln, <hr> */
+--border-rule-thin:1px solid var(--grey-light);  /* Haarlinie: Karten-Trenner, Tabellenzeilen */
+--border-masthead:5px solid var(--grey-dark);    /* die dunkle Oberkante jeder Seite und jeder Folie */
+--border-fnord:3px dashed #000; /* @kind other */ /* Gimmick-Rahmen um den Marquee-Kasten — zählt als das eine verspielte Element */
+
+/* ---- Schatten: genau einer. Flächen, Tabellen, Controls und Karten bleiben schattenlos ---- */
+--shadow-frame:rgba(0,0,0,0.12) 0px 4px 12px 0px,rgba(0,0,0,0.08) 0px 0px 0px 1px; /* nur unter großen gerahmten Fotos */
+
+/* ---- Zeitungslook (Fotos): entsättigen → Kontrast zurückholen → einen Ton auflegen.
+       30 % statt 100 %: das Bild bleibt erkennbar Foto, es wird nur leise. Hover = filter:none ---- */
+--filter-newspaper:grayscale(30%) contrast(110%) sepia(30%); /* @kind other */
+--filter-newspaper-soft:grayscale(20%) contrast(105%); /* @kind other */ /* Thumbnails, wo Sepia zu viel wäre */
+
+/* ---- Bleistift-Look (Karten & fremde Grafik): Duoton mit Ende auf --ink-pencil.
+       Die eigentlichen Kachel-Filter sind SVG (assets/filters/bleistift.svg, url(#pencil-…)),
+       pro Quelle geeicht — CSS kann keinen Duoton. Fotos in diesem Kontext hart entsättigt,
+       nie warm-sepia: sepia neben blauviolett ist eine Farbkollision ---- */
+--filter-pencil-photo:grayscale(100%) contrast(125%) brightness(1.04); /* @kind other */
+--ink-pencil-halo:rgba(253,253,253,0.5); /* Papier-Halo hinter ausgestanzten Strichen (#lines-key) */
+
+/* ---- Bewegung: klein, schnell, ehrlich. prefers-reduced-motion wird respektiert ---- */
+--transition-fast:0.15s ease; /* @kind other */ /* Hover, Fokus, Farbwechsel */
+--transition-base:0.3s ease; /* @kind other */  /* Ein-/Ausblenden, Filterwechsel am Bild */
+--ease-slide-fade:cubic-bezier(1,0.5,0.8,1); /* @kind other */ /* der „slide-fade" für Folien- und Seitenwechsel */
+}

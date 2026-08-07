@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/gimmicks.css">
+  <script src="./doc-page.js"></script>
+  <style>
+    body{margin:0}
+    doc-page:not(:defined){visibility:hidden}
+    a{color:#2f6f74}
+    a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+  </style>
+</helmet>
+<div style="--atlas-papier:{{ papierHex }};--atlas-sub:{{ subDisplay }}">
+<doc-page size="a4" orientation="landscape">
+
+<section class="page" id="p01" data-screen-label="Blatt 01 · Titel" style="position:relative;box-sizing:border-box;padding:0;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="height:5px;background:#2a231c"></div>
+  <div style="height:1px;background:#e5ddce;margin-top:2px"></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30mm">
+    <img src="atlas/logo-stern.png" alt="Sternprodukt" style="height:92px;margin-bottom:9mm">
+    <div style="font-size:40px;font-weight:400;letter-spacing:-.02em;line-height:1.15">Sternprodukt-Atlas</div>
+    <div style="width:64mm;height:2px;background:#2a231c;margin:5mm auto"></div>
+    <div style="font-size:17px;font-style:italic;color:#4a4139">Zeichenerkl&auml;rung und Farbsystem</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:10px;color:#8b8173;margin-top:9mm;line-height:2">
+      14 Blatt &middot; A4 quer &middot; Druck zuerst, Web folgt<br>
+      Signaturma&szlig;e in mm &middot; 1 mm = 3,78 px &middot; Stand: August 2026
+    </div>
+  </div>
+  <div style="padding:0 12mm 8mm;display:flex;justify-content:space-between;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.06em;color:#8b8173">
+    <div>NACH ART DER ZEICHENERKL&Auml;RUNG DES DIERCKE WELTATLAS &middot; SEIT 1883 &middot; STRUKTUR ZITIERT, FORM EIGEN</div>
+    <div>STERNPRODUKT &middot; BLATT 01</div>
+  </div>
+</section>
+
+<section class="page" id="p02" data-screen-label="Blatt 02 · Farbsystem" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Farbsystem</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 02</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Fl&auml;che tr&auml;gt Menge, Rand tr&auml;gt Zugeh&ouml;rigkeit &mdash; alle Farben des Atlas stammen aus sechs Familien auf warmem Grund.</div>
+  <div style="display:flex;gap:12mm;flex:1;min-height:0">
+    <div style="width:96mm;flex:none">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">Grundwerte</div>
+      <sc-for list="{{ grund }}" as="c" hint-placeholder-count="7">
+        <div style="display:flex;align-items:center;gap:8px;padding:1.5px 0">
+          <div style="width:15mm;height:5.6mm;background:{{ c.c }};border:.4px solid rgba(130,130,130,.35);flex:none"></div>
+          <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">{{ c.l }}</div>
+        </div>
+      </sc-for>
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:6mm 0 4px">Akzentfamilien &mdash; Tint / Base / Deep</div>
+      <sc-for list="{{ familien }}" as="f" hint-placeholder-count="6">
+        <div style="padding:2px 0 4px">
+          <div style="font-size:10.5px;margin-bottom:2px">{{ f.name }}</div>
+          <div style="display:flex;gap:2px">
+            <sc-for list="{{ f.chips }}" as="c" hint-placeholder-count="3">
+              <div style="flex:1"><div style="height:5mm;background:{{ c.c }}"></div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173;margin-top:1px">{{ c.l }}</div></div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">Regeln</div>
+      <ol style="margin:0;padding-left:16px;font-size:11px;line-height:1.55">
+        <li style="margin-bottom:4px">Quantit&auml;t liegt in der Fl&auml;che (Rampen, 5&ndash;9 Stufen), Zugeh&ouml;rigkeit am Rand (Grenzkolorit). Das Kartenbild bleibt hell.</li>
+        <li style="margin-bottom:4px">H&ouml;chstens drei Rangstufen je Signaturklasse &mdash; mehr unterscheidet das Auge in der &Uuml;bersicht nicht.</li>
+        <li style="margin-bottom:4px">Rot nur f&uuml;r Konflikt- und Demarkationslinien. Warme Signale tragen Orange.</li>
+        <li style="margin-bottom:4px">Jede Kartenfamilie hat eine Leitfarbe: Wirtschaft Orange, Gew&auml;sser und Tektonik Petrol, Schutz und Vegetation Oliv, Bev&ouml;lkerung Pflaume, Technik Bleistift.</li>
+        <li style="margin-bottom:4px">Alle Signaturma&szlig;e in Millimetern; f&uuml;rs Web gilt 1&nbsp;mm = 3,78&nbsp;px. Druck und Bildschirm tragen nachweislich dieselbe Signatur.</li>
+        <li style="margin-bottom:4px">Hypsometrie und Erdzeitalter folgen der Konvention (Sydow&ndash;Wagner bzw. internationale Tafel), nur warm ged&auml;mpft &mdash; Konvention geht vor Marke.</li>
+        <li>Hintergr&uuml;nde werden erst ents&auml;ttigt, dann gef&auml;rbt; Signaturen niemals.</li>
+      </ol>
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:6mm 0 4px">Divergierende Rampe &mdash; Petrol &harr; Orange</div>
+      <div style="display:flex;gap:2px;max-width:120mm">
+        <sc-for list="{{ r_entwicklung }}" as="c" hint-placeholder-count="5">
+          <div style="flex:1"><div style="height:6mm;background:{{ c.c }}"></div><div style="font-size:8px;font-family:'Noto Sans Mono',monospace;font-weight:500;color:#8b8173;margin-top:1px">{{ c.l }}</div></div>
+        </sc-for>
+      </div>
+      <div style="display:var(--atlas-sub,block);font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;margin-top:3mm">f&uuml;r Ver&auml;nderungskarten: Bev&ouml;lkerungsentwicklung, Temperaturanomalie, Bilanzgr&ouml;&szlig;en</div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="p03" data-screen-label="Blatt 03 · Relief" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Das Relief der Erde</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 03</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">H&ouml;henschichten nach Sydow&ndash;Wagnerscher Konvention &mdash; gr&uuml;n das Tiefland, braun das Gebirge &mdash; hier warm ged&auml;mpft; die Tiefenstufen antworten in Petrol.</div>
+  <div style="display:flex;gap:12mm;flex:1;min-height:0">
+    <div style="width:64mm;flex:none">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">H&ouml;henschichten</div>
+      <sc-for list="{{ r_hypso }}" as="c" hint-placeholder-count="9">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:17mm;height:6.8mm;background:{{ c.c }};flex:none"></div>
+          <div style="font-size:10.5px">{{ c.l }}</div>
+        </div>
+      </sc-for>
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px">Tiefenstufen</div>
+      <sc-for list="{{ r_bathy }}" as="c" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:17mm;height:6.8mm;background:{{ c.c }};flex:none"></div>
+          <div style="font-size:10.5px">{{ c.l }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">Reliefsignaturen</div>
+      <div style="column-count:2;column-gap:10mm">
+        <sc-for list="{{ g_relief }}" as="e" hint-placeholder-count="8">
+          <div style="display:flex;align-items:center;gap:9px;padding:3px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+            <div style="width:104px;flex:none">{{ e.el }}</div>
+            <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="p04" data-screen-label="Blatt 04 · Gewässer, Siedlung, Schrift" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Gew&auml;sser, Siedlung, Schrift</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 04</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Die topographische Grundlage jeder Karte. Die Schriftart kodiert die Gattung, die Gr&ouml;&szlig;e den Rang &mdash; man erkennt die Klasse, bevor man das Wort liest.</div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px;break-inside:avoid">Gew&auml;sser</div>
+    <sc-for list="{{ g_gewaesser }}" as="e" hint-placeholder-count="12">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Siedlung</div>
+    <sc-for list="{{ g_siedlung }}" as="e" hint-placeholder-count="7">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Kartenschrift</div>
+    <sc-for list="{{ g_beschriftung }}" as="e" hint-placeholder-count="5">
+      <div style="padding:3.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="overflow:hidden">{{ e.el }}</div>
+        <div style="display:flex;gap:7px;align-items:baseline;margin-top:1px"><span style="font-size:10.5px">{{ e.n }}</span><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,inline)">{{ e.s }}</span></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p05" data-screen-label="Blatt 05 · Grenzen, Staaten, Kartenrahmen" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Grenzen, Staaten, Kartenrahmen</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 05</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Zugeh&ouml;rigkeit geh&ouml;rt an den Rand: Grenzkolorit statt Fl&auml;chenf&uuml;llung h&auml;lt das Kartenbild hell, und mehrere Grenzsysteme st&ouml;ren sich nicht.</div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px;break-inside:avoid">Grenzen</div>
+    <sc-for list="{{ g_grenzen }}" as="e" hint-placeholder-count="6">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Politische &Uuml;bersicht</div>
+    <sc-for list="{{ g_politisch }}" as="e" hint-placeholder-count="5">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Kartenrahmen</div>
+    <sc-for list="{{ g_chrome }}" as="e" hint-placeholder-count="5">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p06" data-screen-label="Blatt 06 · Verkehr" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Verkehr</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 06</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Jede Liniensignatur ist ein Stapel, kein Strich: Casing, Fahrbahn, Aufsatz &mdash; freigestellt gegen alles darunter.</div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px;break-inside:avoid">Stra&szlig;en</div>
+    <sc-for list="{{ g_strassen }}" as="e" hint-placeholder-count="8">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Bahnen</div>
+    <sc-for list="{{ g_bahnen }}" as="e" hint-placeholder-count="7">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">See und Luft</div>
+    <sc-for list="{{ g_seeLuft }}" as="e" hint-placeholder-count="8">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p07" data-screen-label="Blatt 07 · Rohstoffe" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Bergbau und Rohstoffe</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 07</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Formcode: Quadrat = fossile Energie &middot; Dreieck = Erze &middot; Raute = Salze und Minerale &middot; Kreis = Edelmetalle &middot; Ring = nachwachsend. Grundma&szlig; 4,20&nbsp;mm; die Buchstaben sind die chemischen Symbole.</div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <sc-for list="{{ g_rohstoffe }}" as="e" hint-placeholder-count="26">
+      <div style="display:flex;align-items:center;gap:9px;padding:2px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p08" data-screen-label="Blatt 08 · Industrie und Energie" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Industrie und Energie</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 08</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Branchenquadrat 2,8&nbsp;mm mit Mono-K&uuml;rzel, Kraftwerke als Doppelring &mdash; Standorte punkten, Fl&auml;chen bleiben der Landnutzung vorbehalten.</div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px;break-inside:avoid">Industrie</div>
+    <sc-for list="{{ g_industrie }}" as="e" hint-placeholder-count="12">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Energie</div>
+    <sc-for list="{{ g_energie }}" as="e" hint-placeholder-count="9">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p09" data-screen-label="Blatt 09 · Landwirtschaft und Umwelt" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Landwirtschaft, Umwelt, Naturschutz</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 09</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Bodennutzung liegt als Fl&auml;che, Schutz als Rand; Gef&auml;hrdung schraffiert die Fl&auml;che, die sie betrifft.</div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px;break-inside:avoid">Bodennutzung</div>
+    <sc-for list="{{ g_landwirtschaft }}" as="e" hint-placeholder-count="15">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Umwelt und Naturschutz</div>
+    <sc-for list="{{ g_umwelt }}" as="e" hint-placeholder-count="8">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p10" data-screen-label="Blatt 10 · Klima und Vegetation" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Klima und Vegetation</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 10</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 5mm">Isolinien tragen die Temperaturfarbe, Str&ouml;mungen laufen als Pfeilband; die Zonenfarben liegen unter allem als Fl&auml;che.</div>
+  <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 3px">Klimazonen</div>
+  <div style="display:flex;gap:2px;max-width:220mm;margin-bottom:5mm">
+    <sc-for list="{{ r_klima }}" as="c" hint-placeholder-count="7">
+      <div style="flex:1"><div style="height:7mm;background:{{ c.c }}"></div><div style="font-size:8.5px;font-family:'Noto Sans Mono',monospace;font-weight:500;color:#4a4139;margin-top:1px">{{ c.l }}</div></div>
+    </sc-for>
+  </div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <sc-for list="{{ g_klima }}" as="e" hint-placeholder-count="9">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p11" data-screen-label="Blatt 11 · Bevölkerung und Stadt" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Bev&ouml;lkerung und Stadt</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 11</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Menge als Fl&auml;che: proportionale Kreise und die Pflaumen-Rampe. Die Stadt erscheint ab gro&szlig;em Ma&szlig;stab als Grundriss.</div>
+  <div style="flex:1;column-count:3;column-gap:9mm;min-height:0">
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px;break-inside:avoid">Bev&ouml;lkerung</div>
+    <sc-for list="{{ g_bevoelkerung }}" as="e" hint-placeholder-count="4">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+    <div style="break-inside:avoid;padding:3mm 0 1mm">
+      <div style="font-size:10.5px;margin-bottom:2px">Bev&ouml;lkerungsdichte, Ew./km&sup2;</div>
+      <div style="display:flex;gap:2px">
+        <sc-for list="{{ r_dichte }}" as="c" hint-placeholder-count="5">
+          <div style="flex:1"><div style="height:5.5mm;background:{{ c.c }}"></div><div style="font-size:7.5px;font-family:'Noto Sans Mono',monospace;font-weight:500;color:#8b8173;margin-top:1px">{{ c.l }}</div></div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px;break-inside:avoid">Stadtplan</div>
+    <sc-for list="{{ g_stadt }}" as="e" hint-placeholder-count="12">
+      <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+        <div style="width:104px;flex:none">{{ e.el }}</div>
+        <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section class="page" id="p12" data-screen-label="Blatt 12 · Geologie und Tektonik" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Geologie und Tektonik</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 12</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Die Erdzeitalter in ged&auml;mpfter internationaler Konvention; die Tektonik antwortet in Petrol, nur der aktive Vulkan tr&auml;gt Orange.</div>
+  <div style="display:flex;gap:12mm;flex:1;min-height:0">
+    <div style="width:60mm;flex:none">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">Erdzeitalter</div>
+      <sc-for list="{{ r_geologie }}" as="c" hint-placeholder-count="13">
+        <div style="display:flex;align-items:center;gap:7px">
+          <div style="width:14mm;height:4.9mm;background:{{ c.c }};flex:none"></div>
+          <div style="font-size:9.5px">{{ c.l }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">Tektonik und Vulkanismus</div>
+      <div style="column-count:2;column-gap:10mm">
+        <sc-for list="{{ g_geologie }}" as="e" hint-placeholder-count="9">
+          <div style="display:flex;align-items:center;gap:9px;padding:2.5px 0;border-bottom:.5px solid #e5ddce;break-inside:avoid">
+            <div style="width:104px;flex:none">{{ e.el }}</div>
+            <div style="min-width:0"><div style="font-size:11.5px;line-height:1.25">{{ e.n }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px;color:#8b8173;display:var(--atlas-sub,block)">{{ e.s }}</div></div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="p13" data-screen-label="Blatt 13 · Signaturen im Wandel" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Zeichenerkl&auml;rung &middot; Signaturen im Wandel</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 13</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 4mm">Drei Druckverfahren, drei Signaturwelten: was der Kupferstich schraffierte, rastert der Offsetdruck und stapelt der Vektorsatz.</div>
+  <div style="display:grid;grid-template-columns:58mm repeat(3,1fr);gap:0 8mm;align-items:end;padding-bottom:2px;border-bottom:1.5px solid #2a231c">
+    <div></div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.05em;color:#4a4139">{{ ep1 }}</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.05em;color:#4a4139">{{ ep2 }}</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.05em;color:#4a4139">{{ ep3 }}</div>
+  </div>
+  <sc-for list="{{ historie }}" as="r" hint-placeholder-count="5">
+    <div style="display:grid;grid-template-columns:58mm repeat(3,1fr);gap:0 8mm;align-items:center;border-bottom:.5px solid #e5ddce;padding:5px 0">
+      <div><div style="font-weight:600;font-size:12.5px">{{ r.thema }}</div><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;color:#8b8173;line-height:1.5;display:var(--atlas-sub,block)">{{ r.sub }}</div></div>
+      <div>{{ r.e1 }}</div>
+      <div>{{ r.e2 }}</div>
+      <div>{{ r.e3 }}</div>
+    </div>
+  </sc-for>
+</section>
+
+<section class="page" id="p14" data-screen-label="Blatt 14 · Kolophon und QGIS" style="position:relative;box-sizing:border-box;padding:9mm 12mm 8mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Werkstatt &middot; QGIS, QField, Paletten</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 14</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 6mm">Symbologie ist Quelltext: was hier gedruckt steht, liegt daneben als Datei &mdash; diffbar, importierbar, reproduzierbar.</div>
+  <div style="display:flex;gap:12mm;flex:1;min-height:0">
+    <div style="flex:1.3;min-width:0">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">QGIS 4.2</div>
+      <ul style="margin:0;padding-left:14px;font-size:10.5px;line-height:1.5">
+        <li style="margin-bottom:3px">Je Layer eine <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">.qml</span>, Signaturen als Symbol-Bibliothek (XML), Paletten als <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">.gpl</span> &mdash; Import unter Einstellungen &rarr; Optionen &rarr; Farben.</li>
+        <li style="margin-bottom:3px">Alle Ma&szlig;e in Millimetern setzen, nie in Karteneinheiten; f&uuml;r A0 gegen&uuml;ber A3 von Hand etwa verdoppeln.</li>
+        <li style="margin-bottom:3px">Schriften lokal installieren (<span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">fonts-sil-gentiumplus, fonts-noto-mono</span>); die Hanf-Marker liegen als SVG bei (<span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">atlas/brokkoli.svg</span>, <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">atlas/hanfblatt.svg</span>; fill parametrisierbar).</li>
+        <li style="margin-bottom:3px">CRS: EPSG:3035 f&uuml;r fl&auml;chentreue &Uuml;bersichten, 25833 f&uuml;r Brandenburg, sonst die Landeszone der Daten; 3857 nur am Bildschirm.</li>
+        <li>Mischmodi (Schummerung: Multiplizieren) vor Vektordruck und Feldpaket abschalten &mdash; sie rasterisieren den Export.</li>
+      </ul>
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px">QField &raquo;Coral Sea&laquo;</div>
+      <ul style="margin:0;padding-left:14px;font-size:10.5px;line-height:1.5">
+        <li style="margin-bottom:3px">GeoPackage statt Shapefile; genau ein Erfassungslayer schreibbar, alles andere gesperrt.</li>
+        <li style="margin-bottom:3px">Auswahlfelder als ValueMap, h&auml;ufigster Wert oben; Fotos relativ (<span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">DCIM/</span>), Zeitstempel im Namen.</li>
+        <li>Basiskarte vor dem Packen beschneiden; die ged&auml;mpften Kachel-Filter kosten dort Bildrate &mdash; drau&szlig;en gewinnt die nackte Karte.</li>
+      </ul>
+    </div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">GIMP- und QGIS-Paletten</div>
+      <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;line-height:1.9;color:#4a4139">
+        atlas/paletten/atlas-grund.gpl<br>
+        atlas/paletten/atlas-hypsometrie.gpl<br>
+        atlas/paletten/atlas-landnutzung.gpl<br>
+        atlas/paletten/atlas-klima.gpl<br>
+        atlas/paletten/atlas-geologie.gpl<br>
+        atlas/paletten/atlas-bevoelkerung.gpl
+      </div>
+      <div style="font-size:10.5px;line-height:1.5;margin-top:2mm">Eine Palette je Kartenfamilie, nicht eine gro&szlig;e: eine Themenkarte braucht ihre Rampe vollst&auml;ndig und sonst wenig.</div>
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:5mm 0 4px">N&auml;chste Stufen</div>
+      <div style="font-size:10.5px;line-height:1.5">II &mdash; Musterkarte Rum&auml;nien mit Bahn- und Stra&szlig;ennetz.<br>III &mdash; <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">.qml</span>, <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px">symbole.xml</span> und idempotentes PyQGIS-Skript.</div>
+    </div>
+    <div style="width:58mm;flex:none;display:flex;flex-direction:column">
+      <div style="font-size:12px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:0 0 4px">Kolophon</div>
+      <div style="font-size:10px;line-height:1.6;color:#4a4139">Sternprodukt-Atlas, Zeichenerkl&auml;rung. 14 Blatt A4 quer. Vorbild: die Zeichenerkl&auml;rung des Diercke Weltatlas (Westermann, seit 1883) &mdash; Struktur zitiert, Form eigen. Schrift: Gentium Book Plus und Noto Sans Mono. Erstellt August 2026.</div>
+      <div style="margin-top:auto">
+        <div style="font-size:15px">&#8902;<sub style="font-size:9px">&#8463;</sub></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</doc-page>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;papier&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;weiß&quot;,&quot;warm&quot;],&quot;default&quot;:&quot;weiß&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Papier&quot;},&quot;masse&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Maßangaben (Mono-Zeilen) zeigen&quot;},&quot;hanf&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Brokkoli&quot;,&quot;Hanfblatt (klassisch)&quot;,&quot;ℏ (h-quer)&quot;],&quot;default&quot;:&quot;Brokkoli&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hanf-Signatur&quot;}}">
+class Component extends DCLogic {
+  state = { m: null, F: null };
+  async componentDidMount() {
+    try {
+      const [m, f] = await Promise.all([import('./atlas/signaturen.js'), import('./atlas/farben.js')]);
+      this.setState({ m, F: f.F });
+    } catch (e) { console.error('Signaturenkatalog konnte nicht geladen werden:', e); }
+  }
+  mm(v) { return v * 96 / 25.4; }
+  uid() { this._u = (this._u || 0) + 1; return 'sp' + this._u; }
+  patDef(u, p) {
+    const E = React.createElement, mm = this.mm.bind(this);
+    const P = (w, h, kids, rot) => E('pattern', { id: u, width: w, height: h, patternUnits: 'userSpaceOnUse', patternTransform: rot ? 'rotate(45)' : undefined }, kids);
+    switch (p.type) {
+      case 'dots': { const g = mm(p.gap || 2.8); return P(g, g, E('circle', { cx: g / 2, cy: g / 2, r: mm(p.r || .35), fill: p.c })); }
+      case 'hatch': { const g = mm(2.2); return P(g, g, E('line', { x1: 0, y1: 0, x2: 0, y2: g, stroke: p.c, strokeWidth: mm(.32), opacity: p.o || 1 }), true); }
+      case 'vlines': { const g = mm(p.gap || 2.6); return P(g, 20, E('line', { x1: g / 2, y1: 0, x2: g / 2, y2: 20, stroke: p.c, strokeWidth: mm(.3) })); }
+      case 'hlines': { const h = mm(p.gap || 2.1), w = mm(4); return P(w, h, E('line', { x1: mm(.3), y1: h / 2, x2: mm(2.7), y2: h / 2, stroke: p.c, strokeWidth: mm(.3) })); }
+      case 'marsh': { const w = mm(6), h = mm(3.4); return P(w, h, [E('line', { key: 1, x1: mm(.5), y1: h * .35, x2: mm(3.1), y2: h * .35, stroke: p.c, strokeWidth: mm(.28) }), E('line', { key: 2, x1: mm(1.2), y1: h * .68, x2: mm(2.4), y2: h * .68, stroke: p.c, strokeWidth: mm(.28) })]); }
+      case 'plus': { const s = mm(4.4); return P(s, s, [E('line', { key: 1, x1: s / 2, y1: s / 2 - mm(1), x2: s / 2, y2: s / 2 + mm(1), stroke: p.c, strokeWidth: mm(.3) }), E('line', { key: 2, x1: s / 2 - mm(.7), y1: s / 2 - mm(.4), x2: s / 2 + mm(.7), y2: s / 2 - mm(.4), stroke: p.c, strokeWidth: mm(.3) })]); }
+      case 'arcs': { const w = mm(4.4), h = mm(3.2); return P(w, h, E('path', { d: 'M' + mm(.4) + ' ' + (h * .62) + ' q ' + mm(1.5) + ' ' + (-mm(1.7)) + ' ' + mm(3) + ' 0', fill: 'none', stroke: p.c, strokeWidth: mm(.3) })); }
+      case 'glyph': { const s = mm(5.4); return P(s, s, E('text', { x: s / 2, y: s / 2 + 3.5, textAnchor: 'middle', fontFamily: p.f, fontSize: 10.5, fill: p.c }, p.t)); }
+    }
+  }
+  lineEls(e) {
+    const E = React.createElement, mm = this.mm.bind(this);
+    const d = e.straight ? 'M2 13 H102' : 'M2 16 C28 8 62 20 102 11';
+    const out = e.layers.map((L, i) => E('path', { key: 'l' + i, d, fill: 'none', stroke: L.c, strokeWidth: mm(L.w), strokeDasharray: L.dash ? L.dash.map(v => mm(v)).join(' ') : undefined, strokeLinecap: L.cap || 'butt', opacity: L.o }));
+    if (e.ticks) {
+      const t = e.ticks, st = mm(t.every), len = mm(t.len);
+      for (let x = 7; x <= 98; x += st) {
+        const xs = t.pair ? [x - mm(t.pair) / 2, x + mm(t.pair) / 2] : [x];
+        for (const xx of xs) out.push(E('line', { key: 't' + xx.toFixed(1), x1: xx, y1: 13 - len / 2, x2: xx, y2: 13 + len / 2, stroke: t.c, strokeWidth: mm(t.w) }));
+      }
+    }
+    return out;
+  }
+  shapeEls(e, cx, cy) {
+    const E = React.createElement, mm = this.mm.bind(this), out = [];
+    const r = mm((e.size || 2) / 2), swd = mm(e.sw || .5);
+    const tri = 'M' + cx + ' ' + (cy - r * 1.15) + ' L' + (cx - r) + ' ' + (cy + r * .8) + ' L' + (cx + r) + ' ' + (cy + r * .8) + ' z';
+    const dia = 'M' + cx + ' ' + (cy - r * 1.15) + ' L' + (cx + r * .85) + ' ' + cy + ' L' + cx + ' ' + (cy + r * 1.15) + ' L' + (cx - r * .85) + ' ' + cy + ' z';
+    switch (e.shape) {
+      case 'dot': out.push(E('circle', { key: 's', cx, cy, r, fill: e.c })); break;
+      case 'circle': out.push(E('circle', { key: 's', cx, cy, r, fill: e.c, stroke: '#2a231c', strokeWidth: mm(.13) })); break;
+      case 'ring': out.push(E('circle', { key: 's', cx, cy, r: Math.max(r - swd / 2, 1), fill: '#fdfdfd', stroke: e.c, strokeWidth: swd })); break;
+      case 'doublering': out.push(E('circle', { key: 's1', cx, cy, r, fill: 'none', stroke: e.c, strokeWidth: mm(.4) }), E('circle', { key: 's2', cx, cy, r: r * .55, fill: 'none', stroke: e.c, strokeWidth: mm(.3) })); break;
+      case 'square': out.push(E('rect', { key: 's', x: cx - r, y: cy - r, width: 2 * r, height: 2 * r, fill: e.c })); break;
+      case 'squareOpen': out.push(E('rect', { key: 's', x: cx - r, y: cy - r, width: 2 * r, height: 2 * r, fill: 'none', stroke: e.c, strokeWidth: mm(.5) })); break;
+      case 'triangle': out.push(E('path', { key: 's', d: tri, fill: e.c })); break;
+      case 'triangleOpen': out.push(E('path', { key: 's', d: tri, fill: 'none', stroke: e.c, strokeWidth: mm(.5) })); break;
+      case 'diamond': out.push(E('path', { key: 's', d: dia, fill: e.c })); break;
+      case 'diamondOpen': out.push(E('path', { key: 's', d: dia, fill: 'none', stroke: e.c, strokeWidth: mm(.5) })); break;
+    }
+    if (e.dot && e.shape !== 'dot') out.push(E('circle', { key: 'd', cx, cy, r: Math.max(1.1, r * .26), fill: e.c }));
+    if (e.glyph) {
+      const g = e.glyph;
+      out.push(E('text', { key: 'g', x: cx, y: cy + (g.fs || 8) * .36 + (g.dy || 0), textAnchor: 'middle', fontFamily: g.f || "'Noto Sans Mono',monospace", fontWeight: 500, fontSize: g.fs || 8, fill: g.c || '#2a231c' }, g.t));
+    }
+    return out;
+  }
+  areaEls(e) {
+    const E = React.createElement, mm = this.mm.bind(this), out = [];
+    out.push(E('rect', { key: 'f', x: 2, y: 2.5, width: 100, height: 21, fill: e.fill }));
+    if (e.pat) {
+      const u = this.uid(), def = this.patDef(u, e.pat);
+      out.push(E('defs', { key: 'pd' }, def), E('rect', { key: 'pr', x: 2, y: 2.5, width: 100, height: 21, fill: 'url(#' + u + ')' }));
+    }
+    if (e.border) {
+      const b = e.border;
+      out.push(E('rect', { key: 'b', x: 2, y: 2.5, width: 100, height: 21, fill: 'none', stroke: b.c, strokeWidth: mm(b.w), strokeDasharray: b.dash ? b.dash.map(v => mm(v)).join(' ') : undefined }));
+    }
+    return out;
+  }
+  sw(e) {
+    const E = React.createElement, mm = this.mm.bind(this);
+    if (e.k === 'text') return E('div', { style: Object.assign({ whiteSpace: 'nowrap' }, e.st) }, e.t);
+    let kids = [];
+    if (e.k === 'line') kids = this.lineEls(e);
+    else if (e.k === 'area') kids = this.areaEls(e);
+    else if (e.k === 'svg') kids = [E('g', { key: 'r', dangerouslySetInnerHTML: { __html: e.raw } })];
+    else if (e.k === 'point') {
+      const hasLabel = e.label && !e.label.hide;
+      const cx = hasLabel ? 26 : 52;
+      kids = this.shapeEls(e, cx, 13);
+      if (hasLabel) {
+        const r = mm((e.size || 2) / 2);
+        kids.push(E('text', { key: 'lb', x: cx + r + 8, y: 16.4, fontFamily: "'Noto Sans Mono',monospace", fontWeight: 500, fontSize: 9.5, fill: '#2a231c' }, e.label.t));
+      }
+    }
+    return E('svg', { viewBox: '0 0 104 26', width: 104, height: 26, style: { display: 'block', overflow: 'visible' } }, kids);
+  }
+  cell(raw) {
+    return React.createElement('svg', { viewBox: '0 0 104 40', width: 172, height: 66, style: { display: 'block' } },
+      React.createElement('g', { dangerouslySetInnerHTML: { __html: raw } }));
+  }
+  renderVals() {
+    const p = this.props;
+    const vals = {
+      papierHex: (p.papier ?? 'weiß') === 'warm' ? '#f1e9d8' : '#fdfdfd',
+      subDisplay: (p.masse ?? true) ? 'block' : 'none',
+    };
+    const m = this.state.m, F = this.state.F;
+    if (!m || !F) return vals;
+    this._u = 0;
+    const hvSel = p.hanf ?? 'Brokkoli';
+    const hvKey = hvSel.indexOf('blatt') >= 0 || hvSel.indexOf('Blatt') >= 0 ? 'hanfblatt' : (hvSel.indexOf('\u210f') >= 0 ? 'hquer' : 'brokkoli');
+    const hraw = m.hanfRaws ? m.hanfRaws(hvKey) : null;
+    for (const [k, arr] of Object.entries(m.KATALOG)) vals['g_' + k] = arr.map(e => ({ n: e.n, s: e.s || '', el: this.sw(e.hv && hraw ? Object.assign({}, e, { raw: hraw[e.hv] }) : e) }));
+    for (const [k, arr] of Object.entries(m.RAMPEN)) vals['r_' + k] = arr;
+    vals.historie = m.HISTORIE.map(r => ({ thema: r.thema, sub: r.sub, e1: this.cell(r.epochen[0]), e2: this.cell(r.epochen[1]), e3: this.cell(r.epochen[2]) }));
+    vals.ep1 = m.EPOCHEN[0]; vals.ep2 = m.EPOCHEN[1]; vals.ep3 = m.EPOCHEN[2];
+    const fam = (name, t, b, d) => ({ name, chips: [t, b, d].map(c => ({ c, l: c })) });
+    vals.familien = [
+      fam('Orange — Wirtschaft, Verkehr, warme Signale', F.orangeTint, F.orange, F.orangeDeep),
+      fam('Petrol — Gewässer, Tektonik, kühler Gegenpol', F.petrolTint, F.petrol, F.petrolDeep),
+      fam('Oliv — Vegetation, Schutzgebiete, Hanf', F.olivTint, F.oliv, F.olivDeep),
+      fam('Pflaume — Bevölkerung, Grenzen', F.pflaumeTint, F.pflaume, F.pflaumeDeep),
+      { name: 'Ocker — Edelmetalle, Trockenes', chips: [{ c: F.ocker, l: F.ocker }, { c: F.ockerDeep, l: F.ockerDeep }] },
+      { name: 'Bleistift — Technik, Netz, Gradnetz', chips: [{ c: F.bleistift, l: F.bleistift }] },
+    ];
+    vals.grund = [
+      { c: F.papier, l: 'Papier ' + F.papier }, { c: F.papierWarm, l: 'Papier warm ' + F.papierWarm },
+      { c: F.tinte, l: 'Tinte ' + F.tinte }, { c: F.umriss, l: 'Umriss ' + F.umriss },
+      { c: F.dim, l: 'Kontext gedimmt ' + F.dim }, { c: F.bleistift, l: 'Bleistift ' + F.bleistift },
+      { c: F.konflikt, l: 'Konflikt ' + F.konflikt },
+    ];
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

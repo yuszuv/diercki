@@ -1,0 +1,40 @@
+/* Sternprodukt — Typografie.
+   Gentium (Plus) für alles Gelesene, Noto Sans Mono für alles Maßliche und Maschinelle:
+   Beträge, Koordinaten, Maßstäbe, EPSG, FLIK, Dateinamen, Code. Beide selbstgehostet (fonts.css).
+   --font-symbol trägt die Zeichen, die Gentium nicht hat (⋆ ∗ ∘ ⊗ ⊕ ⋅ ℏ ∈ ↪ ⋈ ⨝ ≀ Ꙩ).
+   Sie kommen aus den selbstgehosteten Subsets MATH und CYRILLIC-EXT von Noto Serif —
+   benannt, serif und offline verfügbar, nicht mehr aus dem Zufall des Betriebssystems.
+   Die Systemkette dahinter ist nur noch Reserve. Weiterhin nie einziger Träger einer Information.
+   Vorschau: Karten „Schriften & Größenskala" und „Zeichensatz statt Icon-Set". */
+:root {
+
+  --font-serif: "Gentium Book Plus","Noto Serif",Georgia,serif;
+  /* Fließtext, Überschriften, Marginalien */
+  --font-mono: "Noto Sans Mono",ui-monospace,Menlo,monospace;
+  /* tabellarische Ziffern — Spalten fluchten ohne Tabulator */
+  --base-font-size: 17px;
+  /* Grundgröße; darunter wird Gentium auf dem Schirm dünn */
+  --small-font-size: calc(var(--base-font-size)*0.875);
+  /* 14.9px — Bildunterschrift, Fußnote, Meta */
+  --base-line-height: 1.55;
+  /* auf max. 60ch Zeilenlänge gerechnet */
+  --base-font-weight: 400;
+  --weight-light: 400;
+  /* Gentium hat kein 300 — der Site-Title läuft auf Regular */
+  --weight-bold: 600;
+  /* Gentium (Plus) hat SemiBold; 700 bleibt Sonderfällen vorbehalten */
+  --h1-size: clamp(27px,6vw,38px);
+  /* Seitentitel — skaliert mit dem Viewport; 38px ist die im System gesetzte Größe, 27px die Untergrenze auf dem Telefon */
+  --h2-size: 1.35rem;
+  /* Abschnitt */
+  --h3-size: 1.1rem;
+  /* Unterabschnitt; darunter wird nicht mehr gegliedert */
+  --heading-tracking: -0.02em;
+  /* Enge nur für große Grade — im Fließtext wäre sie schädlich */
+  --sitetitle-tracking: -1px;
+  --code-font: 12.5px/1.5 "Noto Sans Mono",ui-monospace,Menlo,monospace;
+  /* Kurzform für Metadaten- und Code-Zeilen */
+  --font-symbol: "Gentium Book Plus","Noto Serif","DejaVu Serif","DejaVu Sans","FreeSerif","Segoe UI Symbol","Arial Unicode MS",serif; /* @kind font */
+  --font-math: "Noto Serif","Latin Modern Math","Cambria Math",serif; /* @kind font */
+  /* Einzelglyphen im Satz. ECHTE Formeln laufen über MathJax, das eigene TeX-Fonts mitbringt — s. Karte „Zeichensatz" */
+}

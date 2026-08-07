@@ -1,0 +1,13 @@
+/* Sternprodukt — Syntax-Highlighting.
+   Pygments-kompatible Klassennamen (pygmentize -f html), damit generierter
+   Code ohne Umschreiben passt. Farben aus der Marken-Palette, keine neuen.
+   Sparsam: sechs Register, mehr braucht kein Beispiel im Handbuch. */
+.hl{background:var(--surface-code);border:1px solid var(--code-border);padding:16px;overflow:auto;font:var(--code-font);margin:0 0 var(--spacing-unit)}
+.hl .c,.hl .c1,.hl .cm,.hl .cs{color:#8b8173;font-style:italic}
+.hl .k,.hl .kd,.hl .kn,.hl .kp,.hl .kr,.hl .kt,.hl .ow{color:#5a3a52;font-weight:500}
+.hl .s,.hl .s1,.hl .s2,.hl .sb,.hl .sd,.hl .se,.hl .si,.hl .sr,.hl .sx{color:#6f7538}
+.hl .no,.hl .nc,.hl .nn,.hl .vi,.hl .vg,.hl .vc{color:#2f6f74}
+.hl .nf,.hl .nd,.hl .nb,.hl .bp{color:#cb5a2a}
+.hl .m,.hl .mi,.hl .mf,.hl .mh{color:#a8431e}
+.hl .o,.hl .p,.hl .nt{color:var(--ink)}
+.hl .gp{color:#8b8173;user-select:none}

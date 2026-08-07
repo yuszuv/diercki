@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"name": "SELECT",
+"xy_coordinate_resolution": 0.0001,
+"features": [
+{"type":"Feature","properties":{"name":"Ialomița","rang":9},"geometry":null},
+{"type":"Feature","properties":{"name":"Southern Bug","rang":8},"geometry":null},
+{"type":"Feature","properties":{"name":"Olt","rang":8},"geometry":null},
+{"type":"Feature","properties":{"name":"Mureș","rang":8},"geometry":null},
+{"type":"Feature","properties":{"name":"Drina","rang":8},"geometry":null},
+{"type":"Feature","properties":{"name":"Morava","rang":7},"geometry":null},
+{"type":"Feature","properties":{"name":"Sava","rang":7},"geometry":null},
+{"type":"Feature","properties":{"name":"Prut","rang":7},"geometry":null},
+{"type":"Feature","properties":{"name":null,"rang":7},"geometry":null},
+{"type":"Feature","properties":{"name":"Dniester","rang":6},"geometry":null},
+{"type":"Feature","properties":{"name":"Dniester","rang":6},"geometry":null},
+{"type":"Feature","properties":{"name":"Tisza","rang":6},"geometry":null},
+{"type":"Feature","properties":{"name":"Tisa","rang":6},"geometry":null},
+{"type":"Feature","properties":{"name":"Danube","rang":2},"geometry":null},
+{"type":"Feature","properties":{"name":"Bratul Chillia","rang":2},"geometry":null},
+{"type":"Feature","properties":{"name":"Bratul Sfântu Gheorghe","rang":2},"geometry":null},
+{"type":"Feature","properties":{"name":"Bratul Sulina","rang":2},"geometry":null},
+{"type":"Feature","properties":{"name":"Borcea","rang":2},"geometry":null}
+]
+}

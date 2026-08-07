@@ -1,0 +1,31 @@
+/* Sternprodukt — element base, mirrors orbit app.css reset+typography */
+*,::after,::before{border:0 solid #d9d9e3;box-sizing:border-box}
+body{margin:0;font:var(--base-font-weight) var(--base-font-size)/var(--base-line-height) var(--font-serif);color:var(--text-body);background-color:var(--surface-page);font-feature-settings:"kern" 1;font-kerning:normal}
+h1,h2,h3,h4,h5,h6{font-weight:var(--weight-bold);letter-spacing:var(--heading-tracking);margin:0 0 var(--spacing-half)}
+h1{font-size:var(--h1-size)}
+h2{font-size:var(--h2-size);margin:var(--spacing-unit) 0 var(--spacing-half)}
+h3{font-size:var(--h3-size);margin:var(--spacing-unit) 0 var(--spacing-half)}
+p{margin:0 0 1.25em;text-wrap:pretty;hyphens:auto}
+a{color:var(--link-color);text-decoration:underline;text-underline-offset:3px;transition:text-decoration-thickness var(--transition-fast)}
+a:hover{text-decoration-thickness:2.5px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--border-emphasis);outline-offset:2px}
+address{font-style:normal}
+hr{border:0;border-top:var(--border-rule);margin:20px 0}
+hr.hr-thin{border-top:var(--border-rule-thin)}
+pre{background-color:var(--surface-code);border:1px solid var(--code-border);padding:16px;overflow:auto;max-width:100%;max-height:480px;font:var(--code-font);margin:0 0 var(--spacing-unit)}
+code{font-family:var(--font-mono)}
+img{max-width:100%;vertical-align:middle}
+figcaption{font-size:0.85rem;font-style:italic;color:var(--text-caption);margin:6px 0 0}
+/* ---- Die zwei Breakpoints. Mehr braucht eine einspaltige Seite nicht.
+       @media kann --on-palm/--on-laptop nicht lesen; die Literale sind dort doppelt geführt. ---- */
+@media (max-width:800px){
+  pre{font-size:11.5px}
+  figure{margin-left:0;margin-right:0}
+}
+@media (max-width:600px){
+  h2{margin-top:var(--spacing-half)}
+  h3{margin-top:var(--spacing-half)}
+  pre{padding:12px}
+  hr{margin:var(--spacing-half) 0}
+  figcaption{font-size:0.8rem}
+}

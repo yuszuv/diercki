@@ -1,0 +1,18 @@
+GIMP Palette
+Name: Sternprodukt-Atlas Landnutzung & Stadt
+Columns: 3
+# Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# QGIS: Einstellungen → Optionen → Farben → Palette importieren.
+231 220 171	Ackerland (#e7dcab)
+217 185 110	Sonderkulturen, Dauerkulturen (#d9b96e)
+183 205 180	Nassreis (#b7cdb4)
+204 213 169	Grünland, Weide (#ccd5a9)
+223 223 196	Extensive Weide, Steppe (#dfdfc4)
+169 186 139	Wald, Forstwirtschaft (#a9ba8b)
+176 154  99	Tropische Plantage (#b09a63)
+154 171  99	Hanfanbau (#9aab63)
+232 223 204	Ödland, Wüste (#e8dfcc)
+207 212 197	Tundra, Kältesteppe (#cfd4c5)
+221 211 196	Geschlossen bebaut (#ddd3c4)
+234 227 215	Aufgelockert bebaut (#eae3d7)
+211 209 218	Industrie- und Gewerbefläche (#d3d1da)

@@ -1,0 +1,21 @@
+GIMP Palette
+Name: Sternprodukt-Atlas Hypsometrie & Bathymetrie
+Columns: 3
+# Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# QGIS: Einstellungen → Optionen → Farben → Palette importieren.
+234 231 224	Gletscher, Inlandeis (#eae7e0)
+125  90  78	über 5000 m (#7d5a4e)
+161 112  75	3000–5000 m (#a1704b)
+185 140  92	2000–3000 m (#b98c5c)
+207 174 116	1000–2000 m (#cfae74)
+222 201 144	500–1000 m (#dec990)
+212 209 162	200–500 m (#d4d1a2)
+188 202 154	0–200 m (#bcca9a)
+157 184 132	Senke unter NN (#9db884)
+220 231 228	Schelf 0–200 m (#dce7e4)
+189 212 211	200–2000 m (#bdd4d3)
+152 188 190	2000–4000 m (#98bcbe)
+113 160 167	4000–6000 m (#71a0a7)
+ 77 130 141	6000–8000 m (#4d828d)
+ 53  99 111	Tiefseegraben über 8000 m (#35636f)
+ 53 112 123	Gewässerlinie / Küste (#35707b)

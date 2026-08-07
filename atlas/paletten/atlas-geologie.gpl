@@ -1,0 +1,18 @@
+GIMP Palette
+Name: Sternprodukt-Atlas Geologie (Erdzeitalter)
+Columns: 4
+# Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# QGIS: Einstellungen → Optionen → Farben → Palette importieren.
+239 230 191	Quartär (#efe6bf)
+227 207 141	Neogen (#e3cf8d)
+217 182 120	Paläogen (#d9b678)
+169 194 149	Kreide (#a9c295)
+143 176 184	Jura (#8fb0b8)
+169 139 166	Trias (#a98ba6)
+181 127 102	Perm (#b57f66)
+141 138 127	Karbon (#8d8a7f)
+171 143 107	Devon (#ab8f6b)
+154 169 141	Silur (#9aa98d)
+111 143 134	Ordovizium (#6f8f86)
+107 133 119	Kambrium (#6b8577)
+199 143 128	Präkambrium (#c78f80)

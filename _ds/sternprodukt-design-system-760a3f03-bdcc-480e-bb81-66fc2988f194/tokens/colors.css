@@ -1,0 +1,84 @@
+/* Sternprodukt — colors. Elegante 1970er-BRD-Interpretation des orbit-Ausgangsmaterials.
+   Bewusst schlank: zwei Hauptfarben (Orange = Akzent, Petrol = Gegenpol), jeweils als
+   Tint/Base/Deep; eine warme Neutral-Skala von Papier bis Tinte; Rot nur für Fehler.
+   Keine eigenständigen Zusatz-Hues — „Varianten" sind Schattierungen der Hauptfarben. */
+:root {
+
+  /* ---- Neutrale: Hintergrund → Vordergrund (warm) ---- */
+  --paper: #fdfdfd;
+  /* Grund / Bildschirm */
+  --paper-white: #ffffff;
+  /* reines Weiß — Print (Rechnung, Brief) */
+  --surface: #f7f4ee;
+  /* leicht abgesetzte Fläche (Karten) */
+  --surface-sunken: #f1e9d8;
+  /* vertiefte/​warme Fläche (Code, Tabellen) */
+  --grey-light: #e5ddce;
+  /* Haarlinien, Rahmen */
+  --grey: #8b8173;
+  /* Sekundärtext (warmes Taupe) */
+  --grey-dark: #4a4139;
+  /* Umbra */
+  --ink: #2a231c;
+  /* Vordergrund — warmes Espresso-Schwarz */
+  --surface-ink: #4a443c;
+  /* dunkle Fläche (Deck) — monochrom, aufgehellt */
+  --ink-pencil: #434462;
+  /* Blauviolett der Bleistift-Zeichnungen (Artefakt, unverändert) */
+
+  /* ---- Hauptfarbe 1: Orange (Akzent) — Tint / Base / Deep ---- */
+  --orange-bg: #f6e6da;
+  /* heller Tint — Flächen, Badges */
+  --orange: #cb5a2a;
+  /* BRD-Orange, gedämpft */
+  --orange-deep: #a8431e;
+  /* Hover / Press / dunkler Text */
+
+  /* ---- Hauptfarbe 2: Petrol (Gegenpol) — Tint / Base / Deep ---- */
+  --petrol-bg: #dfeae9;
+  /* heller Tint */
+  --petrol: #2f6f74;
+  /* gedämpftes Petrol/Teal */
+  --petrol-deep: #245257;
+  /* Hover / Press */
+
+  /* ---- Stütztöne: runden den Farbkreis aus (Oliv ~110°, Pflaume ~320°) — sparsam ---- */
+  --olive: #6f7538;
+  /* Avocado/Oliv */
+  --olive-bg: #e9efdd;
+  --plum: #5a3a52;
+  /* Aubergine/Pflaume */
+  --plum-bg: #ece2ea;
+
+  /* ---- Fehler (die einzige zusätzliche Semantik) ---- */
+  --red: #a83a28;
+  /* Backstein/Oxblood — klar vom Orange getrennt */
+  --red-bg: #f2e0da;
+
+  /* ---- Code-Flächen (Alias auf die warme Neutral-Skala) ---- */
+  --code-bg: var(--surface-sunken);
+  --code-border: #ddd1bb;
+
+  /* ---- Semantische Aliase: im Zweifel diese verwenden, nicht die Basiswerte.
+       Sie sagen, WOFÜR eine Farbe steht, und überleben eine Palettenänderung ---- */
+  --text-body: var(--ink);
+  --text-muted: var(--grey);
+  --text-caption: #7c7061;
+  /* Bildunterschrift — eine Spur wärmer als --grey */
+  --text-inverse: #f6f1e6;
+  /* Schrift auf --surface-ink; nie reines Weiß */
+  --surface-page: var(--paper);
+  --surface-card: var(--surface);
+  --surface-code: var(--surface-sunken);
+  --surface-muted: var(--grey-light);
+  --border-hairline: var(--grey-light);
+  --border-emphasis: var(--grey-dark);
+  --link-color: var(--ink);
+  /* Links tragen Textfarbe — erkennbar an der Unterstreichung, nicht an der Farbe */
+  --link-hover: var(--orange);
+  /* erst beim Hover Farbe, dazu 2.5px Unterstreichung */
+  --accent: var(--orange);
+  --accent-hover: var(--orange-deep);
+  --error: var(--red);
+  --error-bg: var(--red-bg);
+}

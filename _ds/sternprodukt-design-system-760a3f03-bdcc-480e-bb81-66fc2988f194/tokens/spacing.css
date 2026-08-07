@@ -1,0 +1,34 @@
+/* Sternprodukt — Raster & Layout.
+   Ein Wert, vier Ableitungen: jeder Abstand im System ist --spacing-unit oder ein glatter
+   Teil davon. Wer einen Zwischenwert braucht, hat meist ein Layout- und kein Abstandsproblem.
+   ZWEI Breakpoints, mehr nicht — eine Spalte kann nur zweimal die Meinung ändern.
+   Sie stehen als Zahl hier UND als Regel in base.css; @media kann keine Custom Properties lesen,
+   die Literale 600px/800px sind deshalb bewusst doppelt geführt.
+   Vorschau: Karten „Raster, Linien & Schatten" und „Breakpoints & Ränder". */
+:root {
+
+  --spacing-unit: 30px;
+  /* Grundeinheit — Blockabstand, Sektionsabstand, Seitenrand */
+  --spacing-half: 15px;
+  /* Absatz zu Absatz, Label zu Feld */
+  --spacing-quarter: 7.5px;
+  /* engster zulässiger Abstand — Zeile zu Zeile in Metadaten */
+  --gap-card: 24px;
+  /* Fuge zwischen Karten/Listeneinträgen; einzige Ausnahme vom Raster */
+  --content-width: 800px;
+  /* die eine zentrierte Textspalte — nie zwei nebeneinander */
+  --card-image-size: 48px;
+  /* quadratisches Mini-Thumbnail in Listenzeilen */
+  --thumb-width: 150px;
+  /* img.newspaper im Listen-Eintrag */
+  --thumb-width-card: 200px;
+  /* img.newspaper innerhalb einer Karte */
+  --page-gutter: clamp(16px,5vw,30px); /* @kind spacing */
+  /* Seitenrand — fluide. Auf 360px bleiben 328px Textbreite statt 300px;
+                                       ab 600px Viewport ist er identisch mit --spacing-unit. Der EINZIGE Abstand,
+                                       der mitwächst: Blockabstände bleiben fest, sonst zerfällt der Rhythmus. */
+  --on-palm: 600px;
+  /* Breakpoint 1: darunter einspaltig, Marginalien unter den Text, Bild volle Breite */
+  --on-laptop: 800px;
+  /* Breakpoint 2: ab hier greift --content-width voll aus */
+}

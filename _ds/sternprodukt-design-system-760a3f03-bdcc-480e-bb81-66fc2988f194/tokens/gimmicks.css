@@ -1,0 +1,9 @@
+/* Sternprodukt — 137-Kult: die vier kanonischen Setzweisen des Zeichens.
+   Schriftgröße bestimmt der Kontext; es gilt die Ein-Gimmick-Regel: genau eines pro Seite. */
+@keyframes sp-blink{0%,72%,100%{opacity:1}86%{opacity:0.38}}
+.sp-137-blink{font-weight:500;color:var(--orange);animation:sp-blink 3.2s ease-in-out infinite} /* Bestand: orange, klein, Footer / Laufschrift-Fracht */
+.sp-137-alpha{font-family:var(--font-serif);font-style:italic;color:var(--ink)} /* Kehrwert — Markup: α<sup>−1</sup>, für Fließtext */
+.sp-137-alpha sup{font-size:0.62em}
+.sp-137-formel{font-family:var(--font-serif);font-style:italic;color:var(--ink)} /* Weltuhr-Formel: π + π² + 4π³ — Kolophon/Impressum */
+.sp-137-zimmer{display:inline-block;border:1px solid var(--grey-dark);padding:3px 12px;font-family:var(--font-mono);letter-spacing:0.12em;color:var(--ink)} /* Türschild — Rotkreuzspital, 1958 */
+@media (prefers-reduced-motion:reduce){.sp-137-blink{animation:none}}

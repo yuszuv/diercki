@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="-24 -24 48 48">
+  <circle cx="0" cy="0" r="20" fill="param(fill) #4f7a4a" fill-opacity="0.1"></circle>
+  <circle cx="0" cy="0" r="20" fill="none" stroke="param(outline) #4f7a4a" stroke-width="param(outline-width) 3" stroke-dasharray="9 5.8"></circle>
+  <path d="M0 -11 L5.4 -1.6 L2.5 -1.6 L7.3 7 L-7.3 7 L-2.5 -1.6 L-5.4 -1.6 Z" fill="param(outline) #4f7a4a"></path>
+</svg>

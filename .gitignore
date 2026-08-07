@@ -1,0 +1,15 @@
+# Rohdaten der Geodaten-Pipeline — zu groß fürs Repo, reproduzierbar per export-geodaten.rb
+romania-latest.osm.pbf
+*.osm.pbf
+ne_10m_*
+source.gpkg
+
+# QGIS-Nebenprodukte
+*.qgz~
+*.qgs~
+*_attachments.zip
+.qfieldsync/
+
+# Betriebssystem
+.DS_Store
+Thumbs.db

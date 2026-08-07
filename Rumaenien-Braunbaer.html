@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Rumänien · Braunbär — Sternprodukt-Atlas</title>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<style>
+  body{margin:0}
+  doc-page:not(:defined){visibility:hidden}
+  a{color:#2f6f74}
+  a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<doc-page size="a4" orientation="landscape">
+<section class="page" id="blatt16" data-screen-label="Blatt 16 · Rumänien Braunbär" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="display:flex;align-items:baseline;gap:7px">
+      <svg width="14" height="22" viewBox="0 0 90 140" style="overflow:visible"><g id="titelbaer"></g></svg>
+      <div style="font-size:15px;font-weight:600;letter-spacing:-.02em;white-space:nowrap">Rum&auml;nien &middot; Braunb&auml;r <span style="font-weight:400;font-style:italic;color:#4a4139">Ursus arctos</span></div>
+    </div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 16</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 4mm">Verbreitung nach der genetischen Landesz&auml;hlung, vorl&auml;ufige Ergebnisse 04/2025. Die <b style="font-weight:600">Kreiswerte dieses Blattes sind eine unbelegte Modellannahme</b> &mdash; die Kreistabelle des Ministeriums liegt hier nicht vor. Bis dahin: Illustration der Verteilung, kein Nachweis.</div>
+  <div style="height:157mm;display:flex;gap:6mm;min-height:0">
+    <div id="map" style="flex:1;min-width:0;position:relative"><div id="lade" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.08em;color:#8b8173">KARTE LÄDT — KREISGRENZEN + GELÄNDE …</div></div>
+    <div style="width:56mm;flex:none;display:flex;flex-direction:column;font-size:9.5px;min-height:0">
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:2px">Zeichenerkl&auml;rung</div>
+      <div id="legend" style="display:flex;flex-direction:column"></div>
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:2mm 0 1mm">Zur Z&auml;hlung</div>
+      <div style="font-size:8.3px;line-height:1.38;color:#2a231c;text-wrap:pretty">Rum&auml;nien h&auml;lt die gr&ouml;&szlig;te Braunb&auml;renpopulation der Europ&auml;ischen Union. Das Umweltministerium ver&ouml;ffentlichte im April 2025 <b style="font-weight:600">vorl&auml;ufige</b> Ergebnisse einer genetischen Landesz&auml;hlung: &uuml;ber 24&#8239;000 DNA-Proben aus 25 Kreisen, gesch&auml;tzter Bestand <b style="font-weight:600">10&#8239;419 bis 12&#8239;770 Tiere</b>. Fr&uuml;here Sch&auml;tzungen lagen je nach Methode zwischen 5000 und 10&#8239;000; die Z&auml;hlung von 2023 kam auf 7536 bis 8093 bei im Mittel 11 B&auml;ren je 100&#8239;km&sup2;. &Ouml;kologen halten rund 5000 Tiere f&uuml;r vertr&auml;glich. Eine gesicherte Zahl gibt es nicht.</div>
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:2mm 0 1mm">Das B&auml;renjahr</div>
+      <div id="jahr"></div>
+      <div style="display:flex;align-items:flex-end;gap:4mm;margin-top:2mm">
+        <div style="flex:none"><div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;letter-spacing:.06em;color:#8b8173;margin-bottom:2px">MASSSTAB</div><div id="scalebar"></div></div>
+      </div>
+      <div style="margin-top:auto;font-size:7.9px;line-height:1.35;color:#4a4139;font-style:italic;text-wrap:pretty">Die Kreiswerte sind <b style="font-weight:600;font-style:normal">nicht belegt</b> und stammen nicht aus dem Ministeriumsbericht; sie dienen als Platzhalter, bis die Kreistabelle vorliegt. Streuung der Signaturen zuf&auml;llig, nach H&ouml;henlage gewichtet &mdash; kein Einzelnachweis. Herkunft jeder Angabe: atlas/quellen/Blatt-16-Braunbaer.md</div>
+    </div>
+  </div>
+  <div style="margin-top:3mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:4px">
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">BESTANDSZAHLEN: MINISTERUL MEDIULUI, APELOR &#536;I P&#258;DURILOR, VORL&Auml;UFIGE ERGEBNISSE DER GENETISCHEN LANDESZ&Auml;HLUNG, 04/2025 &middot; KREISWERTE UNBELEGT &middot; KREISGRENZEN: EUROSTAT NUTS 3, 1:3&#8239;M &middot; K&Uuml;STEN UND STAATEN: NATURAL EARTH 1:50&#8239;M &middot; GEL&Auml;NDE: TERRAIN TILES (SRTM, AWS) &middot; PROJEKTION: LAMBERT KONFORM KONISCH 44&deg;/48&deg;&#8239;N &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">fnord</div>
+  </div>
+</section>
+</doc-page>
+<div id="root"></div>
+<script src="doc-page.js"></script>
+<script>
+window.__mapTweaks = { palette: ['#7a4a2b', '#a83a28', '#4f7a4a', '#5a3a52'], dichte: 'Streuung', terrain: 'dezent', begegnung: true, parks: true };
+window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (window.__redrawMap) window.__redrawMap(); };
+
+(async function () {
+  const MM = 96 / 25.4;
+  const F = { papier: '#fdfdfd', tinte: '#2a231c', dim: '#8b8173', nachbar: '#eeeae1', meer: '#dce7e4', bleistift: '#434462', dunkel: '#4a4139', wasser: '#6f9ea3' };
+  const HYPS = ['#bcca9a', '#d4d1a2', '#dec990', '#cfae74', '#b98c5c', '#a1704b'];
+  const HYPS_LIMITS = [200, 500, 1000, 2000, 3000, Infinity];
+  const SENKE = '#9db884';
+  const SERIF = "'Gentium Book Plus','Noto Serif',serif";
+  const MONO = "'Noto Sans Mono',monospace";
+
+  // ——— Bärensignatur: aufgerichtet auf den Hintertatzen, 80 × 130 Einheiten, Sohle auf y = 126
+  const BEAR = 'M42 6 C52 6 60 13 61 22 C63 24 65 28 64 32 C63 37 58 40 52 41 C60 43 66 47 68 54 C71 62 75 72 78 80 C80 85 78 89 74 89 C70 89 66 84 63 77 C62 84 62 92 62 99 C63 108 62 118 61 124 C57 127 49 127 45 124 C44 116 44 108 43 100 C41 100 39 100 37 100 C36 108 36 116 35 124 C31 127 23 127 19 124 C18 116 18 107 18 99 C18 92 18 84 17 77 C14 84 10 88 6 89 C2 89 0 85 2 80 C5 72 9 62 12 54 C14 47 20 43 28 41 C22 40 18 36 17 31 C16 27 18 20 23 15 C28 9 35 6 42 6 Z';
+  const OHREN = [[24, 12], [60, 12]];
+  // Bleistift-Look: Fell-Striche über Brust und Flanke
+  const FELL = ['M30 52 C34 58 34 66 30 72', 'M44 50 C48 56 48 64 44 70', 'M22 62 C25 67 25 73 22 78', 'M56 60 C59 65 59 71 56 76'];
+
+  function baer(sel, x, y, s, opt = {}) {
+    const { fill = '#7a4a2b', ink = '#2a231c', rot = 0, flip = false, fell = false, sw = 2.6, halo = 0 } = opt;
+    const g = sel.append('g').attr('transform',
+      `translate(${x} ${y}) rotate(${rot}) scale(${flip ? -s : s} ${s}) translate(-40 -66)`);
+    if (halo) {
+      for (const [cx, cy] of OHREN) g.append('circle').attr('cx', cx).attr('cy', cy).attr('r', 7.6)
+        .attr('fill', 'none').attr('stroke', F.papier).attr('stroke-width', halo / s);
+      g.append('path').attr('d', BEAR).attr('fill', 'none').attr('stroke', F.papier)
+        .attr('stroke-width', halo / s).attr('stroke-linejoin', 'round').attr('opacity', .9);
+    }
+    for (const [cx, cy] of OHREN) g.append('circle').attr('cx', cx).attr('cy', cy).attr('r', 7.6)
+      .attr('fill', fill).attr('stroke', ink).attr('stroke-width', sw);
+    g.append('path').attr('d', BEAR).attr('fill', fill).attr('stroke', ink).attr('stroke-width', sw)
+      .attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+    g.append('ellipse').attr('cx', 45).attr('cy', 31).attr('rx', 9).attr('ry', 7)
+      .attr('fill', fill).attr('stroke', ink).attr('stroke-width', sw * .8);
+    g.append('circle').attr('cx', 49).attr('cy', 28).attr('r', 2.6).attr('fill', ink);
+    g.append('circle').attr('cx', 33).attr('cy', 21).attr('r', 2).attr('fill', ink);
+    g.append('circle').attr('cx', 49).attr('cy', 19.5).attr('r', 1.8).attr('fill', ink);
+    if (fell) {
+      for (const d of FELL) g.append('path').attr('d', d).attr('fill', 'none').attr('stroke', ink)
+        .attr('stroke-width', sw * .55).attr('opacity', .36).attr('stroke-linecap', 'round');
+      g.append('path').attr('d', 'M37 100 C39 96 41 96 43 100').attr('fill', 'none').attr('stroke', ink)
+        .attr('stroke-width', sw * .55).attr('opacity', .36);
+    }
+    return g;
+  }
+
+  // ——— genetische Landeszählung 2022–2025: mittlere Abundanz, Dichte je 100 km² Habitat
+  const KREISE = [
+    { k: ['harghita'], a: 1727, d: 27.4, label: 'Harghita' },
+    { k: ['brasov'], a: 1329, d: 29.9, label: 'Bra\u0219ov', skip: true },
+    { k: ['bistrita-nasaud', 'maramures'], a: 1153, d: 11.8, label: 'Bistri\u021ba-N. + Maramure\u0219', lo: [-18, 30] },
+    { k: ['mures'], a: 873, d: 17.4, label: 'Mure\u0219', lo: [-30, 22] },
+    { k: ['arges'], a: 771, d: 15.7, label: 'Arge\u0219', lo: [26, 20] },
+    { k: ['sibiu'], a: 683, d: 14.2, label: 'Sibiu', lo: [-34, -14] },
+    { k: ['buzau'], a: 606, d: 18.0, label: 'Buz\u0103u', lo: [16, 50] },
+    { k: ['covasna'], a: 552, d: 17.1, label: 'Covasna', skip: true },
+    { k: ['hunedoara'], a: 526, d: 9.5, label: 'Hunedoara' },
+    { k: ['prahova'], a: 493, d: 15.2, label: 'Prahova' },
+    { k: ['valcea'], a: 459, d: 12.5, label: 'V\u00e2lcea' },
+    { k: ['bacau'], a: 411, d: 13.7, label: 'Bac\u0103u' },
+    { k: ['vrancea'], a: 363, d: 17.5, label: 'Vrancea' },
+    { k: ['caras-severin', 'gorj', 'timis'], a: 253, d: 4.3, label: 'Cara\u0219-S. + Gorj + Timi\u0219' },
+    { k: ['neamt'], a: 173, d: 4.3, label: 'Neam\u021b' },
+    { k: ['suceava'], a: 169, d: 2.5, label: 'Suceava' },
+    { k: ['dambovita'], a: 153, d: 8.0, label: 'D\u00e2mbovi\u021ba' },
+    { k: ['alba'], a: 109, d: 5.0, label: 'Alba' },
+    { k: ['cluj'], a: 7, d: null, einzel: true, label: 'Cluj' },
+    { k: ['bihor'], a: 5, d: null, einzel: true, label: 'Bihor' },
+  ];
+  const OHNE = ['mehedinti', 'satu mare'];
+
+  const VORFALL = [
+    [25.44, 45.395, 'Jepii Mici \u00b7 Bucegi', '07/2024: Wanderin get\u00f6tet', 10, -3, 'start', 26.80, 45.00],
+  ];
+  const BEGEGNUNG = [
+    [25.575, 45.635, 'bin', 'Bra\u0219ov \u00b7 R\u0103cad\u0103u', 'M\u00fcllcontainer am Waldrand', -12, -26, 'end'],
+    [25.87, 46.145, 'bin', 'B\u0103ile Tu\u0219nad', 'B\u00e4ren im Kurort', 9, 3],
+    [24.62, 45.60, 'nofeed', 'Transf\u0103g\u0103r\u0103\u0219an (DN 7C)', 'F\u00fctterung aus dem Auto', 9, -3, 'start', 24.98, 45.26],
+    [25.53, 45.34, 'nofeed', 'Sinaia \u00b7 Bu\u0219teni (DN 1)', 'B\u00e4ren an der Resortstra\u00dfe', 10, -3, 'start', 26.80, 45.22],
+    [26.07, 45.62, 'hide', 'Vama Buz\u0103ului', 'Beobachtungsh\u00fctte', 10, 5],
+  ];
+  const PARKS = [
+    [22.88, 45.36, 'Retezat', 1], [25.22, 45.53, 'Piatra Craiului', 0], [25.47, 45.42, 'Bucegi', 0],
+    [22.60, 45.05, 'Domogled', 0], [24.70, 47.55, 'Mun\u021bii Rodnei', 0], [25.25, 47.10, 'C\u0103lim\u0103ni', 0],
+    [25.95, 46.95, 'Ceahl\u0103u', 0], [22.75, 46.55, 'Apuseni', 0], [26.30, 47.20, 'V\u00e2n\u0103tori-Neam\u021b', 0],
+    [26.50, 45.90, 'Putna-Vrancea', 0], [21.85, 44.90, 'Cheile Nerei', 0],
+  ];
+  // Städte: [lon, lat, Name, dt. Name, Rang, dx, dy, anchor]
+  const C = [
+    [26.10, 44.43, 'Bucure\u0219ti', 'Bukarest', 1, 8, 13],
+    [25.60, 45.653, 'Bra\u0219ov', 'Kronstadt', 2, -9, -4, 'end'],
+    [23.60, 46.77, 'Cluj-Napoca', 'Klausenburg', 2, -8, -5, 'end'],
+    [24.15, 45.79, 'Sibiu', 'Hermannstadt', 3, -7, 11, 'end'],
+    [24.56, 46.54, 'T\u00e2rgu Mure\u0219', 'Neumarkt', 3, 7, -4],
+    [26.91, 46.57, 'Bac\u0103u', '', 3, 8, 4],
+    [24.50, 47.13, 'Bistri\u021ba', 'Bistritz', 4, 7, -3],
+    [25.80, 46.36, 'Miercurea Ciuc', '', 4, 8, 4],
+    [25.79, 45.865, 'Sf\u00e2ntu Gheorghe', 'Sankt Georgen', 4, 8, 3],
+    [25.34, 45.56, 'Z\u0103rne\u0219ti', 'Zernescht', 4, -8, 8, 'end'],
+    [23.58, 45.42, 'Petro\u0219ani', 'Petroschen', 4, 7, 4],
+    [23.58, 47.66, 'Baia Mare', 'Frauenbach', 4, 7, 4],
+    [26.26, 47.65, 'Suceava', '', 4, 7, -3],
+    [24.37, 45.10, 'R\u00e2mnicu V\u00e2lcea', '', 4, 6, 12],
+    [26.02, 44.94, 'Ploie\u0219ti', '', 4, 7, 9],
+  ];
+
+  const [topo, nuts, gewaesser] = await Promise.all([
+    'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json',
+    'https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/NUTS_RG_03M_2021_4326_LEVL_3.geojson',
+    'uploads/gewaesser.geojson-86b9210a.dat'
+  ].map(u => fetch(u).then(r => { if (!r.ok) throw new Error(u + ' \u2192 HTTP ' + r.status); return r.json(); })));
+  await customElements.whenDefined('doc-page');
+  await new Promise(r => { requestAnimationFrame(() => requestAnimationFrame(r)); setTimeout(r, 250); });
+
+  const countries = topojson.feature(topo, topo.objects.countries);
+  const RO = countries.features.find(f => String(f.id) === '642');
+  const norm = s => s.normalize('NFD').replace(/[\u0300-\u036f\u0326\u0327]/g, '').toLowerCase().trim();
+  const judete = new Map();
+  for (const f of nuts.features) if (f.properties.CNTR_CODE === 'RO') judete.set(norm(f.properties.NAME_LATN), f);
+  const missing = [...KREISE.flatMap(k => k.k), ...OHNE].filter(n => !judete.has(n));
+  if (missing.length) console.warn('Kreis nicht gefunden:', missing.join(', '));
+
+  const box = document.getElementById('map').getBoundingClientRect();
+  const W = Math.round(box.width), H = Math.round(box.height);
+  const inset = 2.8 * MM;
+  const proj = d3.geoConicConformal().parallels([44, 48]).rotate([-25.5, 0])
+    .fitExtent([[inset + 26, inset + 20], [W - inset - 26, H - inset - 20]], RO);
+  const path = d3.geoPath(proj);
+
+  // ——— Gelände: Höhenschichten + weiche Schummerung, Höhenpuffer bleibt für die Streuung
+  let terrainURL = null, EV = null;
+  try {
+    const Z = 7, X0 = 70, X1 = 75, Y0 = 43, Y1 = 47, T = 256;
+    const cols = X1 - X0 + 1, rows = Y1 - Y0 + 1;
+    const mc = document.createElement('canvas'); mc.width = cols * T; mc.height = rows * T;
+    const mctx = mc.getContext('2d', { willReadFrequently: true });
+    await Promise.all([].concat(...d3.range(X0, X1 + 1).map(x => d3.range(Y0, Y1 + 1).map(y =>
+      new Promise((res, rej) => {
+        const img = new Image(); img.crossOrigin = 'anonymous';
+        img.onload = () => { mctx.drawImage(img, (x - X0) * T, (y - Y0) * T); res(); };
+        img.onerror = () => rej(new Error('Terrain-Kachel ' + Z + '/' + x + '/' + y));
+        img.src = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${Z}/${x}/${y}.png`;
+      })))));
+    const mw = mc.width, mh = mc.height, md = mctx.getImageData(0, 0, mw, mh).data;
+    const rawElev = (px, py) => {
+      px = Math.max(0, Math.min(mw - 1, px)); py = Math.max(0, Math.min(mh - 1, py));
+      const i = (py * mw + px) * 4;
+      return md[i] * 256 + md[i + 1] + md[i + 2] / 256 - 32768;
+    };
+    const n = 2 ** Z;
+    const elevAt = (lon, lat) => {
+      const latR = lat * Math.PI / 180;
+      const fx = ((lon + 180) / 360 * n - X0) * T;
+      const fy = ((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2 * n - Y0) * T;
+      const x0 = Math.floor(fx), y0 = Math.floor(fy), u = fx - x0, v = fy - y0;
+      return rawElev(x0, y0) * (1 - u) * (1 - v) + rawElev(x0 + 1, y0) * u * (1 - v)
+           + rawElev(x0, y0 + 1) * (1 - u) * v + rawElev(x0 + 1, y0 + 1) * u * v;
+    };
+    EV = new Float32Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const ll = proj.invert([x + .5, y + .5]);
+      EV[y * W + x] = ll ? elevAt(ll[0], ll[1]) : 0;
+    }
+    const mix = .34, pap = d3.rgb(F.papier);
+    const classes = [SENKE, ...HYPS].map(c => {
+      const r = d3.rgb(c);
+      return [r.r + (pap.r - r.r) * mix, r.g + (pap.g - r.g) * mix, r.b + (pap.b - r.b) * mix];
+    });
+    const cls = e => { if (e < 0) return 0; for (let i = 0; i < HYPS_LIMITS.length; i++) if (e < HYPS_LIMITS[i]) return i + 1; return 6; };
+    const tc = document.createElement('canvas'); tc.width = W; tc.height = H;
+    const tctx = tc.getContext('2d');
+    const out = tctx.createImageData(W, H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const i = y * W + x, c = classes[cls(EV[i])];
+      const dzdx = (EV[y * W + Math.min(W - 1, x + 1)] - EV[y * W + Math.max(0, x - 1)]) / 2;
+      const dzdy = (EV[Math.min(H - 1, y + 1) * W + x] - EV[Math.max(0, y - 1) * W + x]) / 2;
+      const shade = Math.max(.78, Math.min(1.12, 1 - (dzdx + dzdy) / 2 * .0045));
+      const o = i * 4;
+      out.data[o] = c[0] * shade; out.data[o + 1] = c[1] * shade; out.data[o + 2] = c[2] * shade; out.data[o + 3] = 255;
+    }
+    tctx.putImageData(out, 0, 0);
+    terrainURL = tc.toDataURL('image/png');
+  } catch (e) { console.warn('Gel\u00e4nde \u00fcbersprungen:', e.message); }
+  document.getElementById('lade')?.remove();
+
+  const fc = feats => ({ type: 'FeatureCollection', features: feats });
+  const rivers = { danube: [], other: [] };
+  for (const f of gewaesser.features) (f.properties.rang <= 2 ? rivers.danube : rivers.other).push(f);
+  const coast = topojson.mesh(topo, topo.objects.countries, (a, b) => a === b);
+  const fremd = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && String(a.id) !== '642' && String(b.id) !== '642');
+  const roGrenze = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && (String(a.id) === '642' || String(b.id) === '642'));
+
+  // ——— Streuung der Bärensignaturen: Treffertest im Bildraum, Gewichtung nach Höhe
+  const hit = document.createElement('canvas'); hit.width = W; hit.height = H;
+  const hctx = hit.getContext('2d');
+  const mulberry = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const hoehenGewicht = e => {
+    if (e < 230) return 0;
+    const w = Math.exp(-Math.pow((e - 1050) / 640, 2));
+    return Math.max(.07, w);
+  };
+  const streuung = KREISE.map((rec, ri) => {
+    const feats = rec.k.map(n => judete.get(n)).filter(Boolean);
+    if (!feats.length) return { rec, pts: [] };
+    const p2d = new Path2D(path(fc(feats)));
+    const [[bx0, by0], [bx1, by1]] = path.bounds(fc(feats));
+    const n = Math.max(rec.einzel ? 0 : 1, Math.round(rec.a / 100));
+    const rnd = mulberry(9173 + ri * 7919);
+    const pts = [];
+    let minD = 3.3 * MM;
+    for (let pass = 0; pass < 4 && pts.length < n; pass++) {
+      for (let tries = 0; tries < 4000 && pts.length < n; tries++) {
+        const x = bx0 + rnd() * (bx1 - bx0), y = by0 + rnd() * (by1 - by0);
+        if (x < inset + 4 || x > W - inset - 4 || y < inset + 4 || y > H - inset - 4) continue;
+        if (!hctx.isPointInPath(p2d, x, y)) continue;
+        if (rnd() > hoehenGewicht(EV ? EV[(y | 0) * W + (x | 0)] : 900)) continue;
+        if (pts.some(p => (p[0] - x) ** 2 + (p[1] - y) ** 2 < minD * minD)) continue;
+        pts.push([x, y, rnd()]);
+      }
+      minD *= .78;
+    }
+    return { rec, pts };
+  });
+
+  function draw() {
+    const t = window.__mapTweaks;
+    const [BAER, VORF, PARK, GRENZ] = t.palette;
+    const terrainOpacity = { aus: 0, dezent: .5, 'kr\u00e4ftig': .85 }[t.terrain] ?? .5;
+    const modus = t.dichte;
+    const rampe = d3.scaleLinear().domain([0, 30]).range([d3.rgb(BAER).brighter(2.6).formatHex(), d3.rgb(BAER).darker(.5).formatHex()]).interpolate(d3.interpolateLab).clamp(true);
+
+    d3.select('#map').selectAll('svg').remove();
+    d3.select('#scalebar').html('');
+    d3.select('#titelbaer').selectAll('*').remove();
+    const svg = d3.select('#map').append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H).style('display', 'block');
+
+    svg.append('clipPath').attr('id', 'feld').append('rect')
+      .attr('x', inset).attr('y', inset).attr('width', W - 2 * inset).attr('height', H - 2 * inset);
+    svg.append('clipPath').attr('id', 'roclip').append('path').attr('d', path(RO));
+    const defs = svg.append('defs');
+    defs.append('pattern').attr('id', 'ohne').attr('width', 7).attr('height', 7).attr('patternUnits', 'userSpaceOnUse')
+      .append('path').attr('d', 'M0 7 L7 0').attr('stroke', F.dim).attr('stroke-width', .8).attr('opacity', .55);
+    const g = svg.append('g').attr('clip-path', 'url(#feld)');
+    const belegt = [];
+    const beleg = n => { try { const b = n.getBBox(); belegt.push([b.x, b.y, b.x + b.width, b.y + b.height]); } catch (e) { /* noop */ } };
+    const frei = (x0, y0, x1, y1) => !belegt.some(([a0, b0, a1, b1]) => x0 < a1 + 2 && x1 > a0 - 2 && y0 < b1 + 2 && y1 > b0 - 2);
+
+    g.append('rect').attr('width', W).attr('height', H).attr('fill', F.meer);
+    for (const [w, o] of [[2.6, .07], [1.4, .12], [.55, .2]])
+      g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w * MM).attr('opacity', o);
+    g.selectAll('path.land').data(countries.features).join('path')
+      .attr('d', path).attr('fill', d => String(d.id) === '642' ? F.papier : F.nachbar);
+
+    // Dichtewolke unter dem Relief
+    if (modus === 'Dichtewolke') {
+      const cc = document.createElement('canvas'); cc.width = W; cc.height = H;
+      const cx = cc.getContext('2d');
+      for (const rec of KREISE) {
+        if (rec.d == null) continue;
+        for (const n of rec.k) {
+          const f = judete.get(n); if (!f) continue;
+          cx.fillStyle = `rgba(0,0,0,${Math.min(1, rec.d / 30)})`;
+          cx.fill(new Path2D(path(f)));
+        }
+      }
+      const bc = document.createElement('canvas'); bc.width = W; bc.height = H;
+      const bx = bc.getContext('2d');
+      bx.filter = 'blur(' + (3.4 * MM) + 'px)';
+      bx.drawImage(cc, 0, 0);
+      const im = bx.getImageData(0, 0, W, H), dat = im.data;
+      const c0 = d3.rgb(BAER);
+      for (let i = 0; i < dat.length; i += 4) {
+        const a = dat[i + 3] / 255;
+        dat[i] = c0.r; dat[i + 1] = c0.g; dat[i + 2] = c0.b;
+        dat[i + 3] = Math.min(255, Math.pow(a, .75) * 235);
+      }
+      bx.filter = 'none'; bx.putImageData(im, 0, 0);
+      g.append('image').attr('href', bc.toDataURL('image/png')).attr('width', W).attr('height', H)
+        .attr('clip-path', 'url(#roclip)').attr('preserveAspectRatio', 'none').attr('opacity', .95);
+    }
+
+    // Flächenkolorit
+    if (modus === 'Kolorit') {
+      for (const rec of KREISE) for (const n of rec.k) {
+        const f = judete.get(n); if (!f) continue;
+        g.append('path').attr('d', path(f)).attr('fill', rec.d == null ? d3.rgb(BAER).brighter(2.8).formatHex() : rampe(rec.d))
+          .attr('opacity', rec.d == null ? .5 : .95);
+      }
+    }
+    for (const n of OHNE) {
+      const f = judete.get(n); if (!f) continue;
+      g.append('path').attr('d', path(f)).attr('fill', 'url(#ohne)');
+    }
+
+    if (terrainURL && terrainOpacity > 0)
+      g.append('image').attr('href', terrainURL).attr('width', W).attr('height', H)
+        .attr('clip-path', 'url(#roclip)').attr('preserveAspectRatio', 'none')
+        .attr('opacity', modus === 'Streuung' || modus === 'Kreisb\u00e4ren' ? terrainOpacity : terrainOpacity * .62);
+
+    const grat = d3.geoGraticule().step([1, 1]).extent([[19.4, 42.7], [31.2, 49.3]]);
+    g.append('path').attr('d', path(grat())).attr('fill', 'none').attr('stroke', F.bleistift).attr('stroke-width', .15 * MM).attr('opacity', .28);
+
+    // Kreisgrenzen
+    g.append('path').attr('d', path(fc([...judete.values()]))).attr('fill', 'none')
+      .attr('stroke', F.tinte).attr('stroke-width', .16 * MM).attr('opacity', .42);
+
+    g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', .3 * MM);
+    g.append('path').attr('d', path(fremd)).attr('fill', 'none').attr('stroke', F.dim)
+      .attr('stroke-width', .3 * MM).attr('stroke-dasharray', `${1.5 * MM} ${.48 * MM} ${.18 * MM} ${.48 * MM}`);
+    g.append('path').attr('d', path(RO)).attr('fill', 'none').attr('clip-path', 'url(#roclip)')
+      .attr('stroke', GRENZ).attr('stroke-width', 4.4 * MM).attr('opacity', .2);
+    g.append('path').attr('d', path(roGrenze)).attr('fill', 'none').attr('stroke', F.tinte)
+      .attr('stroke-width', .5 * MM).attr('stroke-dasharray', `${2.2 * MM} ${.7 * MM} ${.3 * MM} ${.7 * MM}`);
+
+    for (const [feats, w] of [[rivers.other, .28], [rivers.danube, .5]])
+      g.append('path').attr('d', path(fc(feats))).attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w * MM)
+        .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('opacity', .85);
+
+    // Gebirgsnamen
+    for (const [txt, lon, lat, rot] of [
+      ['CARPA\u021AII ORIENTALI', 26.35, 46.85, -66], ['CARPA\u021AII MERIDIONALI', 23.75, 44.72, -5], ['MUN\u021AII APUSENI', 22.45, 46.12, -28],
+    ]) {
+      const [x, y] = proj([lon, lat]);
+      beleg(g.append('text').attr('x', x).attr('y', y).text(txt).attr('text-anchor', 'middle')
+        .attr('transform', `rotate(${rot} ${x} ${y})`).attr('font-family', SERIF).attr('font-size', 8.5)
+        .attr('fill', '#6b5a45').attr('letter-spacing', '.2em').attr('opacity', .8)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.6).node());
+    }
+
+    // Nationalparks
+    if (t.parks) for (const [lon, lat, name, beschriftet] of PARKS) {
+      const [x, y] = proj([lon, lat]);
+      g.append('circle').attr('cx', x).attr('cy', y).attr('r', 2.1 * MM).attr('fill', PARK).attr('opacity', .1);
+      g.append('circle').attr('cx', x).attr('cy', y).attr('r', 2.1 * MM).attr('fill', 'none')
+        .attr('stroke', PARK).attr('stroke-width', .32 * MM).attr('stroke-dasharray', '3.4 2.2').attr('opacity', .95);
+      g.append('path').attr('transform', `translate(${x} ${y}) scale(.72)`)
+        .attr('d', 'M0 -7 L3.4 -1 L1.6 -1 L4.6 4.4 L-4.6 4.4 L-1.6 -1 L-3.4 -1 Z')
+        .attr('fill', PARK).attr('opacity', .9);
+      if (beschriftet) beleg(g.append('text').attr('x', x).attr('y', y + 2.1 * MM + 9).text(name).attr('text-anchor', 'middle')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 8).attr('fill', d3.rgb(PARK).darker(.9).formatHex())
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 3).node());
+    }
+
+    // Bärensignaturen
+    if (modus === 'Streuung') {
+      for (const { rec, pts } of streuung) for (const [x, y, r] of pts)
+        baer(g, x, y, .036 * MM, { fill: BAER, ink: d3.rgb(BAER).darker(1.5).formatHex(), rot: (r - .5) * 11, flip: r > .55, sw: 3.4, halo: 1.5 });
+      for (const rec of KREISE) if (rec.einzel) {
+        const f = judete.get(rec.k[0]);
+        const [x, y] = path.centroid(f);
+        for (let i = 0; i < 3; i++) g.append('circle').attr('cx', x + (i - 1) * 4.5).attr('cy', y + (i % 2) * 4).attr('r', 1.5)
+          .attr('fill', d3.rgb(BAER).darker(.8).formatHex()).attr('stroke', F.papier).attr('stroke-width', .8);
+      }
+    }
+    if (modus === 'Kreisb\u00e4ren') {
+      const sz = d3.scaleSqrt().domain([0, 1750]).range([0, .115 * MM]);
+      for (const rec of KREISE) {
+        const feats = rec.k.map(n => judete.get(n)).filter(Boolean); if (!feats.length) continue;
+        const [x, y] = path.centroid(fc(feats));
+        if (rec.einzel) { g.append('circle').attr('cx', x).attr('cy', y).attr('r', 1.7).attr('fill', d3.rgb(BAER).darker(.8).formatHex()).attr('stroke', F.papier).attr('stroke-width', .9); continue; }
+        baer(g, x, y, sz(rec.a), { fill: BAER, ink: d3.rgb(BAER).darker(1.6).formatHex(), sw: 2.4, halo: 2.2, fell: rec.a > 600 });
+        g.append('text').attr('x', x).attr('y', y + sz(rec.a) * 68 + 9).text(rec.a.toLocaleString('de-DE')).attr('text-anchor', 'middle')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8).attr('fill', F.tinte)
+          .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 3);
+      }
+    }
+    if (modus === 'Kolorit' || modus === 'Dichtewolke') {
+      for (const rec of KREISE.slice(0, 5)) {
+        const feats = rec.k.map(n => judete.get(n)).filter(Boolean); if (!feats.length) continue;
+        const [x, y] = path.centroid(fc(feats));
+        baer(g, x, y, .055 * MM, { fill: F.papier, ink: d3.rgb(BAER).darker(1.8).formatHex(), sw: 3.2, halo: 2.4 });
+      }
+    }
+
+    // Kreisbeschriftung: wird zuletzt gesetzt (siehe unten), damit sie freie Plätze findet
+
+    // Begegnungsorte und Vorfälle
+    const marke = (x, y, art, col) => {
+      if (art === 'bin') {
+        const gg = g.append('g').attr('transform', `translate(${x} ${y}) scale(${.055 * MM})`);
+        gg.append('path').attr('d', 'M-16 -10 L16 -10 L12 20 L-12 20 Z').attr('fill', F.papier).attr('stroke', col).attr('stroke-width', 4);
+        gg.append('path').attr('d', 'M-19 -14 L19 -14 L19 -9 L-19 -9 Z M-4 -22 L4 -22 L4 -14 L-4 -14 Z').attr('fill', col);
+        gg.append('path').attr('d', 'M-6 -4 L-4 14 M6 -4 L4 14').attr('stroke', col).attr('stroke-width', 3).attr('fill', 'none');
+      } else if (art === 'nofeed') {
+        g.append('circle').attr('cx', x).attr('cy', y).attr('r', 1.7 * MM).attr('fill', F.papier).attr('stroke', col).attr('stroke-width', .5 * MM);
+        baer(g, x, y, .0185 * MM, { fill: 'none', ink: col, sw: 7 });
+        g.append('line').attr('x1', x - 1.55 * MM).attr('y1', y + 1.55 * MM).attr('x2', x + 1.55 * MM).attr('y2', y - 1.55 * MM)
+          .attr('stroke', col).attr('stroke-width', .5 * MM);
+      } else if (art === 'hide') {
+        const gg = g.append('g').attr('transform', `translate(${x} ${y}) scale(${.06 * MM})`);
+        gg.append('path').attr('d', 'M-14 6 A7 7 0 1 0 -14 5.9 Z M14 6 A7 7 0 1 0 14 5.9 Z')
+          .attr('fill', F.papier).attr('stroke', col).attr('stroke-width', 3.4);
+        gg.append('path').attr('d', 'M-7 3 L7 3 M-17 -3 L-11 -12 L-4 -9 M17 -3 L11 -12 L4 -9')
+          .attr('fill', 'none').attr('stroke', col).attr('stroke-width', 3.4).attr('stroke-linejoin', 'round');
+      }
+    };
+    if (t.begegnung) for (const [lon, lat, art, name, sub, dx, dy, anch, llon, llat] of BEGEGNUNG) {
+      const [x, y] = proj([lon, lat]);
+      marke(x, y, art, F.tinte);
+      const [ax, ay] = llon != null ? proj([llon, llat]) : [x, y];
+      if (llon != null) g.append('path').attr('d', `M${x} ${y} L${ax} ${ay}`).attr('fill', 'none')
+        .attr('stroke', F.tinte).attr('stroke-width', .8).attr('stroke-dasharray', '2.4 2').attr('opacity', .65);
+      g.append('text').attr('x', ax + dx).attr('y', ay + dy).text(name).attr('text-anchor', anch || 'start')
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 8.6).attr('fill', F.tinte)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4.2).attr('stroke-linejoin', 'round').each(function () { beleg(this); });
+      g.append('text').attr('x', ax + dx).attr('y', ay + dy + 10.6).text(sub).attr('text-anchor', anch || 'start')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 7.9).attr('fill', F.dunkel)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4.2).attr('stroke-linejoin', 'round').each(function () { beleg(this); });
+    }
+    for (const [lon, lat, name, sub, dx, dy, anch, llon, llat] of VORFALL) {
+      const [x, y] = proj([lon, lat]);
+      const spikes = d3.range(12).map(i => {
+        const a = i / 12 * Math.PI * 2, r = (i % 2 ? .95 : 1.95) * MM;
+        return [x + Math.cos(a) * r, y + Math.sin(a) * r];
+      });
+      const [ax, ay] = llon != null ? proj([llon, llat]) : [x, y];
+      if (llon != null) g.append('path').attr('d', `M${x} ${y} L${ax} ${ay}`).attr('fill', 'none')
+        .attr('stroke', VORF).attr('stroke-width', .8).attr('stroke-dasharray', '2.4 2').attr('opacity', .7);
+      g.append('path').attr('d', 'M' + spikes.map(p => p.join(' ')).join('L') + 'Z')
+        .attr('fill', VORF).attr('stroke', F.papier).attr('stroke-width', 1.1).attr('stroke-linejoin', 'round');
+      g.append('text').attr('x', ax + dx).attr('y', ay + dy).text(name).attr('text-anchor', anch || 'start')
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 8.6).attr('fill', VORF)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4.2).attr('stroke-linejoin', 'round').each(function () { beleg(this); });
+      g.append('text').attr('x', ax + dx).attr('y', ay + dy + 10.6).text(sub).attr('text-anchor', anch || 'start')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 7.9).attr('fill', d3.rgb(VORF).darker(.6).formatHex())
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4.2).attr('stroke-linejoin', 'round').each(function () { beleg(this); });
+    }
+
+    // Städte
+    const RANG = { 1: [2.8, .55], 2: [2.0, .45], 3: [1.5, .4], 4: [1.15, 0] };
+    for (const [lon, lat, name, dtName, rang, dx, dy, anchor] of C) {
+      const [x, y] = proj([lon, lat]);
+      const [sz, sw] = RANG[rang];
+      if (rang === 4) g.append('circle').attr('cx', x).attr('cy', y).attr('r', sz / 2 * MM).attr('fill', F.tinte)
+        .attr('stroke', F.papier).attr('stroke-width', 1);
+      else {
+        g.append('circle').attr('cx', x).attr('cy', y).attr('r', sz / 2 * MM - sw * MM / 2).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', sw * MM);
+        if (rang === 1) g.append('circle').attr('cx', x).attr('cy', y).attr('r', 1.4).attr('fill', F.tinte);
+      }
+      const fs = rang === 1 ? 11.5 : rang === 2 ? 10 : rang === 3 ? 9 : 8.2;
+      const tx = g.append('text').attr('x', x + dx).attr('y', y + dy).text(name)
+        .attr('font-family', SERIF).attr('font-weight', rang <= 2 ? 600 : 400).attr('font-size', fs).attr('fill', F.tinte)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 3.6).attr('stroke-linejoin', 'round');
+      if (anchor === 'end') tx.attr('text-anchor', 'end');
+      beleg(tx.node());
+      if (dtName) {
+        const t2 = g.append('text').attr('x', x + dx).attr('y', y + dy + fs * .98).text(dtName)
+          .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', fs * .78).attr('fill', F.dim)
+          .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 3.6).attr('stroke-linejoin', 'round');
+        if (anchor === 'end') t2.attr('text-anchor', 'end');
+        beleg(t2.node());
+      }
+    }
+
+    // Länder, Meer, Donau
+    for (const [n, lon, lat, rot] of [
+      ['UNGARN', 20.75, 46.85, 0], ['SERBIEN', 20.75, 44.85, 0], ['BULGARIEN', 25.7, 43.45, 0],
+      ['REP. MOLDAU', 28.45, 46.65, -62], ['UKRAINE', 24.6, 48.15, 0], ['UKRAINE', 29.5, 46.3, 0],
+    ]) {
+      const [x, y] = proj([lon, lat]);
+      g.append('text').attr('x', x).attr('y', y).text(n).attr('text-anchor', 'middle')
+        .attr('transform', rot ? `rotate(${rot} ${x} ${y})` : null)
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 9).attr('fill', F.dim).attr('letter-spacing', '.22em')
+        .attr('paint-order', 'stroke').attr('stroke', F.nachbar).attr('stroke-width', 3);
+    }
+    const [mx, my] = proj([29.5, 43.8]);
+    g.append('text').attr('x', mx).attr('y', my).text('MAREA NEAGR\u0102').attr('text-anchor', 'middle')
+      .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 10.5).attr('fill', F.wasser).attr('letter-spacing', '.14em');
+    const [dx1, dy1] = proj([23.4, 43.92]);
+    g.append('text').attr('x', dx1).attr('y', dy1).text('Dun\u0103rea \u00b7 Donau').attr('transform', `rotate(-3 ${dx1} ${dy1})`)
+      .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 9).attr('fill', F.wasser)
+      .attr('paint-order', 'stroke').attr('stroke', F.nachbar).attr('stroke-width', 3);
+
+    // Rosette: belegte Teilzählung Făgăraș-Ost
+    const [bx2, by2] = proj([24.95, 45.60]);
+    const [rx, ry] = proj([27.95, 44.42]);
+    g.append('path').attr('d', `M${bx2} ${by2} Q ${(bx2 + rx) / 2 + 14} ${(by2 + ry) / 2} ${rx - 2} ${ry - 10}`)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .9).attr('stroke-dasharray', '2.5 2').attr('opacity', .75);
+    const [rx0, ry0] = [rx, ry];
+    const ros = g.append('g').attr('transform', `translate(${rx} ${ry})`);
+    const zack = d3.range(28).map(i => {
+      const a = i / 28 * Math.PI * 2, r = (i % 2 ? 6.6 : 7.9) * MM * 1.62;
+      return [Math.cos(a) * r, Math.sin(a) * r];
+    });
+    ros.append('path').attr('d', 'M' + zack.map(p => p.join(' ')).join('L') + 'Z')
+      .attr('fill', F.papier).attr('stroke', d3.rgb(BAER).darker(1).formatHex()).attr('stroke-width', 1.1);
+    const rosZeilen = [
+      ['genetische Z\u00e4hlung', 9, SERIF, 'italic', F.dunkel, 400],
+      ['F\u0103g\u0103ra\u0219-Ost 2023', 9, SERIF, 'italic', F.dunkel, 400],
+      ['283', 19, MONO, 'normal', d3.rgb(BAER).darker(1.2).formatHex(), 500],
+      ['B\u00e4ren \u00b7 17\u201318 je 100 km\u00b2', 7, MONO, 'normal', F.dunkel, 500],
+      ['137 W \u00b7 146 M', 7, MONO, 'normal', F.dim, 500],
+    ];
+    const rosH = rosZeilen.reduce((a, z) => a + z[1] * 1.32, 0);
+    let rosY = -rosH / 2;
+    for (const [txt, size, fam, sty, fill, wt] of rosZeilen) {
+      const adv = size * 1.32;
+      rosY += adv;
+      ros.append('text').attr('y', rosY - adv * .3).attr('text-anchor', 'middle').text(txt)
+        .attr('font-family', fam).attr('font-style', sty).attr('font-weight', wt)
+        .attr('font-size', size).attr('fill', fill)
+        .attr('letter-spacing', size < 8 ? '.06em' : null);
+    }
+
+    belegt.push([rx - 54, ry - 54, rx + 54, ry + 54]);
+
+    // Kreiszahlen zuletzt: erster Kandidat, der auf nichts Gesetztes fällt
+    if (modus !== 'Kreisb\u00e4ren') for (const rec of KREISE.slice(0, 8)) {
+      if (rec.skip) continue;
+      const feats = rec.k.map(n => judete.get(n)).filter(Boolean); if (!feats.length) continue;
+      const [cxx, cyy] = path.centroid(fc(feats));
+      const basis = modus === 'Kolorit' || modus === 'Dichtewolke' ? 16 : 0;
+      const t1 = g.append('text').text(rec.label.toUpperCase()).attr('text-anchor', 'middle')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.8).attr('letter-spacing', '.02em').attr('fill', F.tinte)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4).attr('stroke-linejoin', 'round');
+      const t2 = g.append('text').text(rec.a.toLocaleString('de-DE') + (rec.d ? '  \u00b7  ' + rec.d.toFixed(1).replace('.', ',') : ''))
+        .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7.6).attr('fill', d3.rgb(BAER).darker(1.4).formatHex())
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4).attr('stroke-linejoin', 'round');
+      const kand = [rec.lo || [0, 0], [0, -32], [0, 34], [-50, 0], [50, 0], [-50, -28], [50, -28], [-50, 30], [50, 30],
+        [0, -56], [0, 58], [-80, 0], [80, 0], [-80, -34], [80, -34], [-80, 36], [80, 36]];
+      let gesetzt = false;
+      for (const [ox, oy] of kand) {
+        const x = cxx + ox, y = cyy + oy + basis;
+        t1.attr('x', x).attr('y', y); t2.attr('x', x).attr('y', y + 10.5);
+        const b1 = t1.node().getBBox(), b2 = t2.node().getBBox();
+        const x0 = Math.min(b1.x, b2.x), x1 = Math.max(b1.x + b1.width, b2.x + b2.width);
+        const y0 = Math.min(b1.y, b2.y), y1 = Math.max(b1.y + b1.height, b2.y + b2.height);
+        if (x0 > inset + 5 && x1 < W - inset - 5 && y0 > inset + 5 && y1 < H - inset - 5 && frei(x0, y0, x1, y1)) {
+          belegt.push([x0, y0, x1, y1]); gesetzt = true; break;
+        }
+      }
+      if (!gesetzt) { t1.remove(); t2.remove(); }
+    }
+    // Gradnetzbeschriftung, Plattenrahmen
+    for (let lon = 21; lon <= 29; lon += 2) {
+      const x = proj([lon, proj.invert([W / 2, H - inset - 8])[1]])[0];
+      if (x > inset + 14 && x < W - inset - 14) svg.append('text').attr('x', x).attr('y', H - inset - 5).text(lon + '\u00b0')
+        .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.bleistift);
+    }
+    for (let lat = 44; lat <= 48; lat += 1) {
+      const y = proj([proj.invert([inset + 10, H / 2])[0], lat])[1];
+      if (y > inset + 12 && y < H - inset - 12) svg.append('text').attr('x', inset + 4).attr('y', y + 2).text(lat + '\u00b0')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.bleistift);
+    }
+    svg.append('rect').attr('x', 1.5).attr('y', 1.5).attr('width', W - 3).attr('height', H - 3)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .8 * MM);
+    svg.append('rect').attr('x', inset).attr('y', inset).attr('width', W - 2 * inset).attr('height', H - 2 * inset)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .2 * MM);
+
+    // Titelbär
+    baer(d3.select('#titelbaer'), 45, 70, 1, { fill: BAER, ink: d3.rgb(BAER).darker(1.6).formatHex(), sw: 3, fell: true });
+
+    // Maßstab
+    const latM = 45.9, kmPerDeg = 111.32 * Math.cos(latM * Math.PI / 180);
+    const pxPerKm = Math.abs(proj([26, latM])[0] - proj([25, latM])[0]) / kmPerDeg;
+    const seg = 50 * pxPerKm;
+    const sb = d3.select('#scalebar').append('svg').attr('width', 4 * seg + 24).attr('height', 22).style('display', 'block');
+    for (let i = 0; i < 4; i++) sb.append('rect').attr('x', 3 + i * seg).attr('y', 11).attr('width', seg).attr('height', 3.4)
+      .attr('fill', i % 2 ? F.papier : F.tinte).attr('stroke', F.tinte).attr('stroke-width', .6);
+    [[0, '0'], [2, '100'], [4, '200 km']].forEach(([i, s]) => sb.append('text').attr('x', 3 + i * seg).attr('y', 8).text(s)
+      .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.tinte));
+
+    // Bärenjahr
+    const jw = 52 * MM / 12;
+    const jahr = d3.select('#jahr').html('').append('svg').attr('width', 52 * MM).attr('height', 40).style('display', 'block');
+    const phasen = [
+      ['Winterruhe im Bau', 0, 3.4, F.bleistift, .8], ['Winterruhe', 10.9, 12, F.bleistift, .8],
+      ['Wurf, 1\u20133 Junge', .6, 1.9, VORF, .85], ['Paarung', 4.4, 7, BAER, .8], ['Fettpolster fressen', 7.9, 10.9, '#b98c5c', .95],
+    ];
+    phasen.forEach(([lab, a, b, col, op], i) => {
+      const row = i === 2 ? 1 : i === 3 || i === 4 ? 2 : 0;
+      jahr.append('rect').attr('x', a * jw).attr('y', 11 + row * 8.4).attr('width', (b - a) * jw).attr('height', 6)
+        .attr('fill', col).attr('opacity', op).attr('rx', 1);
+      if (i !== 1) jahr.append('text').attr('x', a * jw + 3).attr('y', 11 + row * 8.4 + 4.6).text(lab)
+        .attr('font-family', SERIF).attr('font-size', 6.4).attr('fill', row === 0 ? '#fff' : F.papier);
+    });
+    'JFMAMJJASOND'.split('').forEach((m, i) => jahr.append('text').attr('x', i * jw + jw / 2).attr('y', 7).text(m)
+      .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.2).attr('fill', F.dim));
+    jahr.append('text').attr('x', 0).attr('y', 38).text('Revier 20\u2013300 km\u00b2 \u00b7 M\u00e4nnchen bis 300 kg')
+      .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 7.4).attr('fill', F.dunkel);
+
+    // Zeichenerklärung
+    const bearSwatch = (s, opt = {}) => {
+      const tmp = d3.create('svg');
+      const gg = tmp.append('g');
+      baer(gg, 14, 8, s, opt);
+      return gg.html();
+    };
+    const dichteZeilen = {
+      'Streuung': [
+        [bearSwatch(.028 * MM, { fill: BAER, ink: d3.rgb(BAER).darker(1.5).formatHex(), sw: 3.4 }), 'eine Signatur = 100 B&auml;ren, gestreut nach H&ouml;henlage'],
+        [`<circle cx="9" cy="8" r="1.5" fill="${d3.rgb(BAER).darker(.8)}"/><circle cx="14" cy="11" r="1.5" fill="${d3.rgb(BAER).darker(.8)}"/><circle cx="19" cy="8" r="1.5" fill="${d3.rgb(BAER).darker(.8)}"/>`, 'nur Einzelnachweise (Cluj 7, Bihor 5)'],
+      ],
+      'Kreisb\u00e4ren': [
+        [bearSwatch(.031 * MM, { fill: BAER, ink: d3.rgb(BAER).darker(1.6).formatHex(), sw: 2.4, fell: true }), 'Kreisbestand 1727 Tiere (Harghita)'],
+        [bearSwatch(.0149 * MM, { fill: BAER, ink: d3.rgb(BAER).darker(1.6).formatHex(), sw: 2.4 }), 'Kreisbestand 400 Tiere &mdash; Fl&auml;che &prop; Bestand'],
+      ],
+      'Kolorit': [
+        [[2, 8, 15, 22, 30].map((v, i) => `<rect x="${1 + i * 9.2}" y="3" width="9.2" height="10" fill="${rampe(v)}"/>`).join('') + `<text x="1" y="16" font-size="5.4" font-family="${MONO.replace(/'/g, '&quot;')}" fill="${F.dim}">2</text><text x="40" y="16" font-size="5.4" font-family="${MONO.replace(/'/g, '&quot;')}" fill="${F.dim}">30</text>`, 'B&auml;ren je 100 km&sup2; Habitat, Kreiswert'],
+        [bearSwatch(.026 * MM, { fill: F.papier, ink: d3.rgb(BAER).darker(1.8).formatHex(), sw: 3.2 }), 'die f&uuml;nf bestandsst&auml;rksten Kreise'],
+      ],
+      'Dichtewolke': [
+        [`<defs><linearGradient id="lgw"><stop offset="0" stop-color="${BAER}" stop-opacity="0"/><stop offset="1" stop-color="${BAER}" stop-opacity=".95"/></linearGradient></defs><rect x="1" y="3" width="46" height="10" fill="url(#lgw)"/>`, 'geglättete Dichte, gering &rarr; hoch'],
+        [bearSwatch(.026 * MM, { fill: F.papier, ink: d3.rgb(BAER).darker(1.8).formatHex(), sw: 3.2 }), 'die f&uuml;nf bestandsst&auml;rksten Kreise'],
+      ],
+    }[modus];
+    const leg = [
+      ...dichteZeilen,
+      [`<rect x="1" y="2" width="46" height="12" fill="url(#ohne2)"/><defs><pattern id="ohne2" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M0 7 L7 0" stroke="${F.dim}" stroke-width=".8" opacity=".55"/></pattern></defs>`, 'keine g&uuml;ltigen Genotypen (Mehedin&#539;i, Satu Mare)'],
+      [`<text x="8" y="12" font-family="${MONO.replace(/'/g, '&quot;')}" font-weight="500" font-size="7" fill="${d3.rgb(BAER).darker(1.4)}">873 &middot; 17,4</text>`, 'Kreisbestand &middot; Dichte je 100 km&sup2;'],
+      ...(() => {
+        const st = d3.create('svg').append('g');
+        const zack = d3.range(12).map(i => { const a = i / 12 * Math.PI * 2, r = (i % 2 ? .95 : 1.95) * MM; return [14 + Math.cos(a) * r, 8 + Math.sin(a) * r]; });
+        st.append('path').attr('d', 'M' + zack.map(p => p.join(' ')).join('L') + 'Z').attr('fill', VORF).attr('stroke', F.papier).attr('stroke-width', 1.1);
+        return [[st.html(), 't&ouml;dlicher Angriff (Bucegi, 07/2024)']];
+      })(),
+      ...(window.__mapTweaks.begegnung ? [
+        [`<path transform="translate(14 8) scale(.19)" d="M-16 -10 L16 -10 L12 20 L-12 20 Z" fill="${F.papier}" stroke="${F.tinte}" stroke-width="4"/><path transform="translate(14 8) scale(.19)" d="M-19 -14 L19 -14 L19 -9 L-19 -9 Z M-4 -22 L4 -22 L4 -14 L-4 -14 Z" fill="${F.tinte}"/>`, 'B&auml;ren am Siedlungsrand, M&uuml;llcontainer'],
+        [(() => { const s = d3.create('svg').append('g');
+            s.append('circle').attr('cx', 14).attr('cy', 8).attr('r', 1.7 * MM).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', .5 * MM);
+            baer(s, 14, 8, .0185 * MM, { fill: 'none', ink: F.tinte, sw: 7 });
+            s.append('line').attr('x1', 14 - 1.55 * MM).attr('y1', 8 + 1.55 * MM).attr('x2', 14 + 1.55 * MM).attr('y2', 8 - 1.55 * MM).attr('stroke', F.tinte).attr('stroke-width', .5 * MM);
+            return s.html(); })(), 'F&uuml;tterung am Stra&szlig;enrand, Verbotszone'],
+        [`<g transform="translate(14 8) scale(.21)"><path d="M-14 6 A7 7 0 1 0 -14 5.9 Z M14 6 A7 7 0 1 0 14 5.9 Z" fill="${F.papier}" stroke="${F.tinte}" stroke-width="3.4"/><path d="M-7 3 L7 3 M-17 -3 L-11 -12 L-4 -9 M17 -3 L11 -12 L4 -9" fill="none" stroke="${F.tinte}" stroke-width="3.4" stroke-linejoin="round"/></g>`, 'Beobachtungsh&uuml;tte, B&auml;rentourismus'],
+      ] : []),
+      ...(window.__mapTweaks.parks ? [[`<circle cx="14" cy="8" r="${2.1 * MM}" fill="${PARK}" fill-opacity=".1" stroke="${PARK}" stroke-width="${.32 * MM}" stroke-dasharray="3.4 2.2"/><path transform="translate(14 8) scale(.72)" d="M0 -7 L3.4 -1 L1.6 -1 L4.6 4.4 L-4.6 4.4 L-1.6 -1 L-3.4 -1 Z" fill="${PARK}"/>`, 'Nationalpark, Naturpark']] : []),
+      [`<circle cx="9" cy="8" r="${1.4 * MM - 1}" fill="${F.papier}" stroke="${F.tinte}" stroke-width="2.1"/><circle cx="9" cy="8" r="1.4" fill="${F.tinte}"/><circle cx="24" cy="8" r="${MM - .9}" fill="${F.papier}" stroke="${F.tinte}" stroke-width="1.7"/><circle cx="36" cy="8" r="2.2" fill="${F.tinte}"/>`, 'Hauptstadt &middot; Gro&szlig;stadt &middot; Ort'],
+      ...(terrainURL && terrainOpacity > 0 ? [[HYPS.map((c, i) => `<rect x="${1 + i * 7.6}" y="3" width="7.6" height="10" fill="${c}" opacity="${terrainOpacity}"/>`).join(''), 'H&ouml;henschichten 0 &ndash; &uuml;ber 3000 m']] : []),
+      [`<rect x="1" y="8" width="46" height="6" fill="${GRENZ}" opacity=".2"/><line x1="1" y1="8" x2="47" y2="8" stroke="${F.tinte}" stroke-width="1.6" stroke-dasharray="7.5 2.4 1 2.4"/><line x1="1" y1="14" x2="47" y2="14" stroke="${F.tinte}" stroke-width=".6" opacity=".45"/>`, 'Staatsgrenze &middot; Kreisgrenze (jude&#539;)'],
+    ];
+    document.getElementById('legend').innerHTML = leg.map(([sw, txt]) =>
+      `<div style="display:flex;align-items:center;gap:7px;padding:.7px 0;border-bottom:.5px solid #e5ddce">
+        <svg width="48" height="15" viewBox="0 0 48 16" style="flex:none;overflow:visible">${sw}</svg>
+        <div style="font-size:8.6px;line-height:1.12">${txt}</div>
+      </div>`).join('');
+  }
+
+  window.__redrawMap = draw;
+  draw();
+})().catch(e => {
+  console.error('Kartenfehler:', e);
+  document.getElementById('map').innerHTML = '<div style="font:12px monospace;color:#a83a28;padding:8px">FEHLER: ' + (e && e.message) + '</div>';
+});
+</script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "palette": [
+    "#7a4a2b",
+    "#a83a28",
+    "#4f7a4a",
+    "#5a3a52"
+  ],
+  "dichte": "Streuung",
+  "terrain": "dezent",
+  "begegnung": true,
+  "parks": true
+}/*EDITMODE-END*/;
+// palette = [Bär, Vorfall, Schutzgebiet, Grenzkolorit]
+const PALETTES = [
+  ["#7a4a2b", "#a83a28", "#4f7a4a", "#5a3a52"],
+  ["#5a3a52", "#cb5a2a", "#35707b", "#434462"],
+  ["#434462", "#a83a28", "#6f7538", "#434462"],
+  ["#6b4f1d", "#8f2f2f", "#2f6f74", "#6b4f1d"]
+];
+function TweaksApp() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(() => { window.__applyMapTweaks(t); }, [t]);
+  return (
+    <div><span style={{display:'none'}}>tweaks</span>
+    <TweaksPanel>
+      <TweakSection label="Darstellung der Dichte" />
+      <TweakSelect label="Verfahren" value={t.dichte} options={['Streuung', 'Kreisbären', 'Kolorit', 'Dichtewolke']}
+                   onChange={(v) => setTweak('dichte', v)} />
+      <TweakSection label="Farbklima" />
+      <TweakColor label="Palette" value={t.palette} options={PALETTES}
+                  onChange={(v) => setTweak('palette', v)} />
+      <TweakSection label="Karte" />
+      <TweakRadio label="Gelände" value={t.terrain} options={['aus', 'dezent', 'kräftig']}
+                  onChange={(v) => setTweak('terrain', v)} />
+      <TweakToggle label="Begegnungsorte" value={t.begegnung}
+                   onChange={(v) => setTweak('begegnung', v)} />
+      <TweakToggle label="Schutzgebiete" value={t.parks}
+                   onChange={(v) => setTweak('parks', v)} />
+    </TweaksPanel>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<TweaksApp />);
+</script>
+</body>
+</html>

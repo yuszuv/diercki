@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Rumänien · Hauptverkehrsnetz — Sternprodukt-Atlas</title>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<style>
+  body{margin:0}
+  doc-page:not(:defined){visibility:hidden}
+  a{color:#2f6f74}
+  a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<doc-page size="a4" orientation="landscape">
+<section class="page" id="blatt15" data-screen-label="Blatt 15 · Rumänien Verkehr" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Rum&auml;nien &middot; Hauptverkehrsnetz</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 15</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 4mm">Trassengenaue F&uuml;hrung aus OpenStreetMap &mdash; die neun CFR-Magistralen mit ihren Streckennummern, dazu Nebenbahnen, Autobahnen und Schnellstra&szlig;en. Im Donaudelta endet das Landverkehrsnetz bei Tulcea; weiter geht es nur &uuml;ber die Wasserstra&szlig;e.</div>
+  <div style="height:157mm;display:flex;gap:7mm;min-height:0">
+    <div id="map" style="flex:1;min-width:0;position:relative"><div id="lade" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.08em;color:#8b8173">KARTE LÄDT — OSM-TRASSEN + GELÄNDE …</div></div>
+    <div style="width:54mm;flex:none;display:flex;flex-direction:column;font-size:9.5px">
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:3px">Zeichenerkl&auml;rung</div>
+      <div id="legend" style="display:flex;flex-direction:column"></div>
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:2.5mm 0 1mm">Bahn-Magistralen</div>
+      <div id="magistralen"></div>
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:1.5mm 0 1mm">Ma&szlig;stab</div>
+      <div id="scalebar"></div>
+      <div style="margin-top:auto;font-size:7.6px;line-height:1.38;color:#4a4139;text-wrap:pretty">OSM-Trassen, vereinfacht auf 0,004&deg; (&asymp; 400 m). Bahn: Strecken mit Fern- und Regionalverkehr; Streckennummern nach CFR. Ausbaustand der Autobahnen: 08/2026. Deltaumriss und Kanaltrasse generalisiert.</div>
+    </div>
+  </div>
+  <div style="margin-top:3mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:4px">
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">QUELLEN: &copy; OPENSTREETMAP-MITWIRKENDE (ODBL) &middot; NATURAL EARTH 1:50 M &middot; GEL&Auml;NDE: TERRAIN TILES (SRTM, AWS) &middot; PROJEKTION: LAMBERT KONFORM KONISCH 44&deg;/48&deg; N &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">fnord</div>
+  </div>
+</section>
+</doc-page>
+<div id="root"></div>
+<script src="doc-page.js"></script>
+<script>
+window.__mapTweaks = { palette: ['#cb5a2a', '#b98e3f', '#35707b', '#5a3a52'], terrain: 'dezent', expressways: true, nebenkarte: true };
+window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (window.__redrawMap) window.__redrawMap(); };
+
+(async function () {
+  const MM = 96 / 25.4;
+  // fixed ground colors; thematic accents come from the palette tweak
+  const F = {
+    papier: '#fdfdfd', tinte: '#2a231c', dim: '#8b8173', nachbar: '#eeeae1',
+    meer: '#dce7e4', bleistift: '#434462', dunkel: '#4a4139'
+  };
+  const HYPS = ['#bcca9a', '#d4d1a2', '#dec990', '#cfae74', '#b98c5c', '#a1704b']; // 0/200/500/1000/2000/3000 m
+  const HYPS_LIMITS = [200, 500, 1000, 2000, 3000, Infinity];
+  const SENKE = '#9db884';
+  const SERIF = "'Gentium Book Plus','Noto Serif',serif";
+  const MONO = "'Noto Sans Mono',monospace";
+
+  const [topo, bahn, strassen, bau, gewaesser] = await Promise.all([
+    'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json',
+    'uploads/bahn.geojson.dat', 'uploads/strassen.geojson.dat', 'uploads/strassen-bau.geojson.dat',
+    'uploads/gewaesser.geojson-86b9210a.dat'
+  ].map(u => fetch(u).then(r => { if (!r.ok) throw new Error(u + ' \u2192 HTTP ' + r.status); return r.json(); })));
+  await customElements.whenDefined('doc-page');
+  await new Promise(r => { requestAnimationFrame(() => requestAnimationFrame(r)); setTimeout(r, 250); }); // rAF stalls in throttled iframes — race against a timeout
+  const countries = topojson.feature(topo, topo.objects.countries);
+  const RO = countries.features.find(f => String(f.id) === '642');
+
+  const box = document.getElementById('map').getBoundingClientRect();
+  const W = Math.round(box.width), H = Math.round(box.height);
+  const inset = 2.8 * MM; // inner edge of the plate frame
+  const proj = d3.geoConicConformal().parallels([44, 48]).rotate([-25.5, 0])
+    .fitExtent([[inset + 26, inset + 20], [W - inset - 26, H - inset - 20]], RO);
+  const path = d3.geoPath(proj);
+
+  // ——— terrain: hypsometric classes + soft hillshade from AWS terrarium tiles (z7)
+  async function buildTerrainURL() {
+    const Z = 7, X0 = 70, X1 = 75, Y0 = 43, Y1 = 47, T = 256;
+    const cols = X1 - X0 + 1, rows = Y1 - Y0 + 1;
+    const mc = document.createElement('canvas'); mc.width = cols * T; mc.height = rows * T;
+    const mctx = mc.getContext('2d', { willReadFrequently: true });
+    await Promise.all([].concat(...d3.range(X0, X1 + 1).map(x => d3.range(Y0, Y1 + 1).map(y =>
+      new Promise((res, rej) => {
+        const img = new Image(); img.crossOrigin = 'anonymous';
+        img.onload = () => { mctx.drawImage(img, (x - X0) * T, (y - Y0) * T); res(); };
+        img.onerror = () => rej(new Error('Terrain-Kachel ' + Z + '/' + x + '/' + y));
+        img.src = `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${Z}/${x}/${y}.png`;
+      })))));
+    const mw = mc.width, mh = mc.height, md = mctx.getImageData(0, 0, mw, mh).data;
+    const rawElev = (px, py) => {
+      px = Math.max(0, Math.min(mw - 1, px)); py = Math.max(0, Math.min(mh - 1, py));
+      const i = (py * mw + px) * 4;
+      return md[i] * 256 + md[i + 1] + md[i + 2] / 256 - 32768;
+    };
+    const n = 2 ** Z;
+    const elevAt = (lon, lat) => {
+      const latR = lat * Math.PI / 180;
+      const fx = ((lon + 180) / 360 * n - X0) * T;
+      const fy = ((1 - Math.log(Math.tan(latR) + 1 / Math.cos(latR)) / Math.PI) / 2 * n - Y0) * T;
+      const x0 = Math.floor(fx), y0 = Math.floor(fy), u = fx - x0, v = fy - y0;
+      return rawElev(x0, y0) * (1 - u) * (1 - v) + rawElev(x0 + 1, y0) * u * (1 - v)
+           + rawElev(x0, y0 + 1) * (1 - u) * v + rawElev(x0 + 1, y0 + 1) * u * v;
+    };
+    // elevation buffer in screen space, then classes + shading
+    const ev = new Float32Array(W * H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const ll = proj.invert([x + .5, y + .5]);
+      ev[y * W + x] = ll ? elevAt(ll[0], ll[1]) : 0;
+    }
+    const mix = .3; // bake 30 % paper into every class — the traffic net stays on top
+    const pap = d3.rgb(F.papier);
+    const classes = [SENKE, ...HYPS].map(c => {
+      const r = d3.rgb(c);
+      return [r.r + (pap.r - r.r) * mix, r.g + (pap.g - r.g) * mix, r.b + (pap.b - r.b) * mix];
+    });
+    const cls = e => { if (e < 0) return 0; for (let i = 0; i < HYPS_LIMITS.length; i++) if (e < HYPS_LIMITS[i]) return i + 1; return 6; };
+    const tc = document.createElement('canvas'); tc.width = W; tc.height = H;
+    const tctx = tc.getContext('2d');
+    const out = tctx.createImageData(W, H);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      const i = y * W + x;
+      const c = classes[cls(ev[i])];
+      const dzdx = (ev[y * W + Math.min(W - 1, x + 1)] - ev[y * W + Math.max(0, x - 1)]) / 2;
+      const dzdy = (ev[Math.min(H - 1, y + 1) * W + x] - ev[Math.max(0, y - 1) * W + x]) / 2;
+      const shade = Math.max(.78, Math.min(1.12, 1 - (dzdx + dzdy) / 2 * .0045)); // light from NW
+      const o = i * 4;
+      out.data[o] = c[0] * shade; out.data[o + 1] = c[1] * shade; out.data[o + 2] = c[2] * shade; out.data[o + 3] = 255;
+    }
+    tctx.putImageData(out, 0, 0);
+    return tc.toDataURL('image/png');
+  }
+  let terrainURL = null;
+  try { terrainURL = await buildTerrainURL(); }
+  catch (e) { console.warn('Gel\u00e4nde \u00fcbersprungen:', e.message); }
+  document.getElementById('lade')?.remove();
+
+  // ——— static geometry, prepared once
+  const fc = feats => ({ type: 'FeatureCollection', features: feats });
+  const subset = (data, pred) => fc(data.features.filter(pred));
+  // ——— Bahn: die neun CFR-Magistralen tragen ihre Nummer im OSM-Feld `name`
+  const MAG = ['100', '200', '300', '400', '500', '600', '700', '800', '900'];
+  const nummern = p => String(p.name || '').split(';').map(s => s.trim()).filter(Boolean);
+  const magOf = p => nummern(p).find(n => MAG.includes(n)) || null;
+  const magGroup = new Map(MAG.map(n => [n, []]));
+  for (const f of bahn.features) { const m = magOf(f.properties); if (m) magGroup.get(m).push(f); }
+  for (const [n, fs] of magGroup) if (!fs.length) console.warn('Magistrale ohne Trasse in den Daten:', n);
+  const railMag = fc([].concat(...magGroup.values()));
+  const railMain = subset(bahn, f => f.properties.rang === 1 && !magOf(f.properties));
+  const railBranch = subset(bahn, f => f.properties.rang === 2 && !magOf(f.properties));
+  const rail804 = subset(bahn, f => nummern(f.properties).includes('804')); // Medgidia – Tulcea, der einzige Schienenweg ins Delta
+  const motorways = subset(strassen, f => f.properties.klasse === 'motorway');
+  const expressways = subset(strassen, f => f.properties.klasse === 'trunk');
+
+  // ——— Gewässer nach Natural-Earth-scalerank in drei Gewichte
+  const rivers = { haupt: [], mittel: [], klein: [] };
+  for (const f of gewaesser.features) {
+    const r = f.properties.rang;
+    (r <= 2 ? rivers.haupt : r <= 7 ? rivers.mittel : rivers.klein).push(f);
+  }
+  // Schifffahrtsweg: Donau bis zur Mündung über den Sulina-Arm, dazu der Kanal
+  const KANAL = {
+    type: 'Feature', properties: {}, geometry: {
+      type: 'MultiLineString', coordinates: [
+        [[28.03, 44.345], [28.14, 44.30], [28.27, 44.253], [28.40, 44.20], [28.52, 44.15], [28.63, 44.105]],
+        [[28.50, 44.175], [28.58, 44.24], [28.66, 44.31], [28.71, 44.335]],
+      ]
+    }
+  };
+  const wasserstrasse = fc([
+    ...gewaesser.features.filter(f => ['Danube', 'Bratul Sulina'].includes(f.properties.name)),
+    KANAL,
+  ]);
+
+  // ——— Donaudelta, generalisiert: Umriss zwischen Chilia- und Sfântu-Gheorghe-Arm
+  const poly = ring => ({ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [ring] } });
+  const DELTA = poly([[28.72, 45.19], [28.90, 45.245], [29.08, 45.29], [29.28, 45.325], [29.50, 45.355],
+    [29.70, 45.31], [29.74, 45.18], [29.71, 45.05], [29.62, 44.905], [29.34, 44.895], [29.08, 44.925],
+    [28.93, 45.005], [28.82, 45.10], [28.72, 45.19]]);
+  const LAGUNEN = [
+    poly([[28.85, 45.00], [29.06, 44.975], [29.11, 44.875], [29.02, 44.785], [28.87, 44.805], [28.81, 44.90], [28.85, 45.00]]),
+    poly([[28.74, 44.735], [28.90, 44.715], [28.93, 44.585], [28.78, 44.565], [28.70, 44.645], [28.74, 44.735]]),
+  ];
+
+  // ——— Nebenkarte: Ausschnitt, vorgefilterte Trassen, Deltaorte
+  const DBOX = [28.45, 44.78, 29.90, 45.52];
+  // Ring im Uhrzeigersinn — d3 liest die Wicklung sphärisch; andersherum wäre es der Rest der Welt
+  const DBOXGEO = { type: 'Polygon', coordinates: [[[DBOX[0], DBOX[1]], [DBOX[0], DBOX[3]], [DBOX[2], DBOX[3]], [DBOX[2], DBOX[1]], [DBOX[0], DBOX[1]]]] };
+  const imKasten = f => {
+    let hit = false;
+    const walk = c => { if (hit) return; if (Array.isArray(c[0])) c.forEach(walk); else if (c[0] >= DBOX[0] && c[0] <= DBOX[2] && c[1] >= DBOX[1] && c[1] <= DBOX[3]) hit = true; };
+    walk(f.geometry.coordinates);
+    return hit;
+  };
+  const nbBahn = bahn.features.filter(imKasten);
+  const nbStrassen = strassen.features.filter(imKasten);
+  const DELTAORTE = [
+    [28.80, 45.17, 'Tulcea', 3, [5, -4]], [29.65, 45.16, 'Sulina', 4, [-5, -4, 'end']],
+    [29.60, 44.90, 'Sf. Gheorghe', 4, [-5, 8, 'end']], [29.29, 45.42, 'Chilia Veche', 4, [4, -4]],
+    [29.28, 45.17, 'Crișan', 4, [3, 8]], [29.14, 45.03, 'Murighiol', 4, [4, 8]],
+    [29.09, 45.09, 'Mahmudia', 4, [-4, -4, 'end']], [28.72, 44.89, 'Babadag', 4, [4, 4]],
+    [28.90, 44.76, 'Jurilovca', 4, [4, 4]], [28.46, 45.27, 'Isaccea', 4, [3, -4]],
+    [28.14, 45.24, 'Măcin', 4, [3, 8]], [28.97, 45.12, 'Nufăru', 4, [3, -4]],
+    [28.51, 45.19, 'Niculțel', 4, [3, 9]],
+  ];
+  const coast = topojson.mesh(topo, topo.objects.countries, (a, b) => a === b);
+  const fremd = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && String(a.id) !== '642' && String(b.id) !== '642');
+  const roGrenze = topojson.mesh(topo, topo.objects.countries, (a, b) => a !== b && (String(a.id) === '642' || String(b.id) === '642'));
+
+  // Städte: [lon, lat, Name, Rang, bevorzugter Versatz [dx, dy, anchor]]
+  // Rang 1 Hauptstadt · 2 = 250 000–1 Mio. · 3 = 100 000–250 000 · 4 Netzknoten darunter
+  const C = [
+    [26.10, 44.43, 'București', 1, [9, 15]],
+    [23.60, 46.77, 'Cluj-Napoca', 2, [7, -6]],
+    [21.23, 45.75, 'Timișoara', 2, [7, -6]],
+    [27.60, 47.16, 'Iași', 2, [8, 3]],
+    [28.63, 44.17, 'Constanța', 2, [7, 12]],
+    [23.80, 44.32, 'Craiova', 2, [6, 13]],
+    [25.60, 45.65, 'Brașov', 2, [8, 10]],
+    [28.05, 45.44, 'Galați', 2, [8, -4]],
+    [26.02, 44.94, 'Ploiești', 3, [8, 2]],
+    [21.93, 47.07, 'Oradea', 3, [-6, -6, 'end']],
+    [27.98, 45.27, 'Brăila', 3, [7, 9]],
+    [21.32, 46.17, 'Arad', 3, [7, 10]],
+    [24.87, 44.86, 'Pitești', 3, [-4, 12, 'end']],
+    [24.15, 45.79, 'Sibiu', 3, [2, -7]],
+    [26.91, 46.57, 'Bacău', 3, [8, 3]],
+    [24.56, 46.54, 'Târgu Mureș', 3, [7, -4]],
+    [23.58, 47.66, 'Baia Mare', 3, [7, -4]],
+    [26.82, 45.15, 'Buzău', 3, [7, 4]],
+    [26.66, 47.75, 'Botoșani', 3, [7, -3]],
+    [22.88, 47.79, 'Satu Mare', 3, [-6, -5, 'end']],
+    [24.37, 45.10, 'Râmnicu Vâlcea', 3, [-6, 4, 'end']],
+    [22.66, 44.63, 'Drobeta-Turnu Severin', 3, [6, 11]],
+    [26.26, 47.65, 'Suceava', 3, [7, -3]],
+    [26.37, 46.93, 'Piatra Neamț', 3, [-6, -4, 'end']],
+    [27.18, 45.70, 'Focșani', 3, [7, 4]],
+    [25.46, 44.93, 'Târgoviște', 3, [-6, -4, 'end']],
+    [28.80, 45.17, 'Tulcea', 4, [-6, -4, 'end']],
+    [29.65, 45.16, 'Sulina', 4, [6, 4]],
+    [28.46, 45.27, 'Isaccea', 4, [4, -5]],
+    [28.14, 45.24, 'Măcin', 4, [-5, 9, 'end']],
+    [28.03, 44.34, 'Cernavodă', 4, [-5, -5, 'end']],
+    [27.83, 44.39, 'Fetești', 4, [-5, 9, 'end']],
+    [28.27, 44.25, 'Medgidia', 4, [3, 10]],
+    [28.58, 43.82, 'Mangalia', 4, [6, 4]],
+    [25.97, 43.90, 'Giurgiu', 4, [-7, 5, 'end']],
+    [25.53, 44.28, 'Videle', 4, [-6, -4, 'end']],
+    [27.33, 44.20, 'Călărași', 4, [6, 9]],
+    [27.37, 44.57, 'Slobozia', 4, [6, -4]],
+    [27.24, 45.09, 'Făurei', 4, [-6, 5, 'end']],
+    [27.17, 46.10, 'Adjud', 4, [-6, 4, 'end']],
+    [27.23, 45.88, 'Mărășești', 4, [-6, 5, 'end']],
+    [27.67, 46.23, 'Bârlad', 4, [6, 4]],
+    [27.73, 46.64, 'Vaslui', 4, [6, 4]],
+    [26.72, 47.25, 'Pașcani', 4, [-6, -4, 'end']],
+    [26.93, 46.93, 'Roman', 4, [6, 4]],
+    [23.87, 47.14, 'Dej', 4, [5, -4]],
+    [23.68, 46.20, 'Teiuș', 4, [-5, 5, 'end']],
+    [23.01, 45.85, 'Simeria', 4, [4, 10]],
+    [22.90, 45.88, 'Deva', 4, [-5, -5, 'end']],
+    [24.79, 46.22, 'Sighișoara', 4, [5, -5]],
+    [24.35, 46.16, 'Mediaș', 4, [-5, -4, 'end']],
+    [23.57, 46.07, 'Alba Iulia', 4, [-5, 8, 'end']],
+    [23.79, 46.57, 'Turda', 4, [5, 9]],
+    [24.50, 47.13, 'Bistrița', 4, [5, -4]],
+    [23.06, 47.19, 'Zalău', 4, [-5, 8, 'end']],
+    [25.80, 46.36, 'Miercurea Ciuc', 4, [6, 4]],
+    [25.79, 45.87, 'Sfântu Gheorghe', 4, [6, 8]],
+    [24.97, 45.84, 'Făgăraș', 4, [5, -4]],
+    [22.22, 45.42, 'Caransebeș', 4, [5, 9]],
+    [21.89, 45.30, 'Reșița', 4, [-5, 5, 'end']],
+    [23.27, 45.04, 'Târgu Jiu', 4, [-5, -4, 'end']],
+    [24.37, 44.43, 'Slatina', 4, [5, 9]],
+    [25.33, 43.98, 'Alexandria', 4, [-5, 8, 'end']],
+    [21.30, 46.35, 'Curtici', 4, [-5, -4, 'end']],
+  ];
+  const CI = Object.fromEntries(C.map(c => [c[2], c]));
+
+  // Magistralen-Register für die Randspalte
+  const MAGISTRALEN = [
+    ['100', 'București – Craiova – Timișoara – Jimbolia'],
+    ['200', 'Brașov – Sibiu – Simeria – Arad – Curtici'],
+    ['300', 'București – Brașov – Cluj-Napoca – Oradea'],
+    ['400', 'Brașov – Deda – Dej – Baia Mare – Satu Mare'],
+    ['500', 'București – Bacău – Suceava – Vicșani'],
+    ['600', 'Făurei – Bârlad – Iași – Ungheni'],
+    ['700', 'București – Făurei – Brăila – Galați'],
+    ['800', 'București – Fetești – Constanța – Mangalia'],
+    ['900', 'București – Videle – Giurgiu'],
+  ];
+
+  function draw() {
+    const t = window.__mapTweaks;
+    const [AUTOBAHN, SCHNELL, WASSER, GRENZ] = t.palette;
+    const terrainOpacity = { aus: 0, dezent: .5, 'kr\u00e4ftig': .85 }[t.terrain] ?? .5;
+
+    d3.select('#map').selectAll('svg').remove();
+    d3.select('#scalebar').html('');
+    const svg = d3.select('#map').append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H).style('display', 'block');
+
+    svg.append('clipPath').attr('id', 'feld').append('rect')
+      .attr('x', inset).attr('y', inset).attr('width', W - 2 * inset).attr('height', H - 2 * inset);
+    svg.append('clipPath').attr('id', 'roclip').append('path').attr('d', path(RO));
+    const g = svg.append('g').attr('clip-path', 'url(#feld)');
+    const defs = svg.append('defs');
+
+    // Belegungsregister: Beschriftung weicht aus, statt sich zu überlagern
+    const belegt = [];
+    const beleg = n => { try { const b = n.getBBox(); belegt.push([b.x, b.y, b.x + b.width, b.y + b.height]); } catch (e) { /* noop */ } };
+    const frei = (x0, y0, x1, y1) => !belegt.some(([a0, b0, a1, b1]) => x0 < a1 + 2 && x1 > a0 - 2 && y0 < b1 + 2 && y1 > b0 - 2);
+    const imFeld = (x0, y0, x1, y1) => x0 > inset + 4 && x1 < W - inset - 4 && y0 > inset + 4 && y1 < H - inset - 4;
+
+    // Platz der Nebenkarte wird vorab reserviert, damit die Hauptkarte ihn freilässt
+    const NB = { w: 68 * MM, h: 49 * MM };
+    NB.x = inset + 4; NB.y = H - inset - 4 - NB.h;
+    if (t.nebenkarte) belegt.push([NB.x - 4, NB.y - 4, NB.x + NB.w + 4, NB.y + NB.h + 4]);
+
+    // sea, coastal glow (below land), land fills
+    g.append('rect').attr('x', 0).attr('y', 0).attr('width', W).attr('height', H).attr('fill', F.meer);
+    for (const [w, o] of [[2.6, .07], [1.4, .12], [.55, .2]])
+      g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', WASSER).attr('stroke-width', w * MM).attr('opacity', o);
+    g.selectAll('path.land').data(countries.features).join('path')
+      .attr('d', path).attr('fill', d => String(d.id) === '642' ? F.papier : F.nachbar);
+
+    // terrain inside Romania
+    if (terrainURL && terrainOpacity > 0)
+      g.append('image').attr('href', terrainURL).attr('x', 0).attr('y', 0).attr('width', W).attr('height', H)
+        .attr('clip-path', 'url(#roclip)').attr('opacity', terrainOpacity).attr('preserveAspectRatio', 'none');
+
+    // graticule
+    const grat = d3.geoGraticule().step([1, 1]).extent([[19.4, 42.7], [31.2, 49.3]]);
+    g.append('path').attr('d', path(grat())).attr('fill', 'none').attr('stroke', F.bleistift).attr('stroke-width', .15 * MM).attr('opacity', .3);
+
+    // coastline, foreign borders, Romanian border with inner colorit band
+    g.append('path').attr('d', path(coast)).attr('fill', 'none').attr('stroke', WASSER).attr('stroke-width', .3 * MM);
+    g.append('path').attr('d', path(fremd)).attr('fill', 'none').attr('stroke', F.dim)
+      .attr('stroke-width', .3 * MM).attr('stroke-dasharray', `${1.5 * MM} ${.48 * MM} ${.18 * MM} ${.48 * MM}`);
+    g.append('path').attr('d', path(RO)).attr('fill', 'none').attr('clip-path', 'url(#roclip)')
+      .attr('stroke', GRENZ).attr('stroke-width', 2 * 2.2 * MM).attr('opacity', .24);
+    g.append('path').attr('d', path(roGrenze)).attr('fill', 'none').attr('stroke', F.tinte)
+      .attr('stroke-width', .5 * MM).attr('stroke-dasharray', `${2.2 * MM} ${.7 * MM} ${.3 * MM} ${.7 * MM}`);
+
+    // Donaudelta: Sumpfsignatur (versetzte Schilfstriche) unter dem Gewässernetz
+    const sumpf = defs.append('pattern').attr('id', 'sumpf').attr('width', 10).attr('height', 7.5).attr('patternUnits', 'userSpaceOnUse');
+    sumpf.append('rect').attr('width', 10).attr('height', 7.5).attr('fill', d3.rgb(WASSER).brighter(2.5).formatHex()).attr('opacity', .45);
+    sumpf.append('path').attr('d', 'M.8 2.2 H5 M6 5.9 H10.2').attr('stroke', WASSER).attr('stroke-width', .75).attr('opacity', .9);
+    g.append('path').attr('d', path(DELTA)).attr('fill', 'url(#sumpf)').attr('stroke', WASSER)
+      .attr('stroke-width', .18 * MM).attr('opacity', .95);
+    for (const l of LAGUNEN) g.append('path').attr('d', path(l)).attr('fill', WASSER).attr('opacity', .3)
+      .attr('stroke', WASSER).attr('stroke-width', .18 * MM);
+
+    // Flüsse: drei Gewichte nach scalerank
+    for (const [feats, w, op] of [[rivers.klein, .22, .8], [rivers.mittel, .36, .85], [rivers.haupt, .62, .95]])
+      g.append('path').attr('d', path(fc(feats))).attr('fill', 'none').attr('stroke', WASSER).attr('stroke-width', w * MM)
+        .attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('opacity', op);
+
+    const dash = v => v.map(x => x * MM).join(' ');
+    const stroke = (geo, color, width, extra = {}) => {
+      const p = g.append('path').attr('d', path(geo)).attr('fill', 'none')
+        .attr('stroke', color).attr('stroke-width', width * MM).attr('stroke-linejoin', 'round');
+      for (const k in extra) p.attr(k, extra[k]);
+    };
+
+    // Bahn unter der Straße: Nebenbahn dünn, Hauptbahn als Leiter, Magistrale schwerer
+    stroke(railBranch, '#6b6156', .18);
+    stroke(rail804, '#6b6156', .3);
+    stroke(railMain, F.tinte, .34);
+    stroke(railMain, F.papier, .2, { 'stroke-dasharray': dash([1.3, 1.3]), 'stroke-linecap': 'butt' });
+    stroke(railMag, F.tinte, .58);
+    stroke(railMag, F.papier, .34, { 'stroke-dasharray': dash([1.9, 1.9]), 'stroke-linecap': 'butt' });
+    // expressways
+    if (t.expressways) {
+      stroke(expressways, F.tinte, .5);
+      stroke(expressways, SCHNELL, .3);
+    }
+    // motorways on top: casing, fill, center line
+    stroke(motorways, F.tinte, .95);
+    stroke(motorways, AUTOBAHN, .68);
+    stroke(motorways, F.papier, .12);
+    // under construction
+    stroke(bau, F.tinte, .95, { 'stroke-dasharray': dash([2.6, 1.3]) });
+    stroke(bau, AUTOBAHN, .68, { 'stroke-dasharray': dash([2.6, 1.3]) });
+
+    // Wasserstraße: Donau · Sulina-Arm · Donau–Schwarzmeer-Kanal
+    stroke(wasserstrasse, WASSER, .78, { 'stroke-linecap': 'round' });
+    stroke(wasserstrasse, F.papier, .3, { 'stroke-dasharray': dash([1.1, 1.5]), 'stroke-linecap': 'butt', opacity: .95 });
+
+    // Streckennummern der Magistralen als Schilder auf der Trasse
+    const schild = (txt, ll, col, feats) => {
+      let best = null, bd = Infinity;
+      const walk = c => { if (Array.isArray(c[0])) c.forEach(walk); else { const d = (c[0] - ll[0]) ** 2 + (c[1] - ll[1]) ** 2; if (d < bd) { bd = d; best = c; } } };
+      for (const f of feats) walk(f.geometry.coordinates);
+      if (!best) return;
+      const [px, py] = proj(best);
+      const w = 7.5 + txt.length * 4.9, h = 10.5;
+      for (const [ox, oy] of [[0, -11], [0, 12], [-w / 2 - 6, 0], [w / 2 + 6, 0], [-w / 2 - 6, -11], [w / 2 + 6, -11], [0, -22], [0, 23]]) {
+        const x0 = px + ox - w / 2, y0 = py + oy - h / 2;
+        if (!imFeld(x0, y0, x0 + w, y0 + h) || !frei(x0, y0, x0 + w, y0 + h)) continue;
+        g.append('rect').attr('x', x0).attr('y', y0).attr('width', w).attr('height', h)
+          .attr('fill', F.papier).attr('stroke', col).attr('stroke-width', 1);
+        g.append('text').attr('x', x0 + w / 2).attr('y', y0 + h - 3).text(txt).attr('text-anchor', 'middle')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7.2).attr('fill', col);
+        belegt.push([x0 - 1, y0 - 1, x0 + w + 1, y0 + h + 1]);
+        return;
+      }
+    };
+    const SCHILDER = [
+      ['100', [23.55, 44.48]], ['100', [22.20, 45.38]], ['100', [21.55, 45.72]],
+      ['200', [24.95, 45.84]], ['200', [22.75, 45.88]],
+      ['300', [25.98, 45.02]], ['300', [24.78, 46.22]], ['300', [23.30, 46.90]],
+      ['400', [25.80, 46.44]], ['400', [23.95, 47.16]],
+      ['500', [27.19, 45.74]], ['500', [26.60, 47.10]],
+      ['600', [27.66, 46.28]],
+      ['700', [27.55, 45.18]],
+      ['800', [27.85, 44.40]], ['800', [28.42, 44.05]],
+      ['900', [25.55, 44.28]],
+    ];
+    for (const [n, ll] of SCHILDER) if (magGroup.get(n).length) schild(n, ll, F.tinte, magGroup.get(n));
+    if (rail804.features.length) schild('804', [28.45, 45.08], '#6b6156', rail804.features);
+
+    // corridor hints at the network ends
+    const exits = [
+      [[21.35, 47.35], 'nach Budapest', 3, -5],
+      [[20.85, 46.28], 'nach Budapest', -4, -5, 'end'],
+      [[20.78, 45.4], 'nach Belgrad', 4, 11],
+      [[25.95, 43.7], 'nach Sofia', 5, 10],
+      [[28.2, 47.35], 'nach Chi\u0219in\u0103u', 4, -5],
+      [[25.9, 47.95], 'nach Kyjiw', 5, -5],
+    ];
+    for (const [pt, txt, dx, dy, anch] of exits) {
+      const [x, y] = proj(pt);
+      beleg(g.append('text').attr('x', x + dx).attr('y', y + dy).text(txt)
+        .attr('text-anchor', anch || 'start')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 8).attr('fill', F.dunkel)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 3).node());
+    }
+
+    // ports and airports
+    const P = k => Array.isArray(k) ? proj(k) : proj([CI[k][0], CI[k][1]]);
+    const plane = (x, y, s, filled) => g.append('path')
+      .attr('transform', `translate(${x} ${y}) scale(${s})`)
+      .attr('d', 'M0 -9 c1 0 1.6 1.1 1.6 2.5 v3.6 l9.4 4.2 v2.8 l-9.4-2.4 v4.6 l2.8 2.4 v2 l-4.4-1.1 -4.4 1.1 v-2 l2.8-2.4 v-4.6 l-9.4 2.4 v-2.8 l9.4-4.2 v-3.6 c0-1.4 .6-2.5 1.6-2.5 z')
+      .attr('fill', filled ? F.tinte : 'none').attr('stroke', filled ? 'none' : F.tinte).attr('stroke-width', filled ? 0 : 1.4)
+      .attr('paint-order', 'stroke');
+    const pAt = (k, dx, dy) => { const [x, y] = P(k); return [x + dx, y + dy]; };
+    plane(...pAt('București', -14, -10), .58, true);
+    plane(...pAt('Cluj-Napoca', -13, 8), .5, true);
+    plane(...pAt('Timișoara', -12, 9), .5, true);
+    plane(...pAt('Iași', -4, -13), .45, false);
+    plane(...pAt('Sibiu', -11, 7), .42, false);
+    const seehafen = (x, y) => g.append('rect').attr('x', x - 1.1 * MM).attr('y', y - 1.1 * MM)
+      .attr('width', 2.2 * MM).attr('height', 2.2 * MM).attr('fill', WASSER).attr('stroke', F.papier).attr('stroke-width', .7);
+    const binnenhafen = (x, y) => {
+      g.append('circle').attr('cx', x).attr('cy', y).attr('r', 1.1 * MM - .25 * MM).attr('fill', F.papier).attr('stroke', WASSER).attr('stroke-width', .5 * MM);
+      g.append('circle').attr('cx', x).attr('cy', y).attr('r', 1.4).attr('fill', WASSER);
+    };
+    seehafen(...pAt('Constanța', 8, -7));
+    seehafen(...pAt('Sulina', -8, -4));
+    for (const [n, dx, dy] of [['Galați', -9, 6], ['Brăila', -8, -2], ['Tulcea', 5, 5],
+                               ['Cernavodă', 3, 7], ['Drobeta-Turnu Severin', -3, -8], ['Giurgiu', 4, 6]])
+      binnenhafen(...pAt(n, dx, dy));
+
+    // ——— Hintergrundschrift (Länder, Meer, Gewässer) wird VOR den Orten gesetzt,
+    // damit die Ortsnamen ihr ausweichen können
+    const wasserName = (txt, ll, size, rot = 0, anch = 'middle') => {
+      const [x, y] = proj(ll);
+      const n = g.append('text').attr('x', x).attr('y', y).text(txt).attr('text-anchor', anch)
+        .attr('transform', rot ? `rotate(${rot} ${x} ${y})` : null)
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', size).attr('fill', d3.rgb(WASSER).darker(.7).formatHex())
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.6).attr('stroke-linejoin', 'round').node();
+      beleg(n);
+    };
+    wasserName('DONAUDELTA', [29.20, 45.20], 8.5, -7);
+    wasserName('Brațul Chilia', [29.16, 45.335], 6.6, -8);
+    wasserName('Brațul Sulina', [29.25, 45.135], 6.6, -3);
+    wasserName('Brațul Sf. Gheorghe', [29.20, 44.95], 6.6, 4);
+    wasserName('Razim-Sinoi', [28.96, 44.90], 6.8, 0);
+    wasserName('Donau–Schwarzmeer-Kanal', [28.33, 44.32], 7, -22);
+    for (const [txt, ll, rot] of [['Olt', [24.35, 44.72], 76], ['Mureș', [22.55, 46.03], -6],
+      ['Prut', [27.98, 47.02], 58], ['Ialomița', [26.72, 44.72], -14]])
+      wasserName(txt, ll, 7.4, rot);
+
+    // Länder, Meer, Donau
+    const laender = [
+      ['UNGARN', 20.75, 46.85, 0], ['SERBIEN', 20.75, 44.85, 0], ['BULGARIEN', 25.7, 43.5, 0],
+      ['REP. MOLDAU', 28.45, 46.65, -62], ['UKRAINE', 24.6, 48.15, 0], ['UKRAINE', 29.5, 46.3, 0],
+    ];
+    for (const [n, lon, lat, rot] of laender) {
+      const [x, y] = proj([lon, lat]);
+      g.append('text').attr('x', x).attr('y', y).text(n).attr('text-anchor', 'middle')
+        .attr('transform', rot ? `rotate(${rot} ${x} ${y})` : null)
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 9.5).attr('fill', F.dim).attr('letter-spacing', '.22em')
+        .attr('paint-order', 'stroke').attr('stroke', F.nachbar).attr('stroke-width', 3).each(function () { beleg(this); });
+    }
+    const [rx, ry] = proj([24.75, 44.63]);
+    g.append('text').attr('x', rx).attr('y', ry).text('R O M \u00c2 N I A').attr('text-anchor', 'middle')
+      .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 16).attr('fill', F.dunkel).attr('letter-spacing', '.3em')
+      .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4).attr('opacity', .85).each(function () { beleg(this); });
+    const [mx, my] = proj([29.45, 43.75]);
+    g.append('text').attr('x', mx).attr('y', my).text('MAREA NEAGR\u0102').attr('text-anchor', 'middle')
+      .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 11).attr('fill', WASSER).attr('letter-spacing', '.14em').each(function () { beleg(this); });
+    const [dx1, dy1] = proj([23.6, 43.95]);
+    g.append('text').attr('x', dx1).attr('y', dy1).text('Dun\u0103rea \u00b7 Donau').attr('transform', `rotate(-3 ${dx1} ${dy1})`)
+      .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 9.5).attr('fill', WASSER)
+      .attr('paint-order', 'stroke').attr('stroke', F.nachbar).attr('stroke-width', 3);
+
+    // Siedlungen: erst alle Signaturen, dann die Namen nach Rang — wer keinen Platz findet, bleibt namenlos
+    const RANG = { 1: [2.8, .55], 2: [2.0, .45], 3: [1.5, .4], 4: [1.15, 0] };
+    const FS = { 1: 12.5, 2: 10.5, 3: 9.2, 4: 8 };
+    for (const [lon, lat, , rang] of C) {
+      const [x, y] = proj([lon, lat]);
+      const [sz, sw] = RANG[rang];
+      if (rang === 4) g.append('circle').attr('cx', x).attr('cy', y).attr('r', sz / 2 * MM).attr('fill', F.tinte)
+        .attr('stroke', F.papier).attr('stroke-width', 1);
+      else {
+        g.append('circle').attr('cx', x).attr('cy', y).attr('r', sz / 2 * MM - sw * MM / 2).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', sw * MM);
+        if (rang === 1) g.append('circle').attr('cx', x).attr('cy', y).attr('r', 1.4).attr('fill', F.tinte);
+      }
+      const r = sz / 2 * MM + 1;
+      belegt.push([x - r, y - r, x + r, y + r]);
+    }
+    let ohneNamen = 0;
+    for (const [lon, lat, name, rang, pref] of [...C].sort((a, b) => a[3] - b[3])) {
+      const [x, y] = proj([lon, lat]);
+      const fs = FS[rang];
+      const tx = g.append('text').text(name)
+        .attr('font-family', SERIF).attr('font-weight', rang <= 2 ? 600 : 400).attr('font-size', fs).attr('fill', F.tinte)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 4).attr('stroke-linejoin', 'round');
+      const kand = [pref, [8, 4], [-8, 4, 'end'], [8, -5], [-8, -5, 'end'], [0, -8, 'middle'], [0, 13, 'middle'],
+        [13, 10], [-13, 10, 'end'], [13, -10], [-13, -10, 'end']].filter(Boolean);
+      let box = null;
+      for (const [dx, dy, anch] of kand) {
+        tx.attr('x', x + dx).attr('y', y + dy).attr('text-anchor', anch || 'start');
+        const b = tx.node().getBBox();
+        const q = [b.x, b.y, b.x + b.width, b.y + b.height];
+        if (imFeld(...q) && frei(...q)) { box = q; break; }
+      }
+      if (!box && rang <= 2) { // Großstädte werden immer benannt
+        const [dx, dy, anch] = kand[0];
+        tx.attr('x', x + dx).attr('y', y + dy).attr('text-anchor', anch || 'start');
+        const b = tx.node().getBBox();
+        box = [b.x, b.y, b.x + b.width, b.y + b.height];
+      }
+      if (!box) { tx.remove(); ohneNamen++; continue; }
+      belegt.push(box);
+      if (rang === 1) g.append('line').attr('x1', box[0]).attr('x2', box[2]).attr('y1', box[3] + 1).attr('y2', box[3] + 1)
+        .attr('stroke', AUTOBAHN).attr('stroke-width', 1);
+    }
+    if (ohneNamen) console.info(ohneNamen + ' Ortsnamen ausgelassen (kein freier Platz)');
+    // graticule labels along the frame
+    for (let lon = 21; lon <= 29; lon += 2) {
+      const x = proj([lon, proj.invert([W / 2, H - inset - 8])[1]])[0];
+      if (x > inset + 14 && x < W - inset - 14) svg.append('text').attr('x', x).attr('y', H - inset - 5).text(lon + '\u00b0')
+        .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.bleistift);
+    }
+    for (let lat = 44; lat <= 48; lat += 1) {
+      const y = proj([proj.invert([inset + 10, H / 2])[0], lat])[1];
+      if (y > inset + 12 && y < H - inset - 12) svg.append('text').attr('x', inset + 4).attr('y', y + 2).text(lat + '\u00b0')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.bleistift);
+    }
+
+    // ——— Nebenkarte Donaudelta: Ausschnitt in etwa dreifachem Maßstab
+    if (t.nebenkarte) {
+      const { x: bx, y: by, w: bw, h: bh } = NB;
+      g.append('path').attr('d', path(DBOXGEO)).attr('fill', 'none').attr('stroke', F.tinte)
+        .attr('stroke-width', .3 * MM).attr('stroke-dasharray', '3.5 2.2').attr('opacity', .8);
+
+      const pN = d3.geoConicConformal().parallels([44, 48]).rotate([-29, 0]).fitExtent([[bx, by], [bx + bw, by + bh]], DBOXGEO);
+      const paN = d3.geoPath(pN);
+      svg.append('clipPath').attr('id', 'nbclip').append('rect').attr('x', bx).attr('y', by).attr('width', bw).attr('height', bh);
+      const n = svg.append('g').attr('clip-path', 'url(#nbclip)'); // eigene Ebene neben der Hauptkarte, nicht darin verschachtelt
+      const nStroke = (geo, col, w, extra = {}) => {
+        const p = n.append('path').attr('d', paN(geo)).attr('fill', 'none').attr('stroke', col)
+          .attr('stroke-width', w * MM).attr('stroke-linejoin', 'round');
+        for (const k in extra) p.attr(k, extra[k]);
+      };
+      n.append('rect').attr('x', bx).attr('y', by).attr('width', bw).attr('height', bh).attr('fill', F.meer);
+      n.selectAll('path.nland').data(countries.features.filter(d => ['642', '804', '498', '100'].includes(String(d.id)))).join('path')
+        .attr('d', paN).attr('fill', d => String(d.id) === '642' ? '#f4f1e8' : F.nachbar);
+      n.append('path').attr('d', paN(DELTA)).attr('fill', 'url(#sumpf)').attr('stroke', WASSER).attr('stroke-width', .18 * MM);
+      for (const l of LAGUNEN) n.append('path').attr('d', paN(l)).attr('fill', WASSER).attr('opacity', .3)
+        .attr('stroke', WASSER).attr('stroke-width', .18 * MM);
+      nStroke(fc(gewaesser.features), WASSER, .34, { 'stroke-linecap': 'round', opacity: .9 });
+      nStroke(fc(gewaesser.features.filter(f => f.properties.rang <= 2)), WASSER, .8, { 'stroke-linecap': 'round' });
+      nStroke(fc([KANAL]), WASSER, .8, { 'stroke-linecap': 'round' });
+      nStroke(fc([...gewaesser.features.filter(f => ['Danube', 'Bratul Sulina'].includes(f.properties.name)), KANAL]),
+        F.papier, .3, { 'stroke-dasharray': dash([1.1, 1.5]), 'stroke-linecap': 'butt' });
+      nStroke(fc(nbBahn.filter(f => f.properties.rang === 2)), '#6b6156', .28);
+      nStroke(fc(nbBahn.filter(f => f.properties.rang === 1)), F.tinte, .34);
+      nStroke(fc(nbBahn.filter(f => f.properties.rang === 1)), F.papier, .2, { 'stroke-dasharray': dash([1.3, 1.3]), 'stroke-linecap': 'butt' });
+      nStroke(fc(nbStrassen.filter(f => f.properties.klasse === 'trunk')), F.tinte, .5);
+      nStroke(fc(nbStrassen.filter(f => f.properties.klasse === 'trunk')), SCHNELL, .3);
+      nStroke(fc(nbStrassen.filter(f => f.properties.klasse === 'motorway')), F.tinte, .95);
+      nStroke(fc(nbStrassen.filter(f => f.properties.klasse === 'motorway')), AUTOBAHN, .68);
+
+      const nbBelegt = [[bx, by, bx + bw, by + 13]];
+      // Gewässernamen zuerst setzen und reservieren, damit die Ortsnamen ihnen ausweichen
+      const nbText = (txt, x, y, rot, size) => {
+        const el = n.append('text').attr('x', x).attr('y', y).text(txt).attr('text-anchor', 'middle')
+          .attr('transform', rot ? `rotate(${rot} ${x} ${y})` : null)
+          .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', size)
+          .attr('fill', d3.rgb(WASSER).darker(.8).formatHex())
+          .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.4).node();
+        try { const b = el.getBBox(); nbBelegt.push([b.x - 2, b.y - 2, b.x + b.width + 2, b.y + b.height + 2]); } catch (e) { /* noop */ }
+      };
+      const nbSee = pN([29.83, 44.86]);
+      nbText('MAREA NEAGRĂ', nbSee[0], nbSee[1], -90, 6.6);
+      for (const [txt, ll, rot] of [['Brațul Chilia', [29.08, 45.335], -7], ['Brațul Sulina', [29.44, 45.15], -2],
+        ['Brațul Sfântu Gheorghe', [29.30, 44.935], 7]]) {
+        const [x, y] = pN(ll);
+        nbText(txt, x, y, rot, 6.4);
+      }
+      for (const [lon, lat, name, rang, pref] of DELTAORTE) {
+        const [x, y] = pN([lon, lat]);
+        if (x < bx + 2 || x > bx + bw - 2 || y < by + 2 || y > by + bh - 2) continue;
+        if (rang === 3) {
+          n.append('circle').attr('cx', x).attr('cy', y).attr('r', .75 * MM).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', .4 * MM);
+        } else n.append('circle').attr('cx', x).attr('cy', y).attr('r', .5 * MM).attr('fill', F.tinte).attr('stroke', F.papier).attr('stroke-width', .8);
+        const tx = n.append('text').text(name)
+          .attr('font-family', SERIF).attr('font-weight', rang === 3 ? 600 : 400).attr('font-size', rang === 3 ? 8 : 7)
+          .attr('fill', F.tinte).attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 3).attr('stroke-linejoin', 'round');
+        let ok = false;
+        for (const [dx, dy, anch] of [pref, [5, 4], [-5, 4, 'end'], [5, -4], [-5, -4, 'end'], [0, 11, 'middle']]) {
+          tx.attr('x', x + dx).attr('y', y + dy).attr('text-anchor', anch || 'start');
+          const b = tx.node().getBBox();
+          const q = [b.x, b.y, b.x + b.width, b.y + b.height];
+          if (q[0] > bx + 1 && q[2] < bx + bw - 1 && q[1] > by + 1 && q[3] < by + bh - 1 &&
+              !nbBelegt.some(([a0, b0, a1, b1]) => q[0] < a1 + 1 && q[2] > a0 - 1 && q[1] < b1 + 1 && q[3] > b0 - 1)) {
+            nbBelegt.push(q); ok = true; break;
+          }
+        }
+        if (!ok) tx.remove();
+      }
+      for (const [nm, art] of [['Tulcea', 'binnen'], ['Sulina', 'see'], ['Isaccea', 'binnen'], ['Măcin', 'binnen']]) {
+        const e = DELTAORTE.find(d => d[2] === nm); if (!e) continue;
+        const [x, y] = pN([e[0], e[1]]);
+        if (art === 'see') n.append('rect').attr('x', x - 1.1 * MM).attr('y', y + 1.6).attr('width', 2.2 * MM).attr('height', 2.2 * MM)
+          .attr('fill', WASSER).attr('stroke', F.papier).attr('stroke-width', .7);
+        else {
+          n.append('circle').attr('cx', x).attr('cy', y + 1.6 + 1.1 * MM).attr('r', 1.1 * MM - .25 * MM).attr('fill', F.papier).attr('stroke', WASSER).attr('stroke-width', .5 * MM);
+          n.append('circle').attr('cx', x).attr('cy', y + 1.6 + 1.1 * MM).attr('r', 1.2).attr('fill', WASSER);
+        }
+      }
+
+      // Kopfleiste, Rahmen, eigener Maßstab
+      n.append('rect').attr('x', bx).attr('y', by).attr('width', bw).attr('height', 13).attr('fill', F.papier).attr('opacity', .93);
+      const kmN = d3.geoDistance([DBOX[0], (DBOX[1] + DBOX[3]) / 2], [DBOX[2], (DBOX[1] + DBOX[3]) / 2]) * 6371.0088;
+      const pxKmN = bw / kmN;
+      const nennerN = Math.round(1e6 / (pxKmN / MM) / 1e4) * 1e4;
+      n.append('text').attr('x', bx + 5).attr('y', by + 9.5).text('NEBENKARTE · DONAUDELTA')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('letter-spacing', '.07em').attr('fill', F.tinte);
+      n.append('text').attr('x', bx + bw - 5).attr('y', by + 9.5).text('1 : ' + String(nennerN).replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009'))
+        .attr('text-anchor', 'end').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.dim);
+      const segN = 20 * pxKmN;
+      for (let i = 0; i < 2; i++) n.append('rect').attr('x', bx + 5 + i * segN).attr('y', by + bh - 12).attr('width', segN).attr('height', 2.6)
+        .attr('fill', i % 2 ? F.papier : F.tinte).attr('stroke', F.tinte).attr('stroke-width', .5);
+      n.append('text').attr('x', bx + 5).attr('y', by + bh - 14).text('0')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6).attr('fill', F.tinte);
+      n.append('text').attr('x', bx + 5 + 2 * segN).attr('y', by + bh - 14).text('40 km')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6).attr('fill', F.tinte);
+      n.append('text').attr('x', bx + 5).attr('y', by + bh - 4).text('Östlich von Murighiol und Chilia Veche endet die Straße.')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 6.8).attr('fill', F.dunkel)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 3);
+      svg.append('rect').attr('x', bx).attr('y', by).attr('width', bw).attr('height', bh)
+        .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .5 * MM);
+      svg.append('line').attr('x1', bx).attr('y1', by + 13).attr('x2', bx + bw).attr('y2', by + 13)
+        .attr('stroke', F.tinte).attr('stroke-width', .2 * MM);
+    }
+
+    // plate frame
+    svg.append('rect').attr('x', 1.5).attr('y', 1.5).attr('width', W - 3).attr('height', H - 3)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .8 * MM);
+    svg.append('rect').attr('x', inset).attr('y', inset).attr('width', W - 2 * inset).attr('height', H - 2 * inset)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .2 * MM);
+
+    // Maßstab: aus der Projektion gemessen (Großkreisdistanz gegen Bildstrecke, Blattmitte)
+    const a0 = proj.invert([W * .28, H / 2]), a1 = proj.invert([W * .72, H / 2]);
+    const km = d3.geoDistance(a0, a1) * 6371.0088;
+    const pxPerKm = (W * .44) / km;
+    const mmPerKm = pxPerKm / MM;
+    const nenner = Math.round(1e6 / mmPerKm / 1e4) * 1e4; // auf 10 000 gerundet
+    const seg = 50 * pxPerKm;
+    const sb = d3.select('#scalebar').append('svg').attr('width', 4 * seg + 30).attr('height', 36).style('display', 'block');
+    for (let i = 0; i < 4; i++) sb.append('rect').attr('x', 4 + i * seg).attr('y', 12).attr('width', seg).attr('height', 3.6)
+      .attr('fill', i % 2 ? F.papier : F.tinte).attr('stroke', F.tinte).attr('stroke-width', .6);
+    [[0, '0'], [2, '100'], [4, '200 km']].forEach(([i, s]) => sb.append('text').attr('x', 4 + i * seg).attr('y', 9).text(s)
+      .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7.5).attr('fill', F.tinte));
+    sb.append('text').attr('x', 4).attr('y', 30).text('1 : ' + String(nenner).replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') + '  (Blattmitte)')
+      .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.dim);
+
+    // Magistralen-Verzeichnis
+    document.getElementById('magistralen').innerHTML = MAGISTRALEN.map(([n, route]) => {
+      const da = magGroup.get(n).length ? '' : ' style="opacity:.45"';
+      return `<div${da} style="display:flex;gap:6px;align-items:baseline;padding:.6px 0">
+        <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.6px;border:1px solid #2a231c;padding:0 2.5px;flex:none">${n}</span>
+        <span style="font-size:8.2px;line-height:1.15">${route}</span></div>`;
+    }).join('');
+
+    // Zeichenerklärung — die Strichstärken kommen aus denselben MM-Konstanten wie die Karte
+    const rr = (rang) => { const [sz, sw] = RANG[rang]; return [sz / 2 * MM - sw * MM / 2, sw * MM]; };
+    const linie = (col, w, extra = '') => `<line x1="1" y1="8" x2="47" y2="8" stroke="${col}" stroke-width="${w * MM}"${extra}/>`;
+    const leg = [
+      [`<circle cx="14" cy="8" r="${rr(1)[0]}" fill="${F.papier}" stroke="${F.tinte}" stroke-width="${rr(1)[1]}"/><circle cx="14" cy="8" r="1.4" fill="${F.tinte}"/>`, 'Hauptstadt, über 1 Mio. Ew.'],
+      [`<circle cx="14" cy="8" r="${rr(2)[0]}" fill="${F.papier}" stroke="${F.tinte}" stroke-width="${rr(2)[1]}"/>`, 'Stadt 250 000 – 1&nbsp;Mio.'],
+      [`<circle cx="14" cy="8" r="${rr(3)[0]}" fill="${F.papier}" stroke="${F.tinte}" stroke-width="${rr(3)[1]}"/>`, 'Stadt 100 000 – 250 000'],
+      [`<circle cx="14" cy="8" r="${1.15 / 2 * MM}" fill="${F.tinte}" stroke="${F.papier}" stroke-width="1"/>`, 'Netzknoten darunter'],
+      [linie(F.tinte, .58) + linie(F.papier, .34, ` stroke-dasharray="${1.9 * MM} ${1.9 * MM}"`) +
+        `<rect x="16" y="2.5" width="16" height="11" fill="${F.papier}" stroke="${F.tinte}" stroke-width="1"/><text x="24" y="11" text-anchor="middle" font-family="${MONO.replace(/'/g, '&quot;')}" font-weight="500" font-size="7.2" fill="${F.tinte}">300</text>`,
+        'CFR-Magistrale mit Streckennummer'],
+      [linie(F.tinte, .34) + linie(F.papier, .2, ` stroke-dasharray="${1.3 * MM} ${1.3 * MM}"`), 'sonstige Hauptbahn'],
+      [linie('#6b6156', .18), 'Nebenbahn'],
+      [linie(F.tinte, .95) + linie(AUTOBAHN, .68) + linie(F.papier, .12), 'Autobahn'],
+      [linie(F.tinte, .95, ` stroke-dasharray="${2.6 * MM} ${1.3 * MM}"`) + linie(AUTOBAHN, .68, ` stroke-dasharray="${2.6 * MM} ${1.3 * MM}"`), 'Autobahn in&nbsp;Bau'],
+      ...(t.expressways ? [[linie(F.tinte, .5) + linie(SCHNELL, .3), 'Schnellstraße (DN-Netz)']] : []),
+      [linie(WASSER, .78) + linie(F.papier, .3, ` stroke-dasharray="${1.1 * MM} ${1.5 * MM}"`), 'Wasserstraße: Donau, Sulina-Arm, Kanal'],
+      [`<path d="M1 12 C 10 5, 18 12, 26 8 S 40 5, 47 8" fill="none" stroke="${WASSER}" stroke-width="${.62 * MM}"/><path d="M1 4 C 12 2, 22 5, 47 3" fill="none" stroke="${WASSER}" stroke-width="${.22 * MM}"/>`, 'Fluss, Strichstärke nach Größenrang'],
+      [`<defs><pattern id="sumpfleg" width="10" height="7.5" patternUnits="userSpaceOnUse"><rect width="10" height="7.5" fill="${d3.rgb(WASSER).brighter(2.5).formatHex()}" opacity=".45"/><path d="M.8 2.2 H5 M6 5.9 H10.2" stroke="${WASSER}" stroke-width=".75" opacity=".9"/></pattern></defs><rect x="1" y="2" width="30" height="12" fill="url(#sumpfleg)" stroke="${WASSER}" stroke-width=".7"/><rect x="34" y="2" width="13" height="12" fill="${WASSER}" opacity=".3" stroke="${WASSER}" stroke-width=".7"/>`, 'Deltasumpf · Lagune'],
+      [`<path transform="translate(14 8) scale(.5)" d="M0 -9 c1 0 1.6 1.1 1.6 2.5 v3.6 l9.4 4.2 v2.8 l-9.4-2.4 v4.6 l2.8 2.4 v2 l-4.4-1.1 -4.4 1.1 v-2 l2.8-2.4 v-4.6 l-9.4 2.4 v-2.8 l9.4-4.2 v-3.6 c0-1.4 .6-2.5 1.6-2.5 z" fill="${F.tinte}"/><path transform="translate(34 8) scale(.42)" d="M0 -9 c1 0 1.6 1.1 1.6 2.5 v3.6 l9.4 4.2 v2.8 l-9.4-2.4 v4.6 l2.8 2.4 v2 l-4.4-1.1 -4.4 1.1 v-2 l2.8-2.4 v-4.6 l-9.4 2.4 v-2.8 l9.4-4.2 v-3.6 c0-1.4 .6-2.5 1.6-2.5 z" fill="none" stroke="${F.tinte}" stroke-width="1.6"/>`, 'Flughafen int. / regional'],
+      [`<rect x="9" y="4" width="${2.2 * MM}" height="${2.2 * MM}" fill="${WASSER}" stroke="${F.papier}" stroke-width=".7"/><circle cx="34" cy="8" r="${1.1 * MM - .25 * MM}" fill="${F.papier}" stroke="${WASSER}" stroke-width="${.5 * MM}"/><circle cx="34" cy="8" r="1.4" fill="${WASSER}"/>`, 'Seehafen / Binnenhafen'],
+      ...(terrainURL && terrainOpacity > 0 ? [[HYPS.map((c, i) => `<rect x="${2 + i * 7.4}" y="4" width="7.4" height="8" fill="${c}" opacity="${terrainOpacity}"/>`).join(''), 'Höhenschichten 0 – &uuml;ber 3000 m']] : []),
+      [`<rect x="1" y="8" width="46" height="6" fill="${GRENZ}" opacity=".24"/><line x1="1" y1="8" x2="47" y2="8" stroke="${F.tinte}" stroke-width="${.5 * MM}" stroke-dasharray="${2.2 * MM} ${.7 * MM} ${.3 * MM} ${.7 * MM}"/>`, 'Staatsgrenze, Kolorit innen'],
+      [`<text x="1" y="11" font-family="${MONO.replace(/'/g, '&quot;')}" font-weight="500" font-size="6.5" fill="${F.dunkel}">nach Budapest</text>`, 'Korridor ins Nachbarnetz'],
+    ];
+    document.getElementById('legend').innerHTML = leg.map(([sw, txt]) =>
+      `<div style="display:flex;align-items:center;gap:7px;padding:.9px 0;border-bottom:.5px solid #e5ddce">
+        <svg width="48" height="15" viewBox="0 0 48 16" style="flex:none;overflow:hidden">${sw}</svg>
+        <div style="font-size:8.4px;line-height:1.14">${txt}</div>
+      </div>`).join('');
+  }
+
+  window.__redrawMap = draw;
+  draw();
+})().catch(e => {
+  console.error('Kartenfehler:', e);
+  document.getElementById('map').innerHTML = '<div style="font:12px monospace;color:#a83a28;padding:8px">FEHLER: ' + (e && e.message) + '</div>';
+});
+</script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "palette": [
+    "#2f6f74",
+    "#6f7538",
+    "#6f9ea3",
+    "#cb5a2a"
+  ],
+  "terrain": "dezent",
+  "expressways": true,
+  "nebenkarte": true
+}/*EDITMODE-END*/;
+// palette = [Autobahn, Schnellstraße, Gewässer, Grenzkolorit]
+const PALETTES = [
+  ["#cb5a2a", "#b98e3f", "#35707b", "#5a3a52"],
+  ["#2f6f74", "#6f7538", "#6f9ea3", "#cb5a2a"],
+  ["#5a3a52", "#cb5a2a", "#35707b", "#b98e3f"],
+  ["#434462", "#8b8173", "#35707b", "#434462"]
+];
+function TweaksApp() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(() => { window.__applyMapTweaks(t); }, [t]);
+  return (
+    <div><span style={{display:'none'}}>tweaks</span>
+    <TweaksPanel>
+      <TweakSection label="Farbklima" />
+      <TweakColor label="Palette" value={t.palette} options={PALETTES}
+                  onChange={(v) => setTweak('palette', v)} />
+      <TweakSection label="Karte" />
+      <TweakRadio label="Gelände" value={t.terrain} options={['aus', 'dezent', 'kräftig']}
+                  onChange={(v) => setTweak('terrain', v)} />
+      <TweakToggle label="Schnellstraßen" value={t.expressways}
+                   onChange={(v) => setTweak('expressways', v)} />
+      <TweakToggle label="Nebenkarte Donaudelta" value={t.nebenkarte}
+                   onChange={(v) => setTweak('nebenkarte', v)} />
+    </TweaksPanel>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<TweaksApp />);
+</script>
+</body>
+</html>

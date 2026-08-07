@@ -1,0 +1,10 @@
+GIMP Palette
+Name: Sternprodukt-Atlas Bevölkerung (sequentiell)
+Columns: 5
+# Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# QGIS: Einstellungen → Optionen → Farben → Palette importieren.
+239 233 237	Dichte Stufe 1 (#efe9ed)
+217 196 211	Dichte Stufe 2 (#d9c4d3)
+184 151 172	Dichte Stufe 3 (#b897ac)
+143 100 132	Dichte Stufe 4 (#8f6484)
+ 90  58  82	Dichte Stufe 5 (#5a3a52)
