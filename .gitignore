@@ -1,8 +1,29 @@
-# Rohdaten der Geodaten-Pipeline — zu groß fürs Repo, reproduzierbar per export-geodaten.rb
+# Rohdaten und Zwischenstufen der Geodaten-Pipelines — zu groß fürs Repo, holen
+# sich die Skripte unter atlas/geodaten/ selbst wieder. Die Muster sind bewusst auf
+# atlas/geodaten/ eingegrenzt: unter atlas/qgis/ ist ein .gpkg ein gepflegtes
+# Kartenartefakt (baeren_gbif.gpkg) und kein Wegwerfzeug.
+# .gpkg: source.gpkg, corine-ro.gpkg, U2018_… — 0,2 bis 8,4 GB
+# .zip:  CLC2018- und CLC5-Pakete, 1,3 bis 3,5 GB je Stück
+# .inhalt: Inhaltsverzeichnisse der ZIPs, reine Lesehilfe
 romania-latest.osm.pbf
 *.osm.pbf
 ne_10m_*
-source.gpkg
+/atlas/geodaten/**/*.gpkg
+/atlas/geodaten/**/*.zip
+/atlas/geodaten/**/*.inhalt
+clc5_2018.utm32s.shape/
+
+# Ein Ausreißer, kein Muster: die Landnutzung reißt das <2-MB-Ziel aus
+# atlas/geodaten/brandenburg/README.md um zwei Größenordnungen. Neu erzeugen per
+# nutzung.sh, nicht versionieren.
+/atlas/geodaten/brandenburg/landnutzung.geojson
+
+# Upload-Sidecars der Claude-Oberfläche — byte-identische Kopien der Datei daneben
+/atlas/geodaten/**/*.dat
+
+# Arbeitskopien im Wurzelverzeichnis: dieselben Hanfflächen liegen gepflegt unter
+# atlas/geodaten/brandenburg/, dazu ein QGIS-Layerstil als lokales Nebenprodukt
+/hanf_2026_bb.*
 
 # QGIS-Nebenprodukte
 *.qgz~
@@ -11,12 +32,23 @@ source.gpkg
 .qfieldsync/
 
 # Referenz-Scans des gedruckten Diercke-Atlas — unreferenziert, groß (die volle
-# Fassung überschreitet GitHubs 100-MB-Limit pro Datei), bei Bedarf lokal neu ablegen
-/diercke-rumänien.pdf
-/diercke-rumänien-klein.pdf
+# Fassung überschreitet GitHubs 100-MB-Limit pro Datei), bei Bedarf lokal neu ablegen.
+# /diercke-*.pdf deckt auch die .orig-Dubletten und die -web-Ableitungen ab.
+/diercke-*.pdf
+/druck-exempel.pdf
+/s48_nachscan.pdf
+
+# Quellmaterial für das Blatt „Nikolais Ort" — Scans und Fotos, unreferenziert
+/nikolai-*.pdf
+/nikolai-*.png
+/neumaier_kurzhaar.jpg
 
 # QA-Screenshots aus der Design-Session — unreferenziert, kein Deliverable
 /screenshots/
+
+# Arbeitsdateien — vom Redesign wird nur das PDF versioniert
+/Diercke-Atlas_Redesign.pptx
+.~lock.*#
 
 # Betriebssystem
 .DS_Store
