@@ -1,11 +1,17 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Sternprodukt atlas · Romania geodata pipeline — the functional flavor.
-# Same job as export-geodaten.sh, but as a data pipeline: tools are values,
-# steps are values, nothing runs until the very end. Ruby >= 3.2.
+# rumaenien-verkehr.rb — Bahn, Autobahn, Schnellstraße und Flüsse für Rumänien
 #
-# Requirements: apt install osmium-tool gdal-bin wget unzip
+# Eingabe:  OSM-Auszug (Geofabrik) + Natural Earth, beides wird selbst geholt
+# Ausgabe:  bahn.geojson · strassen.geojson · strassen-bau.geojson · gewaesser.geojson
+# Liest:    Rumaenien-Verkehr.html, Rumaenien-Physisch.html
+#
+# Pipeline im funktionalen Zuschnitt: Werkzeuge sind Werte, Schritte sind Werte,
+# ausgeführt wird erst am Ende. Ruby >= 3.2.
+#
+# Braucht: apt install osmium-tool gdal-bin wget unzip
+# Aufruf:  ruby rumaenien-verkehr.rb
 
 require 'pathname'
 
@@ -83,12 +89,16 @@ exports = SQL.map { |target, sql| step.("export #{target}", 'ogr2ogr', *EXPORT, 
         'gewaesser.geojson', 'source.gpkg', '-sql', 'SELECT name, scalerank AS rang, geom FROM rivers')
 
 # ── … then run ────────────────────────────────────────────────────────────────
-# The GeoJSON driver never overwrites — clear leftovers first
-[Pathname('source.gpkg'), *Pathname.glob('*.geojson')].each { _1.delete if _1.exist? }
+# The GeoJSON driver never overwrites — clear leftovers first. Only OUR targets:
+# a blanket *.geojson sweep would take out the nutzung-*.geojson that
+# rumaenien-nutzung.rb produces in this same directory.
+TARGETS = [*SQL.keys, 'gewaesser.geojson'].freeze
+[Pathname('source.gpkg'), *TARGETS.map { Pathname(_1) }].each { _1.delete if _1.exist? }
 [*raw_data, *filters, *gpkg, *exports].each(&:run!)
 
 puts "\n— done. target: < 2 MB per file —"
-Pathname.glob('*.geojson')
+TARGETS.map { Pathname(_1) }.select(&:exist?)
   .map { [_1.to_s, (_1.size / 1024.0 / 1024).round(2)] }
   .sort_by(&:last).reverse
   .each { |name, mb| puts format('%8.2f MB  %s', mb, name) }
+

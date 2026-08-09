@@ -1,11 +1,11 @@
 # Geodaten Brandenburg — Blatt 7 · Landwirtschaftliche Nutzung
 
-Ein Aufruf, `./export-geodaten.sh`, erzeugt aus offenen Quellen fünf GeoJSON-Dateien.
+Ein Aufruf, `./nutzung.sh`, erzeugt aus offenen Quellen fünf GeoJSON-Dateien.
 Alles Zwischenzeug (`*.osm.pbf`, `source.gpkg`, das entpackte CLC5) bleibt liegen und
 wird beim zweiten Lauf nicht neu geladen; nur die Zieldateien werden überschrieben.
 
     apt install osmium-tool gdal-bin wget unzip
-    ./export-geodaten.sh
+    ./nutzung.sh
 
 ## Quellen
 
