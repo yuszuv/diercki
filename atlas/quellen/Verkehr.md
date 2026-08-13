@@ -1,4 +1,4 @@
-# Blatt 15 · Rumänien · Hauptverkehrsnetz — Quellenregister
+# Rumänien · Hauptverkehrsnetz — Quellenregister
 
 Stand der Prüfung: 08/2026.
 
@@ -7,7 +7,7 @@ in den Quelldaten. Die wenigen Aussagen:
 
 | Angabe auf dem Blatt | Status | Quelle / Anmerkung |
 |---|---|---|
-| Trassen von Bahn, Autobahn, Schnellstraße | belegt | OpenStreetMap, Auszug Geofabrik `romania-latest.osm.pbf`, Pipeline `atlas/geodaten/export-geodaten.rb`, vereinfacht auf 0,004° |
+| Trassen von Bahn, Autobahn, Schnellstraße | belegt | OpenStreetMap, Auszug Geofabrik `romania-latest.osm.pbf`, Pipeline `atlas/geodaten/rumaenien-verkehr.rb`, vereinfacht auf 0,004° |
 | Streckennummern 100–900 auf der Karte | belegt | OSM-Feld `name` der Bahnstrecken; die Schilder stehen dort, wo die Nummer im Datensatz liegt |
 | Magistralenverzeichnis in der Randspalte (Endpunkte) | abgeleitet | Streckenverlauf nach CFR-Netzgliederung. **900 fehlt in den OSM-Daten** und ist deshalb ausgegraut |
 | „Autobahn in Bau", Ausbaustand 08/2026 | belegt | OSM `highway=construction` + `construction=motorway` zum Auszugsdatum |
