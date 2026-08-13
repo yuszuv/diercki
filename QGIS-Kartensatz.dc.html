@@ -15,41 +15,41 @@
   <style>
     body{margin:0}
     doc-page:not(:defined){visibility:hidden}
-    a{color:#2f6f74}
+    a{color:var(--petrol)}
     a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
   </style>
 </helmet>
 <doc-page size="a4">
 
-<div slot="header" style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #e5ddce;padding-bottom:3px;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5pt;letter-spacing:.06em;color:#8b8173">
+<div slot="header" style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid var(--grey-light);padding-bottom:3px;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5pt;letter-spacing:.06em;color:var(--grey)">
   <span>STERNPRODUKT-ATLAS &middot; QGIS-KARTENSATZ</span>
   <span>GETTING STARTED</span>
 </div>
-<div slot="footer" style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:3px;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7pt;color:#8b8173">
+<div slot="footer" style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--grey-light);padding-top:3px;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7pt;color:var(--grey)">
   <span>atlas/qgis/</span>
-  <span>fnord</span>
+  <span>137</span>
 </div>
 
-<div style="font-family:'Gentium Book Plus','Noto Serif',serif;color:#2a231c;font-size:10.5pt;line-height:1.5;text-wrap:pretty">
+<div style="font-family:'Gentium Book Plus','Noto Serif',serif;color:var(--ink);font-size:10.5pt;line-height:1.5;text-wrap:pretty">
 
-<div style="border-top:5px solid #2a231c;padding-top:10px;margin-bottom:26px">
-  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8pt;letter-spacing:.1em;color:#8b8173;margin-bottom:6px">EIN KARTENSATZ, ZWEI EBENEN</div>
+<div style="border-top:5px solid var(--ink);padding-top:10px;margin-bottom:26px">
+  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8pt;letter-spacing:.1em;color:var(--grey);margin-bottom:6px">EIN KARTENSATZ, ZWEI EBENEN</div>
   <h1 style="margin:0;font-size:26pt;font-weight:600;letter-spacing:-.02em;line-height:1.1">QGIS-Kartensatz des<br>Sternprodukt-Atlas</h1>
-  <div style="border-bottom:2px solid #2a231c;margin:10px 0 8px"></div>
-  <div style="font-style:italic;font-size:11pt;color:#4a4139">Wie man die Blätter des Atlas in QGIS öffnet, druckt und um eigene Themen erweitert. Für Leute, die QGIS können und den Kartensatz zum ersten Mal sehen.</div>
+  <div style="border-bottom:2px solid var(--ink);margin:10px 0 8px"></div>
+  <div style="font-style:italic;font-size:11pt;color:var(--grey-dark)">Wie man die Blätter des Atlas in QGIS öffnet, druckt und um eigene Themen erweitert. Für Leute, die QGIS können und den Kartensatz zum ersten Mal sehen.</div>
 </div>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:0 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Was im Paket liegt</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:0 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Was im Paket liegt</h2>
 <p style="margin:10px 0">Der Satz ist bewusst in zwei Ebenen geteilt. <b style="font-weight:600">basis/</b> sagt nichts über Rumänien und nichts über Bären — dort liegen Signaturen, Farben und Stilgerüste, die jedes Blatt erbt. <b style="font-weight:600">themen/</b> enthält je einen Ordner pro Kartenblatt: Daten und die auf die echten Feldnamen gezogenen Stile.</p>
 
-<pre style="font-family:'Noto Sans Mono',monospace;font-size:8.5pt;line-height:1.45;background:#f8f8f6;border:1px solid #e5ddce;padding:12px 14px;margin:12px 0;overflow:hidden;white-space:pre-wrap">atlas/qgis/
+<pre style="font-family:'Noto Sans Mono',monospace;font-size:8.5pt;line-height:1.45;background:var(--surface-sunken);border:1px solid var(--grey-light);padding:12px 14px;margin:12px 0;overflow:hidden;white-space:pre-wrap">atlas/qgis/
   README.md
   basis/
-    svg/          8 Signaturen, parametrisierbar (fill, outline, outline-width)
-    symbole/      sternprodukt_atlas.xml — 20 Symbole für die Stilverwaltung
-    stile/        6 Layerstile als Gerüst: Felder wert, status, art, rang
+    svg/          10 Signaturen, parametrisierbar (fill, outline, outline-width)
+    symbole/      sternprodukt_atlas.xml — 27 Symbole für die Stilverwaltung
+    stile/        7 Layerstile als Gerüst: Felder wert, status, art, rang, branche
     layout/       layout_a4_quer_thema.qpt — Druckzusammenstellung
-    paletten/     sternprodukt-atlas.gpl — 22 Farben, auch für GIMP
+    paletten/     sternprodukt-atlas.gpl — 22 Farben aus atlas/farben.js (atlas/farben-paletten.rb), auch für GIMP
     skripte/      atlas.py — drei Helfer für die Python-Konsole
     qfield/       beobachtung.qml + README.md — Erfassung im Feld
   themen/
@@ -58,46 +58,46 @@
       stile/      7 Stile, auf die echten Feldnamen gezogen
       FELDER.md   Feldvertrag — welcher Stil welches Feld erwartet</pre>
 
-<p style="margin:10px 0">Die Trennung hat einen praktischen Grund: Wer in <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">basis/</span> die Umrissstärke ändert, ändert sie für alle Blätter. Wer in einem Thema herumschraubt, kann nichts kaputt machen, was andere Blätter brauchen.</p>
+<p style="margin:10px 0">Die Trennung hat einen praktischen Grund: Wer in <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">basis/</span> die Umrissstärke ändert, ändert sie für alle Blätter. Wer in einem Thema herumschraubt, kann nichts kaputt machen, was andere Blätter brauchen.</p>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Einrichtung, einmalig</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Einrichtung, einmalig</h2>
 <p style="margin:10px 0">QGIS ab 3.28. Vier Handgriffe, danach nie wieder:</p>
 
 <div style="display:flex;flex-direction:column;gap:11px;margin:14px 0">
   <div style="display:flex;gap:12px;align-items:baseline">
-    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#cb5a2a;flex:none;width:20px">01</span>
-    <div><b style="font-weight:600">Schriften installieren.</b> Gentium Plus und Noto Sans Mono müssen als <i>Systemschriften</i> vorliegen — QGIS liest keine Webfonts. Debian/Ubuntu: <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">apt install fonts-sil-gentiumplus fonts-noto-mono</span></div>
+    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--orange);flex:none;width:20px">01</span>
+    <div><b style="font-weight:600">Schriften installieren.</b> Gentium Plus und Noto Sans Mono müssen als <i>Systemschriften</i> vorliegen — QGIS liest keine Webfonts. Debian/Ubuntu: <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">apt install fonts-sil-gentiumplus fonts-noto-mono</span></div>
   </div>
   <div style="display:flex;gap:12px;align-items:baseline">
-    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#cb5a2a;flex:none;width:20px">02</span>
-    <div><b style="font-weight:600">SVG-Pfad eintragen.</b> Einstellungen → Optionen → System → SVG-Pfade → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">atlas/qgis/basis/svg</span> hinzufügen. Ohne diesen Schritt zeigen alle Stile ein Fragezeichen statt der Signatur, weil die .qml die Dateien beim bloßen Namen nennen.</div>
+    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--orange);flex:none;width:20px">02</span>
+    <div><b style="font-weight:600">SVG-Pfad eintragen.</b> Einstellungen → Optionen → System → SVG-Pfade → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">atlas/qgis/basis/svg</span> hinzufügen. Ohne diesen Schritt zeigen alle Stile ein Fragezeichen statt der Signatur, weil die .qml die Dateien beim bloßen Namen nennen.</div>
   </div>
   <div style="display:flex;gap:12px;align-items:baseline">
-    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#cb5a2a;flex:none;width:20px">03</span>
-    <div><b style="font-weight:600">Palette importieren.</b> Einstellungen → Optionen → Farben → Importieren → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">basis/paletten/sternprodukt-atlas.gpl</span>. Dort auch die Auswahlfarbe auf <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">#2a7ae2</span> stellen.</div>
+    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--orange);flex:none;width:20px">03</span>
+    <div><b style="font-weight:600">Palette importieren.</b> Einstellungen → Optionen → Farben → Importieren → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">basis/paletten/sternprodukt-atlas.gpl</span>. Dort auch die Auswahlfarbe auf <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">#2a7ae2</span> stellen.</div>
   </div>
   <div style="display:flex;gap:12px;align-items:baseline">
-    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#cb5a2a;flex:none;width:20px">04</span>
-    <div><b style="font-weight:600">Symbolbibliothek laden.</b> Einstellungen → Stilverwaltung → Importieren/Exportieren → Stile importieren → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">basis/symbole/sternprodukt_atlas.xml</span>. Ergänzt die Marken-Bibliothek des Design-Systems, ersetzt sie nicht.</div>
+    <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--orange);flex:none;width:20px">04</span>
+    <div><b style="font-weight:600">Symbolbibliothek laden.</b> Einstellungen → Stilverwaltung → Importieren/Exportieren → Stile importieren → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">basis/symbole/sternprodukt_atlas.xml</span>. Ergänzt die Marken-Bibliothek des Design-Systems, ersetzt sie nicht.</div>
   </div>
 </div>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Das erste Blatt in sechs Schritten</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Das erste Blatt in sechs Schritten</h2>
 <p style="margin:10px 0">Am Beispiel <i>Rumänien · Braunbär</i>. Wer ein anderes Thema hat, tauscht nur die Pfade.</p>
 
 <div style="display:flex;flex-direction:column;gap:9px;margin:14px 0">
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">01</span><div>Neues Projekt, Projekt-CRS auf <b style="font-weight:600">EPSG:3844</b> stellen. Warum gerade das: siehe nächster Abschnitt.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">02</span><div>Die fünf GeoJSON aus <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">themen/rumaenien-baer/daten/</span> per Drag-and-drop laden. Sie liegen in EPSG:4326; QGIS projiziert beim Zeichnen.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">03</span><div>Reihenfolge von unten nach oben: Kreise, Schutzgebiete, Schwerpunkte, Begegnungen, Städte.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">04</span><div>Je Layer: Eigenschaften → Stil → Stil laden → die gleichnamige .qml aus <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">themen/rumaenien-baer/stile/</span>. Für die Kreise gibt es zwei: <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">kreise_dichte</span> (Kolorit) oder <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">kreise_grund</span> (neutral, wenn die Bärensignaturen die Aussage tragen).</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">05</span><div>Layout: Layout-Verwaltung → Vorlage → Aus Datei → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">basis/layout/layout_a4_quer_thema.qpt</span>. Titel, Untertitel und Fußzeile sind Textelemente — überschreiben, nicht neu bauen. Legende und Maßstabsbalken hängen bereits am Kartenfenster „karte".</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">06</span><div>Export als PDF, 300 dpi, Vektor. Rastern nur, wenn Mischmodi im Spiel sind — im Kartensatz sind sie es nicht.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">01</span><div>Neues Projekt, Projekt-CRS auf <b style="font-weight:600">EPSG:3844</b> stellen. Warum gerade das: siehe nächster Abschnitt.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">02</span><div>Die fünf GeoJSON aus <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">themen/rumaenien-baer/daten/</span> per Drag-and-drop laden. Sie liegen in EPSG:4326; QGIS projiziert beim Zeichnen.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">03</span><div>Reihenfolge von unten nach oben: Kreise, Schutzgebiete, Schwerpunkte, Begegnungen, Städte.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">04</span><div>Je Layer: Eigenschaften → Stil → Stil laden → die gleichnamige .qml aus <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">themen/rumaenien-baer/stile/</span>. Für die Kreise gibt es zwei: <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">kreise_dichte</span> (Kolorit) oder <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">kreise_grund</span> (neutral, wenn die Bärensignaturen die Aussage tragen).</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">05</span><div>Layout: Layout-Verwaltung → Vorlage → Aus Datei → <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">basis/layout/layout_a4_quer_thema.qpt</span>. Titel, Untertitel und Fußzeile sind Textelemente — überschreiben, nicht neu bauen. Legende und Maßstabsbalken hängen bereits am Kartenfenster „karte".</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">06</span><div>Export als PDF, 300 dpi, Vektor. Rastern nur, wenn Mischmodi im Spiel sind — im Kartensatz sind sie es nicht.</div></div>
 </div>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Die CRS-Frage</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Die CRS-Frage</h2>
 
-<div style="border:1.5px solid #a83a28;background:#fdf6f4;padding:12px 14px;margin:12px 0">
-  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8pt;letter-spacing:.08em;color:#a83a28;margin-bottom:5px">ACHTUNG, VERWECHSLUNG</div>
+<div style="border:1.5px solid var(--red);background:var(--red-bg);padding:12px 14px;margin:12px 0">
+  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8pt;letter-spacing:.08em;color:var(--red);margin-bottom:5px">ACHTUNG, VERWECHSLUNG</div>
   <div style="font-size:10pt;line-height:1.45"><b style="font-weight:600">EPSG:3380 ist nicht Rumänien.</b> Der Code steht für <i>Timbalai 1948 / RSO Borneo (ch)</i> — Malaysia und Brunei. Wer damit arbeitet, bekommt keine Fehlermeldung, sondern eine Karte, die stillschweigend um Tausende Kilometer daneben liegt oder gar nicht erst erscheint. Gemeint ist fast immer <b style="font-weight:600">EPSG:3844</b>.</div>
 </div>
 
@@ -105,120 +105,159 @@
 
 <table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:12px 0">
   <thead>
-    <tr style="border-bottom:1.5px solid #2a231c;text-align:left">
+    <tr style="border-bottom:1.5px solid var(--ink);text-align:left">
       <th style="padding:5px 8px 5px 0;font-weight:600">EPSG</th>
       <th style="padding:5px 8px;font-weight:600">System</th>
       <th style="padding:5px 0 5px 8px;font-weight:600">wofür</th>
     </tr>
   </thead>
   <tbody>
-    <tr style="border-bottom:.5px solid #e5ddce">
-      <td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-weight:500;color:#2f6f74">3844</td>
+    <tr style="border-bottom:.5px solid var(--grey-light)">
+      <td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-weight:500;color:var(--petrol)">3844</td>
       <td style="padding:6px 8px">Pulkovo 1942(58) / Stereo 70</td>
       <td style="padding:6px 0 6px 8px">Das amtliche System Rumäniens. Meter, also rechnen Flächen und Längen direkt. <b style="font-weight:600">Die Vorgabe für alles Rumänien-Bezogene.</b></td>
     </tr>
-    <tr style="border-bottom:.5px solid #e5ddce">
+    <tr style="border-bottom:.5px solid var(--grey-light)">
       <td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-weight:500">4326</td>
       <td style="padding:6px 8px">WGS 84, geographisch</td>
       <td style="padding:6px 0 6px 8px">Das Format der gelieferten Daten. Zum Rechnen ungeeignet (Grad sind keine Meter), zum Austauschen ideal.</td>
     </tr>
-    <tr style="border-bottom:.5px solid #e5ddce">
+    <tr style="border-bottom:.5px solid var(--grey-light)">
       <td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-weight:500">3035</td>
       <td style="padding:6px 8px">ETRS89 / LAEA Europe</td>
       <td style="padding:6px 0 6px 8px">Flächentreu, europaweit. Wenn das Blatt neben Nachbarländer gestellt wird oder Flächen verglichen werden.</td>
     </tr>
-    <tr style="border-bottom:.5px solid #e5ddce">
+    <tr style="border-bottom:.5px solid var(--grey-light)">
       <td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-weight:500">3380</td>
       <td style="padding:6px 8px">Timbalai 1948 / RSO Borneo</td>
-      <td style="padding:6px 0 6px 8px;color:#a83a28">Borneo. Nicht verwenden.</td>
+      <td style="padding:6px 0 6px 8px;color:var(--red)">Borneo. Nicht verwenden.</td>
     </tr>
   </tbody>
 </table>
 
 <p style="margin:10px 0">Die HTML-Blätter des Atlas benutzen etwas Drittes: Lambert konform konisch mit den Standardparallelen 44° und 48° N. Das ist kein EPSG-Code, sondern eine im Blatt definierte Projektion — konform, damit die Kartenbilder nicht verzerrt aussehen, und auf Rumänien zugeschnitten. Wer die QGIS-Karte deckungsgleich zum HTML-Blatt haben will, legt in QGIS ein benutzerdefiniertes CRS an:</p>
 
-<pre style="font-family:'Noto Sans Mono',monospace;font-size:8.5pt;line-height:1.45;background:#f8f8f6;border:1px solid #e5ddce;padding:12px 14px;margin:12px 0;white-space:pre-wrap">+proj=lcc +lat_1=44 +lat_2=48 +lat_0=46 +lon_0=25.5
+<pre style="font-family:'Noto Sans Mono',monospace;font-size:8.5pt;line-height:1.45;background:var(--surface-sunken);border:1px solid var(--grey-light);padding:12px 14px;margin:12px 0;white-space:pre-wrap">+proj=lcc +lat_1=44 +lat_2=48 +lat_0=46 +lon_0=25.5
 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</pre>
 
 <sc-if value="{{ zeigeFeldvertrag }}" hint-placeholder-val="{{ true }}">
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Der Feldvertrag</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Der Feldvertrag</h2>
 <p style="margin:10px 0">Jeder Stil erwartet bestimmte Felder. Steht ein Feld nicht da oder heißt es anders, rendert QGIS klaglos nichts — das ist die häufigste Ursache für eine leere Karte. Der Kopf jeder .qml nennt ihren Vertrag; hier die Übersicht der Basisstile.</p>
 
 <table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:12px 0">
   <thead>
-    <tr style="border-bottom:1.5px solid #2a231c;text-align:left">
+    <tr style="border-bottom:1.5px solid var(--ink);text-align:left">
       <th style="padding:5px 8px 5px 0;font-weight:600">Basisstil</th>
       <th style="padding:5px 8px;font-weight:600">Geometrie</th>
       <th style="padding:5px 0 5px 8px;font-weight:600">erwartete Felder</th>
     </tr>
   </thead>
   <tbody>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">flaeche_kolorit</td><td style="padding:6px 8px">Fläche</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">wert</span> (Zahl, NULL erlaubt) · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">status</span> · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span></td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">flaeche_grund</td><td style="padding:6px 8px">Fläche</td><td style="padding:6px 0 6px 8px">keine</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">punkt_signatur_groesse</td><td style="padding:6px 8px">Punkt</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">wert</span> — Höhe ∝ √wert</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">punkt_kategorien</td><td style="padding:6px 8px">Punkt</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">art</span> · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span></td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">punkt_ort</td><td style="padding:6px 8px">Punkt</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">rang</span> (1–4) · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span> · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name_dt</span></td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">linie_verkehr</td><td style="padding:6px 8px">Linie</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">rang</span> (1–3) · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span></td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">flaeche_kolorit</td><td style="padding:6px 8px">Fläche</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">wert</span> (Zahl, NULL erlaubt) · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">status</span> · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span></td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">flaeche_grund</td><td style="padding:6px 8px">Fläche</td><td style="padding:6px 0 6px 8px">keine</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">punkt_signatur_groesse</td><td style="padding:6px 8px">Punkt</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">wert</span> — Höhe ∝ √wert</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">punkt_kategorien</td><td style="padding:6px 8px">Punkt</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">art</span> · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span></td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">punkt_ort</td><td style="padding:6px 8px">Punkt</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">rang</span> (1–5, regelbasiert) · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span> · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name_dt</span></td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 8px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">linie_verkehr</td><td style="padding:6px 8px">Linie</td><td style="padding:6px 0 6px 8px"><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">rang</span> (1–3) · <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">name</span></td></tr>
   </tbody>
 </table>
 </sc-if>
 
 <sc-if value="{{ zeigeRezepte }}" hint-placeholder-val="{{ true }}">
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Zwei Rezepte</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Zwei Rezepte</h2>
 
 <h3 style="font-size:11.5pt;font-weight:600;margin:16px 0 4px">Streusignatur: eine Zeichnung je hundert Tiere</h3>
 <p style="margin:8px 0">Das Blatt streut Bärensignaturen in die Kreise. In QGIS macht das die Verarbeitung, nicht der Stil:</p>
 <div style="display:flex;flex-direction:column;gap:7px;margin:10px 0 14px">
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">01</span><div>Verarbeitungswerkzeuge → <i>Zufällige Punkte in Polygonen</i>, Eingabe <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">kreise-baeren</span>.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">02</span><div>Punktzahl als Ausdruck: <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">round("bestand" / 100)</span>, Mindestabstand 8 000 Meter.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">03</span><div>Auf das Ergebnis <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">baeren_streuung.qml</span> laden.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">01</span><div>Verarbeitungswerkzeuge → <i>Zufällige Punkte in Polygonen</i>, Eingabe <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">kreise-baeren</span>.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">02</span><div>Punktzahl als Ausdruck: <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">round("bestand" / 100)</span>, Mindestabstand 8 000 Meter.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">03</span><div>Auf das Ergebnis <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">baeren_streuung.qml</span> laden.</div></div>
 </div>
-<p style="margin:8px 0;font-style:italic;color:#4a4139;font-size:9.5pt">Die Höhengewichtung des HTML-Blattes — Bären sitzen im Bergwald, nicht in der Ebene — hat QGIS nicht eingebaut. Wer sie will, nimmt statt der Verarbeitung die Funktion streuung() aus basis/skripte/atlas.py; sie kennt beides.</p>
+<p style="margin:8px 0;font-style:italic;color:var(--grey-dark);font-size:9.5pt">Die Höhengewichtung des HTML-Blattes — Bären sitzen im Bergwald, nicht in der Ebene — hat QGIS nicht eingebaut. Wer sie will, nimmt statt der Verarbeitung die Funktion streuung() aus basis/skripte/atlas.py; sie kennt beides.</p>
 
 <h3 style="font-size:11.5pt;font-weight:600;margin:18px 0 4px">Ein neues Thema anlegen</h3>
 <div style="display:flex;flex-direction:column;gap:7px;margin:10px 0">
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">01</span><div><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">themen/&lt;name&gt;/daten/</span> und <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">themen/&lt;name&gt;/stile/</span> anlegen.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">02</span><div>Passende Gerüste aus <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">basis/stile/</span> hineinkopieren.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">03</span><div>In der Kopie <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">wert</span>, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">status</span>, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">art</span>, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">rang</span> durch die echten Feldnamen ersetzen — sie stehen im Renderer-Attribut, in den Regelfiltern und in der Beschriftung.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">04</span><div>Klassengrenzen anpassen. Im Kolorit stehen sie als Regelfilter (5 / 10 / 15 / 20 / 25) — sechs Zeilen, sechs Farben.</div></div>
-  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:#2f6f74;flex:none;width:20px">05</span><div>Eine <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">FELDER.md</span> danebenlegen. Wer das überspringt, sucht in einem halben Jahr, warum die Karte leer bleibt.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">01</span><div><span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">themen/&lt;name&gt;/daten/</span> und <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">themen/&lt;name&gt;/stile/</span> anlegen.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">02</span><div>Passende Gerüste aus <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">basis/stile/</span> hineinkopieren.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">03</span><div>In der Kopie <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">wert</span>, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">status</span>, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">art</span>, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">rang</span> durch die echten Feldnamen ersetzen — sie stehen im Renderer-Attribut, in den Regelfiltern und in der Beschriftung.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">04</span><div>Klassengrenzen anpassen. Im Kolorit stehen sie als Regelfilter (5 / 10 / 15 / 20 / 25) — sechs Zeilen, sechs Farben.</div></div>
+  <div style="display:flex;gap:12px;align-items:baseline"><span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9pt;color:var(--petrol);flex:none;width:20px">05</span><div>Eine <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">FELDER.md</span> danebenlegen. Wer das überspringt, sucht in einem halben Jahr, warum die Karte leer bleibt.</div></div>
 </div>
 </sc-if>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Drei Helfer</h2>
-<p style="margin:10px 0">In <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">basis/skripte/atlas.py</span> liegen drei Funktionen für die QGIS-Python-Konsole. Kein Plugin, keine Abhängigkeiten. Laden mit:</p>
-<pre style="font-family:'Noto Sans Mono',monospace;font-size:8.5pt;line-height:1.45;background:#f8f8f6;border:1px solid #e5ddce;padding:12px 14px;margin:12px 0;white-space:pre-wrap">exec(open('…/atlas/qgis/basis/skripte/atlas.py').read())</pre>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Drei Helfer</h2>
+<p style="margin:10px 0">In <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">basis/skripte/atlas.py</span> liegen drei Funktionen für die QGIS-Python-Konsole. Kein Plugin, keine Abhängigkeiten. Laden mit:</p>
+<pre style="font-family:'Noto Sans Mono',monospace;font-size:8.5pt;line-height:1.45;background:var(--surface-sunken);border:1px solid var(--grey-light);padding:12px 14px;margin:12px 0;white-space:pre-wrap">exec(open('…/atlas/qgis/basis/skripte/atlas.py').read())</pre>
 <table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:12px 0">
   <tbody>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0;width:38%;font-family:'Noto Sans Mono',monospace;font-size:9pt">pruefen()</td><td style="padding:6px 0">Geht das Projekt durch: CRS (und meckert bei 3380), Feldvertrag je Layer, durchgehend leere Spalten. Der erste Griff, wenn eine Karte leer bleibt.</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">streuung(layer, feld)</td><td style="padding:6px 0">Streut eine Signatur je 100 Einheiten ins Polygon, mit Mindestabstand. Mit <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">hoehe='dgm'</span> auch mit der Höhengewichtung des HTML-Blattes.</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">erfassungslayer(pfad)</td><td style="padding:6px 0">Legt ein leeres GeoPackage für die Feldbegehung an — Schema passend zum QField-Formular.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0;width:38%;font-family:'Noto Sans Mono',monospace;font-size:9pt">pruefen()</td><td style="padding:6px 0">Geht das Projekt durch: CRS (und meckert bei 3380), Feldvertrag je Layer, durchgehend leere Spalten. Der erste Griff, wenn eine Karte leer bleibt.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">streuung(layer, feld)</td><td style="padding:6px 0">Streut eine Signatur je 100 Einheiten ins Polygon, mit Mindestabstand. Mit <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">hoehe='dgm'</span> auch mit der Höhengewichtung des HTML-Blattes.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0;font-family:'Noto Sans Mono',monospace;font-size:9pt">erfassungslayer(pfad)</td><td style="padding:6px 0">Legt ein leeres GeoPackage für die Feldbegehung an — Schema passend zum QField-Formular.</td></tr>
   </tbody>
 </table>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Ins Feld: QField</h2>
-<p style="margin:10px 0">Ein Blatt geht ohne Umbau aufs Telefon. Erfassungslayer anlegen, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">basis/qfield/beobachtung.qml</span> darauf laden — das gibt Auswahllisten statt Freitext, ein Datum, das sich selbst setzt, und ein Fotofeld — dann mit QFieldSync packen. Zwei Fallen: <b style="font-weight:600">die Signaturen müssen im Projektordner liegen</b>, nicht nur im SVG-Suchpfad, sonst kommen sie nicht mit; und Gentium gibt es auf Android nicht.</p>
-<p style="margin:10px 0">QFieldCloud lohnt erst, wenn mehrere gleichzeitig erfassen. Dann gilt: nur der Erfassungslayer ist gemeinsam bearbeitbar, alles andere bleibt Lesestoff — sonst sind Grenzen und Trassen nach der dritten Begehung verschoben. Ausführlich in <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">basis/qfield/README.md</span>.</p>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Ins Feld: QField</h2>
+<p style="margin:10px 0">Ein Blatt geht ohne Umbau aufs Telefon. Erfassungslayer anlegen, <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">basis/qfield/beobachtung.qml</span> darauf laden — das gibt Auswahllisten statt Freitext, ein Datum, das sich selbst setzt, und ein Fotofeld — dann mit QFieldSync packen. Zwei Fallen: <b style="font-weight:600">die Signaturen müssen im Projektordner liegen</b>, nicht nur im SVG-Suchpfad, sonst kommen sie nicht mit; und Gentium gibt es auf Android nicht.</p>
+<p style="margin:10px 0">QFieldCloud lohnt erst, wenn mehrere gleichzeitig erfassen. Dann gilt: nur der Erfassungslayer ist gemeinsam bearbeitbar, alles andere bleibt Lesestoff — sonst sind Grenzen und Trassen nach der dritten Begehung verschoben. Ausführlich in <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">basis/qfield/README.md</span>.</p>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Was aus Daten kommt und was nicht</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Was die Stile über den Maßstab wissen</h2>
+<p style="margin:10px 0">Ein Stil, der bei jedem Maßstab dasselbe zeichnet, ist kein Kartenstil, sondern eine Anzeige. Drei Einstellungen tragen die Generalisierung. Sie stehen in jeder <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">.qml</span> und sind kein Beiwerk.</p>
+
+<p style="margin:10px 0"><b style="font-weight:600">Bezugsmaßstab.</b> Alle Stile führen <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">referencescale="2500000"</span> — den Blattmaßstab des Rumänien-Bogens auf A4. Damit hängen die Millimetermaße von Signatur, Strichstärke und Schrift am Ausgabemaßstab: wer dasselbe Blatt auf 1:1 000 000 druckt, bekommt proportional mitwachsende Zeichen statt eines zerfallenen Kartenbilds. Vorher stand überall <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">-1</span>, und jede Ausgabe sah anders aus als die Vorschau.</p>
+
+<p style="margin:10px 0"><b style="font-weight:600">Auswahl nach Maßstab.</b> <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">basis/stile/punkt_ort.qml</span> ist deshalb <b style="font-weight:600">regelbasiert</b> statt kategorisiert: nur Regeln tragen Maßstabsgrenzen je Klasse. Ohne sie zeichnen bei kleinem Maßstab alle fünf Ortsgrößen gleichzeitig, und das Kartenfeld läuft mit Punkten voll. Die Auswahl ist Generalisierung, kein Filter — das Weglassen gehört zur Aussage.</p>
+
+<table style="width:100%;border-collapse:collapse;margin:14px 0 4px;font-size:10pt">
+  <thead><tr>
+    <th style="padding:5px 8px 5px 0;font-weight:600;border-bottom:1px solid var(--ink);text-align:left">Rang</th><th style="padding:5px 8px 5px 0;font-weight:600;border-bottom:1px solid var(--ink);text-align:left">Ortsgröße</th><th style="padding:5px 8px 5px 0;font-weight:600;border-bottom:1px solid var(--ink);text-align:left">sichtbar bis</th><th style="padding:5px 8px 5px 0;font-weight:600;border-bottom:1px solid var(--ink);text-align:left">Schriftgrad</th>
+  </tr></thead>
+  <tbody>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">1</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">über 1 Mio.</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">immer</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">9 pt</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">2</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">500 000 – 1 Mio.</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">1:6 000 000</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">8 pt</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">3</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">100 000 – 500 000</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">1:3 000 000</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">7,1 pt</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">4</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">25 000 – 100 000</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">1:1 500 000</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">6,5 pt</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">5</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">unter 25 000</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">1:600 000</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">5,5 pt</td></tr>
+  </tbody>
+</table>
+<p style="margin:10px 0;font-size:10pt;color:var(--grey-dark)">Die Grade kommen aus <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">atlas/typenscale.js</span>; 5,5 pt ist die Untergrenze des Atlas — darunter läuft Toner in die Punzen. Eine Auffangregel „ohne Rang" zeichnet NULL und Fremdwerte als gestrichelten Kreis in der Konfliktfarbe, sonst verschwinden fehlerhafte Datensätze stumm.</p>
+
+<p style="margin:16px 0 10px"><b style="font-weight:600">Beschriftungsrang.</b> Wer verdrängt wen, wenn es eng wird. Die Werte waren vorher willkürlich verteilt — 3, 4, 6, 7, 8 ohne System; jetzt bilden sie eine Leiter. Die beiden obersten Ortsränge sind zusätzlich <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">obstacle</span>-verstärkt: sie verdrängen nicht nur, sie halten auch Platz frei.</p>
+
+<table style="width:100%;border-collapse:collapse;margin:12px 0 4px;font-size:10pt">
+  <thead><tr>
+    <th style="padding:5px 8px 5px 0;font-weight:600;border-bottom:1px solid var(--ink);text-align:left">Rang</th><th style="padding:5px 8px 5px 0;font-weight:600;border-bottom:1px solid var(--ink);text-align:left">Stil</th><th style="padding:5px 8px 5px 0;font-weight:600;border-bottom:1px solid var(--ink);text-align:left">Inhalt</th>
+  </tr></thead>
+  <tbody>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">10 – 2</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">punkt_ort</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">Ortsnamen, je Ortsgröße gestaffelt</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">9</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">staedte</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">Ortsnamen des Bärenblatts</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">7</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">linie_verkehr</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">Straßen- und Bahnnummern</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">6</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">nationalparks</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">Schutzgebietsnamen</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">4</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">begegnungen · kreise_schwerpunkte_baer</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">Vermerke</td></tr>
+    <tr><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">3</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light);font-family:'Noto Sans Mono',monospace;font-size:9pt">kreise_dichte</td><td style="padding:6px 8px 6px 0;border-bottom:.5px solid var(--grey-light)">Kreiswerte</td></tr>
+  </tbody>
+</table>
+
+<p style="margin:16px 0 10px"><b style="font-weight:600">Schriftfallback.</b> Jeder beschriftende Stil führt jetzt Gentium Book Plus → Gentium Plus → Noto Serif. Ohne diese Kette substituiert QGIS still, wenn Gentium lokal fehlt, und der Ausdruck kommt in einer fremden Schrift zurück — ohne Warnung, und meist erst auf dem Papier bemerkt.</p>
+
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Was aus Daten kommt und was nicht</h2>
 <p style="margin:10px 0">Der Kartensatz mischt zwei Sorten Geometrie, und das steht in jedem Themenordner. Aus benannten Quellen kommen: die Kreisgrenzen (Eurostat GISCO, NUTS 2021, Maßstabsstufe 1:3 Mio.), die Verkehrstrassen (OpenStreetMap über die Pipeline in <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">atlas/geodaten/</span>), Küsten und Staaten (Natural Earth), das Gelände (SRTM).</p>
 <p style="margin:10px 0">Von Hand gesetzt sind: Ortslagen und Rangstufen, Hafen- und Flughafensymbole, der Umriss des Donaudeltas, die Trasse des Donau–Schwarzmeer-Kanals. Sie sind auf ±1 Kilometer genau und für den Maßstab 1:3,8 Mio. brauchbar — als Nachweis taugen sie nicht.</p>
-<p style="margin:10px 0">Welche <b style="font-weight:600">Aussage</b> auf einem Blatt belegt ist und welche nicht, steht nicht hier, sondern im Quellenregister unter <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">atlas/quellen/</span> — eine Datei je Blatt, drei Status: belegt, abgeleitet, unbelegt. Die Begriffe der Blätter erklärt <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:#f1efe9;padding:0 3px">atlas/GLOSSAR.md</span>.</p>
+<p style="margin:10px 0">Welche <b style="font-weight:600">Aussage</b> auf einem Blatt belegt ist und welche nicht, steht nicht hier, sondern im Quellenregister unter <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">atlas/quellen/</span> — eine Datei je Blatt, drei Status: belegt, abgeleitet, unbelegt. Die Begriffe der Blätter erklärt <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt;background:var(--surface);padding:0 3px">atlas/GLOSSAR.md</span>.</p>
 
-<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid #2a231c;padding-bottom:3px">Wenn nichts erscheint</h2>
+<h2 style="font-size:14pt;font-weight:600;letter-spacing:-.02em;margin:26px 0 4px;border-bottom:1.5px solid var(--ink);padding-bottom:3px">Wenn nichts erscheint</h2>
 <table style="width:100%;border-collapse:collapse;font-size:9.5pt;margin:12px 0">
   <tbody>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0;width:44%"><b style="font-weight:600">Fragezeichen statt Signatur</b></td><td style="padding:6px 0">SVG-Pfad fehlt. Schritt 02 der Einrichtung.</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Layer geladen, Karte leer</b></td><td style="padding:6px 0">Feldname stimmt nicht mit dem Vertrag. Attributtabelle gegen FELDER.md halten.</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Beschriftung in falscher Schrift</b></td><td style="padding:6px 0">Gentium Plus nicht installiert; QGIS ersetzt still.</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Summe der Bestände zu hoch</b></td><td style="padding:6px 0">Gruppenwerte wiederholen sich auf allen Mitgliedskreisen. Vor dem Summieren auf <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">signatur = 1</span> filtern.</td></tr>
-    <tr style="border-bottom:.5px solid #e5ddce"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Karte liegt in Südostasien</b></td><td style="padding:6px 0">EPSG:3380 statt 3844.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0;width:44%"><b style="font-weight:600">Fragezeichen statt Signatur</b></td><td style="padding:6px 0">SVG-Pfad fehlt. Schritt 02 der Einrichtung.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Layer geladen, Karte leer</b></td><td style="padding:6px 0">Feldname stimmt nicht mit dem Vertrag. Attributtabelle gegen FELDER.md halten.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Beschriftung in falscher Schrift</b></td><td style="padding:6px 0">Gentium Plus nicht installiert; QGIS ersetzt still.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Summe der Bestände zu hoch</b></td><td style="padding:6px 0">Gruppenwerte wiederholen sich auf allen Mitgliedskreisen. Vor dem Summieren auf <span style="font-family:'Noto Sans Mono',monospace;font-size:9pt">signatur = 1</span> filtern.</td></tr>
+    <tr style="border-bottom:.5px solid var(--grey-light)"><td style="padding:6px 10px 6px 0"><b style="font-weight:600">Karte liegt in Südostasien</b></td><td style="padding:6px 0">EPSG:3380 statt 3844.</td></tr>
   </tbody>
 </table>
 
-<div style="margin-top:34px;border-top:2px solid #2a231c;padding-top:10px;display:flex;justify-content:space-between;align-items:baseline">
-  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5pt;letter-spacing:.05em;color:#8b8173">SIGNATUREN, FARBEN UND MASSE NACH DEM STERNPRODUKT-DESIGN-SYSTEM &middot; QGIS ≥ 3.28 &middot; STAND 08/2026</div>
-  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8pt;color:#8b8173">Zimmer 137</div>
+<div style="margin-top:34px;border-top:2px solid var(--ink);padding-top:10px;display:flex;justify-content:space-between;align-items:baseline">
+  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5pt;letter-spacing:.05em;color:var(--grey)">SIGNATUREN, FARBEN UND MASSE NACH DEM STERNPRODUKT-DESIGN-SYSTEM &middot; QGIS ≥ 3.28 &middot; STAND 08/2026</div>
+  <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8pt;color:var(--grey)">Zimmer 137</div>
 </div>
 
 </div>
