@@ -1,0 +1,60 @@
+# What stays out of the image. Rule of thumb: everything .gitignore excludes, plus
+# the working stores — a screen atlas does not need gigabytes of raw data.
+#
+# Note on patterns: this daemon does not honour `**/` reliably, so the heavy paths
+# are named explicitly. atlas/geodaten holds 23 GB of raw deliveries next to 17 MB
+# of tracked map data — get this wrong and the build context alone is 24 GB.
+#
+# Careful when trimming: recherche/ is rendered by the site's Werkstatt view, and
+# three files under screenshots/ are embedded by "Kleiner Gruß aus der Küche".
+# Both are part of what is served, even though they look like storage.
+
+.git
+.gitignore
+.claude
+.ruby-lsp
+Dockerfile
+Dockerfile.probe
+compose.yaml
+
+# Working stores
+wip/
+handarbeit/
+skills/
+
+# QA screenshots — except the three a sheet embeds
+screenshots/*
+!screenshots/vorschau-verkehr.png
+!screenshots/vorschau-baer.png
+!screenshots/katzundgoldt-crop.png
+
+# Raw deliveries and intermediate stages of the geodata pipelines.
+# Everything tracked under atlas/geodaten is .js, .geojson, .geojsonl, .rb, .sh or
+# .md — the exclusions below take out the rest without touching those.
+atlas/geodaten/*.gpkg
+atlas/geodaten/*.zip
+atlas/geodaten/*.inhalt
+atlas/geodaten/*.dat
+atlas/geodaten/*.osm.pbf
+atlas/geodaten/brandenburg/*.gpkg
+atlas/geodaten/brandenburg/*.zip
+atlas/geodaten/brandenburg/*.inhalt
+atlas/geodaten/brandenburg/*.dat
+atlas/geodaten/brandenburg/*.osm.pbf
+atlas/geodaten/brandenburg/clc5_2018.utm32s.shape
+atlas/geodaten/brandenburg/landnutzung.geojson
+atlas/qgis/themen/rumaenien-baer/daten/*.gpkg
+ne_10m_*
+
+# Reference scans, templates, personal material — no sheet links any of these
+diercke-*.pdf
+druck-exempel.pdf
+s48_nachscan.pdf
+nikolai-*.pdf
+nikolai-*.png
+*.pptx
+uploads/Diplomarbeit.pdf
+
+# Operating system
+.DS_Store
+Thumbs.db
