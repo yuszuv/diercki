@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Brandenburg · Klima — Sternprodukt-Atlas</title>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<style>
+  body{margin:0}
+  doc-page:not(:defined){visibility:hidden}
+  a{color:#2f6f74}
+  a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<doc-page size="a4" orientation="landscape">
+<section class="page" id="blatt8" data-screen-label="Brandenburg Klima" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Brandenburg &middot; Klima</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173;white-space:nowrap">STERNPRODUKT-ATLAS</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 3.5mm">F&uuml;nf Orte als Kartodiagramm im Kartenfeld, drei davon gro&szlig; in der Randspalte nach Walter und Lieth (1&nbsp;&deg;C &#8797; 2&nbsp;mm). <strong style="font-weight:600">Alle Klimawerte sind Platzhalter</strong> &mdash; die DWD-Reihen fehlen noch, jede Zahl auf diesem Blatt ist unbelegt.</div>
+  <div style="height:158mm;display:flex;gap:6mm;min-height:0">
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3mm">
+      <div id="map" style="flex:1;min-height:0;position:relative"><div id="lade" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.08em;color:#8b8173">KARTE LÄDT — VERWALTUNGSGRENZEN …</div></div>
+      <div style="height:43mm;flex:none;display:flex;gap:5mm">
+        <div style="width:62mm;flex:none;display:flex;flex-direction:column">
+          <div style="font-size:10.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:2px">Zeichenerkl&auml;rung</div>
+          <div id="legend" style="display:flex;flex-direction:column"></div>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+          <div style="font-size:10.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:2px">Niederschlag nach Station und Monat</div>
+          <div id="matrix" style="flex:1;min-height:0"></div>
+        </div>
+      </div>
+    </div>
+    <div style="width:57mm;flex:none;display:flex;flex-direction:column;min-height:0">
+      <div style="font-size:10.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:2px">Klimadiagramme</div>
+      <div id="randspalte" style="flex:1;min-height:0;display:flex;flex-direction:column;gap:1.5mm"></div>
+      <div style="font-size:8.5px;line-height:1.45;color:#4a4139;margin-top:2mm;border-top:1px solid #e5ddce;padding-top:3px">Ma&szlig;stabskopplung 1&nbsp;&deg;C &#8797; 2&nbsp;mm: wo die Niederschlagslinie unter die Temperaturkurve f&auml;llt, gilt der Monat als arid. Genau daran l&auml;sst sich der &Uuml;bergang zum kontinentalen Osten ablesen &mdash; sobald echte Reihen vorliegen.</div>
+    </div>
+  </div>
+  <div style="margin-top:3mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:4px">
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">GRENZEN: DEUTSCHLANDGEOJSON/GADM &middot; STATIONEN UND MONATSWERTE: PLATZHALTER, UNBELEGT &mdash; DWD-REIHEN AUSSTEHEND (SIEHE KLIMA.MD) &middot; PROJEKTION: LAMBERT KONFORM KONISCH 52&deg;/53,4&deg; N &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">137</div>
+  </div>
+</section>
+</doc-page>
+<script src="doc-page.js"></script>
+<script type="module">
+import { F } from './atlas/farben.js';
+
+window.__mapTweaks = { vergleichsort: 'Diethardt' };
+window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (window.__redrawMap) window.__redrawMap(); };
+
+(async function () {
+  const MM = 96 / 25.4;
+  const SERIF = "'Gentium Book Plus','Noto Serif',serif";
+  const MONO = "'Noto Sans Mono',monospace";
+  const NACHBAR = '#eeeae1', DUNKEL = '#4a4139';
+  const MON = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
+
+  const [laender, stationenCsv] = await Promise.all([
+    'https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/3_mittel.geo.json',
+    'atlas/geodaten/brandenburg/klima-stationen.csv',
+  ].map((u, i) => fetch(u).then(r => {
+    if (!r.ok) throw new Error(u + ' \u2192 HTTP ' + r.status);
+    return i ? r.text() : r.json();
+  })));
+
+  // Stationstabelle zur Laufzeit \u2014 korrigierbar ohne Build-Schritt (siehe KLIMA.md)
+  const ST = (() => {
+    const z = stationenCsv.trim().split(/\r?\n/);
+    const k = z[0].split(';');
+    const idx = n => k.indexOf(n);
+    return z.slice(1).filter(Boolean).map(zeile => {
+      const s = zeile.split(';');
+      const v = n => s[idx(n)];
+      return {
+        name: v('station'), kuerzel: v('kuerzel'), dwdId: v('dwd_id'),
+        lon: +v('lon'), lat: +v('lat'), hoehe: +v('hoehe'),
+        rolle: v('rolle') || 'kartenfeld', koordStatus: v('koord_status') || 'unbelegt',
+        status: v('status'), quelle: v('quelle'),
+        t: ['jan','feb','mrz','apr','mai','jun','jul','aug','sep','okt','nov','dez'].map(m => +v('t_' + m)),
+        n: ['jan','feb','mrz','apr','mai','jun','jul','aug','sep','okt','nov','dez'].map(m => +v('n_' + m)),
+      };
+    });
+  })();
+  for (const s of ST) { s.tJahr = d3.mean(s.t); s.nJahr = d3.sum(s.n); }
+  const imFeld = ST.filter(s => s.rolle === 'kartenfeld');
+  const vergleich = ST.filter(s => s.rolle === 'vergleich');
+  const unbelegt = ST.filter(s => s.status !== 'belegt');
+  const ortOffen = ST.filter(s => s.koordStatus === 'unbelegt');
+
+  const BB = laender.features.find(f => /Brandenburg/i.test(f.properties.name || f.properties.NAME_1 || ''));
+  if (!BB) throw new Error('Brandenburg nicht in der Grenzlieferung gefunden');
+
+  // \u2014\u2014\u2014 Walter-Lieth-Klimadiagramm: 1 \u00b0C \u2245 2 mm, arid punktiert, humid gestrichelt
+  const klimaDiagramm = (s, w, h, opt = {}) => {
+    const gross = !!opt.gross;
+    const mL = gross ? 17 : 1.5, mR = gross ? 15 : 1.5, mT = gross ? 15 : 1.5, mB = gross ? 13 : 1.5;
+    const iw = w - mL - mR, ih = h - mT - mB;
+    // Kopplung: 0 mm/0 \u00b0C auf einer Linie, 2 mm je \u00b0C. Obergrenze aus dem Maximum.
+    const tMax = Math.max(22, Math.ceil(d3.max(s.t) / 5) * 5);
+    const nMax = Math.max(80, Math.ceil(d3.max(s.n) / 20) * 20);
+    const obenT = Math.max(tMax, nMax / 2), obenN = obenT * 2;
+    const tY = v => mT + ih * (1 - v / obenT);
+    const nY = v => mT + ih * (1 - v / obenN);
+    const bw = iw / 12;
+    let o = `<rect x="${mL}" y="${mT}" width="${iw}" height="${ih}" fill="${F.papier}" stroke="${F.grauHell}" stroke-width=".5"/>`;
+    // Gitter alle 10 \u00b0C
+    for (let v = 10; v <= obenT; v += 10)
+      o += `<line x1="${mL}" y1="${tY(v)}" x2="${mL + iw}" y2="${tY(v)}" stroke="${F.grauHell}" stroke-width=".4"/>`;
+    // arid / humid: Fl\u00e4chen zwischen den beiden Kurven
+    const tPts = s.t.map((v, i) => [mL + bw * (i + .5), tY(v)]);
+    const nPts = s.n.map((v, i) => [mL + bw * (i + .5), nY(v)]);
+    const linie = d3.line().curve(d3.curveMonotoneX);
+    const flaeche = (unten, oben, muster) => {
+      const d = linie(oben) + 'L' + unten.slice().reverse().map(p => p.join(',')).join('L') + 'Z';
+      return `<path d="${d}" fill="${muster}" fill-opacity=".5"/>`;
+    };
+    o += `<defs>
+      <pattern id="arid-${s.kuerzel}" width="3" height="3" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r=".45" fill="${F.orangeDeep}"/></pattern>
+      <pattern id="humid-${s.kuerzel}" width="3" height="3" patternUnits="userSpaceOnUse"><line x1="0" y1="3" x2="3" y2="0" stroke="${F.petrol}" stroke-width=".5"/></pattern>
+      <clipPath id="feld-${s.kuerzel}"><rect x="${mL}" y="${mT}" width="${iw}" height="${ih}"/></clipPath>
+    </defs>`;
+    o += `<g clip-path="url(#feld-${s.kuerzel})">`;
+    if (gross) {
+      o += flaeche(tPts, nPts, `url(#humid-${s.kuerzel})`);
+      o += flaeche(nPts, tPts, `url(#arid-${s.kuerzel})`);
+    }
+    o += '</g>';
+    // Niederschlagsbalken
+    s.n.forEach((v, i) => {
+      o += `<rect x="${mL + bw * i + bw * .22}" y="${nY(v)}" width="${bw * .56}" height="${mT + ih - nY(v)}" fill="${F.petrol}" fill-opacity=".82"/>`;
+    });
+    // Temperaturkurve
+    o += `<path d="${linie(tPts)}" fill="none" stroke="${F.orangeDeep}" stroke-width="${gross ? 1.5 : 1.1}" stroke-linecap="round"/>`;
+    if (gross) s.t.forEach((v, i) => { o += `<circle cx="${mL + bw * (i + .5)}" cy="${tY(v)}" r="1.15" fill="${F.orangeDeep}"/>`; });
+    // Achsen
+    o += `<line x1="${mL}" y1="${mT + ih}" x2="${mL + iw}" y2="${mT + ih}" stroke="${F.tinte}" stroke-width="${gross ? .7 : .5}"/>`;
+    if (gross) {
+      o += `<line x1="${mL}" y1="${mT}" x2="${mL}" y2="${mT + ih}" stroke="${F.tinte}" stroke-width=".7"/>`;
+      o += `<line x1="${mL + iw}" y1="${mT}" x2="${mL + iw}" y2="${mT + ih}" stroke="${F.tinte}" stroke-width=".7"/>`;
+    }
+    if (gross) {
+      for (let v = 0; v <= obenT; v += 10) {
+        o += `<line x1="${mL - 2}" y1="${tY(v)}" x2="${mL}" y2="${tY(v)}" stroke="${F.tinte}" stroke-width=".6"/>`;
+        o += `<text x="${mL - 3.5}" y="${tY(v) + 2.2}" text-anchor="end" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${F.orangeDeep}">${v}</text>`;
+      }
+      for (let v = 0; v <= obenN; v += 20) {
+        o += `<line x1="${mL + iw}" y1="${nY(v)}" x2="${mL + iw + 2}" y2="${nY(v)}" stroke="${F.tinte}" stroke-width=".6"/>`;
+        o += `<text x="${mL + iw + 3.5}" y="${nY(v) + 2.2}" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${F.petrolDeep}">${v}</text>`;
+      }
+      MON.forEach((m, i) => {
+        o += `<text x="${mL + bw * (i + .5)}" y="${mT + ih + 6}" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${DUNKEL}">${m}</text>`;
+      });
+      o += `<text x="${mL}" y="${mT - 7}" font-family="${SERIF}" font-weight="600" font-size="8.4" fill="${F.tinte}">${s.name}</text>`;
+      o += `<text x="${mL + iw + 3.5}" y="${mT - 7}" text-anchor="end" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">${s.hoehe}\u2009m</text>`;
+      o += `<text x="${mL}" y="${mT - 1.5}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">${s.tJahr.toFixed(1).replace('.', ',')}\u2009\u00b0C \u00b7 ${Math.round(s.nJahr)}\u2009mm</text>`;
+      if (s.status !== 'belegt')
+        o += `<text x="${mL + iw}" y="${mT - 1.5}" text-anchor="end" font-family="${MONO}" font-weight="500" font-size="5.4" fill="${F.konflikt}">${s.rolle === 'vergleich' ? 'VERGLEICH \u00b7 ' : ''}${s.status.toUpperCase()}</text>`;
+    }
+    return o;
+  };
+
+  // \u2014\u2014\u2014 Karte
+  const zeichne = () => {
+    const box = document.getElementById('map').getBoundingClientRect();
+    const W = box.width, H = box.height;
+    if (!W || !H) return;
+    document.getElementById('map').innerHTML = '';
+    const svg = d3.select('#map').append('svg').attr('width', W).attr('height', H)
+      .attr('viewBox', `0 0 ${W} ${H}`).style('display', 'block');
+    const RAND = 5.2 * MM, inset = 1.2 * MM;
+    const feld = { x: inset + RAND, y: inset + RAND, w: W - 2 * (inset + RAND), h: H - 2 * (inset + RAND) };
+    const proj = d3.geoConicConformal().parallels([52, 53.4]).rotate([-13.4, 0])
+      .fitExtent([[feld.x + 6, feld.y + 6], [feld.x + feld.w - 6, feld.y + feld.h - 6]], BB);
+    const path = d3.geoPath(proj);
+
+    svg.append('rect').attr('width', W).attr('height', H).attr('fill', F.papier);
+    svg.append('defs').html(`<clipPath id="kfeld"><rect x="${feld.x}" y="${feld.y}" width="${feld.w}" height="${feld.h}"/></clipPath>`);
+    const g = svg.append('g').attr('clip-path', 'url(#kfeld)');
+
+    // Nachbarl\u00e4nder als gedimmter Kontext
+    for (const f of laender.features) {
+      const nm = f.properties.name || f.properties.NAME_1 || '';
+      if (/Brandenburg/i.test(nm)) continue;
+      g.append('path').attr('d', path(f)).attr('fill', NACHBAR).attr('stroke', F.grauHell).attr('stroke-width', .5);
+      const c = path.centroid(f);
+      if (c[0] > feld.x && c[0] < feld.x + feld.w && c[1] > feld.y && c[1] < feld.y + feld.h)
+        g.append('text').attr('x', c[0]).attr('y', c[1]).text(nm.toUpperCase())
+          .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500)
+          .attr('font-size', 7).attr('letter-spacing', '.1em').attr('fill', F.dim).attr('opacity', .8);
+    }
+    g.append('path').attr('d', path(BB)).attr('fill', F.flaecheWarm).attr('stroke', 'none');
+    // Berlin als Loch im Grundriss
+    const BE = laender.features.find(f => /Berlin/i.test(f.properties.name || f.properties.NAME_1 || ''));
+    if (BE) g.append('path').attr('d', path(BE)).attr('fill', F.bebaut).attr('fill-opacity', .5)
+      .attr('stroke', F.dim).attr('stroke-width', .5).attr('stroke-dasharray', '2 1.5');
+
+    const grat = d3.geoGraticule().step([1, 1]).extent([[11, 51], [15.5, 54]]);
+    g.append('path').attr('d', path(grat())).attr('fill', 'none')
+      .attr('stroke', F.bleistift).attr('stroke-width', .35).attr('opacity', .28);
+    g.append('path').attr('d', path(BB)).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', 1.1);
+
+    // \u2014\u2014\u2014 Kartodiagramm: Klimadiagramm-Miniatur an der Station (Diercke-Vorbild)
+    const dw = 42, dh = 31;
+    for (const s of imFeld) {
+      const [x, y] = proj([s.lon, s.lat]);
+      const px = Math.max(feld.x + 2, Math.min(feld.x + feld.w - dw - 2, x - dw / 2));
+      const py = Math.max(feld.y + 2, Math.min(feld.y + feld.h - dh - 12, y - dh - 6));
+      g.append('line').attr('x1', x).attr('y1', y).attr('x2', px + dw / 2).attr('y2', py + dh)
+        .attr('stroke', F.dim).attr('stroke-width', .5);
+      g.append('g').attr('transform', `translate(${px} ${py})`).html(klimaDiagramm(s, dw, dh));
+      g.append('rect').attr('x', px).attr('y', py).attr('width', dw).attr('height', dh)
+        .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .5);
+      // Stationssignatur: Kreis mit Punkt, dazu Name und Jahreswerte
+      g.append('circle').attr('cx', x).attr('cy', y).attr('r', 3).attr('fill', F.papier)
+        .attr('stroke', F.tinte).attr('stroke-width', 1.2);
+      g.append('circle').attr('cx', x).attr('cy', y).attr('r', .9).attr('fill', F.tinte);
+      g.append('text').attr('x', x + 5).attr('y', y + 3.4).text(s.name)
+        .attr('font-family', SERIF).attr('font-size', 8.6).attr('fill', F.tinte)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.6);
+      g.append('text').attr('x', x + 5).attr('y', y + 11.5).text(`${s.tJahr.toFixed(1).replace('.', ',')}\u2009\u00b0C \u00b7 ${Math.round(s.nJahr)}\u2009mm`)
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.2).attr('fill', DUNKEL)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.2);
+      // Ort nicht verifiziert — sichtbar machen, nicht stillschweigend setzen
+      if (s.koordStatus === 'unbelegt') {
+        g.append('circle').attr('cx', x).attr('cy', y).attr('r', 7).attr('fill', 'none')
+          .attr('stroke', F.konflikt).attr('stroke-width', .7).attr('stroke-dasharray', '2 1.6');
+        g.append('text').attr('x', x + 5).attr('y', y + 19).text('Ort nicht verifiziert')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 5.8).attr('fill', F.konflikt)
+          .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.2);
+      }
+    }
+
+    // \u2014\u2014\u2014 Nebenkarte: Gel\u00e4ndeklima im Odertal \u2014 schematisch, nicht lagetreu
+    {
+      const NBw = 46 * MM, NBh = 30 * MM;
+      const NBx = feld.x + 2, NBy = feld.y + feld.h - NBh - 2;
+      const nb = svg.append('g');
+      nb.append('rect').attr('x', NBx).attr('y', NBy).attr('width', NBw).attr('height', NBh)
+        .attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', .3 * MM);
+      nb.append('text').attr('x', NBx + 5).attr('y', NBy + 11).text('Gel\u00e4ndeklima im Odertal')
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 8.5).attr('fill', F.tinte);
+      nb.append('text').attr('x', NBx + 5).attr('y', NBy + 18.5).text('schematisch, nicht lagetreu \u00b7 unbelegt')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 5.8).attr('fill', F.konflikt);
+      // Profil: Hochfl\u00e4che \u2013 Talhang \u2013 Aue \u2013 Talhang
+      const pX = NBx + 6, pY = NBy + NBh - 8, pW = NBw - 12, pH = NBh - 30;
+      const gelaende = [[0, .18], [.14, .2], [.24, .55], [.36, .92], [.62, .95], [.74, .5], [.86, .16], [1, .14]];
+      const gl = d3.line().curve(d3.curveMonotoneX)(gelaende.map(([fx, fy]) => [pX + fx * pW, pY - pH * (1 - fy)]));
+      nb.append('path').attr('d', gl + `L${pX + pW},${pY}L${pX},${pY}Z`)
+        .attr('fill', F.grauHell).attr('stroke', F.tinte).attr('stroke-width', .7);
+      // Kaltluftsammlung in der Aue
+      nb.append('rect').attr('x', pX + .38 * pW).attr('y', pY - pH * .12).attr('width', .24 * pW).attr('height', pH * .12)
+        .attr('fill', F.petrolTint).attr('opacity', .85);
+      nb.append('text').attr('x', pX + .5 * pW).attr('y', pY - 2).text('Kaltluftsee').attr('text-anchor', 'middle')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 5.6).attr('fill', F.petrolDeep);
+      // Kaltluftbahnen als Pfeile die H\u00e4nge hinab
+      for (const [fx, dir] of [[.3, 1], [.8, -1]]) {
+        const x0 = pX + fx * pW, y0 = pY - pH * .62;
+        nb.append('path').attr('d', `M${x0},${y0} l${dir * 9},7`).attr('fill', 'none')
+          .attr('stroke', F.petrolDeep).attr('stroke-width', .9).attr('marker-end', 'none');
+        nb.append('path').attr('d', `M${x0 + dir * 9},${y0 + 7} l${-dir * 3},-1.2 m${dir * 3},1.2 l${-dir * 1.2},-3`)
+          .attr('fill', 'none').attr('stroke', F.petrolDeep).attr('stroke-width', .9);
+      }
+      nb.append('text').attr('x', pX + .12 * pW).attr('y', pY - pH * .86).text('Hochfl\u00e4che')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 6.4).attr('fill', DUNKEL);
+      nb.append('text').attr('x', pX + pW - 2).attr('y', pY - pH * .86).text('Hochfl\u00e4che').attr('text-anchor', 'end')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 6.4).attr('fill', DUNKEL);
+    }
+
+    // Ma\u00dfstabsbalken
+    {
+      const pxKm = Math.abs(proj([14, 52.4])[0] - proj([13, 52.4])[0]) / (111.32 * Math.cos(52.4 * Math.PI / 180));
+      const seg = 25 * pxKm, sx = feld.x + feld.w - 4 * seg - 8, sy = feld.y + 8;
+      for (let i = 0; i < 4; i++)
+        svg.append('rect').attr('x', sx + i * seg).attr('y', sy).attr('width', seg).attr('height', 3.2)
+          .attr('fill', i % 2 ? F.papier : F.tinte).attr('stroke', F.tinte).attr('stroke-width', .5);
+      svg.append('text').attr('x', sx + 4 * seg + 4).attr('y', sy + 3.8).text('100 km')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.tinte);
+    }
+
+    // Kartenrahmen mit Gradabtragung
+    const rahmen = svg.append('g');
+    rahmen.append('rect').attr('x', inset).attr('y', inset).attr('width', W - 2 * inset).attr('height', H - 2 * inset)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .35 * MM);
+    rahmen.append('rect').attr('x', feld.x).attr('y', feld.y).attr('width', feld.w).attr('height', feld.h)
+      .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .5);
+    for (let lon = 12; lon <= 15; lon++) {
+      const [x] = proj([lon, 52.4]);
+      if (x < feld.x || x > feld.x + feld.w) continue;
+      for (const yy of [[inset, feld.y], [feld.y + feld.h, H - inset]])
+        rahmen.append('line').attr('x1', x).attr('y1', yy[0]).attr('x2', x).attr('y2', yy[1])
+          .attr('stroke', F.tinte).attr('stroke-width', .5);
+      rahmen.append('text').attr('x', x).attr('y', inset + RAND - 3).text(lon + '\u00b0')
+        .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500)
+        .attr('font-size', 6.6).attr('fill', DUNKEL);
+    }
+    for (let lat = 52; lat <= 53; lat++) {
+      const [, y] = proj([13.4, lat]);
+      if (y < feld.y || y > feld.y + feld.h) continue;
+      for (const xx of [[inset, feld.x], [feld.x + feld.w, W - inset]])
+        rahmen.append('line').attr('x1', xx[0]).attr('y1', y).attr('x2', xx[1]).attr('y2', y)
+          .attr('stroke', F.tinte).attr('stroke-width', .5);
+      rahmen.append('text').attr('x', inset + 3).attr('y', y - 2.5).text(lat + '\u00b0')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.6).attr('fill', DUNKEL);
+    }
+    svg.append('text').attr('x', W - inset - 4).attr('y', H - inset - 4).text('1 : 1 250 000').attr('text-anchor', 'end')
+      .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', DUNKEL);
+  };
+
+  // \u2014\u2014\u2014 Randspalte: drei gro\u00dfe Diagramme, die Spannweite abdeckend
+  const randspalte = () => {
+    const el = document.getElementById('randspalte');
+    const box = el.getBoundingClientRect();
+    const w = box.width || 57 * MM;
+    const gewaehlt = window.__mapTweaks.vergleichsort;
+    const extern = gewaehlt && gewaehlt !== 'aus' ? vergleich.find(s => s.name === gewaehlt) : null;
+    const wahl = [
+      ST.find(s => /Alt Madlitz/.test(s.name)),
+      ST.find(s => /Wittstock/.test(s.name)),
+      extern ?? ST.find(s => /Cottbus/.test(s.name)),
+    ].filter(Boolean).filter((s, i, arr) => arr.indexOf(s) === i);
+    const h = Math.floor(((box.height || 120 * MM) - (wahl.length - 1) * 1.5 * MM) / wahl.length);
+    el.innerHTML = wahl.map(s =>
+      `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block;flex:none">${klimaDiagramm(s, w, h, { gross: true })}</svg>`
+    ).join('');
+  };
+
+  // \u2014\u2014\u2014 2D-Farbmatrix: Station \u00d7 Monat, Zellfarbe = Niederschlag (Diercke-Vorbild Klima)
+  {
+    const el = document.getElementById('matrix');
+    const box = el.getBoundingClientRect();
+    const W = box.width || 100 * MM, H = box.height || 30 * MM;
+    const mL = 26, mB = 9, mR = 22, mT = 8;
+    const cw = (W - mL - mR) / 12, ch = (H - mT - mB) / ST.length;
+    const alle = ST.flatMap(s => s.n);
+    const skala = d3.scaleSequential(d3.interpolateLab(F.papierWarm, F.petrolDeep)).domain([d3.min(alle), d3.max(alle)]);
+    let o = '';
+    MON.forEach((m, i) => {
+      o += `<text x="${mL + cw * (i + .5)}" y="${mT - 2}" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">${m}</text>`;
+    });
+    ST.forEach((s, r) => {
+      o += `<text x="${mL - 3}" y="${mT + ch * (r + .5) + 2.2}" text-anchor="end" font-family="${SERIF}" font-size="6.8" fill="${F.tinte}">${s.kuerzel}</text>`;
+      s.n.forEach((v, c) => {
+        o += `<rect x="${mL + cw * c}" y="${mT + ch * r}" width="${cw}" height="${ch}" fill="${skala(v)}" stroke="${F.papier}" stroke-width=".4"/>`;
+      });
+      o += `<text x="${mL + cw * 12 + 3}" y="${mT + ch * (r + .5) + 2.2}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">${Math.round(s.nJahr)}</text>`;
+    });
+    o += `<text x="${mL + cw * 12 + 3}" y="${mT - 2}" font-family="${MONO}" font-weight="500" font-size="5.4" fill="${F.dim}">mm/a</text>`;
+    // Farbleiter
+    const lw = cw * 5, lx = mL, ly = mT + ch * ST.length + 3;
+    for (let i = 0; i < 40; i++) {
+      const v = d3.min(alle) + (d3.max(alle) - d3.min(alle)) * i / 39;
+      o += `<rect x="${lx + lw * i / 40}" y="${ly}" width="${lw / 40 + .4}" height="3.4" fill="${skala(v)}"/>`;
+    }
+    o += `<rect x="${lx}" y="${ly}" width="${lw}" height="3.4" fill="none" stroke="${F.umriss}" stroke-width=".3"/>`;
+    o += `<text x="${lx - 3}" y="${ly + 3.4}" text-anchor="end" font-family="${MONO}" font-weight="500" font-size="5.4" fill="${DUNKEL}">${Math.round(d3.min(alle))}</text>`;
+    o += `<text x="${lx + lw + 3}" y="${ly + 3.4}" font-family="${MONO}" font-weight="500" font-size="5.4" fill="${DUNKEL}">${Math.round(d3.max(alle))}\u2009mm</text>`;
+    el.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block">${o}</svg>`;
+  }
+
+  // \u2014\u2014\u2014 Zeichenerkl\u00e4rung
+  {
+    const zeile = (sw, txt) => `<div style="display:flex;align-items:center;gap:6px;padding:.7px 0;border-bottom:.5px solid #e5ddce">
+      <svg width="40" height="12" viewBox="0 0 40 12" style="flex:none;overflow:hidden">${sw}</svg>
+      <div style="font-size:8.4px;line-height:1.15">${txt}</div></div>`;
+    document.getElementById('legend').innerHTML = [
+      [`<circle cx="20" cy="6" r="3" fill="${F.papier}" stroke="${F.tinte}" stroke-width="1.2"/><circle cx="20" cy="6" r=".9" fill="${F.tinte}"/>`, 'Klimastation mit Kartodiagramm'],
+      [`<path d="M3 9 C 10 3, 18 7, 26 2 S 35 1.5, 37 4" fill="none" stroke="${F.orangeDeep}" stroke-width="1.4"/>`, 'Temperaturkurve, Monatsmittel'],
+      [`<g fill="${F.petrol}" fill-opacity=".82"><rect x="8" y="6" width="3" height="5"/><rect x="14" y="3.5" width="3" height="7.5"/><rect x="20" y="2" width="3" height="9"/><rect x="26" y="5" width="3" height="6"/></g>`, 'Niederschlag, Monatssumme'],
+      [`<rect x="3" y="2" width="16" height="8" fill="${F.petrol}" fill-opacity=".28"/><g stroke="${F.petrol}" stroke-width=".5"><line x1="3" y1="10" x2="11" y2="2"/><line x1="11" y1="10" x2="19" y2="2"/></g><rect x="21" y="2" width="16" height="8" fill="${F.orangeTint}" fill-opacity=".5"/><g fill="${F.orangeDeep}">${[24,28,32,36].flatMap(x => [4, 8].map(y => `<circle cx="${x}" cy="${y}" r=".55"/>`)).join('')}</g>`, 'humid (N&nbsp;&gt;&nbsp;2&thinsp;T) &middot; arid (N&nbsp;&lt;&nbsp;2&thinsp;T)'],
+      [`<rect x="3" y="2.5" width="34" height="7" fill="${F.bebaut}" fill-opacity=".5" stroke="${F.dim}" stroke-width=".5" stroke-dasharray="2 1.5"/>`, 'Berlin, eigenes Stadtklima'],
+      [`<path d="M3 10 l9 0 l5 -6 l9 0 l7 6 z" fill="${F.grauHell}" stroke="${F.tinte}" stroke-width=".6"/><path d="M13 5 l5 3.5 m-5 -3.5 l.9 2.2 m4.1 1.3 l-1.8 -.7" fill="none" stroke="${F.petrolDeep}" stroke-width=".8"/>`, 'Kaltluftbahn, Kaltluftsee (Nebenkarte)'],
+      [`<text x="3" y="9" font-family="${MONO}" font-weight="500" font-size="6.6" fill="${F.konflikt}">UNBELEGT</text>`, `${unbelegt.length} von ${ST.length} Orten ohne gepr&uuml;fte Reihe`],
+      ...(vergleich.length ? [[`<rect x="3" y="2.5" width="34" height="7" fill="none" stroke="${F.dim}" stroke-width=".6" stroke-dasharray="3 2"/><text x="20" y="8.6" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.4" fill="${F.dim}">au\u00dferhalb</text>`, `Vergleichsort, nur Randspalte: ${vergleich.map(s => s.name).join(', ')}`]] : []),
+      ...(ortOffen.length ? [[`<circle cx="20" cy="6" r="5" fill="none" stroke="${F.konflikt}" stroke-width=".7" stroke-dasharray="2 1.6"/><circle cx="20" cy="6" r="2.6" fill="${F.papier}" stroke="${F.tinte}" stroke-width="1.1"/>`, `Ort nicht verifiziert: ${ortOffen.map(s => s.name).join(', ')}`]] : []),
+    ].map(([a, b]) => zeile(a, b)).join('');
+  }
+
+  zeichne();
+  randspalte();
+  window.__redrawMap = () => { zeichne(); randspalte(); };
+  let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { zeichne(); randspalte(); }, 120); });
+})().catch(e => {
+  const el = document.getElementById('lade');
+  if (el) el.textContent = 'FEHLER: ' + e.message;
+  console.error(e);
+});
+</script>
+</body>
+</html>

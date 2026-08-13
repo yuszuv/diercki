@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/colors.css">
+  <script src="./doc-page.js"></script>
+  <style>
+    body{margin:0}
+    doc-page:not(:defined){visibility:hidden}
+    a{color:var(--petrol)}
+    a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+    .l{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+    .lb{fill:none;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round}
+    .st{fill:#fdfdfd;stroke:#2a231c;stroke-width:3.4}
+    .stm{fill:#fdfdfd;stroke:#2a231c;stroke-width:5}
+    .t{font-family:'Gentium Book Plus','Noto Serif',serif;font-size:20px;fill:#2a231c}
+    .tm{font-family:'Gentium Book Plus','Noto Serif',serif;font-size:26px;font-weight:600;fill:#2a231c}
+    .ts{font-family:'Gentium Book Plus','Noto Serif',serif;font-size:17px;font-style:italic;fill:#4a4139}
+    .tn{font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:15px;letter-spacing:.05em;fill:#8b8173}
+    .tw{fill:none;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+    .sw{fill:#fdfdfd;stroke:#2a231c;stroke-width:3}
+    .swm{fill:#fdfdfd;stroke:#2a231c;stroke-width:4.4}
+    .tx{font-family:'Gentium Book Plus','Noto Serif',serif;font-size:19px;fill:#2a231c}
+    .txm{font-family:'Gentium Book Plus','Noto Serif',serif;font-size:21px;font-weight:600;fill:#2a231c}
+  </style>
+</helmet>
+<div style="--atlas-papier:{{ papierHex }}">
+<doc-page size="a4" orientation="landscape">
+
+<section class="page" id="blatt17" data-screen-label="Banat Liniennetzplan" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:var(--atlas-papier,#fdfdfd);color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Banat &middot; Liniennetzplan</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 3mm;max-width:218mm">Liniennetzplan, oktilinear: Strecken laufen waagerecht, senkrecht oder im Winkel von 45&deg;, die Abst&auml;nde folgen der Zahl der Halte, nicht den Kilometern. Das Blatt ist <b style="font-weight:600">topologietreu, aber nicht lagetreu</b> &mdash; es belegt Zusammenh&auml;nge, keine Orte. Timi&#537;oara sitzt in der Mitte, weil sieben Strecken dort zusammenlaufen.</div>
+
+  <div style="flex:1;display:flex;gap:5mm;min-height:0">
+
+    <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+      <svg viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet" style="width:100%;flex:1;min-height:0" role="img" aria-label="Schematisches Streckennetz des Banats">
+        <g class="l" stroke="#2f6f74"><path d="M470 250 L470 100"/></g>
+        <g class="l" stroke="#b98e3f"><path d="M470 250 L370 150"/></g>
+        <g class="l" stroke="#6f7538"><path d="M470 250 L215 250"/></g>
+        <g class="l" stroke="#cb5a2a"><path d="M470 250 L755 250 L880 375"/></g>
+        <g class="l" stroke="#5a3a52"><path d="M470 250 L470 540"/></g>
+        <g class="lb" stroke="#8b8173"><path d="M470 250 L615 395 L755 250"/></g>
+        <g class="lb" stroke="#94702f"><path d="M470 400 L570 500 L570 560 M570 560 L640 630 M570 560 L500 630"/></g>
+        <g class="lb" stroke="#8b8173"><path d="M820 315 L750 385"/></g>
+
+        <g class="l" stroke="#2f6f74"><path d="M470 100 L470 74"/></g>
+        <path d="M470 52 L479 74 L461 74 z" fill="#2f6f74"/>
+        <path d="M354 134 L378 143 L363 158 z" fill="#b98e3f"/>
+        <path d="M196 250 L218 241 L218 259 z" fill="#6f7538"/>
+        <path d="M896 391 L872 400 L887 415 z" fill="#cb5a2a"/>
+        <path d="M470 578 L479 556 L461 556 z" fill="#5a3a52"/>
+
+        <circle class="stm" cx="470" cy="250" r="13"/>
+        <text class="tm" x="440" y="336" text-anchor="end">Timi&#537;oara Nord</text>
+        <text class="tn" x="440" y="364" text-anchor="end">KNOTEN &middot; SIEBEN STRECKEN</text>
+
+        <circle class="st" cx="470" cy="196" r="8"/><text class="t" x="492" y="201">S&acirc;nandrei</text>
+        <circle class="st" cx="470" cy="148" r="8"/><text class="t" x="492" y="153">Or&#539;i&#537;oara</text>
+        <circle class="stm" cx="470" cy="100" r="11"/><text class="t" x="494" y="106" font-weight="600">Arad</text>
+        <text class="ts" x="494" y="128">Oradea &middot; Curtici &middot; Budapest</text>
+
+        <circle class="st" cx="415" cy="195" r="8"/>
+        <circle class="st" cx="370" cy="150" r="8"/><text class="t" x="356" y="141" text-anchor="end">S&acirc;nnicolau Mare</text>
+        <text class="ts" x="356" y="113" text-anchor="end">Cenad &middot; Szeged</text>
+
+        <circle class="st" cx="400" cy="250" r="8"/><text class="t" x="400" y="286" text-anchor="middle">S&#259;c&#259;laz</text>
+        <circle class="st" cx="335" cy="250" r="8"/><text class="t" x="335" y="228" text-anchor="middle">C&#259;rpini&#537;</text>
+        <circle class="stm" cx="270" cy="250" r="11"/><text class="t" x="270" y="286" text-anchor="middle" font-weight="600">Jimbolia</text>
+        <text class="ts" x="262" y="226" text-anchor="middle">Kikinda</text>
+
+        <circle class="st" cx="535" cy="250" r="8"/><text class="t" x="535" y="228" text-anchor="middle">Timi&#537;oara Est</text>
+        <circle class="st" cx="595" cy="250" r="8"/><text class="t" x="595" y="286" text-anchor="middle">Reca&#537;</text>
+        <circle class="st" cx="650" cy="250" r="8"/><text class="t" x="650" y="228" text-anchor="middle">Topolov&#259;&#539;</text>
+        <circle class="st" cx="702" cy="250" r="8"/><text class="t" x="702" y="286" text-anchor="middle">Belin&#539;</text>
+        <circle class="stm" cx="755" cy="250" r="11"/><text class="t" x="777" y="234" font-weight="600">Lugoj</text>
+        <circle class="stm" cx="820" cy="315" r="11"/><text class="t" x="844" y="309" font-weight="600">Caransebe&#537;</text>
+        <text class="ts" x="854" y="406">Or&#537;ova &middot; Bucure&#537;ti</text>
+        <circle class="st" cx="750" cy="385" r="8"/><text class="t" x="736" y="404" text-anchor="end">Re&#537;i&#539;a Nord</text>
+
+        <circle class="st" cx="615" cy="395" r="8"/><text class="t" x="615" y="430" text-anchor="middle">Buzia&#537;</text>
+
+        <circle class="st" cx="470" cy="330" r="8"/><text class="t" x="492" y="336">&#536;ag</text>
+        <circle class="stm" cx="470" cy="400" r="11"/><text class="t" x="446" y="406" text-anchor="end">Voiteni</text>
+        <circle class="st" cx="470" cy="470" r="8"/><text class="t" x="448" y="476" text-anchor="end">Deta</text>
+        <circle class="stm" cx="470" cy="540" r="11"/><text class="t" x="446" y="546" text-anchor="end">Stamora Moravi&#539;a</text>
+        <text class="ts" x="446" y="568" text-anchor="end">Vr&#537;ac &middot; Beograd</text>
+
+        <circle class="st" cx="570" cy="500" r="8"/><text class="t" x="592" y="506">Berzovia</text>
+        <circle class="stm" cx="570" cy="560" r="11"/><text class="t" x="592" y="566" font-weight="600">Oravi&#539;a</text>
+        <circle class="st" cx="640" cy="630" r="8"/><text class="t" x="662" y="636">Anina</text>
+        <text class="ts" x="662" y="658">Banater Semmering</text>
+        <circle class="st" cx="500" cy="630" r="8"/><text class="t" x="478" y="636" text-anchor="end">Bazia&#537;</text>
+        <text class="ts" x="478" y="658" text-anchor="end">&auml;lteste Strecke des Landes, 1854</text>
+      </svg>
+    </div>
+
+    <div style="width:73mm;flex:none;display:flex;flex-direction:column;font-size:9.5px;min-height:0">
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:3px">Strecken</div>
+      <sc-for list="{{ strecken }}" as="s" hint-placeholder-count="7">
+        <div style="display:flex;align-items:center;gap:2mm;padding:1mm 0;border-bottom:.4px solid #e5ddce">
+          <span style="width:8mm;height:2.2mm;flex:none;background:{{ s.farbe }}"></span>
+          <span style="flex:1;line-height:1.25">{{ s.name }}</span>
+          <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;color:#8b8173;flex:none">{{ s.kennung }}</span>
+        </div>
+      </sc-for>
+
+      <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:2.5mm 0 2px">Stra&szlig;enbahn Timi&#537;oara</div>
+      <svg viewBox="-20 10 620 300" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto" role="img" aria-label="Schematisches Straßenbahnnetz von Timișoara">
+        <g class="tw" stroke="#cb5a2a"><path d="M60 150 L470 150"/></g>
+        <g class="tw" stroke="#2f6f74"><path d="M120 60 L210 150"/></g>
+        <g class="tw" stroke="#6f7538"><path d="M300 40 L300 150"/></g>
+        <g class="tw" stroke="#5a3a52"><path d="M300 150 L300 230 L390 230"/></g>
+        <g class="tw" stroke="#8b8173"><path d="M140 250 L240 150"/></g>
+
+        <circle class="swm" cx="60" cy="150" r="10"/><text class="txm" x="60" y="128" text-anchor="middle">Gara de Nord</text>
+        <circle class="swm" cx="120" cy="60" r="9"/><text class="tx" x="138" y="54">Shopping City &middot; Rona&#539;</text>
+        <circle class="swm" cx="300" cy="40" r="9"/><text class="tx" x="318" y="36">Calea Torontalului</text>
+        <circle class="sw" cx="210" cy="150" r="8"/><text class="tx" x="206" y="182" text-anchor="middle">P-&#539;a Sf. Maria</text>
+        <circle class="sw" cx="240" cy="150" r="7"/>
+        <circle class="sw" cx="300" cy="150" r="8"/><text class="tx" x="308" y="138">P-&#539;a 700</text>
+        <circle class="sw" cx="350" cy="150" r="7"/><text class="tx" x="368" y="116">Libert&#259;&#539;ii</text>
+        <circle class="sw" cx="410" cy="150" r="7"/><text class="tx" x="410" y="182" text-anchor="middle">P-&#539;a Traian</text>
+        <circle class="swm" cx="470" cy="150" r="9"/><text class="tx" x="484" y="176">Dom&#259;&#537;neanu</text>
+        <circle class="swm" cx="390" cy="230" r="9"/><text class="tx" x="406" y="252">Meteo</text>
+        <circle class="swm" cx="140" cy="250" r="9"/><text class="tx" x="126" y="268" text-anchor="end">B-dul D&acirc;mbovi&#539;a</text>
+      </svg>
+      <div style="display:flex;flex-wrap:wrap;gap:.8mm 1.4mm;margin-top:1.5mm">
+        <sc-for list="{{ tramlinien }}" as="t" hint-placeholder-count="9">
+          <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;color:#4a4139;border:.4px solid #8b8173;padding:.3mm 1.1mm">{{ t }}</span>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:auto;padding-top:2mm;font-size:7.6px;line-height:1.4;color:#4a4139;text-wrap:pretty">Neun Tramlinien, auf ihre Korridore verdichtet: gemeinsame Abschnitte laufen als eine Linie, benannt sind die Endpunkte. Bahnhalte in Auswahl &mdash; zwischen den gezeigten Stationen liegen weitere.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:4px">
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">QUELLEN: CNCF CFR SA &middot; STPT/SMTT TIMI&#536;OARA (GTFS-OPEN-DATA) &middot; OPENSTREETMAP-MITWIRKENDE (ODBL) &middot; DARSTELLUNG OKTILINEAR, TOPOLOGIETREU UND NICHT LAGETREU &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">137</div>
+  </div>
+</section>
+
+</doc-page>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;papier&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;weiß&quot;,&quot;warm&quot;],&quot;default&quot;:&quot;weiß&quot;,&quot;tsType&quot;:&quot;'weiß'|'warm'&quot;,&quot;section&quot;:&quot;Blatt&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      papierHex: (this.props.papier ?? 'wei\u00df') === 'warm' ? '#f7f4ee' : '#fdfdfd',
+      strecken: [
+        { name: 'Timi\u0219oara \u2013 Arad \u2013 Oradea', kennung: 'M 310', farbe: '#2f6f74' },
+        { name: 'Timi\u0219oara \u2013 Lugoj \u2013 Caransebe\u0219 \u2013 Bucure\u0219ti', kennung: 'M 900', farbe: '#cb5a2a' },
+        { name: 'Timi\u0219oara \u2013 Jimbolia \u2013 Kikinda', kennung: 'nach RS', farbe: '#6f7538' },
+        { name: 'Timi\u0219oara \u2013 S\u00e2nnicolau Mare \u2013 Cenad', kennung: 'nach HU', farbe: '#b98e3f' },
+        { name: 'Timi\u0219oara \u2013 Deta \u2013 Stamora Moravi\u021ba', kennung: 'nach RS', farbe: '#5a3a52' },
+        { name: 'Berzovia \u2013 Oravi\u021ba \u2013 Anina bzw. Bazia\u0219', kennung: 'Nebenbahn', farbe: '#94702f' },
+        { name: 'Buzia\u0219-Bogen und Re\u0219i\u021ba-Stichbahn', kennung: 'Nebenbahn', farbe: '#8b8173' }
+      ],
+      tramlinien: ['1', '2', '4', '5', '6a', '6b', '7', '8', '9']
+    };
+  }
+}
+</script>
+</body>
+</html>
