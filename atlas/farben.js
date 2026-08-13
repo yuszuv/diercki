@@ -5,9 +5,12 @@ export const F = {
   // —— Grund & Chrome
   papier: '#fdfdfd', // Papier
   papierWarm: '#f1e9d8', // Papier warm (historisch)
+  flaecheWarm: '#f7f4ee', // Fläche warm
   tinte: '#2a231c', // Tinte
   umriss: '#828282', // Geometrie-Umriss
+  grauHell: '#e5ddce', // Grau hell
   dim: '#8b8173', // Kontext gedimmt
+  grauDunkel: '#4a4139', // Grau dunkel
   bleistift: '#434462', // Bleistift-Blauviolett
   auswahl: '#2a7ae2', // Auswahl (nur Bildschirm)
   konflikt: '#a83a28', // Konflikt — einzige Rot-Reserve
@@ -67,6 +70,8 @@ export const F = {
   bebaut: '#ddd3c4', // Geschlossen bebaut
   bebautLocker: '#eae3d7', // Aufgelockert bebaut
   gewerbe: '#d3d1da', // Industrie- und Gewerbefläche
+  wegHell: '#c9c0ae', // Wegenetz im Grundriss (Fußwege, Wirtschaftswege)
+  gewaesserFlaeche: '#a8c4d4', // Wasserfläche im Grundriss (Teich, Becken)
   // —— Geologie (Erdzeitalter)
   quartaer: '#efe6bf', // Quartär
   neogen: '#e3cf8d', // Neogen
@@ -87,6 +92,9 @@ export const F = {
   p3: '#b897ac', // Dichte Stufe 3
   p4: '#8f6484', // Dichte Stufe 4
   p5: '#5a3a52', // Dichte Stufe 5
+  // —— Thematische Einzelfarben
+  baer: '#7a4a2b', // Bär
+  schutzgebiet: '#4f7a4a', // Schutzgebiet
   // —— Divergierend (Petrol ↔ Orange)
   d1: '#2f6f74', // Divergierend −2
   d2: '#8db4b6', // Divergierend −1
