@@ -353,6 +353,54 @@
     }
   }
 
+  /* Auf schmalen Spalten wird aus der Tabelle ein Registereintrag nach dem Vorbild
+     des gebundenen Bandes: Name, Art und Blatt in einer Zeile, der Wert darunter,
+     der Belegstatus rechts. Grund ist nicht die Breite an sich, sondern die
+     Verteilung — drei der sechs Spalten sind bei drei Vierteln der Einträge leer
+     (feld 86/272, wert 70/272, variante 32/272), das Spaltenraster reserviert also
+     durchgehend Platz für Ausnahmen. Es verschwindet nichts, es wird umgesetzt. */
+  @container inhalt (inline-size < 40rem) {
+    .register {
+      & :is(thead) { display: none; }
+
+      & tbody tr {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        column-gap: .4em;
+        padding-block: 9px;
+      }
+
+      & td {
+        display: inline;
+        padding: 0;
+        border: 0;
+      }
+
+      /* Leere Zellen nehmen keinen Platz — sonst bliebe die Trennpunktkette hängen. */
+      & td:empty { display: none; }
+
+      .z-name { font-size: 17px; }
+      .z-art::before { content: '· '; color: var(--text-muted); }
+      .z-blatt { color: var(--text-muted); }
+      .z-blatt::before { content: '· Blatt '; }
+      .z-feld::before { content: '· Feld '; color: var(--text-muted); }
+      /* „Feld offen“ trägt das Wort schon selbst — dann nur der Trennpunkt. */
+      .z-feld:has(.offen)::before { content: '· '; }
+
+      /* Der Status wird nach rechts geschoben, der Wert bekommt eine eigene Zeile. */
+      .z-status { margin-inline-start: auto; }
+      .z-wert {
+        flex-basis: 100%;
+        color: var(--grey-dark);
+        margin-block-start: 3px;
+        text-wrap: pretty;
+      }
+
+      .anmerkung td { padding-block: 0 9px; }
+    }
+  }
+
   /* Belegstatus: drei Register, sichtbar unterschieden — ohne neue Farbe. */
   .status {
     font: 500 12px/1 var(--font-mono);

@@ -311,16 +311,25 @@ async function viewRegister(target, query) {
     );
     $('#treffer', target).textContent = `${hits.length} von ${d.register.length}`;
     $('#zeilen', target).innerHTML = hits
-      .map(
-        (r) => `<tr>
-          <td><b>${esc(r.name)}</b>${r.variante ? ` <span class="variante">${esc(r.variante)}</span>` : ''}</td>
-          <td>${esc(KIND_LABEL[r.art] || r.art || '')}</td>
-          <td class="mono">${esc(r.blaetter || '')}</td>
-          <td class="mono">${r.feld ? esc(r.feld) : '<span class="offen">Feld offen</span>'}</td>
-          <td>${esc(r.wert || '')}</td>
-          <td><span class="status status-${esc(r.status || 'unbelegt')}">${esc(r.status || '—')}</span></td>
-        </tr>${r.anmerkung ? `<tr class="anmerkung"><td colspan="6">${esc(r.anmerkung)}</td></tr>` : ''}`
-      )
+      .map((r) => {
+        // "Feld offen" only means something where a search grid exists — and only
+        // sheet 4 carries one (see the header comment in register.csv). Saying it
+        // for the other 157 entries would claim an absence that is not one.
+        const onGridSheet = (r.blaetter || '').split(/\s+/).includes('4');
+        const feld = r.feld
+          ? esc(r.feld)
+          : onGridSheet
+            ? '<span class="offen">Feld offen</span>'
+            : '';
+        return `<tr>
+          <td class="z-name"><b>${esc(r.name)}</b>${r.variante ? ` <span class="variante">${esc(r.variante)}</span>` : ''}</td>
+          <td class="z-art">${esc(KIND_LABEL[r.art] || r.art || '')}</td>
+          <td class="z-blatt mono">${esc(r.blaetter || '')}</td>
+          <td class="z-feld mono">${feld}</td>
+          <td class="z-wert">${esc(r.wert || '')}</td>
+          <td class="z-status"><span class="status status-${esc(r.status || 'unbelegt')}">${esc(r.status || '—')}</span></td>
+        </tr>${r.anmerkung ? `<tr class="anmerkung"><td colspan="6">${esc(r.anmerkung)}</td></tr>` : ''}`;
+      })
       .join('');
   };
 
