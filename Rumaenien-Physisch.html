@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
 <script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
-<script src="atlas/geodaten/blatt15-daten.js"></script>
+<script src="atlas/geodaten/verkehr-daten.js"></script>
 <style>
   body{margin:0}
   doc-page:not(:defined){visibility:hidden}
@@ -17,10 +17,10 @@
 <body>
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#a1704b"/><path d="M12 74 L34 40 L48 58 L62 30 L88 74 Z" fill="#dec990"/><text x="50" y="92" font-size="15" font-family="Georgia,serif" fill="#fff" text-anchor="middle">BLATT 17</text></svg></template>
 <doc-page width="420mm" height="297mm">
-<section class="page" id="blatt17" data-screen-label="Blatt 17 · Rumänien physisch" style="position:relative;box-sizing:border-box;padding:10mm 13mm 8mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+<section class="page" id="blatt17" data-screen-label="Rumänien physisch" style="position:relative;box-sizing:border-box;padding:10mm 13mm 8mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
   <div style="border-top:2.5px solid #2a231c;padding-top:6px;display:flex;justify-content:space-between;align-items:baseline">
     <div style="font-size:22px;font-weight:600;letter-spacing:-.02em">Rum&auml;nien &middot; Physische &Uuml;bersicht</div>
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:10px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 17</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:10px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS</div>
   </div>
   <div style="font-style:italic;font-size:13px;color:#4a4139;margin:4px 0 5mm;max-width:250mm;text-wrap:pretty">H&ouml;henschichten und Schummerung aus SRTM. Der Karpatenbogen umschlie&szlig;t das Siebenb&uuml;rgische Becken; jenseits davon liegen die beiden Tiefebenen, im Osten das Moldauische Tafelland. Zw&ouml;lf Gipfel, acht P&auml;sse, sechs Stauseen sind beziffert.</div>
   <div style="height:214mm;display:flex;gap:7mm;min-height:0">
@@ -29,7 +29,7 @@
       <div id="legende" style="flex:none"></div>
       <div style="flex:none;font-size:13px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:3mm 0 1.5mm">Zum Relief</div>
       <div style="flex:none;font-size:10px;line-height:1.4;color:#2a231c;text-wrap:pretty">Rum&auml;nien ist ein Land aus drei Dritteln: ein Drittel Gebirge, ein Drittel H&uuml;gel- und Tafelland, ein Drittel Ebene. Der Karpatenbogen l&auml;uft von Norden her ein, biegt bei Bra&#537;ov nach Westen und endet an der Donau &mdash; er trennt nicht zwei H&auml;lften, sondern schlie&szlig;t eine ein. Das Siebenb&uuml;rgische Becken liegt darin, 300 bis 600 m hoch, und entw&auml;ssert nach Westen durch die Durchbr&uuml;che von Some&#537;, Mure&#537; und Cri&#537;. Die beiden H&ouml;chsten stehen im selben Gebirge: Moldoveanu und Negoiu im F&#259;g&#259;ra&#537; trennen 9 Meter.</div>
-      <div style="margin-top:auto;flex:none;font-size:8.6px;line-height:1.38;color:#4a4139;text-wrap:pretty">H&ouml;henschichtung aus SRTM gerechnet, an den Klassengrenzen entsprechend unscharf &mdash; Einzelwerte sind ihr nicht zu entnehmen. Nachbarl&auml;nder bleiben ohne H&ouml;henzeichnung, wie auf Blatt 15 und 16.</div>
+      <div style="margin-top:auto;flex:none;font-size:8.6px;line-height:1.38;color:#4a4139;text-wrap:pretty">H&ouml;henschichtung aus SRTM gerechnet, an den Klassengrenzen entsprechend unscharf &mdash; Einzelwerte sind ihr nicht zu entnehmen. Nachbarl&auml;nder bleiben ohne H&ouml;henzeichnung, wie auf das Verkehrsblatt und 16.</div>
     </div>
   </div>
   <div style="margin-top:3.5mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:5px">
@@ -47,7 +47,7 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
   const MM = 96 / 25.4;
   const F = { papier: '#fdfdfd', tinte: '#2a231c', dim: '#8b8173', nachbar: '#eeeae1', meer: '#dce7e4',
               bleistift: '#434462', dunkel: '#4a4139', wasser: '#35707b', register: '#cb5a2a' };
-  // Höhenstufen, auf Rumänien zugeschnitten — die Skala von Blatt 15 auf sieben Stufen gestreckt
+  // Höhenstufen, auf Rumänien zugeschnitten — die Skala vom Verkehrsblatt auf sieben Stufen gestreckt
   const HYPS = [
     [0,    200,  '#bcca9a', '0 – 200 m'],
     [200,  500,  '#d4d1a2', '200 – 500 m'],
@@ -77,7 +77,7 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
     .fitExtent([[feld.x + 16, feld.y + 14], [feld.x + feld.w - 16, feld.y + feld.h - 14]], RO);
   const path = d3.geoPath(proj);
 
-  // ——— Gelände: Höhenklassen + Schummerung aus terrarium-Kacheln (z8, feiner als Blatt 15)
+  // ——— Gelände: Höhenklassen + Schummerung aus terrarium-Kacheln (z8, feiner als dort)
   async function buildTerrain() {
     const Z = 8, X0 = 142, X1 = 156, Y0 = 87, Y1 = 93, T = 256;
     const cols = X1 - X0 + 1, rows = Y1 - Y0 + 1;
@@ -117,7 +117,7 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
   }
   let ev = null;
   try { ev = await buildTerrain(); }
-  catch (e) { console.warn('Gelände übersprungen:', e.message); }
+  catch (e) { console.warn('Gel\u00e4nde \u00fcbersprungen:', e.message); }
   document.getElementById('lade')?.remove();
 
   function terrainURL(staerke) {
