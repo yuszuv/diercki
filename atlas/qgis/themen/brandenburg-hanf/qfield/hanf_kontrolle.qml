@@ -84,7 +84,7 @@
 <constraint field="datum" exp_strength="0" constraints="1" notnull_strength="1" unique_strength="0"/>
 </constraints>
 <constraintExpressions>
-<constraint field="richtung_ist" exp="" desc="Ohne diese Angabe war die Fahrt umsonst — „unklar" ist erlaubt."/>
+<constraint field="richtung_ist" exp="" desc="Ohne diese Angabe war die Fahrt umsonst — „unklar“ ist erlaubt."/>
 <constraint field="richtung_woher" exp="" desc="Trennt Auskunft von Vermutung. Das entscheidet später den Belegstatus."/>
 </constraintExpressions>
 <editforlayout>generatedlayout</editforlayout>
