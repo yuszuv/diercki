@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/gimmicks.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/base.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/styles.css">
+  <script src="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/_ds_bundle.js"></script>
+  <style>
+    body{margin:0;background:var(--paper)}
+    a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+    a:hover{color:var(--orange);text-decoration-thickness:2.5px}
+  </style>
+</helmet>
+<div style="background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--font-serif);min-height:100vh;display:flex;flex-direction:column">
+  <div style="border-top:5px solid var(--ink)"></div>
+  <div style="height:1px;background:var(--grey-light)"></div>
+  <main style="max-width:var(--content-width);margin:0 auto;box-sizing:border-box;padding:var(--spacing-unit) var(--page-gutter) 0;width:100%;flex:1">
+    <h1 style="font-size:var(--h1-size);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0">Kleiner Gru&szlig; aus der K&uuml;che</h1>
+    <div style="height:2px;background:var(--ink);margin:15px 0 0"></div>
+    <div style="font:400 13px/1 var(--font-mono);color:var(--grey);letter-spacing:.04em;margin:12px 0 0">Wittstock/Dosse &middot; 7. August 2026 &middot; Jan Paki</div>
+    <p style="font-size:21px;line-height:1.45;color:var(--grey-dark);margin:26px 0 0;text-wrap:pretty">Zwei Blätter sind in Arbeit, fertig ist keins. Hier ein Ausschnitt aus jedem &mdash; die Verkehrskarte, wie sie am Ende aussieht, die B&auml;renkarte mit ein paar erfundenen Zahlen, die nachher wieder rausfliegen.</p>
+
+    <div style="margin:var(--spacing-unit) 0 0">
+      <div style="font:500 11px/1 var(--font-mono);letter-spacing:.08em;color:var(--grey)">RUM&Auml;NIEN &middot; HAUPTVERKEHRSNETZ</div>
+      <div style="margin-top:8px;padding:3px;background:var(--paper-white);border:var(--border-frame);box-shadow:var(--shadow-frame)">
+        <img src="screenshots/vorschau-verkehr.png" alt="Ausschnitt aus dem Verkehrsblatt" style="display:block;width:100%">
+      </div>
+      <p style="font-style:italic;font-size:14px;color:var(--grey-dark);margin:8px 0 0;text-wrap:pretty">Ausschnitt, originalgetreu &mdash; Magistralen mit Streckennummern, Autobahnen, Donaudelta-Nebenkarte unten rechts.</p>
+      <a href="Rumaenien-Verkehr.html" style="font-size:14px">&#8618; ganzes Blatt</a>
+    </div>
+
+    <div style="margin:calc(var(--spacing-unit)*1.4) 0 0">
+      <div style="font:500 11px/1 var(--font-mono);letter-spacing:.08em;color:var(--grey)">BLATT 16 &middot; RUM&Auml;NIEN BRAUNB&Auml;R</div>
+      <div style="margin-top:8px;padding:3px;background:var(--paper-white);border:var(--border-frame);box-shadow:var(--shadow-frame)">
+        <img src="screenshots/vorschau-baer.png" alt="Ausschnitt aus Blatt 16, Rum&auml;nien Braunb&auml;r" style="display:block;width:100%">
+      </div>
+      <p style="font-style:italic;font-size:14px;color:var(--grey-dark);margin:8px 0 0;text-wrap:pretty">Ausschnitt aus der Streusignatur. Kreiswerte und echte Fundpunkte fehlen der Vorschau noch &mdash; das steht auf dem Blatt selbst schon so.</p>
+      <a href="Rumaenien-Braunbaer.html" style="font-size:14px">&#8618; ganzes Blatt</a>
+
+      <div style="margin-top:var(--spacing-half);padding:var(--spacing-half);background:var(--surface-sunken);border:1px solid var(--grey-light)">
+        <div style="font:500 10.5px/1 var(--font-mono);letter-spacing:.06em;color:var(--grey)">VORSCHAU-SPIELEREIEN &middot; UNBELEGT, NUR ZUR DEKO</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:7px;font-size:14.5px;color:var(--grey-dark)">
+          <div>&mdash; Meistfotografierter B&auml;r der Karte: Exemplar &bdquo;Gheorghe&ldquo;, Zoo-Anwohner bei Kronstadt, drei Lokalzeitungsartikel <span style="font-family:var(--font-mono);font-size:12px">(unbelegt)</span>.</div>
+          <div>&mdash; Gr&ouml;&szlig;te gez&auml;hlte Rotte an einer M&uuml;lltonne: sechs Tiere, Poiana Bra&#537;ov <span style="font-family:var(--font-mono);font-size:12px">(unbelegt)</span>.</div>
+          <div>&mdash; Halsbandsender Y-19 meldet 9,4 km Wegstrecke pro Nacht, Mittelwert <span style="font-family:var(--font-mono);font-size:12px">(unbelegt)</span>.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer style="border-top:1px solid var(--grey-light);margin:var(--spacing-unit) 0 0;padding:22px 0 30px">
+    <div style="max-width:var(--content-width);margin:0 auto;box-sizing:border-box;padding:0 var(--page-gutter);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px">
+      <div style="font:400 12px/1.4 var(--font-mono);color:var(--grey)">STERNPRODUKT-ATLAS &middot; KEIN TEIL DES QUELLENREGISTERS</div>
+      <div style="font:500 12px/1 var(--font-mono);color:var(--grey)">137</div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+</body>
+</html>

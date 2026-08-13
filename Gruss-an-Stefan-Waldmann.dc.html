@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/effects.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/gimmicks.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/base.css">
+  <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/styles.css">
+  <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{scale:1.15},options:{enableMenu:false}}</script>
+  <script src="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/_ds_bundle.js"></script>
+  <style>body{margin:0;background:#dedad2}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--pri:var(--petrol)">
+<x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1280" height="720" hint-size="100%,100%">
+
+<section data-label="Titel" data-speaker-notes="Warm anmoderieren, kein Vortrag — einfach ein Gruß." style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:76px 88px;font-family:var(--font-serif);display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden">
+  <div style="position:absolute;bottom:-40px;right:-10px;font-size:220px;line-height:1;color:rgba(255,255,255,0.06);font-family:var(--font-symbol)">&#8902;<span style="font-size:105px;vertical-align:-8px">&#8463;</span></div>
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--grey-light);position:relative">Ein Gru&szlig; nach ein paar Jahren Funkstille</div>
+  <h1 style="font-size:64px;font-weight:600;line-height:1.1;letter-spacing:-.02em;margin:24px 0 0;max-width:18ch;position:relative">Was aus eurem Sternprodukt geworden ist</h1>
+  <p style="font-size:24px;color:var(--grey-light);margin:22px 0 0;max-width:34ch;line-height:1.4;position:relative">F&uuml;r Stefan &mdash; und, in Gedanken, f&uuml;r Nikolai.</p>
+  <div style="width:80px;height:5px;background:var(--acc,var(--orange));margin-top:34px;position:relative"></div>
+</section>
+
+<section data-label="Widmung" data-speaker-notes="Kurz und ehrlich halten, keine Fuellwoerter." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:76px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;flex-direction:column;justify-content:center">
+  <div style="display:flex;gap:64px;align-items:flex-start">
+    <div style="flex:1;min-width:0">
+      <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Bevor es losgeht</div>
+      <h2 style="font-size:48px;font-weight:600;letter-spacing:-.02em;margin:18px 0 0">F&uuml;r Nikolai</h2>
+      <p style="font-size:26px;line-height:1.5;color:var(--grey-dark);margin:30px 0 0;max-width:44ch;text-wrap:pretty">Ohne dich und Nikolai h&auml;tte ich nie von Sternprodukten geh&ouml;rt, und meine Diplomarbeit &mdash; Deformationsquantisierung, Stetigkeit von Sternprodukten &mdash; w&auml;re nie meine geworden.</p>
+      <p style="font-size:26px;line-height:1.5;color:var(--grey-dark);margin:18px 0 0;max-width:44ch;text-wrap:pretty">Nikolai Neumaier, 1971&ndash;2010. Klassifikation in der Deformationsquantisierung, die Fedosov-Konstruktion, zuletzt mit dir zusammen die Poisson-Strukturen auf Lie-Algebroiden &mdash; ihr beide ein gut eingespieltes Gespann im Lehrstuhl von Hartmann R&ouml;mer. <em>M&ouml;ge er in Frieden ruhen.</em> Was jetzt kommt, ist auch f&uuml;r ihn.</p>
+      <div style="font:400 17px/1 var(--font-mono);color:var(--grey);letter-spacing:.03em;margin:26px 0 0">Gedenk-Kolloquium: math.uni.lu/nngk</div>
+    </div>
+    <div ref="{{ portraitsRef }}" style="flex:none;width:300px;margin:6px 0 0">
+      <figure data-portrait="frueher" style="margin:0;position:relative">
+        <img src="uploads/neumaier-frueher.png" alt="Nikolai Neumaier" width="300" height="360" style="display:block;width:300px;height:360px;object-fit:cover;object-position:50% 22%;border:2px solid var(--grey);padding:3px;background:#fff;filter:grayscale(30%) contrast(110%) sepia(30%);box-shadow:var(--shadow-frame)">
+        <div data-flor style="display:none;position:absolute;left:0;top:0;width:74px;height:74px;background:linear-gradient(45deg,var(--ink) 0 52%,transparent 52%)"></div>
+        <figcaption style="font:400 17px/1.5 var(--font-mono);color:var(--grey);letter-spacing:.03em;margin-top:12px">Nikolai Neumaier<br>wie fr&uuml;her, ohne Datum<br>und das Metallica-Shirt<br><span style="font-size:14px">&mdash; Erinnerung, nicht datiert</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section data-label="Meilensteine I" data-speaker-notes="Die Mathematik, die es damals schon gab." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:66px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Freiburg, in Jahreszahlen &middot; I</div>
+  <h2 style="font-size:42px;font-weight:600;letter-spacing:-.02em;margin:14px 0 36px">Woran ihr angeschlossen habt</h2>
+  <div style="display:flex;flex-direction:column">
+    <div style="display:flex;gap:26px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 18px var(--font-mono);color:var(--pri,var(--petrol));width:60px;flex:none">1978</span><span style="font-size:21px;color:var(--grey-dark)">Bayen, Flato, Fronsdal, Lichnerowicz, Sternheimer: die Grundlagenarbeit, die das Sternprodukt einf&uuml;hrt.</span></div>
+    <div style="display:flex;gap:26px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 18px var(--font-mono);color:var(--pri,var(--petrol));width:60px;flex:none">1994</span><span style="font-size:21px;color:var(--grey-dark)">Fedosovs Konstruktion &mdash; Sternprodukte f&uuml;r beliebige symplektische Mannigfaltigkeiten, geometrisch statt kombinatorisch.</span></div>
+    <div style="display:flex;gap:26px;align-items:baseline;padding:16px 0"><span style="font:500 18px var(--font-mono);color:var(--pri,var(--petrol));width:60px;flex:none">1997</span><span style="font-size:21px;color:var(--grey-dark)">Kontsevichs Formalit&auml;tssatz: Sternprodukte existieren auf jeder Poisson-Mannigfaltigkeit.</span></div>
+  </div>
+</section>
+
+<section data-label="Meilensteine II" data-speaker-notes="Eure eigene Zeit, bis Nikolais Tod." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:60px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+  <div style="display:flex;gap:44px;align-items:flex-start">
+    <div style="flex:1;min-width:0">
+      <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Freiburg, in Jahreszahlen &middot; II</div>
+      <h2 style="font-size:38px;font-weight:600;letter-spacing:-.02em;margin:12px 0 0">Was in eurer Zeit alles passiert ist</h2>
+    </div>
+    <figure data-portrait="spaeter" style="margin:0;flex:none;width:112px;text-align:right">
+      <img src="uploads/neumaier_kurzhaar.jpg" alt="Nikolai Neumaier, sp&auml;tere Aufnahme" width="112" height="144" style="display:block;width:112px;height:144px;object-fit:cover;border:2px solid var(--grey);padding:3px;background:#fff;filter:grayscale(30%) contrast(110%) sepia(30%)">
+      <figcaption style="font:400 14px/1.45 var(--font-mono);color:var(--grey);letter-spacing:.03em;margin-top:8px;text-align:left">sp&auml;tere Aufnahme,<br>ohne Datum</figcaption>
+    </figure>
+  </div>
+  <div style="display:flex;flex-direction:column;margin-top:16px">
+    <div style="display:flex;gap:22px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));width:52px;flex:none">1999</span><span style="font-size:17.5px;color:var(--grey-dark)">Deine Doktorarbeit: Observablen, Zust&auml;nde und Darstellungen in der Deformationsquantisierung.</span></div>
+    <div style="display:flex;gap:22px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));width:52px;flex:none">2001</span><span style="font-size:17.5px;color:var(--grey-dark)">Nikolais Doktorarbeit: Klassifikation in der Deformationsquantisierung, summa cum laude.</span></div>
+    <div style="display:flex;gap:22px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));width:52px;flex:none">2003</span><span style="font-size:17.5px;color:var(--grey-dark)">Deine Habilitation: Darstellungstheorie in der Deformationsquantisierung.</span></div>
+    <div style="display:flex;gap:22px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));width:52px;flex:none">2007</span><span style="font-size:17.5px;color:var(--grey-dark)">Nikolais Habilitation: Symmetrie und Reduktion in der Deformationsquantisierung.</span></div>
+    <div style="display:flex;gap:22px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));width:52px;flex:none">&mdash;</span><span style="font-size:17.5px;color:var(--grey-dark);font-style:italic">Irgendwo dazwischen, Jahr verschwommen: meine Diplomarbeit &uuml;ber die Stetigkeit von Sternprodukten &mdash; bei euch beiden gelernt.</span></div>
+    <div style="display:flex;gap:22px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--grey-light)"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));width:52px;flex:none">2009</span><span style="font-size:17.5px;color:var(--grey-dark)">Neumaier &amp; Waldmann, SIGMA: Poisson-Strukturen auf Lie-Algebroiden.</span></div>
+    <div style="display:flex;gap:22px;align-items:baseline;padding:8px 0"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));width:52px;flex:none">2010</span><span style="font-size:17.5px;color:var(--grey-dark)">Bordemann, Neumaier, Waldmann, Weiss, Crelle Journal &mdash; und im selben Jahr: Nikolai stirbt.</span></div>
+  </div>
+</section>
+
+<section data-label="Der achte Stock" data-speaker-notes="Namen langsam vorlesen. Bei jedem kurz warten — Stefan hat zu jedem eine eigene Geschichte." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:60px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;flex-direction:column">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Wer da so rumhing</div>
+  <h2 style="font-size:42px;font-weight:600;letter-spacing:-.02em;margin:12px 0 26px">Der achte Stock</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 52px;flex:1;align-content:start">
+    <div style="display:flex;gap:16px;align-items:baseline"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:14px">&middot;</span><div style="font-size:21px;line-height:1.4"><b style="font-weight:600">Hartmann R&ouml;mer</b> zuvorderst</div></div>
+    <div style="display:flex;gap:16px;align-items:baseline"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:14px">&middot;</span><div style="font-size:21px;line-height:1.4"><b style="font-weight:600">Gregor</b> und seine KyBB-Gang &mdash; sch&ouml;ne Gr&uuml;&szlig;e nach W&uuml;rzburg</div></div>
+    <div style="display:flex;gap:16px;align-items:baseline"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:14px">&middot;</span><div style="font-size:21px;line-height:1.4"><b style="font-weight:600">Klaus Zimmermann</b> &mdash; sch&ouml;ne Gr&uuml;&szlig;e nach W&uuml;rzburg?</div></div>
+    <div style="display:flex;gap:16px;align-items:baseline"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:14px">&middot;</span><div style="font-size:21px;line-height:1.4"><b style="font-weight:600">Felix J&ouml;rder</b>, das tischtennisspielende Cleverle, das &uuml;ber das Dreik&ouml;rperproblem geschrieben hat &mdash; und dabei mit meiner B&uuml;rokollegin <b style="font-weight:600">Marina Billoni</b> durchgebrannt ist</div></div>
+    <div style="display:flex;gap:16px;align-items:baseline"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:14px">&middot;</span><div style="font-size:21px;line-height:1.4"><b style="font-weight:600">Alex</b>, der Diplomatensohn mit der riesigen P2P-Sammlung</div></div>
+    <div style="display:flex;gap:16px;align-items:baseline"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:14px">&middot;</span><div style="font-size:21px;line-height:1.4"><b style="font-weight:600">Christian &bdquo;Specki&ldquo; Speckner</b>, der O&rsquo;Caml- und Linux-Superheld</div></div>
+    <div style="display:flex;gap:16px;align-items:baseline"><span style="font:500 17px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:14px">&middot;</span><div style="font-size:21px;line-height:1.4">und <b style="font-weight:600">du</b>, der die Betreuung &uuml;bernahm, als es n&ouml;tig war</div></div>
+  </div>
+
+  <div style="font:400 17px/1.5 var(--font-mono);color:var(--grey);letter-spacing:.02em;margin-top:12px">Sch&ouml;ne Zeiten waren das.</div>
+</section>
+
+<section data-label="Specki und O'Caml" data-speaker-notes="Der Beleg dazu: Speckis O'Caml war kein Hobby, das steht im WHIZARD-Handbuch." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:70px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;flex-direction:column;justify-content:center">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Eine Fu&szlig;note, die ich nachgeschlagen habe</div>
+  <h2 style="font-size:44px;font-weight:600;line-height:1.12;letter-spacing:-.02em;margin:16px 0 28px;max-width:24ch">Speckis O&rsquo;Caml steht im Handbuch</h2>
+  <p style="font-size:24px;line-height:1.5;color:var(--grey-dark);margin:0 0 20px;max-width:52ch;text-wrap:pretty">Das WHIZARD-Handbuch f&uuml;hrt ihn als Autor, Universit&auml;t Freiburg, neben Kilian in Siegen, Ohl in W&uuml;rzburg und Reuter am DESY. Der Matrixelement-Generator O&rsquo;Mega ist in O&rsquo;Caml geschrieben &mdash; weil das Erzeugen von Streuamplituden dem Bau eines optimierenden Compilers &auml;hnelt.</p>
+  <p style="font-size:24px;line-height:1.5;color:var(--grey-dark);margin:0;max-width:52ch;text-wrap:pretty">Und in der Danksagung von O&rsquo;Mega steht ein Dank an die Caml-Leute bei INRIA &mdash; f&uuml;r eine Sprache, <em>die die Intelligenz des Programmierers nicht beleidigt</em>.</p>
+  <div style="font:400 17px/1.6 var(--font-mono);color:var(--grey);letter-spacing:.02em;margin-top:32px">WHIZARD 1.97, Handbuch &middot; O&rsquo;Mega, hep-ph/0102195</div>
+</section>
+
+<section data-label="Vier Schwänke" data-speaker-notes="Nacheinander. Bei der iranischen Uhr eine Pause machen." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:56px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;flex-direction:column">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Aus der Diplomarbeitszeit</div>
+  <h2 style="font-size:40px;font-weight:600;line-height:1.12;letter-spacing:-.02em;margin:10px 0 26px">Vier Schw&auml;nke</h2>
+
+  <div style="display:flex;flex-direction:column;gap:18px;flex:1">
+    <div style="display:flex;gap:24px;align-items:baseline">
+      <span style="font:500 21px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:30px">01</span>
+      <p style="font-size:21px;line-height:1.42;margin:0;max-width:46ch;text-wrap:pretty">Ich fuhr die harte Neo-Variante &mdash; und habe dafür an der B&uuml;rotastatur tats&auml;chlich die Tasten umgest&ouml;pselt. Physisch, abgezogen und neu gesteckt. Wer sich danach an den Rechner setzte, hatte ein Problem.</p>
+    </div>
+    <div style="display:flex;gap:24px;align-items:baseline">
+      <span style="font:500 21px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:30px">02</span>
+      <p style="font-size:21px;line-height:1.42;margin:0;max-width:46ch;text-wrap:pretty">Eines Morgens stand die Uhr meines B&uuml;rolaptops im Institut auf iranischer Ortszeit. Ein Schelm, wer B&ouml;ses dabei denkt ;)</p>
+    </div>
+    <div style="display:flex;gap:24px;align-items:baseline">
+      <span style="font:500 21px var(--font-mono);color:var(--acc,var(--orange));flex:none;width:30px">03</span>
+      <p style="font-size:21px;line-height:1.42;margin:0;max-width:46ch;text-wrap:pretty">Zwei Wochen vor Abgabe habe ich meinen ge-LaTeX-ten Entwurf gel&ouml;scht. Aus Versehen. Unser Admin hat ihn aus den Tiefen des Dateisystems wieder herausgefischt.</p>
+    </div>
+    <div style="display:flex;gap:24px;align-items:baseline">
+      <span style="font:500 21px var(--font-mono);color:var(--pri,var(--petrol));flex:none;width:30px">04</span>
+      <p style="font-size:21px;line-height:1.42;margin:0;max-width:46ch;text-wrap:pretty">Und der legend&auml;re <b style="font-weight:600">Bierkorb</b>: ein alter Fahrradkorb, mit dem im B&auml;chle Hopfenkaltschalen gek&uuml;hlt wurden. Freiburger Ingenieurskunst.</p>
+    </div>
+  </div>
+</section>
+
+<section data-label="Welches Dateisystem" data-speaker-notes="Fussnote zu Schwank 03. Kurz halten." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:58px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;gap:56px">
+  <div style="flex:1;min-width:0">
+    <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Nachgetragen zu 03</div>
+    <h2 style="font-size:36px;font-weight:600;line-height:1.12;letter-spacing:-.02em;margin:10px 0 20px;max-width:20ch">Welches Dateisystem war das?</h2>
+    <p style="font-size:20px;line-height:1.45;color:var(--grey-dark);margin:0 0 14px;max-width:40ch;text-wrap:pretty">Um 2010 lief in einem Institut fast sicher <b style="font-weight:600">ext3</b>. Und deshalb ist &bdquo;aus den Tiefen gefischt&ldquo; genau das richtige Wort: ext3 nullt beim L&ouml;schen die Blockzeiger im Inode. Die Datei liegt noch da &mdash; nur wei&szlig; niemand mehr, wo.</p>
+    <p style="font-size:20px;line-height:1.45;color:var(--grey-dark);margin:0;max-width:40ch;text-wrap:pretty">Der Rettungsweg f&uuml;hrt &uuml;ber das <b style="font-weight:600">Journal</b>: dort liegt oft noch eine &auml;ltere Fassung des Inodes, mitsamt Zeigern. Genau daf&uuml;r gab es <span style="font:500 18px var(--font-mono)">ext3grep</span> &mdash; und es funktionierte nur, wenn schnell genug niemand mehr schrieb.</p>
+  </div>
+
+  <div style="width:390px;flex:none;display:flex;flex-direction:column;justify-content:space-between">
+    <div>
+      <div style="font:500 17px/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--grey);margin-bottom:12px">Die Alternativen</div>
+      <div style="font-size:18px;line-height:1.4;color:var(--grey-dark)">
+        <div style="padding:8px 0;border-bottom:1px solid var(--grey-light)"><b style="font-weight:600">ext4</b> &mdash; <span style="font:500 16px var(--font-mono)">extundelete</span>, deutlich aussichtsreicher</div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--grey-light)"><b style="font-weight:600">ReiserFS</b> &mdash; <span style="font:500 16px var(--font-mono)">--rebuild-tree</span>, ber&uuml;chtigt</div>
+        <div style="padding:8px 0;border-bottom:1px solid var(--grey-light)"><b style="font-weight:600">XFS</b> &mdash; gar nicht</div>
+        <div style="padding:8px 0"><span style="font:500 16px var(--font-mono)">/proc/&lt;pid&gt;/fd/</span> &mdash; falls der Editor die Datei noch offen hatte. Der Trick, der ohne Dateisystem auskommt.</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--grey-light);padding-top:14px;margin-top:18px">
+      <p style="font-size:18px;line-height:1.45;color:var(--grey-dark);margin:0 0 8px">Props und Kudos an die Gang aus dem CIP-Pool im Mie-Haus. Den Pool gibt es &uuml;brigens noch &mdash; inzwischen mit eigener Domain.</p>
+      <div style="font:500 16px/1.5 var(--font-mono);color:var(--pri,var(--petrol))">physik-cip.uni-freiburg.de</div>
+    </div>
+  </div>
+</section>
+
+<section data-label="Am Ende der Arbeit" data-speaker-notes="Nicht erklaeren. Bild stehen lassen, weiterklicken." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:66px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;gap:56px;align-items:center">
+  <div style="flex:1">
+    <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Ganz am Ende</div>
+    <h2 style="font-size:44px;font-weight:600;line-height:1.12;letter-spacing:-.02em;margin:16px 0 22px;max-width:16ch">Die letzte Seite</h2>
+    <p style="font-size:23px;line-height:1.5;color:var(--grey-dark);margin:0;max-width:36ch;text-wrap:pretty">Dieses Bild stand am Ende meiner gebundenen Diplomarbeit.</p>
+    <p style="font-size:23px;line-height:1.5;color:var(--grey-dark);margin:18px 0 0;max-width:36ch;text-wrap:pretty">Inzwischen: Neuruppin, die Platte im WK&nbsp;3, ans Reiz.</p>
+    <div style="font:500 17px/1 var(--font-mono);letter-spacing:.12em;color:var(--acc,var(--orange));margin-top:10px">R3I21IF3</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:24px;align-items:flex-start">
+      <a href="uploads/Diplomarbeit.pdf" style="font-size:17px">&#8618; ganze Diplomarbeit als PDF</a>
+      <a href="https://www.katzundgoldt.de" target="_blank" rel="noopener" style="font-size:17px">Katz &amp; Goldt &#8599;</a>
+    </div>
+  </div>
+  <figure style="margin:0;flex:none;width:300px">
+    <img src="screenshots/katzundgoldt-crop.png" alt="Katz &amp; Goldt" style="width:100%;display:block;border:var(--border-frame);padding:3px;background:var(--paper-white);box-sizing:border-box;box-shadow:var(--shadow-frame)">
+    <figcaption style="font:17px var(--font-mono);color:var(--grey);margin:10px 0 0;text-align:center">Katz &amp; Goldt</figcaption>
+  </figure>
+</section>
+
+<section data-label="Die Formel" data-speaker-notes="Das Sternprodukt live von MathJax gesetzt zeigen." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:70px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;flex-direction:column;justify-content:center">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Kurz zur&uuml;ck zur Quelle</div>
+  <h2 style="font-size:48px;font-weight:600;letter-spacing:-.02em;margin:18px 0 40px">Das Zeichen, um das es geht</h2>
+  <div style="font-size:40px;background:var(--surface-sunken);border:1px solid var(--code-border,var(--grey-light));padding:38px 46px;max-width:fit-content">\( f \star_\hbar g \;=\; fg \,+\, \frac{i\hbar}{2}\{f,g\} \,+\, O(\hbar^2) \)</div>
+  <p style="font-size:22px;color:var(--ink-pencil);margin:26px 0 0;font-style:italic;max-width:50ch">Moyal-Produkt, f&uuml;hrende Ordnung. Dasselbe &#8902;&#8462; &mdash; nur das \(\hbar\) sitzt jetzt tiefer und tr&auml;gt einen Firmennamen.</p>
+</section>
+
+<section data-label="Drei Register" data-speaker-notes="Jede Spalte ein Trager desselben Zeichens." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:66px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol))">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Aus der Physik in die Gesch&auml;ftspapiere</div>
+  <h2 style="font-size:48px;font-weight:600;letter-spacing:-.02em;margin:16px 0 46px">Drei Register f&uuml;r ein Zeichen</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px">
+    <div style="border-top:2px solid var(--ink);padding-top:20px">
+      <img src="atlas/logo-stern.png" alt="Bleistift-Zeichnung des Sterns" style="height:64px;width:auto;display:block;margin-bottom:16px">
+      <div style="font:500 17px var(--font-mono);letter-spacing:.06em;color:var(--pri,var(--petrol))">ZEICHNUNG</div>
+      <p style="font-size:19px;line-height:1.4;margin:8px 0 0;color:var(--grey-dark)">Die Bleistift-Skizze &mdash; Ursprung von allem, ungesetzt, nie neu gezeichnet.</p>
+    </div>
+    <div style="border-top:2px solid var(--ink);padding-top:20px">
+      <div style="height:64px;display:flex;align-items:center;font-size:44px">\(\star_\hbar\)</div>
+      <div style="font:500 17px var(--font-mono);letter-spacing:.06em;color:var(--pri,var(--petrol))">LATEX</div>
+      <p style="font-size:19px;line-height:1.4;margin:8px 0 0;color:var(--grey-dark)">Dieselbe Notation wie eben auf der Formel-Folie &mdash; gesetzt, versionierbar, reines ASCII in der Quelle.</p>
+    </div>
+    <div style="border-top:2px solid var(--ink);padding-top:20px">
+      <div style="height:64px;display:flex;align-items:center;font-size:40px;font-family:var(--font-symbol)">&#8902;&#8462;</div>
+      <div style="font:500 17px var(--font-mono);letter-spacing:.06em;color:var(--pri,var(--petrol))">UNICODE</div>
+      <p style="font-size:19px;line-height:1.4;margin:8px 0 0;color:var(--grey-dark)">Die N&auml;herung f&uuml;r &uuml;berall dort, wo nur noch Text geht &mdash; E-Mail, Dateinamen, die Kommandozeile.</p>
+    </div>
+  </div>
+</section>
+
+<section data-label="Die 137" data-speaker-notes="Hier darf kurz gelaechelt werden." style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:76px 88px;font-family:var(--font-serif);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--grey-light)">Und ein zweites Zeichen</div>
+  <div class="sp-137-blink" style="font-size:160px;font-weight:700;line-height:1;margin:24px 0">137</div>
+  <p style="font-size:23px;line-height:1.5;color:var(--grey-light);max-width:48ch;margin:0">Kehrwert der Feinstrukturkonstante, mit einem Augenzwinkern in Richtung Diskordianismus untergebracht. Genau eine solche Spielerei pro Dokument &mdash; diese Folie ist ihr Platz in dieser Pr&auml;sentation.</p>
+</section>
+
+<section data-label="Aktuell" data-speaker-notes="Kurz halten, nicht ueber-erklaeren." style="width:1280px;height:720px;background:var(--paper);color:var(--ink);box-sizing:border-box;padding:70px 88px;font-family:var(--font-serif);border-top:6px solid var(--pri,var(--petrol));display:flex;flex-direction:column;justify-content:center">
+  <div style="font:500 17px/1 var(--font-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--pri,var(--petrol))">Und heute</div>
+  <h2 style="font-size:46px;font-weight:600;line-height:1.12;letter-spacing:-.02em;margin:18px 0 0;max-width:20ch">Von der Deformationsquantisierung in die Prignitz</h2>
+  <p style="font-size:25px;line-height:1.5;color:var(--grey-dark);margin:28px 0 0;max-width:48ch;text-wrap:pretty">Ich berate heute vor allem zu Hanf und Naturschutz, in und um die Prignitz &mdash; Feldbegehungen, F&ouml;rderantr&auml;ge, Karten.</p>
+  <p style="font-size:25px;line-height:1.5;color:var(--grey-dark);margin:16px 0 0;max-width:48ch;text-wrap:pretty">Die Mathematik ist nicht weg. Sie taucht nur seltener auf &mdash; im Namen, in der 137, in einem &#8902;&#8462; mitten in der E-Mail-Adresse.</p>
+</section>
+
+<section data-label="Schluss" data-speaker-notes="Ruhig ausklingen lassen." style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:76px 88px;font-family:var(--font-serif);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden">
+  <img src="atlas/logo-stern.png" alt="Sternprodukt" style="height:50px;width:auto;margin-bottom:28px;filter:brightness(0) invert(1);opacity:.85">
+  <h2 style="font-size:56px;font-weight:600;letter-spacing:-.02em;margin:0 0 22px;max-width:22ch">Danke f&uuml;r den Anfang.</h2>
+  <p style="font:19px/1.7 var(--font-mono);margin:0;opacity:.9">jan \(\mathbin{\star_{\scriptscriptstyle\mathrm{\hbar}}}\) sternprodukt.de<br>Wittstock/Dosse</p>
+</section>
+
+</x-import>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Oliv&quot;,&quot;Orange&quot;,&quot;Pflaume&quot;],&quot;default&quot;:&quot;Petrol&quot;,&quot;tsType&quot;:&quot;'Petrol'|'Oliv'|'Orange'|'Pflaume'&quot;,&quot;section&quot;:&quot;Folienchrome&quot;},&quot;portraitLook&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Zeitungslook&quot;,&quot;Schwarzweiß&quot;,&quot;Trauerflor&quot;,&quot;Ohne Filter&quot;],&quot;default&quot;:&quot;Zeitungslook&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Porträts&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  portraitsRef = React.createRef();
+  apply() {
+    const el = this.rootRef.current; if (!el) return;
+    const map = { 'Petrol': 'var(--petrol)', 'Oliv': 'var(--olive)', 'Orange': 'var(--orange-deep)', 'Pflaume': 'var(--plum)' };
+    el.style.setProperty('--pri', map[this.props.primaryColor] ?? 'var(--petrol)');
+  }
+  typeset() {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([this.rootRef.current]).catch(() => {});
+    } else {
+      setTimeout(() => this.typeset(), 200);
+    }
+  }
+  componentDidMount() { this.apply(); this.portraits(); this.typeset(); }
+  componentDidUpdate() { this.apply(); this.portraits(); this.typeset(); }
+  // Nie zwei Porträts auf einer Folie: das alte Bild trägt die Widmung, die spätere
+  // Aufnahme steht bei den Jahreszahlen. Gemeinsam ist ihnen nur die Behandlung —
+  // die gehört zum Bildregister, nicht in den Text, und ist deshalb ein Tweak.
+  portraits() {
+    const wrap = this.rootRef.current; if (!wrap) return;
+    const F = {
+      'Zeitungslook': 'grayscale(30%) contrast(110%) sepia(30%)',
+      'Schwarzweiß': 'grayscale(100%) contrast(108%)',
+      'Trauerflor': 'grayscale(100%) contrast(104%) brightness(.94)',
+      'Ohne Filter': 'none'
+    };
+    const look = this.props.portraitLook ?? 'Zeitungslook';
+    for (const fig of wrap.querySelectorAll('[data-portrait]')) {
+      fig.querySelector('img').style.filter = F[look] ?? F['Zeitungslook'];
+      const flor = fig.querySelector('[data-flor]');
+      if (flor) flor.style.display = look === 'Trauerflor' ? 'block' : 'none';
+    }
+  }
+  renderVals() { return { rootRef: this.rootRef, portraitsRef: this.portraitsRef }; }
+}
+
+</script>
+</body>
+</html>
