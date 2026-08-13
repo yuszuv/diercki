@@ -66,12 +66,15 @@ RUN sed -i '$ s|^}|    application/geo+json              geojson;\n    text/csv 
  && grep -q 'geo+json' /etc/nginx/mime.types
 
 COPY web/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=vendor /vendor /srv/vendor
+COPY --from=vendor /vendor /opt/vendor
 # .dockerignore keeps working material out; what lands here is the tree git knows.
 COPY . /srv
 
 WORKDIR /srv
 EXPOSE 80
 
+# 127.0.0.1, not localhost: /etc/hosts maps localhost to ::1 as well, and busybox
+# wget tries IPv6 first. The server listens on both now, but the check should not
+# depend on resolver order to say whether the site is up.
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
-  CMD wget -qO- http://localhost/ >/dev/null || exit 1
+  CMD wget -qO- http://127.0.0.1/ >/dev/null || exit 1

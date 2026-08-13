@@ -23,6 +23,3 @@ services:
     volumes:
       # Read-only: the preview shows the working tree, it does not write to it.
       - .:/srv:ro
-      # Anonymous volume keeps /srv/vendor from the image visible under the mount,
-      # so the preview stays offline-capable.
-      - /srv/vendor
