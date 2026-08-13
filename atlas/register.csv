@@ -1,0 +1,284 @@
+# Namensregister des Sternprodukt-Atlas.
+# Von Hand pflegbar, zur Laufzeit vom Registerblatt gelesen — keine abgeleitete
+# Zwischendatei. Fehlt ein Suchgitterfeld, bleibt die Spalte leer; das Register zeigt
+# den Fall dann als "Feld offen" und rät nicht. Nur Blatt 4 trägt ein Suchgitter.
+# art: hauptstadt|stadt|ort|gipfel|gebirge|landschaft|fluss|park|bahnhof|haltestelle|
+#      klimastation|strecke|energie|kreis|trachtgebiet|begegnung|verweis
+# status: belegt | abgeleitet | unbelegt — Belegstatus des Eintrags, nicht des Blattes
+# blaetter: Blattnummern im gebundenen Band, durch Leerzeichen getrennt
+# feld: Suchgitterfeld auf Blatt 4 — an der Beschriftungslage im Kartenfeld
+#       ausgemessen (abgeleitet, nicht geschätzt). Andere Blätter tragen kein Suchgitter.
+# art zusätzlich: grosslandschaft|pass|stausee
+name;variante;art;blaetter;feld;wert;status;anmerkung
+Adjud;;ort;7;;;belegt;
+Alba;;kreis;9;;109 Bären;belegt;
+Alba Iulia;Karlsburg;stadt;4 7;E4;;belegt;Feld ausgemessen
+Alexandria;;stadt;4 7;G8;;belegt;Feld ausgemessen
+Alt Madlitz;;klimastation;2;;58 m;unbelegt;Kartenfeld, Reihe unbelegt
+Anina;;bahnhof;8;;;belegt;
+Apuseni;;park;9;;;belegt;
+Arad;;stadt;4 5 7 8;B4;;belegt;Feld ausgemessen
+Argeș;;kreis;4 9;G7;771 Bären;belegt;Feld ausgemessen
+B-dul Dâmbovița;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Babadag;;ort;7;;;belegt;
+Bacău;;stadt;4 5 7 9;I3;411 Bären;belegt;Feld ausgemessen
+Baia Mare;Frauenbach;stadt;4 5 7 9;E2;;belegt;Feld ausgemessen
+Băile Tușnad;;begegnung;9;;Bären im Kurort;abgeleitet;eigene Beobachtung
+Banat;Banat;landschaft;5;;;belegt;
+Banater Heide;;trachtgebiet;9;;Robinie · Mai;abgeleitet;qualitativ, keine Kreiswerte
+Bărăgan;;trachtgebiet;9;;Sonnenblume · Juli;abgeleitet;qualitativ, keine Kreiswerte
+Bârlad;;stadt;4 7;J4;;belegt;Feld ausgemessen
+Barnim;;landschaft;1;;;belegt;
+Baziaș;;bahnhof;8;;;belegt;
+Belinț;;bahnhof;8;;;belegt;
+Berlin;;hauptstadt;1;;;belegt;
+Berzovia;;bahnhof;8;;;belegt;
+Berzovia – Oravița – Anina bzw. Baziaș;;strecke;8;;Nebenbahn;belegt;
+Bihor;;gebirge;4;;;belegt;
+Bistrița;Bistritz;stadt;4 7 9;F2;;belegt;Feld ausgemessen
+Bistrița-N. + Maramureș;;kreis;9;;1153 Bären;belegt;
+Bistritz;;verweis;4 7 9;;;belegt;siehe Bistrița
+Botoșani;;stadt;4 7;H1;;belegt;Feld ausgemessen
+Brăila;;stadt;4 7;J6;;belegt;Feld ausgemessen
+Bran;;pass;4;G5;1290 m;belegt;Feld ausgemessen
+Brandenburg a. d. H.;;stadt;1;;;belegt;
+Brașov;Kronstadt;stadt;4 5 7 9;G5;1329 Bären;belegt;Feld ausgemessen
+Brașov · Răcadău;;begegnung;9;;Müllcontainer am Waldrand;abgeleitet;eigene Beobachtung
+Brațul Chilia;;fluss;6;;;belegt;Donauarm
+Brațul Sf. Gheorghe;;fluss;6;;;belegt;Donauarm
+Brațul Sulina;;fluss;6;;;belegt;Donauarm
+Bucegi;;gebirge;4 9;;;belegt;
+Bucovina;S&uuml,dbukowina;landschaft;5;;;belegt;
+București;Bukarest;hauptstadt;4 5 7 9;H7;;belegt;Feld ausgemessen
+Bukarest;;verweis;4 5 7 9;;;belegt;siehe București
+Buzău;;stadt;4 7 9;I6;606 Bären;belegt;Feld ausgemessen
+Buziaș;;bahnhof;8;;;belegt;
+Buziaș-Bogen und Reșița-Stichbahn;;strecke;8;;Nebenbahn;belegt;
+Călărași;;stadt;4 7;J8;;belegt;Feld ausgemessen
+Calea Torontalului;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Călimani;;gebirge;4;;;belegt;
+Călimăni;;park;9;;;belegt;
+CÂMPIA DE VEST;Westl. Tiefebene;grosslandschaft;4;B4;;belegt;Feld ausgemessen
+CÂMPIA ROMÂNĂ;Walachische Tiefebene;grosslandschaft;4;G8;;belegt;Feld ausgemessen
+Caransebeș;;bahnhof;7 8;;;belegt;
+Caraș-S. + Gorj + Timiș;;kreis;9;;253 Bären;belegt;
+CARPAȚII MERIDIONALI;Südkarpaten;grosslandschaft;4;E6;;belegt;Feld ausgemessen
+CARPAȚII ORIENTALI;Ostkarpaten;grosslandschaft;4;G4;;belegt;Feld ausgemessen
+Cărpiniș;;bahnhof;8;;;belegt;
+Ceahlău;;gebirge;4 9;;;belegt;
+Cernavodă;;energie;6 7;;Kernkraftwerk;belegt;
+Cheile Nerei;;park;9;;;belegt;
+Chilia Veche;;ort;7;;;belegt;
+Ciucaș;;gipfel;4;H5;1954 m;belegt;im Ciucaș · Feld ausgemessen
+Cluj-Napoca;Klausenburg;stadt;4 5 7 9;E3;;belegt;Feld ausgemessen
+Constanța;;stadt;4 5 7;K8;;belegt;Feld ausgemessen
+Cottbus;;stadt;1 2;;70 m;unbelegt;Kartenfeld, Reihe unbelegt
+Covasna;;kreis;9;;552 Bären;belegt;
+Craiova;;stadt;4 5 7;E7;;belegt;Feld ausgemessen
+Crișan;;ort;7;;;belegt;
+Crișana;Kreischgebiet;landschaft;5;;;belegt;
+Curcubăta Mare;;gipfel;4;C4;1849 m;belegt;im Bihor · Feld ausgemessen
+Curtici;;ort;7;;;belegt;
+Dâmbovița;;kreis;9;;153 Bären;belegt;
+Dej;;ort;7;;;belegt;
+DELTA DUNĂRII;Donaudelta;grosslandschaft;4;K6;;belegt;Feld ausgemessen
+Deta;;bahnhof;8;;;belegt;
+Deva;;stadt;4 7;D5;;belegt;Feld ausgemessen
+Diethardt;;klimastation;2;;400 m;unbelegt;Vergleichsort außerhalb des Kartenfelds, Reihe unbelegt
+Dobrogea;Dobrudscha;landschaft;5;;;belegt;
+DOBROGEA;Dobrudscha;grosslandschaft;4;J7;;belegt;Feld ausgemessen
+Dobrudscha;;landschaft;6 9;;Windparks;abgeleitet;qualitativ, keine Kreiswerte
+Domășneanu;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Domogled;;park;9;;;belegt;
+Donaudelta;;verweis;4;;;belegt;siehe DELTA DUNĂRII
+Drobeta-Turnu Severin;;stadt;4 7;C6;;belegt;Feld ausgemessen
+Dunărea;;fluss;4;J6;;belegt;Feld ausgemessen
+Eberswalde;;stadt;1;;;belegt;
+Elbe;;fluss;1;;;belegt;
+Făgăraș;;gebirge;4 7;;;belegt;
+Făurei;;ort;7;;;belegt;
+Fetești;;ort;7;;;belegt;
+Fläming;;landschaft;1;;;belegt;
+Focșani;;stadt;4 7;I5;;belegt;Feld ausgemessen
+Frankfurt (Oder);;stadt;1;;;belegt;
+Frauenbach;;verweis;4 5 7 9;;;belegt;siehe Baia Mare
+Galați;;stadt;4 5 7;J5;;belegt;Feld ausgemessen
+Gara de Nord;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Giurgiu;;stadt;4 7;G8;;belegt;Feld ausgemessen
+Große Walachei;;verweis;5;;;belegt;siehe Muntenia
+Großwardein;;verweis;4 5 7;;;belegt;siehe Oradea
+Gura Apelor;;stausee;4;D6;;belegt;Feld ausgemessen
+Harghita;;kreis;9;;1727 Bären;belegt;
+Havel;;fluss;1;;;belegt;
+Havelland;;landschaft;1;;;belegt;
+Hermannstadt;;verweis;4 5 7 9;;;belegt;siehe Sibiu
+Hunedoara;;kreis;9;;526 Bären;belegt;
+Ialomița;;fluss;4;H7;;belegt;Feld ausgemessen
+Iași;Jassy;stadt;4 5 7;J2;;belegt;Feld ausgemessen
+Ineu;;gipfel;4;G2;2279 m;belegt;im Rodna · Feld ausgemessen
+Isaccea;;ort;7;;;belegt;
+Izvorul Muntelui;;stausee;4;H3;;belegt;Feld ausgemessen
+Jassy;;verweis;4 5 7;;;belegt;siehe Iași
+Jimbolia;;bahnhof;8;;;belegt;
+Jiu;;fluss;4;D7;;belegt;Feld ausgemessen
+Jurilovca;;ort;7;;;belegt;
+Karlsburg;;verweis;4 7;;;belegt;siehe Alba Iulia
+Klausenburg;;verweis;4 5 7 9;;;belegt;siehe Cluj-Napoca
+Kleine Walachei;;verweis;5;;;belegt;siehe Oltenia
+Kreischgebiet;;verweis;5;;;belegt;siehe Crișana
+Kronstadt;;verweis;4 5 7 9;;;belegt;siehe Brașov
+Kyritz;;ort;1;;Nebenkarte 1:145 000;belegt;
+Libertății;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Loreley;;landschaft;3;;132 m über dem Rhein;abgeleitet;Geländemodell konstruiert, nicht gemessen
+Lugoj;;bahnhof;8;;;belegt;
+Măcin;;ort;7;;;belegt;
+Magistrale 100;;strecke;7;;București – Craiova – Timișoara – Jimbolia;belegt;
+Magistrale 200;;strecke;7;;Brașov – Sibiu – Simeria – Arad – Curtici;belegt;
+Magistrale 300;;strecke;7;;București – Brașov – Cluj-Napoca – Oradea;belegt;
+Magistrale 400;;strecke;7;;Brașov – Deda – Dej – Baia Mare – Satu Mare;belegt;
+Magistrale 500;;strecke;7;;București – Bacău – Suceava – Vicșani;belegt;
+Magistrale 600;;strecke;7;;Făurei – Bârlad – Iași – Ungheni;belegt;
+Magistrale 700;;strecke;7;;București – Făurei – Brăila – Galați;belegt;
+Magistrale 800;;strecke;7;;București – Fetești – Constanța – Mangalia;belegt;
+Magistrale 900;;strecke;7;;București – Videle – Giurgiu;belegt;
+Mahmudia;;ort;7;;;belegt;
+Mangalia;;ort;7;;;belegt;
+Maramureș;Maramuresch;landschaft;5;;;belegt;
+Maramuresch;;verweis;5;;;belegt;siehe Maramureș
+Mărășești;;ort;7;;;belegt;
+Medgidia;;ort;7;;;belegt;
+Mediaș;;ort;7;;;belegt;
+Meteo;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Miercurea Ciuc;;stadt;4 7 9;H4;;belegt;Feld ausgemessen
+Moldau;;verweis;5;;;belegt;siehe Moldova
+Moldauisches Tafelland;;verweis;4;;;belegt;siehe PODIȘUL MOLDOVEI
+Moldova;Moldau;landschaft;5;;;belegt;
+Moldoveanu;;gipfel;4;F5;2544 m;belegt;im Făgăraș · Feld ausgemessen
+Muntenia;Große Walachei;landschaft;5;;;belegt;
+MUNȚII APUSENI;Westkarpaten;grosslandschaft;4;D4;;belegt;Feld ausgemessen
+Munții Rodnei;;park;9;;;belegt;
+Mureș;;kreis;4 9;C4;873 Bären;belegt;Feld ausgemessen
+Murighiol;;ort;7;;;belegt;
+Neamț;;kreis;9;;173 Bären;belegt;
+Negoiu;;gipfel;4;F5;2535 m;belegt;im Făgăraș · Feld ausgemessen
+Neiße;;fluss;1;;;belegt;
+Neumarkt;;verweis;4 7 9;;;belegt;siehe Târgu Mureș
+Neuruppin;;stadt;1 2;;40 m;unbelegt;Kartenfeld, Reihe unbelegt
+Niculțel;;ort;7;;;belegt;
+Niederlausitz;;landschaft;1;;;belegt;
+Nufăru;;ort;7;;;belegt;
+Ocolașul Mare;;gipfel;4;H3;1907 m;belegt;im Ceahlău · Feld ausgemessen
+Oder;;fluss;1;;;belegt;
+Oderbruch;;landschaft;1;;;belegt;
+Oituz;;pass;4;H4;866 m;belegt;Feld ausgemessen
+Olt;;fluss;4;F7;;belegt;Feld ausgemessen
+Oltenia;Kleine Walachei;landschaft;5;;;belegt;
+Oltenische Sande;;trachtgebiet;9;;Robinie · Mai;abgeleitet;qualitativ, keine Kreiswerte
+Omu;;gipfel;4;G5;2505 m;belegt;im Bucegi · Feld ausgemessen
+Oradea;Großwardein;stadt;4 5 7;C2;;belegt;Feld ausgemessen
+Oranienburg;;stadt;1;;;belegt;
+Oravița;;bahnhof;8;;;belegt;
+Orțișoara;;bahnhof;8;;;belegt;
+Ostkarpaten;;verweis;4;;;belegt;siehe CARPAȚII ORIENTALI
+P-ța 700;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+P-ța Sf. Maria;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+P-ța Traian;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Parâng;;gebirge;4;;;belegt;
+Parângu Mare;;gipfel;4;D6;2519 m;belegt;im Parâng · Feld ausgemessen
+Pașcani;;ort;7;;;belegt;
+Peleaga;;gipfel;4;D5;2509 m;belegt;im Retezat · Feld ausgemessen
+Perleberg;;stadt;1;;;belegt;
+Petroșani;Petroschen;stadt;9;;;belegt;
+Petroschen;;verweis;9;;;belegt;siehe Petroșani
+Piatra Craiului;;park;9;;;belegt;
+Piatra Neamț;;stadt;4 7;;;belegt;
+Pietrosul Călimani;;gipfel;4;G3;2100 m;belegt;im Călimani · Feld ausgemessen
+Pietrosul Rodnei;;gipfel;4;F2;2303 m;belegt;im Rodna · Feld ausgemessen
+Pitești;;stadt;4 5 7;F6;;belegt;Feld ausgemessen
+Ploiești;;stadt;4 7 9;H6;;belegt;Feld ausgemessen
+Poarta Orientală;;pass;4;D6;540 m;belegt;Feld ausgemessen
+PODIȘUL MOLDOVEI;Moldauisches Tafelland;grosslandschaft;4;I3;;belegt;Feld ausgemessen
+PODIȘUL TRANSILVANIEI;Siebenbürgisches Becken;grosslandschaft;4;F4;;belegt;Feld ausgemessen
+Porțile de Fier;;energie;4 6;D7;Wasserkraftwerk;belegt;Feld ausgemessen
+Potsdam;;stadt;1 2;;81 m;unbelegt;Kartenfeld, Reihe unbelegt
+Prahova;;kreis;9;;493 Bären;belegt;
+Predeal;;pass;4;G5;1033 m;belegt;Feld ausgemessen
+Prenzlau;;stadt;1;;;belegt;
+Prignitz;;landschaft;1;;;belegt;
+Prislop;;pass;4;G2;1416 m;belegt;Feld ausgemessen
+Prut;;fluss;4;J3;;belegt;Feld ausgemessen
+Putna-Vrancea;;park;9;;;belegt;
+Râmnicu Vâlcea;;stadt;4 7 9;E6;;belegt;Feld ausgemessen
+Recaș;;bahnhof;8;;;belegt;
+Reșița;;stadt;4 5 7;C6;;belegt;Feld ausgemessen
+Reșița Nord;;bahnhof;8;;;belegt;
+Retezat;;gebirge;4 9;;;belegt;
+Rhein;;fluss;3;;;abgeleitet;Geländemodell konstruiert
+Rodna;;gebirge;4;;;belegt;
+Roman;;ort;7;;;belegt;
+S&uuml,dbukowina;;verweis;5;;;belegt;siehe Bucovina
+Săcălaz;;bahnhof;8;;;belegt;
+Șag;;bahnhof;8;;;belegt;
+Sânandrei;;bahnhof;8;;;belegt;
+Sankt Georgen;;verweis;4 7 9;;;belegt;siehe Sfântu Gheorghe
+Sânnicolau Mare;;bahnhof;8;;;belegt;
+Satu Mare;;stadt;4 7;D1;;belegt;Feld ausgemessen
+Semenic;;gipfel;4;C6;1447 m;belegt;im Semenic · Feld ausgemessen
+Sf. Gheorghe;;ort;7;;;belegt;
+Sfântu Gheorghe;Sankt Georgen;stadt;4 7 9;H5;;belegt;Feld ausgemessen
+Shopping City · Ronaț;;haltestelle;8;;;belegt;Straßenbahn Timișoara
+Sibiu;Hermannstadt;stadt;4 5 7 9;F5;683 Bären;belegt;Feld ausgemessen
+Siebenb&uuml,rgen;;verweis;5;;;belegt;siehe Transilvania
+Siebenbürgisches Becken;;verweis;4;;;belegt;siehe PODIȘUL TRANSILVANIEI
+Sighetu Marmației;;stadt;5;;;belegt;
+Sighișoara;;ort;7;;;belegt;
+Simeria;;ort;7;;;belegt;
+Siret;;fluss;4;I4;;belegt;Feld ausgemessen
+Slatina;;stadt;4 7;F7;;belegt;Feld ausgemessen
+Slobozia;;stadt;4 7;J7;;belegt;Feld ausgemessen
+Someș;;fluss;4;D2;;belegt;Feld ausgemessen
+Spree;;fluss;1;;;belegt;
+Spreewald;;landschaft;1;;;belegt;
+Stamora Moravița;;bahnhof;8;;;belegt;
+Stânca-Costești;;stausee;4;I1;;belegt;Feld ausgemessen
+Suceava;;stadt;4 5 7 9;H2;169 Bären;belegt;Feld ausgemessen
+Südkarpaten;;verweis;4;;;belegt;siehe CARPAȚII MERIDIONALI
+Sulina;;ort;6 7;;;belegt;
+Târgoviște;;stadt;4 7;G6;;belegt;Feld ausgemessen
+Târgu Jiu;;stadt;4 7;D6;;belegt;Feld ausgemessen
+Târgu Mureș;Neumarkt;stadt;4 7 9;F3;;belegt;Feld ausgemessen
+Teiuș;;ort;7;;;belegt;
+Temeswar;;verweis;4 5 7;;;belegt;siehe Timișoara
+Tihuța;;pass;4;G2;1201 m;belegt;Feld ausgemessen
+Timiș;;fluss;4;B5;;belegt;Feld ausgemessen
+Timișoara;Temeswar;stadt;4 5 7;B5;;belegt;Feld ausgemessen
+Timișoara – Arad – Oradea;;strecke;8;;M 310;belegt;
+Timișoara – Deta – Stamora Moravița;;strecke;8;;nach RS;belegt;
+Timișoara – Jimbolia – Kikinda;;strecke;8;;nach RS;belegt;
+Timișoara – Lugoj – Caransebeș – București;;strecke;8;;M 900;belegt;
+Timișoara – Sânnicolau Mare – Cenad;;strecke;8;;nach HU;belegt;
+Timișoara Est;;bahnhof;8;;;belegt;
+Topolovăț;;bahnhof;8;;;belegt;
+Transilvania;Siebenb&uuml,rgen;landschaft;5;;;belegt;
+Tulcea;;stadt;4 5 6 7;K6;;belegt;Feld ausgemessen
+Turda;;ort;7;;;belegt;
+Turnu Roșu;;pass;4;E5;350 m;belegt;Feld ausgemessen
+Uckermark;;landschaft;1;;;belegt;
+Vâlcan;;pass;4;D5;1621 m;belegt;Feld ausgemessen
+Vâlcea;;kreis;9;;459 Bären;belegt;
+Vânători-Neamț;;park;9;;;belegt;
+Vaslui;;stadt;4 7;J3;;belegt;Feld ausgemessen
+Videle;;ort;7;;;belegt;
+Vidra;;stausee;4;E6;;belegt;Feld ausgemessen
+Vidraru;;stausee;4;F5;;belegt;Feld ausgemessen
+Voiteni;;bahnhof;8;;;belegt;
+Vrancea;;kreis;9;;363 Bären;belegt;
+Walachische Tiefebene;;verweis;4;;;belegt;siehe CÂMPIA ROMÂNĂ
+Werder;;stadt;1;;;belegt;
+Westkarpaten;;verweis;4;;;belegt;siehe MUNȚII APUSENI
+Westl. Tiefebene;;verweis;4;;;belegt;siehe CÂMPIA DE VEST
+Wittenberge;;stadt;1;;;belegt;
+Wittstock/Dosse;;klimastation;2;;68 m;unbelegt;Kartenfeld, Reihe unbelegt
+Zalău;;stadt;4 7;D2;;belegt;Feld ausgemessen
+Zărnești;Zernescht;stadt;9;;;belegt;
+Zernescht;;verweis;9;;;belegt;siehe Zărnești
