@@ -11,12 +11,12 @@
 <rules key="{a0000000-0000-0000-0000-00000000aa00}">
 <rule key="{a0000000-0000-0000-0000-00000000aa01}" filter="&quot;status&quot; = 'ohne_daten'" label="keine Daten" symbol="0"/>
 <rule key="{a0000000-0000-0000-0000-00000000aa02}" filter="&quot;wert&quot; IS NULL AND &quot;status&quot; &lt;&gt; 'ohne_daten'" label="ohne Wert" symbol="1"/>
-<rule key="{a0000000-0000-0000-0000-00000000ab00}" filter=""wert" &lt; 5" label="Klasse 1" symbol="2"/>
-<rule key="{a0000000-0000-0000-0000-00000000ab01}" filter=""wert" &gt;= 5 AND "wert" &lt; 10" label="Klasse 2" symbol="3"/>
-<rule key="{a0000000-0000-0000-0000-00000000ab02}" filter=""wert" &gt;= 10 AND "wert" &lt; 15" label="Klasse 3" symbol="4"/>
-<rule key="{a0000000-0000-0000-0000-00000000ab03}" filter=""wert" &gt;= 15 AND "wert" &lt; 20" label="Klasse 4" symbol="5"/>
-<rule key="{a0000000-0000-0000-0000-00000000ab04}" filter=""wert" &gt;= 20 AND "wert" &lt; 25" label="Klasse 5" symbol="6"/>
-<rule key="{a0000000-0000-0000-0000-00000000ab05}" filter=""wert" &gt;= 25" label="Klasse 6" symbol="7"/>
+<rule key="{a0000000-0000-0000-0000-00000000ab00}" filter="&quot;wert&quot; &lt; 5" label="Klasse 1" symbol="2"/>
+<rule key="{a0000000-0000-0000-0000-00000000ab01}" filter="&quot;wert&quot; &gt;= 5 AND &quot;wert&quot; &lt; 10" label="Klasse 2" symbol="3"/>
+<rule key="{a0000000-0000-0000-0000-00000000ab02}" filter="&quot;wert&quot; &gt;= 10 AND &quot;wert&quot; &lt; 15" label="Klasse 3" symbol="4"/>
+<rule key="{a0000000-0000-0000-0000-00000000ab03}" filter="&quot;wert&quot; &gt;= 15 AND &quot;wert&quot; &lt; 20" label="Klasse 4" symbol="5"/>
+<rule key="{a0000000-0000-0000-0000-00000000ab04}" filter="&quot;wert&quot; &gt;= 20 AND &quot;wert&quot; &lt; 25" label="Klasse 5" symbol="6"/>
+<rule key="{a0000000-0000-0000-0000-00000000ab05}" filter="&quot;wert&quot; &gt;= 25" label="Klasse 6" symbol="7"/>
 </rules>
 <symbols>
 <symbol type="fill" name="0" alpha="1" clip_to_extent="1" force_rhr="0"><layer class="SimpleFill" enabled="1" locked="0" pass="0"><prop k="color" v="253,253,253,255"/><prop k="outline_color" v="139,129,115,255"/><prop k="outline_style" v="solid"/><prop k="outline_width" v="0.16"/><prop k="outline_width_unit" v="MM"/><prop k="style" v="solid"/><data_defined_properties><Option type="Map"><Option name="name" type="QString" value=""/><Option name="properties"></Option><Option name="type" type="QString" value="collection"/></Option></data_defined_properties></layer>

@@ -9,15 +9,15 @@
 <qgis version="3.28" styleCategories="Symbology|Labeling">
 <renderer-v2 type="RuleRenderer" forceraster="0" enableorderby="0" symbollevels="0" referencescale="2500000">
 <rules key="{b4e70000-0000-0000-0000-000000000000}">
-<rule key="{b4e70000-0000-0000-0000-000000000000}" filter=""status" = 'ohne_genotypen'" label="keine gültigen Genotypen" symbol="0"/>
-<rule key="{b4e70000-0000-0000-0000-000000000001}" filter=""status" = 'kein_bestand'" label="nicht modelliert" symbol="1"/>
-<rule key="{b4e70000-0000-0000-0000-000000000002}" filter=""status" = 'einzelnachweis'" label="nur Einzelnachweise" symbol="2"/>
-<rule key="{b4e70000-0000-0000-0000-000000000003}" filter=""dichte" &lt; 5" label="unter 5 Bären/100 km²" symbol="3"/>
-<rule key="{b4e70000-0000-0000-0000-000000000004}" filter=""dichte" &gt;= 5 AND "dichte" &lt; 10" label="5 bis unter 10 Bären/100 km²" symbol="4"/>
-<rule key="{b4e70000-0000-0000-0000-000000000005}" filter=""dichte" &gt;= 10 AND "dichte" &lt; 15" label="10 bis unter 15 Bären/100 km²" symbol="5"/>
-<rule key="{b4e70000-0000-0000-0000-000000000006}" filter=""dichte" &gt;= 15 AND "dichte" &lt; 20" label="15 bis unter 20 Bären/100 km²" symbol="6"/>
-<rule key="{b4e70000-0000-0000-0000-000000000007}" filter=""dichte" &gt;= 20 AND "dichte" &lt; 25" label="20 bis unter 25 Bären/100 km²" symbol="7"/>
-<rule key="{b4e70000-0000-0000-0000-000000000008}" filter=""dichte" &gt;= 25" label="25 und mehr Bären/100 km²" symbol="8"/>
+<rule key="{b4e70000-0000-0000-0000-000000000000}" filter="&quot;status&quot; = 'ohne_genotypen'" label="keine gültigen Genotypen" symbol="0"/>
+<rule key="{b4e70000-0000-0000-0000-000000000001}" filter="&quot;status&quot; = 'kein_bestand'" label="nicht modelliert" symbol="1"/>
+<rule key="{b4e70000-0000-0000-0000-000000000002}" filter="&quot;status&quot; = 'einzelnachweis'" label="nur Einzelnachweise" symbol="2"/>
+<rule key="{b4e70000-0000-0000-0000-000000000003}" filter="&quot;dichte&quot; &lt; 5" label="unter 5 Bären/100 km²" symbol="3"/>
+<rule key="{b4e70000-0000-0000-0000-000000000004}" filter="&quot;dichte&quot; &gt;= 5 AND &quot;dichte&quot; &lt; 10" label="5 bis unter 10 Bären/100 km²" symbol="4"/>
+<rule key="{b4e70000-0000-0000-0000-000000000005}" filter="&quot;dichte&quot; &gt;= 10 AND &quot;dichte&quot; &lt; 15" label="10 bis unter 15 Bären/100 km²" symbol="5"/>
+<rule key="{b4e70000-0000-0000-0000-000000000006}" filter="&quot;dichte&quot; &gt;= 15 AND &quot;dichte&quot; &lt; 20" label="15 bis unter 20 Bären/100 km²" symbol="6"/>
+<rule key="{b4e70000-0000-0000-0000-000000000007}" filter="&quot;dichte&quot; &gt;= 20 AND &quot;dichte&quot; &lt; 25" label="20 bis unter 25 Bären/100 km²" symbol="7"/>
+<rule key="{b4e70000-0000-0000-0000-000000000008}" filter="&quot;dichte&quot; &gt;= 25" label="25 und mehr Bären/100 km²" symbol="8"/>
 </rules>
 <symbols>
 <symbol type="fill" name="0" alpha="1" clip_to_extent="1" force_rhr="0"><layer class="SimpleFill" enabled="1" locked="0" pass="0">
