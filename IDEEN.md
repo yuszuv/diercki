@@ -28,12 +28,22 @@ Erledigt (Entscheidungen: `recherche/entscheidungen-2026-08-07.md`):
 
 In Arbeit:
 
+- **Reiseplaner-Wireframes A/B/C — Jans Wahl offen.** Nicht zu verwechseln mit den
+  drei *Zuschnitten* A/B/C der Iteration-2-Präse (eine Zeile weiter oben, andere
+  Entscheidung). Hier geht es um die Bedienung: `praesentationen/Wireframe-A-Chips.dc.html`
+  (Themenchips über der Karte, Hauptscreen), `-B-Tabs` (Themenliste mit Tab-Leiste unten),
+  `-C-Split` (Karte oben, Trefferliste unten). Screenshots liegen als `wf-a.png`,
+  `wf-b.png`, `wf-c.png` daneben. Die Decks zeigen bisher nur A und B: Pitch-Folie 04
+  („Zwei Screens") und Vorschlag-Folie 05/06. Ob C eine eigene Folie bekommt, ist offen —
+  gegen den Pitch spricht seine Überschrift, für den Vorschlag spricht nichts dagegen.
+  Absichtlich WIP: grau und unfertig, damit die Diskussion um die Anordnung geht.
+
 - **Diercke-Scans Klima (46/47) + Landwirtschaft (48–51)** — extract-rotate-stitch-Pipeline
   gelaufen: `scans/spread-klima.jpg`, `spread-landwirtschaft-48-49.jpg`, `-50-51.jpg`
   + Einzelseiten (`klima-seite-46/47.jpg`, `lawi-seite-48–51.jpg`), Schwarzränder
   bereinigt, Bundsteg als freigelassene Lücke. **Finale Scan-Optimierung ans Ende
-  verschoben** (Feinschliff Beschnitt, ggf. Deskew, Legenden-Rekonstruktion S. 48,
-  Nachscan-Streifen einsetzen — s. DATENBEDARF № 11).
+  verschoben** (Feinschliff Beschnitt, ggf. Deskew, Legenden-Rekonstruktion S. 48,
+  Nachscan-Streifen einsetzen — s. DATENBEDARF № 11).
 
 - **TODO · Grabfeld auf dem Freiburger Hauptfriedhof recherchieren** (offen, 13.08.2026)
 
@@ -86,7 +96,7 @@ Später (sortiert nach Relevanz × Nützlichkeit, 07.08.2026):
    vier Skills für eine Arbeitsteilung, die es so nicht mehr gibt.
 2. **Integration der neuen Diercke-Darstellungsformen** aus Klima + Landwirtschaft
    (Plan mit Jan abzustimmen): Kartodiagramm-Säulen in der Karte (Allgäu),
-   Schlagkarte 1:25 000 (Rechterfeld/Soßmar), Anbaufolge-Streifendiagramm
+   Schlagkarte 1:25 000 (Rechterfeld/Soßmar), Anbaufolge-Streifendiagramm
    (Knoblauchsland), Vorher/Nachher-Kartenpaar (Flurbereinigung), 2D-Farbmatrix-
    Legende (Niederschlag × Monate), Klimadiagramm-Randspalte, Stadtklima-/
    Geländeklima-Nebenkarten, Bodentypen- und Betriebsgrößen-Choroplethen.
@@ -96,7 +106,7 @@ Später (sortiert nach Relevanz × Nützlichkeit, 07.08.2026):
    (#6f9ea3 → #35707b), und der versprochene .gpl-Export existiert jetzt wirklich:
    `atlas/farben-paletten.rb` erzeugt alle sieben Paletten aus farben.js.
    Doku nachgezogen (QGIS-Kartensatz, Zeichenerklärung Werkstatt-Blatt).
-4. **CLC2018 einspielen**, sobald Exporte da sind (DATENBEDARF № 7).
+4. **CLC2018 einspielen**, sobald Exporte da sind (DATENBEDARF № 7).
 6. **Iteration 2 — Mobile/QField/Nutzung.** Erste zwei Teile stehen (07.08.2026):
    die Konzept-Präse (s. oben) und das Feldpaket. Was jetzt fehlt, ist keine Bauarbeit,
    sondern eine Entscheidung — Zuschnitt A, B oder C — und die zwei Datenlieferungen davor.
