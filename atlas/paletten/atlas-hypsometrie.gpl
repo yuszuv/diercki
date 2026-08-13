@@ -2,6 +2,7 @@ GIMP Palette
 Name: Sternprodukt-Atlas Hypsometrie & Bathymetrie
 Columns: 3
 # Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# Abgeleitet aus atlas/farben.js (atlas/farben-paletten.rb) — nicht von Hand pflegen.
 # QGIS: Einstellungen → Optionen → Farben → Palette importieren.
 234 231 224	Gletscher, Inlandeis (#eae7e0)
 125  90  78	über 5000 m (#7d5a4e)

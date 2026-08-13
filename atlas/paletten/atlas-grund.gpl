@@ -2,12 +2,16 @@ GIMP Palette
 Name: Sternprodukt-Atlas Grund & Akzente
 Columns: 4
 # Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# Abgeleitet aus atlas/farben.js (atlas/farben-paletten.rb) — nicht von Hand pflegen.
 # QGIS: Einstellungen → Optionen → Farben → Palette importieren.
 253 253 253	Papier (#fdfdfd)
 241 233 216	Papier warm (historisch) (#f1e9d8)
+247 244 238	Fläche warm (#f7f4ee)
  42  35  28	Tinte (#2a231c)
 130 130 130	Geometrie-Umriss (#828282)
+229 221 206	Grau hell (#e5ddce)
 139 129 115	Kontext gedimmt (#8b8173)
+ 74  65  57	Grau dunkel (#4a4139)
  67  68  98	Bleistift-Blauviolett (#434462)
  42 122 226	Auswahl (nur Bildschirm) (#2a7ae2)
 168  58  40	Konflikt — einzige Rot-Reserve (#a83a28)
@@ -25,3 +29,5 @@ Columns: 4
  67  41  61	Pflaume Deep (#43293d)
 185 142  63	Ocker Base (#b98e3f)
 148 112  47	Ocker Deep (#94702f)
+201 192 174	Wegenetz im Grundriss (Fußwege, Wirtschaftswege) (#c9c0ae)
+168 196 212	Wasserfläche im Grundriss (Teich, Becken) (#a8c4d4)

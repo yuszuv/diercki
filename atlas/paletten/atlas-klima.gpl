@@ -2,6 +2,7 @@ GIMP Palette
 Name: Sternprodukt-Atlas Klima & Vegetation
 Columns: 4
 # Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# Abgeleitet aus atlas/farben.js (atlas/farben-paletten.rb) — nicht von Hand pflegen.
 # QGIS: Einstellungen → Optionen → Farben → Palette importieren.
 188 201 206	Polare Zone (#bcc9ce)
 163 183 173	Subpolare Zone (#a3b7ad)

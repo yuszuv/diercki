@@ -2,7 +2,9 @@ GIMP Palette
 Name: Sternprodukt-Atlas Landnutzung & Stadt
 Columns: 3
 # Sternprodukt-Atlas — gedämpfte Diercke-Systematik. Stand 2026-08.
+# Abgeleitet aus atlas/farben.js (atlas/farben-paletten.rb) — nicht von Hand pflegen.
 # QGIS: Einstellungen → Optionen → Farben → Palette importieren.
+# Texturen (Raster, Kreuzschraffur) liegen nicht hier, sondern als Füllsymbole in qgis/basis/symbole/sternprodukt_atlas.xml.
 231 220 171	Ackerland (#e7dcab)
 217 185 110	Sonderkulturen, Dauerkulturen (#d9b96e)
 183 205 180	Nassreis (#b7cdb4)
