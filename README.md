@@ -115,6 +115,26 @@ aus `atlas/typenscale.js`, Untergrenze 5,5 pt.
 - Arbeits-CRS: EPSG:3844 (Stereo 70) für Rumänien, EPSG:25833 für Brandenburg.
 - QGIS 4.2, QField „Coral Sea".
 
+## Was in diesem Klon fehlt
+
+Der Klon ist kein vollständiges Abbild des Design-Projekts — drei Sorten Datei
+bleiben draußen, jede aus einem eigenen Grund.
+
+**Die neun Landnutzungsflächen** unter `atlas/geodaten/nutzung-*.geojson` (zusammen
+11,6 MB) sind nicht versioniert und lassen sich auch nicht aus dem Design-Projekt
+holen: der Export deckelt bei 256 KiB. Sie entstehen mit
+`ruby atlas/geodaten/rumaenien-nutzung.rb`, nachdem CLC2018 einmal von Hand
+heruntergeladen wurde — siehe `atlas/geodaten/LIESMICH.md`.
+
+**`atlas/geodaten/verkehr-daten.js`** ist eine Rekonstruktion aus dem
+Upload-Sidecar, aus demselben Grund. Es enthält den `gewaesser`-Datensatz, den die
+Blätter tatsächlich lesen; der `bahn`-Datensatz des Originals fehlt bewusst und
+ließe sich mit `rumaenien-verkehr.rb` neu erzeugen.
+
+**Bilddateien**, die kein Blatt braucht: die Vorlagenscans unter `scans/` sind
+reines Vergleichsmaterial und nicht importiert. Was `.gitignore` draußen hält,
+steht dort begründet.
+
 ## git-Repo
 
 `yuszuv/diercki`, siehe `github.md` für Rollen und letzten Sync-Stand. Das
