@@ -151,7 +151,7 @@ import { F } from './atlas/farben.js';
 
   // Tafel 1 · Isohypsen mit Äquidistanz
   const tafelIsohypsen = () => {
-    let o = rahmen('&#8544; &middot; Isohypsen', `ÄQUIDISTANZ ${AEQUI} M · ZÄHLLINIE ${ZAEHL} M`);
+    let o = rahmen('&#8544; &middot; Isohypsen', `\u00c4QUIDISTANZ ${AEQUI} M \u00b7 Z\u00c4HLLINIE ${ZAEHL} M`);
     o += `<g clip-path="url(#tclip)">${flussband()}`;
     for (const { v, geo } of isohypsen) {
       const zaehl = v % ZAEHL === 0;
@@ -171,7 +171,7 @@ import { F } from './atlas/farben.js';
 
   // Tafel 2 · Hypsometrie, Isohypsen nur als Kante
   const tafelHypsometrie = () => {
-    let o = rahmen('&#8545; &middot; Hypsometrie', `HÖHENSCHICHTKOLORIT · ΔH = ${AEQUI} M`);
+    let o = rahmen('&#8545; &middot; Hypsometrie', `H\u00d6HENSCHICHTKOLORIT \u00b7 \u0394H = ${AEQUI} M`);
     o += `<g clip-path="url(#tclip)">`;
     for (const b of baender)
       o += `<path d="${pfad(b)}" fill="${kolorit(b.value)}" stroke="none"/>`;
@@ -208,7 +208,7 @@ import { F } from './atlas/farben.js';
       im.data[k + 3] = 255;
     }
     ctx.putImageData(im, 0, 0);
-    let o = rahmen('&#8546; &middot; Schummerung', 'SCHRÄGLICHT NW 315° · HÖHE 45°');
+    let o = rahmen('&#8546; &middot; Schummerung', 'SCHR\u00c4GLICHT NW 315\u00b0 \u00b7 H\u00d6HE 45\u00b0');
     o += `<g clip-path="url(#tclip)">
       <image x="${feld.x}" y="${feld.y}" width="${feld.w}" height="${feld.h}" href="${c.toDataURL('image/png')}" preserveAspectRatio="none" image-rendering="optimizeQuality"/>`;
     for (const { v, geo } of isohypsen.filter(d => d.v % ZAEHL === 0))
@@ -219,7 +219,7 @@ import { F } from './atlas/farben.js';
   // Tafel 4 · Böschungsschraffen nach Lehmann
   const tafelSchraffen = () => {
     const SCHRITT = 5.2;
-    let o = rahmen('&#8547; &middot; Böschungsschraffen', 'STRICHSTÄRKE NACH NEIGUNG · NACH LEHMANN');
+    let o = rahmen('&#8547; &middot; B\u00f6schungsschraffen', 'STRICHST\u00c4RKE NACH NEIGUNG \u00b7 NACH LEHMANN');
     o += `<g clip-path="url(#tclip)" stroke="${F.tinte}" stroke-linecap="round" fill="none">`;
     for (let py = feld.y + 2; py < feld.y + feld.h - 1; py += SCHRITT) {
       const versatz = (Math.round((py - feld.y) / SCHRITT) % 2) * SCHRITT / 2;
@@ -262,15 +262,15 @@ import { F } from './atlas/farben.js';
       <text x="0" y="9" font-family="${SERIF}" font-weight="600" font-size="9" fill="${F.tinte}">Schraffen</text>
       <text x="0" y="16" font-family="${SERIF}" font-style="italic" font-size="7.4" fill="${DUNKEL}">tragen das Relief</text>
       ${schraffenProbe(0)}
-      <text x="0" y="${h - 8}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">flach → steil</text>
+      <text x="0" y="${h - 8}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">flach \u2192 steil</text>
       <line x1="${halb + 4}" y1="2" x2="${halb + 4}" y2="${h - 2}" stroke="${F.grauHell}" stroke-width="1"/>
       <text x="${halb + 12}" y="9" font-family="${SERIF}" font-weight="600" font-size="9" fill="${F.tinte}">Schraffur</text>
-      <text x="${halb + 12}" y="16" font-family="${SERIF}" font-style="italic" font-size="7.4" fill="${DUNKEL}">überlagert eine Fläche</text>
+      <text x="${halb + 12}" y="16" font-family="${SERIF}" font-style="italic" font-size="7.4" fill="${DUNKEL}">\u00fcberlagert eine Fl\u00e4che</text>
       <rect x="${halb + 12}" y="21" width="${halb - 18}" height="${h - 36}" fill="${F.olivTint}" stroke="${F.umriss}" stroke-width=".4"/>
       <defs><pattern id="sfur" width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
         <line x1="0" y1="0" x2="0" y2="4.5" stroke="${F.tinte}" stroke-width=".55"/></pattern></defs>
       <rect x="${halb + 12}" y="21" width="${halb - 18}" height="${h - 36}" fill="url(#sfur)"/>
-      <text x="${halb + 12}" y="${h - 8}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">gleichmäßig, bedeutungstragend</text>
+      <text x="${halb + 12}" y="${h - 8}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">gleichm\u00e4\u00dfig, bedeutungstragend</text>
     </svg>
     <div style="font-size:8.4px;line-height:1.4;color:#4a4139;margin-top:2px">Die Schraffe &auml;ndert sich mit dem Gel&auml;nde und ist deshalb eine <em>Signatur</em>. Die Schraffur bleibt gleich und ist ein <em>Kolorit</em> &mdash; auf dem Hanfblatt markiert sie die &Ouml;ko-Regelung.</div>`;
   }
