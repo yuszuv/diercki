@@ -63,14 +63,14 @@ Dazu weiter offen: die `ha`-Spalte je Kreis in `hanf-anbau.csv`.
 
 ### 11 · Nachscans Diercke Klima + Landwirtschaft — Bundsteg-Streifen  ✓ *erledigt für S. 48*
 Die extrahierten Seiten 46/47 und 48–51 verlieren am Bundsteg je einige mm;
-auf S. 48 fehlt zusätzlich die halbe linke Legendenspalte (Text + Farbchips).
+auf S. 48 fehlt zusätzlich die halbe linke Legendenspalte (Text + Farbchips).
 Beim Nachscannen genügt: Buch flacher aufdrücken bzw. Seite ein Stück weiter
 zum Rand legen — konkret fehlen:
-- **S. 46 rechts:** Streifen östlich ~14° (Oder, Rahmenlinie)
-- **S. 47 links:** Weststreifen Bioklima-Karte + Dortmund-Kartenrand
-- **S. 48 links:** Legendenspalte „Nutzungssysteme“ komplett, Seitenzahl
-- **S. 49 links:** Weststreifen Verarbeitungs- und Bodentypen-Karte
-- **S. 50/51:** nur Bundsteg-Ränder, verschmerzbar
+- **S. 46 rechts:** Streifen östlich ~14° (Oder, Rahmenlinie)
+- **S. 47 links:** Weststreifen Bioklima-Karte + Dortmund-Kartenrand
+- **S. 48 links:** Legendenspalte „Nutzungssysteme“ komplett, Seitenzahl
+- **S. 49 links:** Weststreifen Verarbeitungs- und Bodentypen-Karte
+- **S. 50/51:** nur Bundsteg-Ränder, verschmerzbar
 **Wirkung:** vollständige Referenz-Spreads; die Legenden-Rekonstruktion
 (als solche markiert) kann sonst nur den Text, nicht die Chips belegen.
 
