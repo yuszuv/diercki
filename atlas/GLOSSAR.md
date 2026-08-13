@@ -13,6 +13,16 @@ Gheorghe (Süd).
 **Magistralen** gegliedert, durchnummeriert 100 bis 900; Nebenstrecken tragen die
 Hunderterzahl ihrer Magistrale plus eine Ziffer (804 = Zweig der 800 nach Tulcea).
 
+**CORINE-Klassen** — die Nomenklatur von *CORINE Land Cover* (CLC), dem europäischen
+Bodenbedeckungsdatensatz des Copernicus-Programms (seit 1985, zuletzt 2018). Drei
+Ebenen: 5 Hauptklassen (bebaut, landwirtschaftlich, Wald/naturnah, feucht, Wasser),
+darunter 15, darunter 44 Klassen mit dreistelligem Code — 211 = nicht bewässertes
+Ackerland, 221 = Weinbau, 222 = Obstbau, 231 = Wiesen und Weiden, 411 = Sumpf.
+Kleinste erfasste Fläche 25 ha; was schmäler als 100 m ist, verschwindet. Das Bodennutzungsblatt
+zeigt neun daraus zusammengezogene Klassen, von Hand generalisiert — die Codes
+sind die Sortierung dahinter, nicht die Zeichnung. Die Kultur *auf* dem Acker (Hanf,
+Gerste) kennt CORINE nicht; dafür braucht es InVeKoS oder eigene Erhebung.
+
 **EPSG-Code** — vierstellige Nummer für ein Koordinatenreferenzsystem.
 4326 = geographische Koordinaten (Grad). 3844 = Stereo 70, das amtliche System Rumäniens
 in Metern. 25833 = UTM 33N, das Arbeitssystem in Brandenburg. 3380 gehört nach *Borneo* —
@@ -31,18 +41,18 @@ Streusignatur.
 Verkehrs- und Übersichtskarten die übliche Wahl; die Atlasblätter benutzen Lambert
 konform konisch mit den Standardparallelen 44° und 48° N.
 
-**Magistrale** — Hauptstrecke der CFR, siehe dort. Auf Blatt 15 als schwere
+**Magistrale** — Hauptstrecke der CFR, siehe dort. Auf dem Verkehrsblatt als schwere
 Leitersignatur mit Nummernschild.
 
 **Nebenkarte** (engl. *inset map*) — ein zweiter, größer gezeichneter Kartenausschnitt im
-Feld der Hauptkarte. Auf Blatt 15 das Donaudelta in etwa 2,3-fachem Maßstab. Das
+Feld der Hauptkarte. Auf dem Verkehrsblatt das Donaudelta in etwa 2,3-fachem Maßstab. Das
 gestrichelte Rechteck auf der Hauptkarte zeigt, welcher Ausschnitt es ist.
 
 **NUTS** — die Gebietsgliederung der EU-Statistik. NUTS-3 entspricht in Rumänien dem județ.
 Die Grenzgeometrie kommt von Eurostat GISCO.
 
 **scalerank** — Feld in den Natural-Earth-Daten: je kleiner die Zahl, desto wichtiger das
-Objekt. Steuert auf Blatt 15 die Strichstärke der Flüsse.
+Objekt. Steuert auf dem Verkehrsblatt die Strichstärke der Flüsse.
 
 **Schummerung** — die grauen Schatten, die das Relief plastisch machen. Licht kommt
 konventionell aus Nordwest, auch wenn das physikalisch nie vorkommt.
@@ -55,6 +65,6 @@ Bild zeigt einen echten Bären an einem echten Ort.
 stereographische Projektion mit dem Ursprung bei Fălciu; das amtliche System Rumäniens.
 In Metern, deshalb rechnen Flächen und Längen direkt.
 
-**Wasserstraße** — schiffbarer Wasserweg. Auf Blatt 15 die Donau, der Sulina-Arm und der
+**Wasserstraße** — schiffbarer Wasserweg. Auf dem Verkehrsblatt die Donau, der Sulina-Arm und der
 Donau–Schwarzmeer-Kanal. Östlich von Murighiol und Chilia Veche gibt es keine Straße;
 der Verkehr im Delta läuft über das Wasser.
