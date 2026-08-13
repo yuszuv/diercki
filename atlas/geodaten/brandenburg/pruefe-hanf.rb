@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Sternprodukt atlas · hemp check — prüft sorten.csv gegen den NN-Auszug.
+# Sternprodukt atlas · hemp check — prüft sorten.csv gegen den Schlagauszug hanf-<jahr>.geojsonl.
 #
 # Erzeugt NICHTS. Die Sortenzuordnung ist bewusst kein Build-Schritt: das
 # Kartenblatt liest hanf-<jahr>.geojsonl und sorten.csv zur Laufzeit, QGIS
