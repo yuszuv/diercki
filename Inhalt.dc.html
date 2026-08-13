@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/colors.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/typography.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/effects.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/code.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/gimmicks.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/base.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/styles.css">
+<script src="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/_ds_bundle.js"></script>
+<style>
+  body{margin:0;background:var(--paper)}
+  a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{color:var(--petrol);text-decoration-thickness:2.5px}
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="--acc:var(--petrol);--fn:inline;--row-pad:15px;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--font-serif);min-height:100vh;display:flex;flex-direction:column">
+
+<div style="border-top:5px solid var(--ink)"></div>
+<div style="height:1px;background:var(--grey-light)"></div>
+<div style="max-width:var(--content-width);margin:0 auto;box-sizing:border-box;width:100%;padding:14px var(--page-gutter);display:flex;justify-content:space-between;align-items:baseline;gap:16px">
+  <span style="font:500 13px/1 var(--font-mono);letter-spacing:.08em;color:var(--grey)">STERNPRODUKT &middot; DIERCKE-ATLAS</span>
+  <span style="font:500 13px/1 var(--font-mono);letter-spacing:.04em;color:var(--grey)">Stand 13. August 2026</span>
+</div>
+
+<main style="max-width:var(--content-width);margin:0 auto;box-sizing:border-box;width:100%;padding:0 var(--page-gutter) 60px;flex:1">
+
+<h1 style="font-size:var(--h1-size);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:44px 0 0">Inhalt des Atlas</h1>
+<div style="height:2px;background:var(--ink);margin:15px 0 0"></div>
+
+<p style="font-size:21px;line-height:1.45;color:var(--grey-dark);margin:26px 0 0;text-wrap:pretty">Ein Weltatlas im Stil des Diercke-Klassikers, gebaut im Sternprodukt-Look: Bl&auml;tter zu Rum&auml;nien und Brandenburg, eine Zeichenerkl&auml;rung nach Atlas-Vorbild und der QGIS-Kartensatz dahinter. Diese Seite ist das Titelblatt dazu &mdash; jedes St&uuml;ck einmal, in der Ordnung, in der man es sucht.</p>
+
+<p style="margin:20px 0 0;text-wrap:pretty">Jedes Blatt ist eine eigenst&auml;ndige Datei und &ouml;ffnet f&uuml;r sich. Der Belegstatus einer Zahl steht nicht hier, sondern im Quellenregister unter <span style="font:500 15px/1 var(--font-mono)">atlas/quellen/</span> &mdash; dreiteilig als <em>belegt</em>, <em>abgeleitet</em>, <em>unbelegt</em>. Wo ein ganzes Blatt noch auf Belege wartet, steht es unten dabei.</p>
+
+<nav style="margin:34px 0 0;border-top:2px solid var(--ink);border-bottom:1px solid var(--grey-light);padding:16px 0">
+  <div style="font:500 11px/1 var(--font-mono);letter-spacing:.1em;color:var(--grey);margin-bottom:12px">INHALTSVERZEICHNIS</div>
+  <a href="#blaetter-rumaenien" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">I</span>
+    <span style="font-size:17px">Bl&auml;tter &middot; Rum&auml;nien</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">6&nbsp;Bl&auml;tter</span>
+  </a>
+  <a href="#blaetter-brandenburg" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">II</span>
+    <span style="font-size:17px">Bl&auml;tter &middot; Brandenburg</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">2&nbsp;Bl&auml;tter</span>
+  </a>
+  <a href="#werkstattblaetter" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">III</span>
+    <span style="font-size:17px">Werkstattbl&auml;tter</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">2</span>
+  </a>
+  <a href="#apparat" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">IV</span>
+    <span style="font-size:17px">Apparat &mdash; Zeichenerkl&auml;rung und Kartensatz</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">2</span>
+  </a>
+  <a href="#praesentationen" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">V</span>
+    <span style="font-size:17px">Pr&auml;sentationen und Vorlagen</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">7</span>
+  </a>
+  <a href="#entwuerfe" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">VI</span>
+    <span style="font-size:17px">Entw&uuml;rfe &mdash; Reiseplaner-Wireframes</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">3</span>
+  </a>
+  <a href="#persoenliches" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">VII</span>
+    <span style="font-size:17px">Kein Atlas-Bestandteil</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">3</span>
+  </a>
+  <a href="#werkstatt" style="display:flex;align-items:baseline;gap:8px;text-decoration:none;color:inherit;padding:3px 0">
+    <span style="font:500 13px var(--font-mono);color:var(--acc);width:28px;flex:none">VIII</span>
+    <span style="font-size:17px">Werkstatt &mdash; Kataloge, Register, Skripte</span>
+    <span style="flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-4px)"></span>
+    <span style="font:500 13px var(--font-mono);color:var(--grey);flex:none">Dateien</span>
+  </a>
+  <div style="font-size:14px;color:var(--grey);margin-top:12px;text-wrap:pretty">Kartenbl&auml;tter tragen unten eine Signatur, die f&uuml;r ihr Thema steht &mdash; unver&auml;ndert aus dem Katalog (<span style="font:500 13px var(--font-mono)">atlas/signaturen.js</span>), erkl&auml;rt in der <a href="Zeichenerklaerung.dc.html">Zeichenerkl&auml;rung</a>. Decks, Entw&uuml;rfe und Werkstattdateien haben keine, weil sie keine Karten sind.</div>
+</nav>
+
+<h2 id="blaetter-rumaenien" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">I</span>Bl&auml;tter &middot; Rum&auml;nien</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Der Hauptteil. Arbeits-CRS ist EPSG:3844 (Stereo 70); Geometrie kommt aus benannten Datens&auml;tzen (Eurostat GISCO, OSM, GBIF), die Fu&szlig;zeile jedes Blattes sagt welcher.</p>
+
+<a href="Rumaenien-Physisch.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s1 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Physische &Uuml;bersicht</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Rumaenien-Physisch.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Relief und Hypsometrie &mdash; die Grundlage, auf der die thematischen Bl&auml;tter liegen.</div>
+</span>
+</a>
+<a href="Rumaenien-Wirtschaft.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s2 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Wirtschaft</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Rumaenien-Wirtschaft.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Rohstoffe, Industrie, Energie. Streusignaturen und Tiegel &uuml;ber dem Fl&auml;chenkolorit.</div>
+</span>
+</a>
+<a href="Rumaenien-Verkehr.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s3 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Hauptverkehrsnetz</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Rumaenien-Verkehr.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Stra&szlig;en und Bahnen mit Streckennummern, Elektrifizierung unterschieden; Nebenkarte Donaudelta.</div>
+</span>
+</a>
+<a href="Banat-Liniennetz.dc.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s4 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Banat &middot; Liniennetzplan</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Banat-Liniennetz.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Oktilinear, topologietreu, nicht lagetreu &mdash; der Gegenentwurf zum Verkehrsblatt: Reihenfolge statt Lage.</div>
+</span>
+</a>
+<a href="Rumaenien-Braunbaer.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s5 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Braunb&auml;r</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Rumaenien-Braunbaer.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Verbreitung als Streusignatur nach GBIF-Nachweisen. Die Kreistabelle des Umweltministeriums fehlt noch &mdash; siehe <span style="font:500 15px var(--font-mono)">DATENBEDARF.md</span>.</div>
+</span>
+</a>
+<a href="Rumaenien-Landschaften.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s6 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Historische Landschaften</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Rumaenien-Landschaften.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Banat, Siebenb&uuml;rgen, Walachei, Moldau &mdash; Grenzen, die keine Verwaltungsgrenzen sind.</div>
+</span>
+</a>
+
+<h2 id="blaetter-brandenburg" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">II</span>Bl&auml;tter &middot; Brandenburg</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Die eigene Gegend, gr&ouml;&szlig;erer Ma&szlig;stab, EPSG:25833. Hier stehen echte Antragsdaten neben noch unbelegten Zahlen &mdash; die Bl&auml;tter sagen selbst, welche welche sind.</p>
+
+<a href="Brandenburg-Landwirtschaft.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s7 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Landwirtschaftliche Nutzung</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Brandenburg-Landwirtschaft.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Hanf 2026 schlaggenau aus dem Nutzungsnachweis, Kartodiagramm je Kreis, Matrix-Legende, Nebenkarte Kyritz. Die Zuordnung Schlag &rarr; Betrieb ist aus dem NN-Auszug <em>nicht</em> ableitbar und wird nicht geraten.</div>
+</span>
+</a>
+<a href="Brandenburg-Klima.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s8 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Klima</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Brandenburg-Klima.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Kartodiagramme, Walter-Lieth-Randspalte, Nebenkarte Gel&auml;ndeklima. <b style="font-weight:600">Alle Werte noch unbelegt</b> &mdash; es fehlen die DWD-Monatsmittel 1991&ndash;2020.</div>
+</span>
+</a>
+
+<h2 id="werkstattblaetter" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">III</span>Werkstattbl&auml;tter</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Bl&auml;tter, die eine Methode zeigen statt eines Gebiets. Sie geh&ouml;ren in den Atlas wie das Blatt mit den Ma&szlig;stabsleitern: man schl&auml;gt sie nach, wenn man wissen will, wie etwas gemacht ist.</p>
+
+<a href="Loreley-Relief.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s9 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Loreley &middot; ein Gel&auml;nde in vier Registern</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Loreley-Relief.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Isohypsen, Hypsometrie, Schummerung, B&ouml;schungsschraffen am selben Ausschnitt. Das Gel&auml;ndemodell ist konstruiert, nicht gemessen.</div>
+</span>
+</a>
+<a href="Zeichen-Naeherung.dc.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span style="flex:none;width:104px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Die Unicode-N&auml;herung des Sternprodukt-Zeichens</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Zeichen-Naeherung.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Messblatt: jede Glyphe gegen die Breite von U+FFFF gestellt. Gleiche Breite hei&szlig;t Tofu &mdash; kein Zeichen, sondern ein leeres Rechteck.</div>
+</span>
+</a>
+
+<h2 id="apparat" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">IV</span>Apparat</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Was im gedruckten Atlas hinten steht. Bei einer unbekannten Signatur f&auml;ngt man hier an.</p>
+
+<a href="Zeichenerklaerung.dc.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s10 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Zeichenerkl&auml;rung</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Zeichenerklaerung.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Blatt f&uuml;r Blatt: Farbsystem, Relief, Gew&auml;sser, Siedlung und Schrift, Grenzen, Verkehr, Rohstoffe, Industrie, Landwirtschaft &mdash; dazu die Werkstattseite zu QGIS, QField und Paletten.</div>
+</span>
+</a>
+<a href="QGIS-Kartensatz.dc.html" style="display:flex;gap:15px;align-items:flex-start;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <span ref="{{ s11 }}" style="flex:none;width:104px;margin-top:5px"></span>
+  <span style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">QGIS-Kartensatz</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">QGIS-Kartensatz.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Bl&auml;tter in QGIS &ouml;ffnen, drucken, um eigene Themen erweitern. Enth&auml;lt auch die Anleitung zum QField-Feldpaket <span style="font:500 15px var(--font-mono)">brandenburg-hanf</span>.</div>
+</span>
+</a>
+
+<h2 id="praesentationen" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">V</span>Pr&auml;sentationen und Vorlagen</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Decks laufen im Vollbild und blenden per Pfeiltasten weiter; die Sprechernotizen h&auml;ngen an der Folie. Die Roadmap ist ein Druckdokument, kein Deck. Alle sieben liegen in <span style="font:500 15px var(--font-mono)">praesentationen/</span>.</p>
+
+<a href="praesentationen/Pitch-Hoehle-der-Loewen.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Pitch &middot; QField-Bahnreiseplaner</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Pitch-Hoehle-der-Loewen.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Die kurze, laute Fassung der Idee.</div>
+</a>
+<a href="praesentationen/QField-Bahnreiseplaner.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Workshop &middot; QField als Bahnreise-Planer</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/QField-Bahnreiseplaner.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Zw&ouml;lf Folien, zum Mitmachen: Projekt packen, offline nehmen, unterwegs erfassen.</div>
+</a>
+<a href="praesentationen/Reiseplaner-Vorschlag.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Entscheidungsvorlage &middot; Reisef&uuml;hrer Banat &amp; Rom&acirc;nia</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Reiseplaner-Vorschlag.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Zw&ouml;lf Folien mit der Frage am Ende, nicht am Anfang.</div>
+</a>
+<a href="praesentationen/Reiseplaner-Roadmap.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Technische Roadmap</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Reiseplaner-Roadmap.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Vier Seiten Arbeitsdokument zum Vorschlag &mdash; zum Ausdrucken und Bekritzeln.</div>
+</a>
+<a href="praesentationen/Reiseplaner-Reisebegleitung.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Reisevorbereitung Rum&auml;nien</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Reiseplaner-Reisebegleitung.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Zehn Folien f&uuml;r die eigene Fahrt &mdash; derselbe Stoff, andere Adresse.</div>
+</a>
+<a href="praesentationen/Iteration-2-Konzept.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Iteration 2 &middot; Konzept vor Bau</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Iteration-2-Konzept.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Wo Iteration 1 endet, was das Blatt nicht kann, und drei Zuschnitte f&uuml;r das, was folgt.</div>
+</a>
+<a href="praesentationen/Zeichensystem-Post-its.dc.html" style="display:block;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Das Zeichensystem auf neun Zetteln</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Zeichensystem-Post-its.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Die Regeln des Atlas so kurz, dass sie an eine Pinnwand passen.</div>
+</a>
+
+<h2 id="entwuerfe" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">VI</span>Entw&uuml;rfe</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Drei Wireframes zur Bedienung des Reiseplaners &mdash; absichtlich grau und unfertig, damit die Diskussion um die Anordnung geht und nicht um die Farbe. Sie liegen in <span style="font:500 15px var(--font-mono)">praesentationen/</span>, seit sie aus <span style="font:500 15px var(--font-mono)">handarbeit/</span> hierher umgezogen sind &mdash; dort geh&ouml;rten sie nie hin: gesch&uuml;tzt sind die Bin&auml;rdateien von QGIS und QField, nicht ein Wireframe.</p>
+
+<a href="praesentationen/Wireframe-A-Chips.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">A &middot; Chips</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Wireframe-A-Chips.dc.html</span></div>
+</a>
+<a href="praesentationen/Wireframe-B-Tabs.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">B &middot; Tabs</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Wireframe-B-Tabs.dc.html</span></div>
+</a>
+<a href="praesentationen/Wireframe-C-Split.dc.html" style="display:block;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">C &middot; Split</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">praesentationen/Wireframe-C-Split.dc.html</span></div>
+</a>
+
+<h2 id="persoenliches" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">VII</span>Kein Atlas-Bestandteil</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Drei Bl&auml;tter, die dieselben Regeln befolgen, aber nicht zum Atlas geh&ouml;ren. Sie liegen im Wurzelverzeichnis neben den Kartenbl&auml;ttern und stehen hier, damit sie nicht verloren gehen.</p>
+
+<a href="Nikolais-Ort.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Nikolais Ort</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Nikolais-Ort.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Freiburger Hauptfriedhof, drei Bl&auml;tter: Grundriss mit DTK10-Hintergrund, Person, Abschied.</div>
+</a>
+<a href="Gruss-an-Stefan-Waldmann.dc.html" style="display:block;border-top:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Gru&szlig; an Stefan Waldmann</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Gruss-an-Stefan-Waldmann.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Pers&ouml;nliche Pr&auml;sentation mit den beiden Portraits.</div>
+</a>
+<a href="Kleiner-Gruss-aus-der-Kueche.dc.html" style="display:block;border-top:1px solid var(--grey-light);border-bottom:1px solid var(--grey-light);padding:var(--row-pad) 0;text-decoration:none;color:inherit" style-hover="background:var(--surface)">
+  <div style="display:flex;justify-content:space-between;gap:18px;align-items:baseline"><span style="font-size:19px;font-weight:600">Kleiner Gru&szlig; aus der K&uuml;che</span><span style="display:var(--fn);font:500 12px var(--font-mono);color:var(--grey);letter-spacing:.03em;white-space:nowrap">Kleiner-Gruss-aus-der-Kueche.dc.html</span></div>
+  <div style="font-size:16px;color:var(--grey-dark);margin-top:4px;text-wrap:pretty">Zwischenstand vom 7. August: zwei Ausschnitte aus Bl&auml;ttern, die damals noch nicht fertig waren.</div>
+</a>
+
+<h2 id="werkstatt" style="font-size:27px;font-weight:600;letter-spacing:-.02em;margin:46px 0 0;scroll-margin-top:20px"><span style="font:500 13px var(--font-mono);color:var(--acc);letter-spacing:.1em;display:block;margin-bottom:8px">VIII</span>Werkstatt</h2>
+<p style="margin:10px 0 6px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Kein Blatt, sondern das Ger&uuml;st darunter: Kataloge, Register, Skripte, Notizen. Textdateien &mdash; sie &ouml;ffnen im Editor, nicht als Karte.</p>
+
+<div style="border-top:1px solid var(--grey-light);padding:20px 0 4px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px 30px">
+  <div>
+    <div style="font:500 11px/1 var(--font-mono);letter-spacing:.1em;color:var(--acc);margin-bottom:9px">KATALOGE &mdash; EINZIGE QUELLE</div>
+    <div style="font-size:16px;line-height:1.5;color:var(--grey-dark);display:flex;flex-direction:column;gap:5px">
+      <span><a href="atlas/farben.js" style="font:500 14px var(--font-mono)">atlas/farben.js</a> &mdash; alle Hex-Werte</span>
+      <span><a href="atlas/signaturen.js" style="font:500 14px var(--font-mono)">atlas/signaturen.js</a> &mdash; Signaturenkatalog</span>
+      <span><a href="atlas/typenscale.js" style="font:500 14px var(--font-mono)">atlas/typenscale.js</a> &mdash; Schriftstaffel, Untergrenze 5,5&nbsp;pt</span>
+      <span><a href="atlas/SIGNATUREN.md" style="font:500 14px var(--font-mono)">atlas/SIGNATUREN.md</a> &mdash; Regeln f&uuml;rs Erg&auml;nzen</span>
+    </div>
+  </div>
+  <div>
+    <div style="font:500 11px/1 var(--font-mono);letter-spacing:.1em;color:var(--acc);margin-bottom:9px">NACHSCHLAGEN</div>
+    <div style="font-size:16px;line-height:1.5;color:var(--grey-dark);display:flex;flex-direction:column;gap:5px">
+      <span><a href="atlas/GLOSSAR.md" style="font:500 14px var(--font-mono)">atlas/GLOSSAR.md</a> &mdash; Fachbegriffe der Bl&auml;tter</span>
+      <span><a href="atlas/quellen/README.md" style="font:500 14px var(--font-mono)">atlas/quellen/</a> &mdash; Quellenregister je Blatt</span>
+      <span><a href="README.md" style="font:500 14px var(--font-mono)">README.md</a> &mdash; Aufbau des Repos</span>
+      <span><a href="github.md" style="font:500 14px var(--font-mono)">github.md</a> &mdash; Repo und letzter Sync</span>
+    </div>
+  </div>
+  <div>
+    <div style="font:500 11px/1 var(--font-mono);letter-spacing:.1em;color:var(--acc);margin-bottom:9px">DATEN UND SKRIPTE</div>
+    <div style="font-size:16px;line-height:1.5;color:var(--grey-dark);display:flex;flex-direction:column;gap:5px">
+      <span><a href="atlas/geodaten/LIESMICH.md" style="font:500 14px var(--font-mono)">atlas/geodaten/LIESMICH.md</a> &mdash; was jedes Skript zieht</span>
+      <span><a href="atlas/geodaten/brandenburg/sorten.csv" style="font:500 14px var(--font-mono)">brandenburg/sorten.csv</a> &mdash; Sortenliste, von Hand gepflegt</span>
+      <span><a href="DATENBEDARF.md" style="font:500 14px var(--font-mono)">DATENBEDARF.md</a> &mdash; was von au&szlig;en fehlt</span>
+      <span><a href="IDEEN.md" style="font:500 14px var(--font-mono)">IDEEN.md</a> &mdash; Backlog und lose Enden</span>
+    </div>
+  </div>
+</div>
+
+<div style="border-left:2px solid var(--grey-light);padding-left:20px;margin:30px 0 0">
+  <p style="margin:0 0 12px;text-wrap:pretty">Zwei Regeln, die man beim Weiterbauen leicht &uuml;bertritt:</p>
+  <p style="margin:0 0 12px;text-wrap:pretty"><b style="font-weight:600">Keine neuen Hex-Werte, keine Ad-hoc-Signaturen.</b> Farbe kommt aus <span style="font:500 15px var(--font-mono)">atlas/farben.js</span>, Zeichen aus <span style="font:500 15px var(--font-mono)">atlas/signaturen.js</span>; die <span style="font:500 15px var(--font-mono)">.gpl</span>-Paletten f&uuml;r QGIS und GIMP sind daraus abgeleitet und werden nicht von Hand gepflegt.</p>
+  <p style="margin:0;text-wrap:pretty"><b style="font-weight:600">Zuordnungstabellen werden zur Laufzeit gelesen</b> &mdash; vom Blatt beim Laden, von QGIS als Attributverkn&uuml;pfung, von QField als Wertliste. Fehlt ein Eintrag, wird nicht geraten: der Fall bekommt eine eigene, sichtbare Klasse. Pr&uuml;fskripte berichten nur, sie erzeugen nichts.</p>
+</div>
+
+</main>
+
+<footer style="border-top:1px solid var(--grey-light);margin-top:20px">
+  <div style="max-width:var(--content-width);margin:0 auto;box-sizing:border-box;width:100%;padding:18px var(--page-gutter) 40px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
+    <span style="font:500 12px/1.6 var(--font-mono);letter-spacing:.04em;color:var(--grey)">Diercke-Atlas &middot; Sternprodukt &middot; Wittstock/Dosse</span>
+    <span style="font:500 12px/1.6 var(--font-mono);letter-spacing:.04em;color:var(--grey)">Bl&auml;tter im Bestand: <span class="sp-137-blink">137</span> &minus; 112</span>
+  </div>
+</footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;akzent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Orange&quot;,&quot;Oliv&quot;],&quot;default&quot;:&quot;Petrol&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;zeigeDateinamen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;dichte&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;luftig&quot;,&quot;kompakt&quot;],&quot;default&quot;:&quot;luftig&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rootRef = React.createRef();
+    this.slots = {};
+    for (let i = 1; i <= 11; i++) this.slots["s" + i] = React.createRef();
+  }
+  // Thumbs im Inhaltsverzeichnis: Signaturen aus dem Katalog, nicht neu gezeichnet.
+  // Nur die Roh-SVG-Einträge (k === 'svg') lassen sich ohne den Legendenrenderer setzen.
+  async signaturen() {
+    let m;
+    try { m = await import('./atlas/signaturen.js'); }
+    catch (e) { console.error('Signaturenkatalog konnte nicht geladen werden:', e); return; }
+    const roh = (gruppe, name) => {
+      const e = (m.KATALOG[gruppe] || []).find(x => x.n === name);
+      if (!e || e.k !== 'svg') { console.warn('Signatur ohne Roh-SVG:', gruppe, name); return null; }
+      return e.raw;
+    };
+    // Je Blatt die Signatur, die es kennzeichnet — nur f&uuml;r Kartenbl&auml;tter, nicht f&uuml;r Decks,
+    // Entw&uuml;rfe oder Werkstattdateien.
+    const zuordnung = {
+      s1: roh('relief', 'Schummerung'),
+      s2: roh('energie', 'Erd\u00f6lleitung'),
+      s3: roh('bahnen', 'Bahnhof, Haltepunkt'),
+      s4: roh('bevoelkerung', 'Pendlerverflechtung'),
+      s5: roh('umwelt', 'Nationalpark'),
+      s6: roh('politisch', 'Staatsfl\u00e4che: Grenzkolorit'),
+      s7: m.hanfRaws('brokkoli').anbau,
+      s8: roh('klima', 'Klimastation'),
+      s9: roh('relief', 'B\u00f6schung, Steilstufe'),
+      s10: roh('chrome', 'Ma\u00dfstabsbalken'),
+      s11: roh('chrome', 'Gradnetz')
+    };
+    for (const k in zuordnung) {
+      const el = this.slots[k].current;
+      if (!el || !zuordnung[k]) continue;
+      // Originalgröße 104×26: die Signaturen sind in Millimetern geeicht und werden nicht skaliert.
+      el.innerHTML = '<svg viewBox="0 0 104 26" width="104" height="26" aria-hidden="true" style="display:block;overflow:visible">' + zuordnung[k] + '</svg>';
+    }
+  }
+  vars() {
+    const akzent = this.props.akzent ?? "Petrol";
+    const dichte = this.props.dichte ?? "luftig";
+    return {
+      "--acc": akzent === "Orange" ? "var(--orange)" : akzent === "Oliv" ? "var(--olive)" : "var(--petrol)",
+      "--fn": (this.props.zeigeDateinamen ?? true) ? "inline" : "none",
+      "--row-pad": dichte === "kompakt" ? "9px" : "15px"
+    };
+  }
+  anwenden() {
+    const el = this.rootRef.current;
+    if (!el) return;
+    const v = this.vars();
+    for (const k in v) el.style.setProperty(k, v[k]);
+  }
+  componentDidMount() { this.anwenden(); this.signaturen(); }
+  componentDidUpdate() { this.anwenden(); }
+  renderVals() { return Object.assign({ rootRef: this.rootRef }, this.slots); }
+}
+
+</script>
+</body>
+</html>
