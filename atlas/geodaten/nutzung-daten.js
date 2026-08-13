@@ -1,6 +1,8 @@
 // Sternprodukt-Atlas — Blatt 18 · Rumänien Wirtschaft (Datenmodul)
-// Generalisierte Flächen nach CORINE Land Cover 2018 (Copernicus), von Hand
-// nachgezeichnet im Atlas-Maßstab; Standorte eigene Zusammenstellung nach Diercke-Vorbild.
+// NUTZUNG ist seit 08/2026 nur noch Rückfallebene: das Blatt lädt die echten
+// CORINE-Exporte (nutzung-*.geojson, aus rumaenien-nutzung.rb) und greift auf
+// diese Handzeichnung nur zurück, wenn sie fehlen — der Quellenvermerk sagt es dann.
+// Standorte (INDUSTRIE, ROHSTOFFE, ENERGIE, ORTE): eigene Zusammenstellung nach Diercke-Vorbild.
 window.__blatt18Daten = (() => {
   const poly = ring => ({ type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [ring] } });
   const fc = feats => ({ type: 'FeatureCollection', features: feats });
