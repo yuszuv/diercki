@@ -4,7 +4,7 @@ Einstieg für Coding-Agents (Claude Code u. a.) im Repo `yuszuv/diercki`.
 Die verbindlichen Projekt-Regeln stehen in `CLAUDE.md` — dieses Blatt doppelt sie nicht.
 
 ## Rollen
-- Agents schreiben: `atlas/`, Kartenblätter (`*.html`, `*.dc.html`), Doku, `praesentationen/`, `recherche/`
+- Agents schreiben: `atlas/`, Kartenblätter (`*.html`, `*.dc.html`), Doku, `praesentationen/`, `recherche/`, `web/`, `bin/`
 - Nur der Mensch schreibt: `handarbeit/` (QGIS-Projekte, Erfassungs-GeoPackages)
 - `_ds/` ist das gebundene Design-System — nie anfassen
 

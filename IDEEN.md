@@ -4,7 +4,7 @@ Lose Enden, noch nicht verplant. Wird laufend ergänzt.
 
 Erledigt (Entscheidungen: `recherche/entscheidungen-2026-08-07.md`):
 
-- ✓ Pitch-Deck für „Höhle der Löwen" — `praesentationen/Hoehle-der-Loewen.dc.html`
+- ✓ Pitch-Deck für „Höhle der Löwen" — `praesentationen/Pitch-Hoehle-der-Loewen.dc.html`
 - ✓ ÖPNV-Verbindungskarte Banat — Blatt 17, oktilinear, topologietreu
 - ✓ Bärenkarte + Imkerei und Wildbienen — `Rumaenien-Braunbaer.html`, mit Mohn-Mauerbienen-Nebenkarte
 - ✓ How-to-Präse „QField als Bahnreise-Planer" — `praesentationen/QField-Bahnreiseplaner.dc.html`
@@ -81,12 +81,12 @@ In Arbeit:
 Später (sortiert nach Relevanz × Nützlichkeit, 07.08.2026):
 
 1. **Hanf-Integration Brandenburg (Spin-off).** — *Kartographisch fertig* (07.08.2026):
-   54 Schläge schlaggenau, Sortengruppe aus `sorten.csv` zur Laufzeit, Kartodiagramm
+   54 Schläge schlaggenau, Sortengruppe aus `atlas/geodaten/brandenburg/sorten.csv` zur Laufzeit, Kartodiagramm
    je Landkreis, Matrix-Legende. **Der fachliche Teil ist vertagt:** Nutzungsrichtung
    von Muka 76, Estica, Orion 33, Santhica 70 klären (55 ha, 9 % der Fläche, stehen als
    *ungeklärt* auf dem Blatt); Santhica braucht wohl eine eigene Gruppe (Cannabinoid).
    Wartet außerdem auf Hanf-2025 für das Vorher/Nachher-Kartenpaar — eine zweite
-   `hanf-2025.geojsonl` daneben genügt.
+   `hanf-2025.geojsonl` daneben genügt (existiert noch nicht — s. DATENBEDARF).
 
 2. **Möglichkeiten von Skills, Agents und MCPs ausloten.** Bevor die vier Skills
    geschrieben werden: was tragen Agents (arbeitsteilige Unteraufgaben) und MCP-Verbinder
@@ -182,7 +182,7 @@ Unsortierter Bestand:
   Kartographie und dieser Atlas. Nicht als Lebenslauf, sondern als Antwort auf die Frage,
   die zwischen alten Bekannten wirklich gestellt wird. Zwei bis drei Folien, nicht mehr.
   Steinbruch: `templates/lebenslauf/` des Design-Systems für die Fakten-Ordnung,
-  `praesentationen/Hoehle-der-Loewen.dc.html` für den Prignitz-Teil.
+  `praesentationen/Pitch-Hoehle-der-Loewen.dc.html` für den Prignitz-Teil.
   Vor dem Bauen zu klären: wie viel Privates hinein soll.
 
 - **Meta-Präse: „Was ist Sternprodukt eigentlich?"** — aus dem Material zusammensetzen,

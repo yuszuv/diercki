@@ -5,11 +5,19 @@ branch: main
 - Projekt (Claude) schreibt: atlas/, Blätter (*.html), Doku, uploads/-Daten
 - Mensch schreibt: handarbeit/ (QGIS-Projekte, Feld-GeoPackages)
 
+## Verfahren
+Wie zwischen Oberfläche, Klon und GitHub abgeglichen wird, steht in `README.md`
+unter „Arbeiten an zwei Orten". Kurzform: im Zweifel führt der Klon; der Weg herunter
+ist der ZIP-Export nach `wip/`, verglichen mit `ruby bin/sync-report.rb`; einen
+programmatischen Weg hinauf gibt es nicht.
+
 ## Last sync
-date: 2026-08-07T12:31:01Z
+date: 2026-08-13T21:00Z
 
 ### Updated in this project
-- README.md am Projekt-Root neu angelegt (Quelle der Wahrheit, Repo folgt über den üblichen Sync-Weg)
+- Vollabgleich gegen den ZIP-Export gelaufen; Abweichungen in README unter
+  „Wo der Klon vom Design-Projekt abweicht" festgehalten
+- README.md am Projekt-Root neu angelegt (Repo folgt über den üblichen Sync-Weg)
 - Kleiner-Gruss-aus-der-Kueche.dc.html: Vorschau-Seite mit Ausschnitten aus Verkehr und Braunbär
 - Gruss-an-Stefan-Waldmann.dc.html: persönliche Präsentation, kein Atlas-Bestandteil
 
