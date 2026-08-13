@@ -2,13 +2,14 @@
 
 Die Karte färbt die Hanfschläge nach **Nutzungsrichtung**, nicht nach Sorte. Diese
 Zuordnung steht in `sorten.csv` und ist die einzige Stelle, an der sie gepflegt wird;
-das Kartenblatt liest sie über `hanf-schlaege.geojson`, das der Export erzeugt.
+das Kartenblatt verknüpft sie zur Laufzeit über `sorte_bez` mit den Schlägen aus
+`hanf-<jahr>.geojsonl`.
 
 ## Spalten
 
 | Spalte | Bedeutung |
 | --- | --- |
-| `sorte` | Sortenbezeichnung wie im NN-Datensatz (`sorte_bez`), unverändert |
+| `sorte` | Sortenbezeichnung wie in den Antragsdaten (`sorte_bez`), unverändert |
 | `gruppe` | `korn`, `faser`, `dual` — oder **leer**, wenn ungeklärt |
 | `status` | `belegt`, `abgeleitet`, `unbelegt` — nach dem Quellenregister-Vokabular des Atlas |
 | `zuchtziel` | wofür die Sorte gezüchtet wurde, in eigenen Worten |
@@ -56,7 +57,7 @@ Zuordnung wird überall zur Laufzeit gezogen, damit sie nirgends still veralten 
 | QField | dieselbe CSV als Wertliste im Attributformular; eine Korrektur im Feld ist ein Zeileneintrag, kein Export |
 
 Das GeoJSONSeq-Format (`.geojsonl`, eine Zeile je Objekt) liest GDAL und damit QGIS
-direkt — der NN-Auszug muss nicht umgepackt werden.
+direkt — der Schlagauszug muss nicht umgepackt werden.
 
 Ob die Tabelle noch zu den Daten passt, sagt:
 

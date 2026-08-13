@@ -7,7 +7,8 @@
 # Licences — the source note on the sheet must carry both:
 #   CLC5 2018   © GeoBasis-DE / BKG 2021, dl-de/by-2-0, Daten verändert
 #   OSM         © OpenStreetMap-Mitwirkende, ODbL
-#   DFBK/InVeKoS-Zahlen in hanf-anbau.csv: © MLEUV, dl-de/by-2-0
+#   InVeKoS-Antragsdaten (Hanfschläge, hanf-anbau.csv):
+#               © MLEUV, dl-de/by-2-0, Daten geändert
 set -euo pipefail
 cd "$(dirname "$0")"
 

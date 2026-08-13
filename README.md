@@ -70,7 +70,7 @@ Jede Pipeline ist nach `region-thema` benannt und lädt sich ihre Quellen selbst
 | `atlas/geodaten/rumaenien-nutzung.rb` | neun Nutzungsklassen (Blatt 18) | CORINE Land Cover 2018 |
 | `atlas/geodaten/freiburg-friedhof.rb` | Friedhofsgrundriss | OSM |
 | `atlas/geodaten/brandenburg/nutzung.sh` | Nutzung, Gewässer, Orte (Blatt 7) | CLC5 (BKG), OSM, zwei gepflegte CSV |
-| `atlas/geodaten/brandenburg/pruefe-hanf.rb` | Prüfbericht | `sorten.csv` gegen NN-Auszug |
+| `atlas/geodaten/brandenburg/pruefe-hanf.rb` | Prüfbericht | `sorten.csv` gegen `hanf-<jahr>.geojsonl` |
 
     apt install osmium-tool gdal-bin wget unzip
 
