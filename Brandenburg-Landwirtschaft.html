@@ -18,12 +18,12 @@
 </head>
 <body>
 <doc-page size="a4" orientation="landscape">
-<section class="page" id="blatt7" data-screen-label="Blatt 7 · Brandenburg Landwirtschaft" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+<section class="page" id="blatt7" data-screen-label="Brandenburg Landwirtschaft" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
   <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
     <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Brandenburg &middot; Landwirtschaftliche Nutzung</div>
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173;white-space:nowrap">STERNPRODUKT-ATLAS &middot; BLATT 7</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173;white-space:nowrap">STERNPRODUKT-ATLAS</div>
   </div>
-  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 4mm">Vorherrschende Nutzung, stark generalisiert &mdash; Fl&auml;chenfarben und Signaturen nach dem Katalog; Hanf als Anbaufl&auml;che (Prignitz, Uckermark) und Verarbeitung.</div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 4mm">Vorherrschende Nutzung, stark generalisiert &mdash; Fl&auml;chenfarben und Signaturen nach dem Katalog. Hanfanbau 2026 dagegen schlaggenau nach InVeKoS: 54 Schl&auml;ge, 594 ha &mdash; Sortengruppe f&auml;rbt, Schlaggr&ouml;&szlig;e skaliert.</div>
   <div style="height:157mm;display:flex;gap:7mm;min-height:0">
     <div id="map" style="flex:1;min-width:0;position:relative"><div id="lade" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.08em;color:#8b8173">KARTE LÄDT — VERWALTUNGSGRENZEN …</div></div>
     <div style="width:54mm;flex:none;display:flex;flex-direction:column;font-size:9.5px">
@@ -31,12 +31,12 @@
       <div id="legend" style="display:flex;flex-direction:column"></div>
       <div style="font-size:11.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin:3mm 0 2mm">Ma&szlig;stab</div>
       <div id="scalebar"></div>
-      <div style="margin-top:auto;font-size:8.7px;line-height:1.45;color:#4a4139">Nutzungsfl&auml;chen als generalisierte Schwerpunkte, keine Parzellensch&auml;rfe. Hanf: Faser- und Bl&uuml;tenhanf, Verarbeitung Prenzlau. Berlin als st&auml;dtische Fl&auml;che, ohne Nutzungsgliederung.</div>
+      <div style="margin-top:auto;font-size:8.7px;line-height:1.45;color:#4a4139">Nutzungsfl&auml;chen als generalisierte Schwerpunkte, keine Parzellensch&auml;rfe. Hanf schlaggenau; die Nutzungsrichtung ist <em>abgeleitet</em> aus der Sorte (<span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8px">sorten.csv</span>) und damit die <em>Anlage</em>, nicht das Ergebnis &mdash; was ein Bestand wird, entscheiden Erntezeitpunkt und Schnitth&ouml;he. Sechs Schl&auml;ge (55 ha) bleiben ungekl&auml;rt und sind als solche gezeichnet. Ohne Betriebsbezug.</div>
     </div>
   </div>
   <div style="margin-top:3mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:4px">
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">QUELLEN: GRENZEN DEUTSCHLANDGEOJSON/GADM &middot; NATURAL EARTH 1:50 M &middot; NUTZUNG: EIGENE GENERALISIERUNG &middot; PROJEKTION: LAMBERT KONFORM KONISCH 52&deg;/53,4&deg; N &middot; STAND 08/2026</div>
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">fnord</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">QUELLEN: GRENZEN DEUTSCHLANDGEOJSON/GADM &middot; NATURAL EARTH 1:50 M &middot; NUTZUNG: EIGENE GENERALISIERUNG &middot; HANF: INVEKOS/NN-AUSWERTUNG MLEUV, ANTRAGJAHR 2026, DL-DE/BY-2-0 &middot; PROJEKTION: LAMBERT KONFORM KONISCH 52&deg;/53,4&deg; N &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">420</div>
   </div>
 </section>
 </doc-page>
@@ -53,10 +53,42 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
   const MONO = "'Noto Sans Mono',monospace";
   const NACHBAR = '#eeeae1', DUNKEL = '#4a4139';
 
-  const [laender, topo] = await Promise.all([
+  const [laender, kreise, topo, hanfRoh, sortenCsv] = await Promise.all([
     'https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/3_mittel.geo.json',
-    'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json'
-  ].map(u => fetch(u).then(r => { if (!r.ok) throw new Error(u + ' \u2192 HTTP ' + r.status); return r.json(); })));
+    'https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/4_kreise/4_niedrig.geo.json',
+    'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json',
+    'atlas/geodaten/brandenburg/hanf-2026.geojsonl',
+    'atlas/geodaten/brandenburg/sorten.csv'
+  ].map((u, i) => fetch(u).then(r => {
+    if (!r.ok) throw new Error(u + ' \u2192 HTTP ' + r.status);
+    return i >= 3 ? r.text() : r.json();
+  })));
+
+  // Sortenzuordnung zur Laufzeit — kein Build-Schritt, keine abgeleitete Datei, die
+  // still veraltet. sorten.csv korrigieren genügt; das Blatt zieht beim nächsten Laden nach.
+  const KATALOG = (() => {
+    const zeilen = sortenCsv.trim().split(/\r?\n/);
+    const kopf = zeilen[0].split(';');
+    const iS = kopf.indexOf('sorte'), iG = kopf.indexOf('gruppe'), iSt = kopf.indexOf('status');
+    return new Map(zeilen.slice(1).filter(Boolean).map(z => {
+      const s = z.split(';');
+      return [s[iS], { gruppe: (s[iG] || '').trim(), status: (s[iSt] || 'unbelegt').trim() }];
+    }));
+  })();
+  const unbekannteSorten = new Set();
+  const hanf = { type: 'FeatureCollection', features: hanfRoh.trim().split(/\r?\n/).filter(Boolean).map(z => {
+    const f = JSON.parse(z), p = f.properties, sorte = p.sorte_bez ?? '';
+    const k = KATALOG.get(sorte);
+    if (!k) unbekannteSorten.add(sorte);
+    const oer = String(p.oekoregel || '').split(',').map(s => s.trim()).filter(Boolean);
+    return { type: 'Feature', properties: {
+      ha: Math.round(p.groesse * 100) / 100, sorte,
+      gruppe: k ? k.gruppe : '', gruppe_status: k ? k.status : 'unbelegt',
+      oer6: oer.includes('6'), oer7: oer.includes('7'),
+      jahr: p.antragjahr,
+    }, geometry: f.geometry };
+  }) };
+  if (unbekannteSorten.size) console.warn('Sorten ohne Zeile in sorten.csv \u2014 als ungekl\u00e4rt gezeichnet:', [...unbekannteSorten].join(', '));
   await customElements.whenDefined('doc-page');
   await new Promise(r => { requestAnimationFrame(() => requestAnimationFrame(r)); setTimeout(r, 250); }); // rAF stalls in throttled iframes — race against a timeout
 
@@ -100,6 +132,14 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
   const proj = d3.geoConicConformal().parallels([52, 53.4]).rotate([-13.4, 0])
     .fitExtent([[inset + 30, inset + 16], [W - inset - 30, H - inset - 16]], BB);
   const path = d3.geoPath(proj);
+  // Maßstabszahl aus der Abbildung messen, nie setzen: Großkreisdistanz gegen Bildabstand.
+  const mstab = (p, lon, lat, dLon = .1) => {
+    const a = [lon, lat], b = [lon + dLon, lat];
+    const km = 111.32 * Math.cos(lat * Math.PI / 180) * dLon;
+    const px = Math.abs(p(b)[0] - p(a)[0]);
+    return Math.round(km * 1e6 / (px / MM) / 1000) * 1000; // mm je km → Maßstabszahl
+  };
+  const mstabTxt = z => '1 : ' + z.toLocaleString('de-DE').replace(/\./g, '\u2009');
   document.getElementById('lade')?.remove();
 
   // ——— hemp glyph in its three registers (drawing / leaf / hquer), from signaturen.js
@@ -148,12 +188,6 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
       // Werder (Havel), Obstbau
       [[12.8, 52.32], [13.0, 52.3], [13.05, 52.42], [12.88, 52.46]],
     ],
-    hanf: [
-      // Prignitz
-      [[11.95, 53.02], [12.3, 53.0], [12.45, 53.14], [12.25, 53.28], [12.0, 53.22]],
-      // Uckermark um Prenzlau
-      [[13.62, 53.22], [13.95, 53.18], [14.12, 53.32], [13.9, 53.46], [13.65, 53.4]],
-    ],
     oedland: [
       // Bergbaufolgelandschaft Lausitz
       [[13.95, 51.48], [14.25, 51.46], [14.35, 51.6], [14.15, 51.7], [13.98, 51.62]],
@@ -191,15 +225,9 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
     const svg = d3.select('#map').append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('width', W).attr('height', H).style('display', 'block');
 
     // patterns + clips
-    const G = v => hanfGlyph(v, 0, 0, .62, F.olivDeep);
     svg.append('defs').html(`
       <clipPath id="feld"><rect x="${inset}" y="${inset}" width="${W - 2 * inset}" height="${H - 2 * inset}"/></clipPath>
       <clipPath id="bbclip">${(() => { const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('d', path(BB)); return p.outerHTML; })()}</clipPath>
-      <pattern id="pat-hanf" width="30" height="24" patternUnits="userSpaceOnUse">
-        <rect width="30" height="24" fill="${F.hanf}"/>
-        <g transform="translate(8 7)">${G(t.hanfGlyph)}</g>
-        <g transform="translate(23 19)">${G(t.hanfGlyph)}</g>
-      </pattern>
       <pattern id="pat-obst" width="9" height="9" patternUnits="userSpaceOnUse">
         <rect width="9" height="9" fill="${F.sonderkultur}"/>
         <circle cx="2.5" cy="2.5" r="1.15" fill="${F.orangeDeep}"/><circle cx="7" cy="7" r="1.15" fill="${F.orangeDeep}"/>
@@ -231,7 +259,6 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
     Z.wald.forEach(c => zone(c, F.wald));
     Z.sonderkultur.forEach(c => zone(c, F.sonderkultur));
     Z.obst.forEach(c => zone(c, 'url(#pat-obst)'));
-    Z.hanf.forEach(c => zone(c, 'url(#pat-hanf)'));
     Z.oedland.forEach(c => zone(c, 'url(#pat-oed)'));
     zone(Z.gruenland[3], 'url(#pat-marsh)'); // Spreewald: marsh strokes over grassland
     // Berlin as built-up context
@@ -279,6 +306,37 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
     };
     sq(13.86, 53.32, -13, -8, F.hanf, hanfGlyph(t.hanfGlyph, 0, 0, .74, F.tinte)); // Hanfverarbeitung Prenzlau
     sq(11.75, 52.99, -12, 6, F.oliv, `<text y="3" text-anchor="middle" font-family="${SERIF}" font-weight="600" font-size="8.5" fill="${F.papier}">N</text>`); // Ölmühle Wittenberge
+
+    // ——— Hanfschläge 2026, schlaggenau (InVeKoS): Sortengruppe färbt, Größe skaliert
+    const GRUPPENFARBE = { korn: F.olivDeep, dual: F.ocker, faser: F.petrol, '': F.dim };
+    const GRUPPENNAME = { korn: 'K\u00f6rnerhanf', dual: 'Doppelnutzung', faser: 'Faserhanf', '': 'Nutzungsrichtung ungekl\u00e4rt' };
+    // Welche Gruppen kommen überhaupt vor — die Zeichenerklärung folgt den Daten, nicht der Absicht
+    const grpVor = ['korn', 'dual', 'faser', ''].filter(k => hanf.features.some(f => f.properties.gruppe === k));
+    const grpSorten = k => [...new Set(hanf.features.filter(f => f.properties.gruppe === k).map(f => f.properties.sorte))].sort();
+    const cent = geo => { let cx = 0, cy = 0, n = 0;
+      const walk = c => Array.isArray(c[0]) ? c.forEach(walk) : (cx += c[0], cy += c[1], n++);
+      walk(geo.coordinates); return [cx / n, cy / n]; };
+    // Größenskala: flächentreu, Radius ∝ √ha — das Auge liest die Fläche, nicht den Radius.
+    // Keine Flannery-Korrektur: sie ist an Kreisen gemessen, das Blattsignaturbild ist keiner.
+    // Mindestgröße unter HA_MIN, weil 1:508 Spanne sonst unter die Strichstärke fällt.
+    const HA_MAX = Math.max(...hanf.features.map(f => f.properties.ha));
+    const S_MAX = 1.3, S_MIN = .4, HA_MIN = HA_MAX * (S_MIN / S_MAX) ** 2;
+    const sGr = ha => Math.max(S_MIN, S_MAX * Math.sqrt(ha / HA_MAX));
+    const hgrp = g.append('g');
+    const hanfPix = [];
+    for (const f of [...hanf.features].sort((a, b) => b.properties.ha - a.properties.ha)) {
+      const p = f.properties, [x, y] = proj(cent(f.geometry));
+      const s = sGr(p.ha), col = GRUPPENFARBE[p.gruppe] ?? F.dim;
+      hanfPix.push([x, y, 7.5 * s + 1.4]);
+      hgrp.append('circle').attr('cx', x).attr('cy', y).attr('r', 7.5 * s + 1.4).attr('fill', F.papier).attr('opacity', .6);
+      if (p.oer6 || p.oer7) hgrp.append('circle').attr('cx', x).attr('cy', y).attr('r', 7.5 * s + 1.4)
+        .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .55).attr('stroke-dasharray', '2 1.4');
+      const gl = hgrp.append('g').html(hanfGlyph(t.hanfGlyph, x, y, s, col));
+      // ungeklärte Nutzungsrichtung: Fragezeichen statt stiller Graufärbung
+      if (!p.gruppe) hgrp.append('text').attr('x', x + 6 * s).attr('y', y - 4 * s).text('?')
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 8 * s + 3).attr('fill', F.dim)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2);
+    }
 
     // settlements + labels
     const RANG = { 1: [2.8, .55], 2: [2.3, .5], 3: [1.9, .45], 4: [1.4, .4] };
@@ -339,6 +397,215 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
         .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 7).attr('fill', F.bleistift);
     }
 
+    // ——— Nebenkarte 1: Hanfschläge bei Kyritz (Ostprignitz-Ruppin), schlaggenau
+    {
+      const NBw = 50 * MM, NBh = 40 * MM;
+      const NBx = inset + 2.2 * MM, NBy = H - inset - 2.2 * MM - NBh;
+      const winLL = [12.355, 52.883], winUR = [12.565, 52.977];
+      // precision(0): die adaptive Neuabtastung von d3.geoPath trägt bei 1:145 000 nichts bei,
+      // läuft aber in die Singularität des Kegelentwurfs — Millionen Stützpunkte je Schlag.
+      // clipExtent begrenzt auf Abbildungsebene, damit auch der brandenburgweite Hintergrund
+      // endliche Koordinaten liefert statt sich nur unter dem clip-path zu verstecken.
+      const projN = d3.geoConicConformal().parallels([52, 53.4]).rotate([-12.46, 0])
+        .fitExtent([[NBx + 4, NBy + 26], [NBx + NBw - 4, NBy + NBh - 24]],
+          { type: 'Feature', geometry: { type: 'LineString', coordinates: [winLL, winUR] } })
+        .precision(0)
+        .clipExtent([[NBx, NBy], [NBx + NBw, NBy + NBh]]);
+      const pathN = d3.geoPath(projN);
+      svg.append('clipPath').attr('id', 'nbclip').append('rect').attr('x', NBx).attr('y', NBy).attr('width', NBw).attr('height', NBh);
+      const nb = svg.append('g').attr('clip-path', 'url(#nbclip)');
+      nb.append('rect').attr('x', NBx).attr('y', NBy).attr('width', NBw).attr('height', NBh).attr('fill', F.acker);
+      // Hintergrund: generalisierte Zonen und Gewässer des Ausschnitts — bis CLC5 da ist
+      const smoothN = coords => d3.line().curve(d3.curveCatmullRomClosed.alpha(.7))(coords.map(projN));
+      Z.gruenland.forEach(c => nb.append('path').attr('d', smoothN(c)).attr('fill', F.gruenland));
+      Z.wald.forEach(c => nb.append('path').attr('d', smoothN(c)).attr('fill', F.wald));
+      for (const pts of Object.values(RIV))
+        nb.append('path').attr('d', d3.line().curve(d3.curveCatmullRom.alpha(.7))(pts.map(projN)))
+          .attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', 1.1).attr('stroke-linecap', 'round');
+      // Seenkette und Waldstück um Kyritz, generalisiert
+      for (const [lon, lat, rx, ry] of [[12.416, 52.949, 5.5, 2.6], [12.447, 52.936, 3.2, 1.9], [12.386, 52.918, 2.4, 1.6]]) {
+        const [x, y] = projN([lon, lat]);
+        nb.append('ellipse').attr('cx', x).attr('cy', y).attr('rx', rx).attr('ry', ry)
+          .attr('fill', F.gewaesserFlaeche).attr('stroke', F.wasser).attr('stroke-width', .4);
+      }
+      nb.append('path').attr('d', smoothN([[12.50, 52.895], [12.555, 52.9], [12.565, 52.925], [12.52, 52.932]])).attr('fill', F.wald);
+      const gratN = d3.geoGraticule().step([.05, .05]).extent([[12.3, 52.85], [12.62, 53.0]]);
+      nb.append('path').attr('d', pathN(gratN())).attr('fill', 'none').attr('stroke', F.bleistift)
+        .attr('stroke-width', .3).attr('opacity', .22);
+      const imFenster = f => {
+        const [lon, lat] = cent(f.geometry);
+        return lon >= winLL[0] && lon <= winUR[0] && lat >= winLL[1] && lat <= winUR[1];
+      };
+      const imAusschnitt = hanf.features.filter(imFenster);
+      for (const f of imAusschnitt)
+        nb.append('path').attr('d', pathN(f)).attr('fill', GRUPPENFARBE[f.properties.gruppe] ?? F.olivDeep)
+          .attr('fill-opacity', .88).attr('stroke', F.tinte).attr('stroke-width', .5);
+      for (const f of imAusschnitt) {
+        const [lon, lat] = cent(f.geometry);
+        if (f.properties.ha < 1) continue;
+        const [x, y] = projN([lon, lat]);
+        nb.append('text').attr('x', x).attr('y', y - 6).text(f.properties.ha.toFixed(1).replace('.', ',') + ' ha')
+          .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.8)
+          .attr('fill', F.tinte).attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.2);
+      }
+      const [kx, ky] = projN([12.394, 52.943]);
+      nb.append('circle').attr('cx', kx).attr('cy', ky).attr('r', 2.3).attr('fill', F.papier).attr('stroke', F.tinte).attr('stroke-width', 1.1);
+      nb.append('text').attr('x', kx + 5).attr('y', ky + 3).text('Kyritz').attr('font-family', SERIF).attr('font-size', 8.5)
+        .attr('fill', F.tinte).attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.6);
+      nb.append('rect').attr('x', NBx).attr('y', NBy).attr('width', NBw).attr('height', 22).attr('fill', F.papier).attr('opacity', .88);
+      nb.append('text').attr('x', NBx + 5).attr('y', NBy + 11).text('Hanfschl\u00e4ge bei Kyritz \u2014 schlaggenau')
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 8.5).attr('fill', F.tinte);
+      nb.append('text').attr('x', NBx + 5).attr('y', NBy + 19).text('Sortengruppe wie Hauptkarte \u00b7 Fl\u00e4che in ha \u00b7 ' + mstabTxt(mstab(projN, 12.46, 52.93, .02)))
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 7).attr('fill', DUNKEL);
+      // Mini-Maßstab: 2 × 2 km
+      const pxKmN = Math.abs(projN([12.5, 52.93])[0] - projN([12.4, 52.93])[0]) / (111.32 * Math.cos(52.93 * Math.PI / 180) * .1);
+      const segN = 2 * pxKmN, sbY = NBy + NBh - 9;
+      for (let i = 0; i < 2; i++) nb.append('rect').attr('x', NBx + 6 + i * segN).attr('y', sbY).attr('width', segN).attr('height', 2.8)
+        .attr('fill', i % 2 ? F.papier : F.tinte).attr('stroke', F.tinte).attr('stroke-width', .5);
+      nb.append('text').attr('x', NBx + 6 + 2 * segN + 4).attr('y', sbY + 3.4).text('4 km')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.8).attr('fill', F.tinte)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.2);
+      svg.append('rect').attr('x', NBx).attr('y', NBy).attr('width', NBw).attr('height', NBh)
+        .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .3 * MM);
+      // Blattschnitt-Fenster auf der Hauptkarte
+      const [wx1, wy1] = proj([winLL[0], winUR[1]]), [wx2, wy2] = proj([winUR[0], winLL[1]]);
+      g.append('rect').attr('x', wx1).attr('y', wy1).attr('width', wx2 - wx1).attr('height', wy2 - wy1)
+        .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .9);
+      g.append('text').attr('x', wx1 - 3).attr('y', wy2 + 8).text('Nebenkarte')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 7).attr('fill', DUNKEL)
+        .attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2.2);
+    }
+
+    // ——— Nebenkarte 2: Kartodiagramm · Hanf je Landkreis (Choroplethe + Säulen, Diercke-Vorbild Allgäu)
+    {
+      const KBw = 50 * MM, KBh = 45 * MM;
+      // Eine Nebenkarte darf ihr eigenes Sujet nicht verdecken. Statt die Ecke zu setzen,
+      // die Kandidaten gegen die Schlagsignaturen prüfen und die freieste nehmen — das
+      // bleibt richtig, wenn ein neuer Jahrgang die Schwerpunkte verschiebt.
+      const rand = 1.6 * MM;
+      const belegt = [
+        [inset + 2.2 * MM, inset + 2.2 * MM, 128, 24 + grpVor.length * 11 + 22],           // Matrix
+        [inset + 2.2 * MM, H - inset - 2.2 * MM - 40 * MM, 50 * MM, 40 * MM],              // Kyritz
+      ];
+      const kandidaten = [
+        ['oben rechts',  W - inset - rand - KBw, inset + rand],
+        ['unten rechts', W - inset - rand - KBw, H - inset - rand - KBh],
+        ['Mitte rechts', W - inset - rand - KBw, (H - KBh) / 2],
+      ];
+      const kosten = ([, kx, ky]) => {
+        const trifft = (bx, by, bw, bh) => !(kx > bx + bw || kx + KBw < bx || ky > by + bh || ky + KBh < by);
+        if (belegt.some(r => trifft(...r))) return 1e6;
+        return hanfPix.filter(([x, y, r]) => x + r > kx && x - r < kx + KBw && y + r > ky && y - r < ky + KBh).length;
+      };
+      const [wahl, KBx, KBy] = kandidaten.map(k => [k, kosten(k)])
+        .sort((a, b) => a[1] - b[1])[0][0];
+      if (kosten([wahl, KBx, KBy]) > 0) console.warn('Kartodiagramm verdeckt', kosten([wahl, KBx, KBy]), 'Schlagsignatur(en) \u2014 keine freie Ecke');
+      const bbKreise = (kreise.features || []).filter(f => {
+        const c = d3.geoCentroid(f);
+        return c[0] > 11.2 && c[0] < 15.1 && c[1] > 51.3 && c[1] < 53.6 && d3.geoContains(BB, c);
+      });
+      const projK = d3.geoConicConformal().parallels([52, 53.4]).rotate([-13.4, 0])
+        .fitExtent([[KBx + 5, KBy + 24], [KBx + KBw - 5, KBy + KBh - 16]], BB);
+      const pathK = d3.geoPath(projK);
+      svg.append('clipPath').attr('id', 'kbclip').append('rect').attr('x', KBx).attr('y', KBy).attr('width', KBw).attr('height', KBh);
+      const kb = svg.append('g').attr('clip-path', 'url(#kbclip)');
+      kb.append('rect').attr('x', KBx).attr('y', KBy).attr('width', KBw).attr('height', KBh).attr('fill', F.papier);
+      // Schläge den Kreisen zuordnen
+      const jeKreis = new Map();
+      for (const f of hanf.features) {
+        const c = cent(f.geometry);
+        const k = bbKreise.find(kf => d3.geoContains(kf, c));
+        if (!k) continue;
+        const key = k.properties.name || k.properties.NAME_3 || k.properties.GEN || 'unbekannt';
+        const e = jeKreis.get(key) ?? { f: k, ha: 0, n: 0, korn: 0, dual: 0, faser: 0, '': 0 };
+        e.ha += f.properties.ha; e.n++; e[f.properties.gruppe] = (e[f.properties.gruppe] || 0) + f.properties.ha;
+        jeKreis.set(key, e);
+      }
+      const maxHa = Math.max(1, ...[...jeKreis.values()].map(e => e.ha));
+      const stufe = ha => ha >= 100 ? 4 : ha >= 40 ? 3 : ha >= 10 ? 2 : ha > 0 ? 1 : 0;
+      const STUFENFARBE = [F.papierWarm, F.olivTint, '#cfd6a8', '#adb97c', F.oliv];
+      for (const f of bbKreise) {
+        const key = f.properties.name || f.properties.NAME_3 || f.properties.GEN || '';
+        const e = jeKreis.get(key);
+        kb.append('path').attr('d', pathK(f)).attr('fill', STUFENFARBE[stufe(e ? e.ha : 0)])
+          .attr('stroke', F.umriss).attr('stroke-width', .35);
+      }
+      kb.append('path').attr('d', pathK(BB)).attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .8);
+      // Säulen: gestapelt nach Sortengruppe, Höhe ∝ ha
+      const hMax = 26;
+      for (const e of [...jeKreis.values()].sort((a, b) => d3.geoCentroid(a.f)[1] - d3.geoCentroid(b.f)[1])) {
+        const [x, y] = pathK.centroid(e.f);
+        const bw = 4.6;
+        let yy = y;
+        for (const [gr, col] of [['', GRUPPENFARBE['']], ['faser', GRUPPENFARBE.faser], ['dual', GRUPPENFARBE.dual], ['korn', GRUPPENFARBE.korn]]) {
+          const hgt = (e[gr] || 0) / maxHa * hMax;
+          if (hgt < .4) continue;
+          kb.append('rect').attr('x', x - bw / 2).attr('y', yy - hgt).attr('width', bw).attr('height', hgt)
+            .attr('fill', col).attr('stroke', F.tinte).attr('stroke-width', .35);
+          yy -= hgt;
+        }
+        if (e.ha >= 40) kb.append('text').attr('x', x).attr('y', yy - 2.5).text(Math.round(e.ha))
+          .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.4)
+          .attr('fill', F.tinte).attr('paint-order', 'stroke').attr('stroke', F.papier).attr('stroke-width', 2);
+      }
+      kb.append('rect').attr('x', KBx).attr('y', KBy).attr('width', KBw).attr('height', 21).attr('fill', F.papier).attr('opacity', .9);
+      kb.append('text').attr('x', KBx + 5).attr('y', KBy + 11).text('Hanf je Landkreis 2026')
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 8.5).attr('fill', F.tinte);
+      kb.append('text').attr('x', KBx + 5).attr('y', KBy + 18.5).text('Fl\u00e4chenkolorit: ha je Kreis \u00b7 S\u00e4ule: Sortengruppe \u00b7 ' + mstabTxt(mstab(projK, 13.4, 52.4)))
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 6.8).attr('fill', DUNKEL);
+      // Stufenleiste
+      const lx = KBx + 5, ly = KBy + KBh - 11;
+      [['\u2013', 0], ['<\u200910', 1], ['10\u201340', 2], ['40\u2013100', 3], ['>\u2009100', 4]].forEach(([lab, s], i) => {
+        kb.append('rect').attr('x', lx + i * 9.6).attr('y', ly).attr('width', 9.6).attr('height', 4.4)
+          .attr('fill', STUFENFARBE[s]).attr('stroke', F.umriss).attr('stroke-width', .3);
+        kb.append('text').attr('x', lx + i * 9.6 + 4.8).attr('y', ly + 10).text(lab).attr('text-anchor', 'middle')
+          .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 5.8).attr('fill', DUNKEL);
+      });
+      kb.append('text').attr('x', lx + 5 * 9.6 + 4).attr('y', ly + 4).text('ha')
+        .attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 5.8).attr('fill', DUNKEL);
+      svg.append('rect').attr('x', KBx).attr('y', KBy).attr('width', KBw).attr('height', KBh)
+        .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .3 * MM);
+    }
+
+    // ——— 2D-Farbmatrix-Legende: Sortengruppe × Schlaggröße (Diercke-Vorbild Niederschlag × Monate)
+    {
+      const MXx = inset + 2.2 * MM, MXy = inset + 2.2 * MM;
+      const GR = grpVor.map(k => [k, GRUPPENNAME[k] === 'Nutzungsrichtung ungekl\u00e4rt' ? 'ungekl.' : GRUPPENNAME[k].replace('hanf', '').replace('Doppelnutzung', 'Dual')]);
+      const SZ = [[0, 5, '<\u20095'], [5, 15, '5\u201315'], [15, 1e9, '>\u200915']];
+      const cw = 13, ch = 11, cols = 3, rows = GR.length;
+      const MXw = 128, MXh = 24 + rows * ch + 22;
+      const mx = svg.append('g');
+      mx.append('rect').attr('x', MXx).attr('y', MXy).attr('width', MXw).attr('height', MXh)
+        .attr('fill', F.papier).attr('opacity', .93).attr('stroke', F.tinte).attr('stroke-width', .3 * MM);
+      mx.append('text').attr('x', MXx + 5).attr('y', MXy + 11).text('Hanf 2026 \u2014 Sorte \u00d7 Schlaggr\u00f6\u00dfe')
+        .attr('font-family', SERIF).attr('font-weight', 600).attr('font-size', 8).attr('fill', F.tinte);
+      mx.append('text').attr('x', MXx + 5).attr('y', MXy + 18.5).text('Zahl der Schl\u00e4ge je Feld')
+        .attr('font-family', SERIF).attr('font-style', 'italic').attr('font-size', 6.8).attr('fill', DUNKEL);
+      const zell = GR.map(([gr]) => SZ.map(([lo, hi]) =>
+        hanf.features.filter(f => f.properties.gruppe === gr && f.properties.ha >= lo && f.properties.ha < hi).length));
+      const maxZ = Math.max(1, ...zell.flat());
+      const x0 = MXx + MXw - cols * cw - 6, y0 = MXy + 24;
+      GR.forEach(([gr, lab], r) => {
+        mx.append('text').attr('x', x0 - 4).attr('y', y0 + r * ch + ch / 2 + 2.6).text(lab).attr('text-anchor', 'end')
+          .attr('font-family', SERIF).attr('font-size', 7.2).attr('fill', F.tinte);
+        SZ.forEach(([, , slab], c) => {
+          const n = zell[r][c];
+          const col = d3.interpolateLab(F.papierWarm, GRUPPENFARBE[gr] ?? F.dim)(n ? .22 + .78 * (n / maxZ) : 0);
+          mx.append('rect').attr('x', x0 + c * cw).attr('y', y0 + r * ch).attr('width', cw).attr('height', ch)
+            .attr('fill', n ? col : F.papier).attr('stroke', F.umriss).attr('stroke-width', .3);
+          mx.append('text').attr('x', x0 + c * cw + cw / 2).attr('y', y0 + r * ch + ch / 2 + 2.4).text(n || '\u2013')
+            .attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500).attr('font-size', 6.4)
+            .attr('fill', n > maxZ * .55 ? F.papier : DUNKEL);
+        });
+      });
+      SZ.forEach(([, , slab], c) => mx.append('text').attr('x', x0 + c * cw + cw / 2).attr('y', y0 + rows * ch + 8)
+        .text(slab).attr('text-anchor', 'middle').attr('font-family', MONO).attr('font-weight', 500)
+        .attr('font-size', 6).attr('fill', DUNKEL));
+      mx.append('text').attr('x', x0 + cols * cw / 2).attr('y', y0 + rows * ch + 15).text('Schlaggr\u00f6\u00dfe in ha')
+        .attr('text-anchor', 'middle').attr('font-family', SERIF).attr('font-style', 'italic')
+        .attr('font-size', 6.4).attr('fill', DUNKEL);
+    }
+
     // plate frame
     svg.append('rect').attr('x', 1.5).attr('y', 1.5).attr('width', W - 3).attr('height', H - 3)
       .attr('fill', 'none').attr('stroke', F.tinte).attr('stroke-width', .8 * MM);
@@ -364,7 +631,13 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
       [area(F.wald), 'Wald, Forstwirtschaft'],
       [area(F.sonderkultur), 'Sonderkulturen, Gem\u00fcse (Oderbruch)'],
       [`${area(F.sonderkultur)}<circle cx="14" cy="6" r="1.15" fill="${F.orangeDeep}"/><circle cx="24" cy="10" r="1.15" fill="${F.orangeDeep}"/><circle cx="34" cy="6" r="1.15" fill="${F.orangeDeep}"/>`, 'Obstbau (Werder)'],
-      ['HANF_SWATCH', 'Hanfanbau, Faser- und Bl\u00fctenhanf'],
+      ...grpVor.map(k => [
+        'HANF_' + (k || 'UNKLAR'),
+        GRUPPENNAME[k] + (k ? ' (' + grpSorten(k).slice(0, 3).join(', ') + (grpSorten(k).length > 3 ? ' \u2026' : '') + ')'
+                            : ' \u2014 ' + grpSorten(k).join(', ')),
+      ]),
+      ['HANF_LEITER', 'Gr\u00f6\u00dfenleiter: Signaturfl\u00e4che \u221d Schlaggr\u00f6\u00dfe (\u221aha)'],
+      ['HANF_OER', 'mit \u00d6ko-Regelung 6/7 (ohne PSM, Natura 2000)'],
       ['HANF_PUNKT', 'Hanfverarbeitung'],
       [`<rect x="19" y="3" width="10.5" height="10.5" fill="${F.oliv}" stroke="${F.tinte}" stroke-width=".8"/><text x="24.2" y="11" text-anchor="middle" font-family="${SERIF}" font-weight="600" font-size="8.5" fill="${F.papier}">N</text>`, 'Nahrungsmittel, \u00d6lm\u00fchle'],
       [area(F.oedland) + `<circle cx="14" cy="6" r=".9" fill="${F.dim}"/><circle cx="26" cy="10" r=".9" fill="${F.dim}"/><circle cx="36" cy="5" r=".9" fill="${F.dim}"/>`, 'Bergbaufolgelandschaft'],
@@ -375,13 +648,36 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
       [`<circle cx="14" cy="8" r="4" fill="${F.papier}" stroke="${F.tinte}" stroke-width="1.8"/><circle cx="14" cy="8" r="1.2" fill="${F.tinte}"/><line x1="24" y1="12.5" x2="44" y2="12.5" stroke="${F.orange}" stroke-width="1"/><text x="24" y="11" font-family="${SERIF}" font-weight="600" font-size="8.5">Potsdam</text>`, 'Landeshauptstadt'],
     ];
     const t2 = window.__mapTweaks;
-    const hanfSwatch = `${area(F.hanf)}${hanfGlyph(t2.hanfGlyph, 14, 8, .55, F.olivDeep)}${hanfGlyph(t2.hanfGlyph, 32, 8, .55, F.olivDeep)}`;
     const hanfPunkt = `<rect x="19" y="3" width="10.5" height="10.5" fill="${F.hanf}" stroke="${F.tinte}" stroke-width=".8"/>${hanfGlyph(t2.hanfGlyph, 24.2, 8.2, .62, F.tinte)}`;
-    document.getElementById('legend').innerHTML = leg.map(([sw, txt]) =>
-      `<div style="display:flex;align-items:center;gap:8px;padding:1.6px 0;border-bottom:.5px solid #e5ddce">
-        <svg width="48" height="16" viewBox="0 0 48 16" style="flex:none;overflow:hidden">${sw === 'HANF_SWATCH' ? hanfSwatch : sw === 'HANF_PUNKT' ? hanfPunkt : sw}</svg>
+    const legSpecial = {
+      HANF_korn: hanfGlyph(t2.hanfGlyph, 24, 8.6, .68, GRUPPENFARBE.korn),
+      HANF_dual: hanfGlyph(t2.hanfGlyph, 24, 8.6, .68, GRUPPENFARBE.dual),
+      HANF_faser: hanfGlyph(t2.hanfGlyph, 24, 8.6, .68, GRUPPENFARBE.faser),
+      HANF_UNKLAR: hanfGlyph(t2.hanfGlyph, 21, 8.6, .68, F.dim) +
+        `<text x="30" y="9" font-family="${SERIF.replace(/'/g, '&quot;')}" font-weight="600" font-size="10" fill="${F.dim}">?</text>`,
+      HANF_OER: `<circle cx="24" cy="8" r="6.8" fill="none" stroke="${F.tinte}" stroke-width=".55" stroke-dasharray="2 1.4"/>` + hanfGlyph(t2.hanfGlyph, 24, 8.4, .55, GRUPPENFARBE.korn),
+      HANF_PUNKT: hanfPunkt,
+    };
+    document.getElementById('legend').innerHTML = leg.map(([sw, txt]) => {
+      if (sw === 'HANF_LEITER') {
+        const st = [1, 5, 15, Math.round(HA_MAX)];
+        let xx = 6, inner = '';
+        for (const v of st) {
+          const s = sGr(v), r = 7.5 * s;
+          inner += hanfGlyph(t2.hanfGlyph, xx + r, 14 - r * .1, s, GRUPPENFARBE.korn) +
+            `<text x="${xx + r}" y="26" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="6" fill="${DUNKEL}">${v}</text>`;
+          xx += r * 2 + 5;
+        }
+        return `<div style="display:flex;align-items:center;gap:8px;padding:1.6px 0;border-bottom:.5px solid #e5ddce">
+          <svg width="${Math.ceil(xx)}" height="28" viewBox="0 0 ${Math.ceil(xx)} 28" style="flex:none;overflow:visible">${inner}</svg>
+        </div>
+        <div style="font-size:9.3px;line-height:1.2;padding:0 0 1.6px;border-bottom:.5px solid #e5ddce">${txt}<span style="color:#8b8173"> \u00b7 unter ${HA_MIN.toFixed(1).replace('.', ',')}\u2009ha auf Mindestgr\u00f6\u00dfe</span></div>`;
+      }
+      return `<div style="display:flex;align-items:center;gap:8px;padding:1.6px 0;border-bottom:.5px solid #e5ddce">
+        <svg width="48" height="16" viewBox="0 0 48 16" style="flex:none;overflow:hidden">${legSpecial[sw] ?? sw}</svg>
         <div style="font-size:9.3px;line-height:1.2">${txt}</div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
 
   window.__redrawMap = draw;
