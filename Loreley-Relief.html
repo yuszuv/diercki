@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Loreley · Relief in vier Darstellungsformen — Sternprodukt-Atlas</title>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<style>
+  body{margin:0}
+  doc-page:not(:defined){visibility:hidden}
+  a{color:#2f6f74}
+  a:hover{text-decoration-thickness:2.5px;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<doc-page size="a4" orientation="landscape">
+<section class="page" id="blatt9" data-screen-label="Loreley Relief" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+  <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
+    <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Loreley &middot; Relief in vier Darstellungsformen</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173;white-space:nowrap">STERNPRODUKT-ATLAS &middot; WERKSTATT</div>
+  </div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 3.5mm">Ein Gel&auml;nde, vier Register: Isohypsen, Hypsometrie, Schummerung, B&ouml;schungsschraffen. <strong style="font-weight:600">Das Gel&auml;ndemodell ist konstruiert</strong> &mdash; ein Beispielblatt f&uuml;r die Darstellungsformen, keine Aussage &uuml;ber das Mittelrheintal.</div>
+  <div id="tafeln" style="height:109mm;flex:none;display:flex;gap:4mm;min-height:0"></div>
+  <div style="height:45mm;flex:none;display:flex;gap:6mm;margin-top:3.5mm;min-height:0">
+    <div style="width:74mm;flex:none">
+      <div style="font-size:10.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:2.5px">Schraffen und Schraffur</div>
+      <div id="unterschied"></div>
+    </div>
+    <div style="width:62mm;flex:none">
+      <div style="font-size:10.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:2.5px">H&ouml;henstufen</div>
+      <div id="stufen"></div>
+    </div>
+    <div style="flex:1;min-width:0;font-size:8.8px;line-height:1.5;color:#4a4139">
+      <div style="font-size:10.5px;font-weight:600;border-bottom:1.5px solid #2a231c;padding-bottom:2px;margin-bottom:2.5px;color:#2a231c">Wann welches Register</div>
+      <p style="margin:0 0 4px"><strong style="font-weight:600">Isohypsen</strong> sind das einzige messbare Register: aus ihnen lassen sich H&ouml;he, Neigung und Talform ablesen. Die &Auml;quidistanz muss dabeistehen, sonst ist die Karte stumm.</p>
+      <p style="margin:0 0 4px"><strong style="font-weight:600">Hypsometrie</strong> gibt der Fl&auml;che einen Wert und tr&auml;gt schon bei kleiner Ma&szlig;stabszahl. Sie generalisiert hart &mdash; was zwischen zwei Stufen liegt, verschwindet.</p>
+      <p style="margin:0 0 4px"><strong style="font-weight:600">Schummerung</strong> erzeugt die Plastik, die das Auge sofort liest, ist aber nicht messbar und h&auml;ngt an der willk&uuml;rlichen Beleuchtungsrichtung (hier Nordwest, 45&deg;). Als Untergrund unter der Situation, nie allein.</p>
+      <p style="margin:0"><strong style="font-weight:600">Schraffen</strong> sind das Register des Kupferstichs: kein Halbton n&ouml;tig, nur Strich. Bei gro&szlig;er Ma&szlig;stabszahl unschlagbar pr&auml;zise, bei kleiner ein grauer Filz &mdash; und sie verdecken die Situation, die darunter liegt.</p>
+    </div>
+  </div>
+  <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:4px">
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">GEL&Auml;NDEMODELL: KONSTRUIERT, UNBELEGT &mdash; BEISPIELBLATT F&Uuml;R DIE DARSTELLUNGSFORMEN &middot; F&Uuml;R EIN BELEGTES BLATT: DGM1 DES LVERMGEO RHEINLAND-PFALZ &middot; SCHRAFFENKONSTRUKTION NACH LEHMANN 1799 &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">137</div>
+  </div>
+</section>
+</doc-page>
+<script src="doc-page.js"></script>
+<script type="module">
+import { F } from './atlas/farben.js';
+
+(async function () {
+  const MM = 96 / 25.4;
+  const SERIF = "'Gentium Book Plus','Noto Serif',serif";
+  const MONO = "'Noto Sans Mono',monospace";
+  const DUNKEL = '#4a4139';
+
+  // ——— Geländemodell, konstruiert
+  // Ein Durchbruchstal mit Prallhang-Felssporn. Absichtlich Formel statt Datensatz:
+  // das Blatt zeigt Darstellungsformen, und ein erfundenes Gelände lügt weniger
+  // als ein echtes, das ohne Quellenangabe dasteht.
+  const NX = 150, NY = 210;
+  const TAL = 70, HOCH = 330;          // Talboden und Hochfläche in m ü. NHN
+  const AEQUI = 20;                    // Äquidistanz in m
+  const ZAEHL = 100;                   // Zählhöhenlinie alle 100 m
+
+  const achse = fy => 0.5 + 0.2 * Math.sin(fy * 2.15 * Math.PI + 0.35);
+  const glatt = t => { const u = Math.max(0, Math.min(1, t)); return u * u * (3 - 2 * u); };
+
+  // Rauigkeit: kurzwellig und flach. Bei Amplituden in der Größenordnung echter
+  // Landformen erzeugt sie im Streiflicht Moiré statt Struktur und im Schraffenbild
+  // den grauen Filz, vor dem der Erklärtext desselben Blatts warnt.
+  const hoehe = (fx, fy) => {
+    const d = Math.abs(fx - achse(fy));
+    let h = TAL + (HOCH - TAL) * glatt((d - 0.028) / 0.135);
+    // Felssporn im Prallhang der Talkrümmung — schmal und kräftig, damit er sich
+    // gegen den Talhang abhebt statt in ihm zu verschwinden
+    const sy = 0.44, sx = achse(sy) + 0.052;
+    h += 165 * Math.exp(-(((fx - sx) ** 2) / 0.00055 + ((fy - sy) ** 2) / 0.0016));
+    // zwei Kerbtäler, die die Hochfläche zerschneiden
+    for (const [ky, kx, breite] of [[0.24, 0.86, 0.05], [0.72, 0.12, 0.045]]) {
+      const t = Math.exp(-((fy - ky) ** 2) / (breite * breite * 0.5));
+      h -= 105 * t * glatt((Math.abs(fx - kx) < 0.4 ? 0.4 - Math.abs(fx - kx) : 0) / 0.22);
+    }
+    const auf = glatt((d - 0.1) / 0.09);
+    h += auf * (4.5 * Math.sin(fx * 13 + fy * 9) + 2.5 * Math.sin(fx * 19 - fy * 15));
+    return Math.max(TAL, h);
+  };
+
+  // ——— Neigungsstatistik: Schwelle und Sättigung binden an die **Spannweite der Hänge**,
+  // nicht an ein Flächenperzentil. Ein Quantil der Fläche vergibt per Konstruktion an
+  // 1−q der Karte eine Schraffe — und weil die Hochfläche die Mehrheit des Blatts
+  // einnimmt, läge die Schwelle mitten in ihrer Rauigkeit. Das ergibt eine Schraffur
+  // (gleichmäßig) statt Böschungsschraffen (ändern sich mit dem Gelände).
+  const MX = 6000, MY = 8400;              // Fenstergröße in Metern
+  const neigungAn = (fx, fy) => {
+    const e = 0.004;
+    const gx = (hoehe(Math.min(1, fx + e), fy) - hoehe(Math.max(0, fx - e), fy)) / (2 * e * MX);
+    const gy = (hoehe(fx, Math.min(1, fy + e)) - hoehe(fx, Math.max(0, fy - e))) / (2 * e * MY);
+    return { gx, gy, n: Math.hypot(gx, gy) };
+  };
+  let nMax = 0;
+  for (let j = 0; j < 90; j++) for (let i = 0; i < 64; i++)
+    nMax = Math.max(nMax, neigungAn((i + 0.5) / 64, (j + 0.5) / 90).n);
+  const N_SCHWELLE = nMax * 0.18;   // darunter: ebene Fläche, keine Schraffe
+  const N_SATT = nMax * 0.9;        // Volldeckung erst kurz vor der steilsten Stelle
+
+  const G = new Float64Array(NX * NY);
+  for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++)
+    G[j * NX + i] = hoehe((i + 0.5) / NX, (j + 0.5) / NY);
+  const [hMin, hMax] = d3.extent(G);
+
+  const stufen = d3.range(Math.ceil(hMin / AEQUI) * AEQUI, hMax, AEQUI);
+  const konturen = d3.contours().size([NX, NY]).smooth(true);
+  const isohypsen = stufen.map(v => ({ v, geo: konturen.contour(G, v) }));
+  const baender = konturen.thresholds(stufen)(G);
+
+  // Höhenschichtkolorit: Rampe innerhalb der Tieflandtöne der Hypsometrie-Palette
+  const kolorit = d3.scaleLinear()
+    .domain([hMin, hMin + (hMax - hMin) * 0.45, hMax])
+    .range([F.h0, F.h200, F.h500]).interpolate(d3.interpolateLab);
+
+  // ——— Tafeln
+  const box = document.getElementById('tafeln').getBoundingClientRect();
+  const H = box.height || 113 * MM;
+  const W = Math.floor(((box.width || 249 * MM) - 3 * 4 * MM) / 4);
+  const RAND = 3.4 * MM, RAND_OBEN = 7 * MM;
+  const feld = { x: RAND, y: RAND_OBEN, w: W - 2 * RAND, h: H - RAND_OBEN - RAND };
+  const sx = d3.scaleLinear([0, NX], [feld.x, feld.x + feld.w]);
+  const sy = d3.scaleLinear([0, NY], [feld.y, feld.y + feld.h]);
+  const pfad = d3.geoPath(d3.geoIdentity().scale(1)).projection({
+    stream: s => ({
+      point(x, y) { s.point(sx(x), sy(y)); },
+      lineStart() { s.lineStart(); }, lineEnd() { s.lineEnd(); },
+      polygonStart() { s.polygonStart(); }, polygonEnd() { s.polygonEnd(); },
+      sphere() {},
+    }),
+  });
+
+  const rahmen = (titel, unter) => `
+    <rect x="0" y="0" width="${W}" height="${H}" fill="${F.papier}"/>
+    <rect x="${feld.x}" y="${feld.y}" width="${feld.w}" height="${feld.h}" fill="none" stroke="${F.tinte}" stroke-width=".5"/>
+    <rect x=".6" y=".6" width="${W - 1.2}" height="${H - 1.2}" fill="none" stroke="${F.tinte}" stroke-width="1.1"/>
+    <text x="${feld.x}" y="${feld.y - 11}" font-family="${SERIF}" font-weight="600" font-size="9.5" fill="${F.tinte}">${titel}</text>
+    <text x="${feld.x}" y="${feld.y - 3.5}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">${unter}</text>`;
+
+  const flussband = () => {
+    const pts = d3.range(0, 1.001, 0.02).map(fy => [sx(achse(fy) * NX), sy(fy * NY)]);
+    const linie = d3.line().curve(d3.curveCatmullRom.alpha(0.7))(pts);
+    return `<path d="${linie}" fill="none" stroke="${F.wasser}" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>`;
+  };
+
+  // Tafel 1 · Isohypsen mit Äquidistanz
+  const tafelIsohypsen = () => {
+    let o = rahmen('&#8544; &middot; Isohypsen', `ÄQUIDISTANZ ${AEQUI} M · ZÄHLLINIE ${ZAEHL} M`);
+    o += `<g clip-path="url(#tclip)">${flussband()}`;
+    for (const { v, geo } of isohypsen) {
+      const zaehl = v % ZAEHL === 0;
+      o += `<path d="${pfad(geo)}" fill="none" stroke="${zaehl ? F.ockerDeep : F.ocker}" stroke-width="${zaehl ? 0.85 : 0.4}" stroke-linejoin="round" opacity="${zaehl ? 1 : .8}"/>`;
+    }
+    // Beschriftung der Zähllinien am nördlichsten Punkt des längsten Rings
+    for (const { v, geo } of isohypsen.filter(d => d.v % ZAEHL === 0)) {
+      const ring = geo.coordinates.flat().sort((a, b) => b.length - a.length)[0];
+      if (!ring) continue;
+      const p = ring.reduce((a, b) => (b[1] < a[1] ? b : a));
+      const [x, y] = [sx(p[0]), sy(p[1])];
+      if (x < feld.x + 8 || x > feld.x + feld.w - 8) continue;
+      o += `<text x="${x}" y="${y + 2.2}" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${F.ockerDeep}" paint-order="stroke" stroke="${F.papier}" stroke-width="2.4">${v}</text>`;
+    }
+    return o + '</g>';
+  };
+
+  // Tafel 2 · Hypsometrie, Isohypsen nur als Kante
+  const tafelHypsometrie = () => {
+    let o = rahmen('&#8545; &middot; Hypsometrie', `HÖHENSCHICHTKOLORIT · ΔH = ${AEQUI} M`);
+    o += `<g clip-path="url(#tclip)">`;
+    for (const b of baender)
+      o += `<path d="${pfad(b)}" fill="${kolorit(b.value)}" stroke="none"/>`;
+    for (const { v, geo } of isohypsen)
+      o += `<path d="${pfad(geo)}" fill="none" stroke="${F.tinte}" stroke-width="${v % ZAEHL === 0 ? .45 : .2}" opacity=".4"/>`;
+    return o + flussband() + '</g>';
+  };
+
+  // Tafel 3 · Schummerung, Schräglicht aus Nordwest
+  const tafelSchummerung = () => {
+    const AZ = 315 * Math.PI / 180, ZEN = 45 * Math.PI / 180, UEBERHOEHUNG = 1.35;
+    const c = document.createElement('canvas');
+    c.width = NX; c.height = NY;
+    const ctx = c.getContext('2d');
+    const im = ctx.createImageData(NX, NY);
+    const at = (i, j) => G[Math.min(NY - 1, Math.max(0, j)) * NX + Math.min(NX - 1, Math.max(0, i))];
+    // Zellweite in Metern: Fenster ist ~6 × 8,4 km
+    const dx = MX / NX, dy = MY / NY;
+    for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) {
+      const zx = ((at(i + 1, j - 1) + 2 * at(i + 1, j) + at(i + 1, j + 1)) -
+                  (at(i - 1, j - 1) + 2 * at(i - 1, j) + at(i - 1, j + 1))) / (8 * dx) * UEBERHOEHUNG;
+      const zy = ((at(i - 1, j + 1) + 2 * at(i, j + 1) + at(i + 1, j + 1)) -
+                  (at(i - 1, j - 1) + 2 * at(i, j - 1) + at(i + 1, j - 1))) / (8 * dy) * UEBERHOEHUNG;
+      const neigung = Math.atan(Math.hypot(zx, zy));
+      const richtung = Math.atan2(zy, -zx);
+      let l = Math.cos(ZEN) * Math.cos(neigung) + Math.sin(ZEN) * Math.sin(neigung) * Math.cos(AZ - richtung);
+      l = Math.max(0, Math.min(1, l));
+      // Warmes Papier statt Neutralgrau: 0 → Tinte gedämpft, 1 → Papier
+      const v = 62 + 193 * l;
+      const k = (j * NX + i) * 4;
+      im.data[k] = Math.min(255, v * 1.02);
+      im.data[k + 1] = v * .985;
+      im.data[k + 2] = v * .945;
+      im.data[k + 3] = 255;
+    }
+    ctx.putImageData(im, 0, 0);
+    let o = rahmen('&#8546; &middot; Schummerung', 'SCHRÄGLICHT NW 315° · HÖHE 45°');
+    o += `<g clip-path="url(#tclip)">
+      <image x="${feld.x}" y="${feld.y}" width="${feld.w}" height="${feld.h}" href="${c.toDataURL('image/png')}" preserveAspectRatio="none" image-rendering="optimizeQuality"/>`;
+    for (const { v, geo } of isohypsen.filter(d => d.v % ZAEHL === 0))
+      o += `<path d="${pfad(geo)}" fill="none" stroke="${F.tinte}" stroke-width=".35" opacity=".45"/>`;
+    return o + flussband() + '</g>';
+  };
+
+  // Tafel 4 · Böschungsschraffen nach Lehmann
+  const tafelSchraffen = () => {
+    const SCHRITT = 5.2;
+    let o = rahmen('&#8547; &middot; Böschungsschraffen', 'STRICHSTÄRKE NACH NEIGUNG · NACH LEHMANN');
+    o += `<g clip-path="url(#tclip)" stroke="${F.tinte}" stroke-linecap="round" fill="none">`;
+    for (let py = feld.y + 2; py < feld.y + feld.h - 1; py += SCHRITT) {
+      const versatz = (Math.round((py - feld.y) / SCHRITT) % 2) * SCHRITT / 2;
+      for (let px = feld.x + 2 + versatz; px < feld.x + feld.w - 1; px += SCHRITT) {
+        const fx = (px - feld.x) / feld.w, fy = (py - feld.y) / feld.h;
+        const { gx, gy, n } = neigungAn(fx, fy);
+        if (n < N_SCHWELLE) continue;               // ebene Hochfläche und Talboden bleiben weiß
+        const t = Math.min(1, (n - N_SCHWELLE) / (N_SATT - N_SCHWELLE));
+        const laenge = SCHRITT * 0.82;
+        // Fallrichtung: Strich zeigt bergab, also entgegen dem Gradienten
+        const [ex, ey] = [-gx / n, -gy / n];
+        o += `<line x1="${(px - ex * laenge / 2).toFixed(1)}" y1="${(py - ey * laenge / 2).toFixed(1)}" x2="${(px + ex * laenge / 2).toFixed(1)}" y2="${(py + ey * laenge / 2).toFixed(1)}" stroke-width="${(0.2 + 1.15 * t).toFixed(2)}"/>`;
+      }
+    }
+    o += '</g>';
+    return o + `<g clip-path="url(#tclip)">${flussband()}</g>`;
+  };
+
+  document.getElementById('tafeln').innerHTML = [
+    tafelIsohypsen(), tafelHypsometrie(), tafelSchummerung(), tafelSchraffen(),
+  ].map(inhalt => `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block;flex:none">
+      <defs><clipPath id="tclip"><rect x="${feld.x}" y="${feld.y}" width="${feld.w}" height="${feld.h}"/></clipPath></defs>
+      ${inhalt}</svg>`).join('');
+
+  // ——— Schraffen ≠ Schraffur
+  {
+    const w = 74 * MM - 6, h = 30 * MM;
+    const halb = (w - 8) / 2;
+    const schraffenProbe = (x0) => {
+      let s = '';
+      for (let j = 0; j < 8; j++) for (let i = 0; i < 11; i++) {
+        const t = i / 10;                       // links flach, rechts steil
+        if (t < 0.08) continue;
+        const px = x0 + 6 + i * (halb - 12) / 10, py = 21 + j * 5.2 + (i % 2) * 2.6;
+        s += `<line x1="${px}" y1="${py - 2.3}" x2="${px}" y2="${py + 2.3}" stroke-width="${(0.22 + 1.2 * t * t).toFixed(2)}"/>`;
+      }
+      return `<g stroke="${F.tinte}" stroke-linecap="round">${s}</g>`;
+    };
+    document.getElementById('unterschied').innerHTML = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block">
+      <text x="0" y="9" font-family="${SERIF}" font-weight="600" font-size="9" fill="${F.tinte}">Schraffen</text>
+      <text x="0" y="16" font-family="${SERIF}" font-style="italic" font-size="7.4" fill="${DUNKEL}">tragen das Relief</text>
+      ${schraffenProbe(0)}
+      <text x="0" y="${h - 8}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">flach → steil</text>
+      <line x1="${halb + 4}" y1="2" x2="${halb + 4}" y2="${h - 2}" stroke="${F.grauHell}" stroke-width="1"/>
+      <text x="${halb + 12}" y="9" font-family="${SERIF}" font-weight="600" font-size="9" fill="${F.tinte}">Schraffur</text>
+      <text x="${halb + 12}" y="16" font-family="${SERIF}" font-style="italic" font-size="7.4" fill="${DUNKEL}">überlagert eine Fläche</text>
+      <rect x="${halb + 12}" y="21" width="${halb - 18}" height="${h - 36}" fill="${F.olivTint}" stroke="${F.umriss}" stroke-width=".4"/>
+      <defs><pattern id="sfur" width="4.5" height="4.5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+        <line x1="0" y1="0" x2="0" y2="4.5" stroke="${F.tinte}" stroke-width=".55"/></pattern></defs>
+      <rect x="${halb + 12}" y="21" width="${halb - 18}" height="${h - 36}" fill="url(#sfur)"/>
+      <text x="${halb + 12}" y="${h - 8}" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">gleichmäßig, bedeutungstragend</text>
+    </svg>
+    <div style="font-size:8.4px;line-height:1.4;color:#4a4139;margin-top:2px">Die Schraffe &auml;ndert sich mit dem Gel&auml;nde und ist deshalb eine <em>Signatur</em>. Die Schraffur bleibt gleich und ist ein <em>Kolorit</em> &mdash; auf dem Hanfblatt markiert sie die &Ouml;ko-Regelung.</div>`;
+  }
+
+  // ——— Höhenstufenleiter
+  {
+    const w = 62 * MM - 6, h = 28 * MM;
+    const zeigen = stufen.filter((v, i) => i % 2 === 0);
+    const bh = Math.min(9, (h - 26) / zeigen.length * 1.9);
+    const bw = (w - 34) / zeigen.length;
+    let o = '';
+    zeigen.forEach((v, i) => {
+      o += `<rect x="${18 + i * bw}" y="10" width="${bw + .4}" height="${bh}" fill="${kolorit(v)}" stroke="${F.umriss}" stroke-width=".25"/>`;
+      if (i % 2 === 0) o += `<text x="${18 + i * bw + bw / 2}" y="${10 + bh + 7}" text-anchor="middle" font-family="${MONO}" font-weight="500" font-size="5.6" fill="${DUNKEL}">${v}</text>`;
+    });
+    o += `<text x="16" y="${10 + bh - 1}" text-anchor="end" font-family="${MONO}" font-weight="500" font-size="5.8" fill="${DUNKEL}">m</text>`;
+    o += `<text x="18" y="${10 + bh + 18}" font-family="${SERIF}" font-style="italic" font-size="7.6" fill="${DUNKEL}">&#8710;h = ${AEQUI} m, Z&#228;hllinie alle ${ZAEHL} m</text>`;
+    o += `<text x="18" y="${10 + bh + 28}" font-family="${SERIF}" font-style="italic" font-size="7.6" fill="${DUNKEL}">Talboden ${Math.round(hMin)} m, Gipfelflur ${Math.round(hMax)} m</text>`;
+    document.getElementById('stufen').innerHTML = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block">${o}</svg>`;
+  }
+})().catch(e => {
+  document.getElementById('tafeln').innerHTML =
+    `<div style="font-family:'Noto Sans Mono',monospace;font-size:9px;color:#a83a28">FEHLER: ${e.message}</div>`;
+  console.error(e);
+});
+</script>
+</body>
+</html>
