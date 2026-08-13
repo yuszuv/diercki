@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{background:#d8d8da;margin:0}a{color:#2f6f74}a:hover{color:#2a231c}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--pri:var(--petrol);--acc:var(--orange);display:flex;flex-direction:column;gap:22px;padding:22px 0;align-items:center;font-family:var(--font-serif)">
+
+<section data-screen-label="01 Titel" style="width:1280px;height:720px;background:var(--paper);position:relative;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;padding:0 84px;color:var(--ink);overflow:hidden">
+<div style="position:absolute;top:0;left:0;right:0;height:6px;background:var(--ink)"></div>
+<div style="position:absolute;right:74px;top:118px;width:210px;height:210px;background:#e7dcab;transform:rotate(-6deg);box-shadow:2px 3px 7px rgba(42,35,28,0.16);display:flex;align-items:center;justify-content:center;font-size:104px;color:var(--ink);opacity:.9">&#8902;</div>
+<div style="position:absolute;right:186px;top:336px;width:180px;height:180px;background:#dbe8e8;transform:rotate(4deg);box-shadow:2px 3px 7px rgba(42,35,28,0.16);display:flex;align-items:center;justify-content:center;font:500 58px var(--font-mono);color:var(--petrol)">137</div>
+<div style="max-width:620px;position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:26px">Sternprodukt-Atlas &middot; Werkstattbericht</div>
+<h1 style="font-size:62px;font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin:0 0 22px">Das Zeichensystem, an die Wand geklebt</h1>
+<p style="font-size:25px;color:var(--grey-dark);margin:0;max-width:30ch">Wie aus einem Katalog von Signaturen ein System wird &mdash; und woran man merkt, dass es eins ist.</p>
+<div style="width:88px;height:6px;background:var(--acc,var(--orange));margin-top:34px"></div>
+</div>
+<sc-if value="{{ pageNumbers }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">01 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="02 Die vier Stufen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Glyphenabdeckung</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px">Vier Stufen, jede gemessen</h2>
+<p style="font-size:21px;color:var(--grey-dark);margin:0 0 32px;max-width:72ch">Kein Zeichen kommt ins System, weil es auf irgendeinem Rechner erscheint. Es kommt hinein, weil seine Glyphenbreite gegen die des Ersatzzeichens U+FFFF gemessen wurde.</p>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:26px">
+<sc-for list="{{ stufen }}" as="s" hint-placeholder-count="4">
+<div style="background:{{ s.bg }};padding:24px 22px 20px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate({{ s.rot }});min-height:296px;display:flex;flex-direction:column">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:rgba(42,35,28,0.55)">{{ s.nr }}</div>
+<div style="font-size:24px;font-weight:600;margin:8px 0 12px;line-height:1.2">{{ s.titel }}</div>
+<div style="font-size:29px;line-height:1.5;letter-spacing:0.05em;margin-bottom:12px">{{ s.zeichen }}</div>
+<div style="font-size:17px;line-height:1.4;color:rgba(42,35,28,0.75);margin-top:auto">{{ s.regel }}</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:24px;font:14px var(--font-mono);color:var(--grey)">02 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="03 Drei Register" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Das Sternprodukt-Zeichen</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px">Ein Zeichen, drei Register</h2>
+<p style="font-size:21px;color:var(--grey-dark);margin:0 0 30px;max-width:72ch">Nie neu gezeichnet, nur &uuml;bersetzt. Welches Register gilt, entscheidet nicht der Geschmack, sondern die Frage: kann das Medium die Glyphe garantieren?</p>
+<div style="display:flex;gap:30px;align-items:flex-start">
+<div style="background:#f0dcd0;padding:26px 26px 22px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate(-2.5deg);width:290px;min-height:292px;display:flex;flex-direction:column">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:rgba(42,35,28,0.55)">REGISTER 1</div>
+<div style="font-size:25px;font-weight:600;margin:8px 0 14px">Zeichnung</div>
+<img src="./logo-stern.png" alt="Sternprodukt-Zeichnung" style="height:92px;width:auto;align-self:center;margin-bottom:14px">
+<div style="font-size:17px;line-height:1.4;color:rgba(42,35,28,0.75);margin-top:auto">Logo, Briefkopf, Favicon. Druckfest, weil sie kein Font ist.</div>
+</div>
+<div style="background:#dbe8e8;padding:26px 26px 22px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate(1.8deg);width:290px;min-height:292px;display:flex;flex-direction:column">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:rgba(42,35,28,0.55)">REGISTER 2</div>
+<div style="font-size:25px;font-weight:600;margin:8px 0 14px">LaTeX</div>
+<div style="font:500 14px/1.6 var(--font-mono);background:rgba(253,253,253,0.6);padding:11px 12px;word-break:break-all;color:var(--ink)">\mathbin{\star_{\scriptscriptstyle\mathrm{\hbar}}}</div>
+<div style="font-size:17px;line-height:1.4;color:rgba(42,35,28,0.75);margin-top:auto">Web und Deck, wo MathJax l&auml;uft. LaTeX kennt die Rolle, nicht nur den Codepoint.</div>
+</div>
+<div style="background:#e4e4cf;padding:26px 26px 22px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate(-1.2deg);width:290px;min-height:292px;display:flex;flex-direction:column">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:rgba(42,35,28,0.55)">REGISTER 3</div>
+<div style="font-size:25px;font-weight:600;margin:8px 0 14px">Unicode-N&auml;herung</div>
+<div style="font-size:50px;text-align:center;margin-bottom:14px">&#8902;<sub style="font-size:25px">&#8463;</sub></div>
+<div style="font-size:17px;line-height:1.4;color:rgba(42,35,28,0.75);margin-top:auto">Nur wo sonst nichts geht: Plaintext-Mail, Dateiname, CLI.</div>
+</div>
+<div style="flex:1;border-left:2px solid var(--acc,var(--orange));padding-left:22px;align-self:center">
+<p style="font-size:20px;line-height:1.45;margin:0;color:var(--grey-dark)">Die Reihenfolge ist eine Rangfolge: garantierte Erscheinung schl&auml;gt Bequemlichkeit. Wo gedruckt wird, gewinnt Register 1.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:24px;font:14px var(--font-mono);color:var(--grey)">03 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="04 Kein Icon-Set" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:70px 84px;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+<div style="position:absolute;top:-56px;right:70px;font-size:300px;line-height:1;color:rgba(255,255,255,0.07);letter-spacing:-0.04em;font-style:italic">&amp;</div>
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-light);margin-bottom:20px;position:relative">Der Grundsatz</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;line-height:1.12;margin:0 0 24px;max-width:24ch;position:relative">Es gibt kein Icon-Set. Es gibt einen Zeichensatz &mdash; und einen Signaturenkatalog.</h2>
+<div style="display:flex;gap:54px;align-items:flex-start;position:relative">
+<div style="flex:1">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;color:var(--grey-light);margin-bottom:10px">IM FLIESSTEXT</div>
+<p style="font-size:22px;line-height:1.5;margin:0;opacity:0.85">Zeichen aus dem Zeichensatz: &#8599; f&uuml;r extern, &#8618; f&uuml;r mehr, &#8470; f&uuml;r Nummer, dazu genau ein Verbindungszeichen pro Dokument. Kein Piktogramm ersetzt hier ein Wort.</p>
+</div>
+<div style="flex:1">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;color:var(--acc,var(--orange));margin-bottom:10px">IM KARTENFELD</div>
+<p style="font-size:22px;line-height:1.5;margin:0;opacity:0.85">Gezeichnete Signaturen aus dem Katalog: Tiegel, Korbbeute, Wildbiene, B&auml;r. Sie sind keine Ikonen, sondern Kartensprache &mdash; in der Zeichenerkl&auml;rung definiert, in Millimetern bema&szlig;t, im Ma&szlig;stab generalisiert.</p>
+</div>
+</div>
+<p style="font-size:20px;line-height:1.5;margin:26px 0 0;max-width:64ch;opacity:0.6;position:relative">Die Regel verbietet den austauschbaren Piktogramm-Vorrat, nicht die gezeichnete Signatur. Wer eine Karte macht, zeichnet &mdash; seit 1883.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">04 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="05 Verbindungszeichen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Verbindungszeichen</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px">Das et-Register &mdash; eines pro Dokument</h2>
+<p style="font-size:21px;color:var(--grey-dark);margin:0 0 28px;max-width:74ch">Vier Wege, &bdquo;und&ldquo; zu schreiben, alle aus Gentium selbst. Sie sind Stil, nicht Ausstattung: gemischt wirken sie wie ein Schriftmuster-Katalog.</p>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:32px">
+<sc-for list="{{ etReihe }}" as="e" hint-placeholder-count="4">
+<div style="background:{{ e.bg }};padding:20px 20px 18px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate({{ e.rot }});display:flex;flex-direction:column;align-items:center;min-height:176px">
+<div style="font-size:62px;line-height:1.15;margin-bottom:4px">{{ e.z }}</div>
+<div style="font-size:19px;font-weight:600;text-align:center">{{ e.name }}</div>
+<div style="font-size:16px;line-height:1.35;color:rgba(42,35,28,0.72);text-align:center;margin-top:5px">{{ e.hinweis }}</div>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:44px;align-items:flex-start">
+<p style="flex:1;font-size:20px;line-height:1.45;margin:0">Andere Schriftkulturen l&ouml;sen dasselbe Problem anders &mdash; Maqaf, W&#257;w, Enotikon, Doppelbindestrich. Die Karte zitiert sie, r&uuml;stet aber nicht mit ihnen aus: die H&auml;lfte ist auf einem Standardsystem gemessenes Tofu.</p>
+<p style="flex:1;font-size:20px;line-height:1.45;margin:0;color:var(--grey-dark)">Und eine Klasse f&auml;llt prinzipiell durchs Raster: unsichtbare Verbinder. Der Zero Width Joiner hat Breite 0&nbsp;px &mdash; und das ist hier richtig, nicht Tofu.</p>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:24px;font:14px var(--font-mono);color:var(--grey)">05 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="06 Klingonisch" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Die Grenze des Systems</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 34px">Warum Klingonisch ausscheidet</h2>
+<div style="display:flex;gap:50px;align-items:flex-start">
+<div style="background:#e6dbe2;padding:28px 28px 24px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate(-2deg);width:330px">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:rgba(42,35,28,0.55);margin-bottom:12px">PIQAD &middot; U+F8D0&ndash;F8FF</div>
+<div style="font-size:19px;line-height:1.5;color:rgba(42,35,28,0.85)">Nicht Teil von Unicode. Der Vorschlag wurde im Mai 2001 abgelehnt. Die Zeichen liegen in der <strong>Private Use Area</strong> &mdash; ConScript Registry, ISO&nbsp;15924 <span style="font-family:var(--font-mono);font-size:16px">Piqd</span>.</div>
+</div>
+<div style="flex:1;padding-top:4px">
+<p style="font-size:24px;line-height:1.5;margin:0 0 20px">Ohne privat installierte Schrift steht dort nichts. Und die Codepoints bedeuten f&uuml;r jedes andere System etwas anderes.</p>
+<p style="font-size:24px;line-height:1.5;margin:0 0 20px">Semantisch leer ist also <strong>kein Zeichen, sondern Grafik</strong>. Und Grafik wird gezeichnet, nicht gesetzt.</p>
+<p style="font-size:20px;line-height:1.45;margin:0;color:var(--grey-dark)">Das ist der ganze Test, den ein Zeichen bestehen muss: Tr&auml;gt es Bedeutung &uuml;ber Systemgrenzen hinweg? Wenn nein, geh&ouml;rt es in den Bildteil.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:24px;font:14px var(--font-mono);color:var(--grey)">06 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="07 Kartensignaturen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Im Atlas</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 10px">Dieselbe Regel auf der Karte</h2>
+<p style="font-size:21px;color:var(--grey-dark);margin:0 0 30px;max-width:74ch">Eine Signatur zeigt, was ein Ding <em>tut</em> &mdash; nicht, in welche Branchenschublade es geh&ouml;rt. Das war die letzte gr&ouml;&szlig;ere Revision am Katalog.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px">
+<sc-for list="{{ signaturen }}" as="g" hint-placeholder-count="3">
+<div style="background:{{ g.bg }};padding:24px 24px 20px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate({{ g.rot }});min-height:242px;display:flex;flex-direction:column">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:rgba(42,35,28,0.55)">{{ g.kopf }}</div>
+<div style="font-size:23px;font-weight:600;margin:8px 0 12px;line-height:1.2">{{ g.titel }}</div>
+<div style="font-size:18px;line-height:1.45;color:rgba(42,35,28,0.8)">{{ g.text }}</div>
+</div>
+</sc-for>
+</div>
+<p style="font-size:20px;line-height:1.45;margin:30px 0 0;max-width:80ch">Dazu die Hanf-Signatur in drei Varianten &mdash; Brokkoli, klassisches Blatt, &#8463; &mdash; und Texturen unter den Fl&auml;chenfarben, damit eine Karte auch im Graustufendruck lesbar bleibt.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:24px;font:14px var(--font-mono);color:var(--grey)">07 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="08 Quelltext" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Ein Katalog, vier Ausg&auml;nge</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Das System ist Quelltext</h2>
+<div style="display:flex;align-items:center;gap:30px">
+<div style="background:var(--surface-ink);color:var(--text-inverse);padding:26px 28px;box-shadow:2px 3px 7px rgba(42,35,28,0.2);transform:rotate(-1.5deg);width:232px;flex:none">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.1em;opacity:0.6">QUELLE</div>
+<div style="font-size:22px;font-weight:600;margin:8px 0 10px">signaturen.js</div>
+<div style="font-size:17px;line-height:1.4;opacity:0.8">Ein Katalog, alle Ma&szlig;e in mm. Farben kommen aus farben.js &mdash; kein Hex-Wert steht woanders.</div>
+</div>
+<svg width="64" height="24" viewBox="0 0 64 24" style="color:var(--ink);flex:none"><line x1="0" y1="12" x2="54" y2="12" stroke="currentColor" stroke-width="1.6"></line><path d="M54 7 L62 12 L54 17 z" fill="currentColor"></path></svg>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1">
+<sc-for list="{{ ausgaenge }}" as="a" hint-placeholder-count="4">
+<div style="background:{{ a.bg }};padding:20px 20px 17px;box-shadow:2px 3px 7px rgba(42,35,28,0.14);transform:rotate({{ a.rot }});min-height:112px">
+<div style="font:500 15px var(--font-mono);color:rgba(42,35,28,0.85);margin-bottom:7px">{{ a.was }}</div>
+<div style="font-size:17px;line-height:1.4;color:rgba(42,35,28,0.75)">{{ a.text }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+<p style="font-size:20px;line-height:1.45;margin:36px 0 0;max-width:80ch;color:var(--grey-dark)">Symbologie ist damit diffbar. Wer eine Signatur &auml;ndert, &auml;ndert sie im Druck, im QGIS-Projekt, auf dem Handy und in der Palette gleichzeitig &mdash; oder gar nicht.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:24px;font:14px var(--font-mono);color:var(--grey)">08 / 09</span></sc-if>
+</section>
+
+<section data-screen-label="09 Schluss" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:70px 84px;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+<div style="position:absolute;right:96px;top:150px;width:200px;height:200px;background:#e7dcab;transform:rotate(5deg);box-shadow:3px 4px 10px rgba(0,0,0,0.28);display:flex;align-items:center;justify-content:center;font-size:96px;color:var(--ink)">&#8902;</div>
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-light);margin-bottom:20px">Woran man ein System erkennt</div>
+<h2 style="font-size:54px;font-weight:600;letter-spacing:-0.02em;line-height:1.12;margin:0 0 26px;max-width:20ch">Ein System sagt auch, was <em>nicht</em> hineingeh&ouml;rt.</h2>
+<p style="font-size:23px;line-height:1.5;margin:0 0 14px;max-width:46ch;opacity:0.85">Ein Katalog w&auml;chst, solange jemand Zeichen hinzuf&uuml;gt. Ein System w&auml;chst nur, wo eine Regel es erlaubt &mdash; und schrumpft, wo die Messung etwas widerlegt.</p>
+<p style="font-size:20px;line-height:1.5;margin:0;max-width:46ch;opacity:0.6">Deshalb sind hier zwei Schriften wieder rausgeflogen, nachdem gemessen war, dass Noto Serif es allein kann.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">09 / 09</span></sc-if>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Oliv&quot;,&quot;Orange&quot;,&quot;Aubergine&quot;],&quot;default&quot;:&quot;Petrol&quot;,&quot;tsType&quot;:&quot;'Petrol'|'Oliv'|'Orange'|'Aubergine'&quot;,&quot;section&quot;:&quot;Farben&quot;},&quot;postitFarben&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;gedämpft&quot;,&quot;kräftig&quot;],&quot;default&quot;:&quot;gedämpft&quot;,&quot;tsType&quot;:&quot;'gedämpft'|'kräftig'&quot;,&quot;section&quot;:&quot;Farben&quot;},&quot;pageNumbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Stil&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  applyAcc() {
+    const el = this.rootRef.current; if (!el) return;
+    const map = { 'Petrol': 'var(--petrol)', 'Oliv': 'var(--olive)', 'Orange': 'var(--orange-deep)', 'Aubergine': 'var(--plum)' };
+    el.style.setProperty('--pri', map[this.props.primaryColor] ?? 'var(--petrol)');
+  }
+  componentDidMount() { this.applyAcc(); }
+  componentDidUpdate() { this.applyAcc(); }
+  renderVals() {
+    const kraeftig = this.props.postitFarben === 'kr\u00e4ftig';
+    const P = kraeftig
+      ? ['#e9d98a', '#bcd9db', '#d9dfae', '#e5cbd8']
+      : ['#e7dcab', '#dbe8e8', '#e4e4cf', '#e6dbe2'];
+    return {
+      rootRef: this.rootRef,
+      pageNumbers: this.props.pageNumbers ?? true,
+      stufen: [
+        { nr: 'STUFE \u2460', titel: 'Gentium tr\u00e4gt es selbst', zeichen: '\u2116 \u0152 \u2197 \u2020 \u2021 \u2042 \u203b \u2248 \u2261 \u221e \u2211 \u220f', regel: 'Druck- und PDF-fest. Kein Fallback n\u00f6tig.', bg: P[0], rot: '-2.5deg' },
+        { nr: 'STUFE \u2461', titel: 'Noto Serif tr\u00e4gt es', zeichen: '\u22c6 \u2217 \u2218 \u2297 \u2295 \u2299 \u22c5 \u210f \u2208 \u21aa \ua668', regel: 'Selbstgehostet, serif \u2014 aber nie einziger Tr\u00e4ger einer Information.', bg: P[1], rot: '1.8deg' },
+        { nr: 'STUFE \u2462', titel: 'Nur die Systemkette', zeichen: '\u203f \u2e17', regel: 'Im Druck und in Titeln durch Zeichnung oder LaTeX ersetzen.', bg: P[2], rot: '-1.2deg' },
+        { nr: 'STUFE \u2463', titel: 'Gemessenes Tofu', zeichen: 'U+3001 \u00b7 U+1361 \u00b7 U+0FD2 \u00b7 U+F8D0', regel: 'Identische Breite wie U+FFFF \u2014 es gibt gar keine Glyphe.', bg: P[3], rot: '2.2deg' }
+      ],
+      etReihe: [
+        { z: '&', name: 'Ampersand', hinweis: 'Kursiv zeigt die e\u2011t\u2011Ligatur', bg: P[0], rot: '-3deg' },
+        { z: '\u204a', name: 'Tironische Note', hinweis: 'Das \u00e4lteste Und der Reihe', bg: P[1], rot: '2deg' },
+        { z: '\ua76b', name: 'et-K\u00fcrzung', hinweis: 'Aus der lateinischen Handschrift', bg: P[2], rot: '-1.5deg' },
+        { z: '\ua76f', name: 'con-K\u00fcrzung', hinweis: 'Der Vollst\u00e4ndigkeit halber', bg: P[3], rot: '2.6deg' }
+      ],
+      signaturen: [
+        { kopf: 'VORHER: BRANCHENQUADRAT', titel: 'Jetzt: Tiegel', text: 'Verh\u00fcttende Industrie tr\u00e4gt einen Tiegel mit Elementk\u00fcrzel \u2014 Fe, Cu\u00b7Pb, Al. Das Zeichen zeigt den Vorgang, nicht die Branche.', bg: P[0], rot: '-2deg' },
+        { kopf: 'VORHER: GR\u00d6SSTER KREIS', titel: 'Jetzt: Grundriss', text: 'St\u00e4dte \u00fcber einer Million sind kein gr\u00f6\u00dferer Punkt mehr, sondern ein kreuzschraffierter Grundriss. Ab 1:500\u202f000 auch die Fl\u00e4che selbst.', bg: P[1], rot: '1.6deg' },
+        { kopf: 'VORHER: NUR FL\u00c4CHENFARBE', titel: 'Jetzt: Textur darunter', text: 'Weinbau Linien, Obstbau Punktstreu, Nassreis waagerecht, Friedhof Kreuzchen. Farbe allein tr\u00e4gt keine Aussage.', bg: P[2], rot: '-1deg' }
+      ],
+      ausgaenge: [
+        { was: 'Zeichenerkl\u00e4rung', text: '14 Blatt A4 quer, druckfertig', bg: P[0], rot: '-2deg' },
+        { was: '.qml + symbole.xml', text: 'QGIS liest dieselben Ma\u00dfe', bg: P[1], rot: '1.4deg' },
+        { was: '.gpl-Paletten', text: 'Eine je Kartenfamilie, f\u00fcr QGIS und GIMP', bg: P[2], rot: '2deg' },
+        { was: 'GeoPackage', text: 'Was QField im Feld anzeigt', bg: P[3], rot: '-1.6deg' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

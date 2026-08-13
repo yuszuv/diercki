@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{background:#d8d8da;margin:0}a{color:#2f6f74}a:hover{color:#2a231c}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--pri:var(--petrol);--acc:var(--orange);display:flex;flex-direction:column;gap:22px;padding:22px 0;align-items:center;font-family:var(--font-serif)">
+
+<section data-screen-label="01 Titel" style="width:1280px;height:720px;background:var(--paper);position:relative;box-sizing:border-box;display:flex;color:var(--ink);overflow:hidden">
+<div style="width:452px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:64px 52px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+<div style="position:absolute;bottom:-26px;right:-10px;font-size:200px;line-height:1;color:rgba(255,255,255,0.06);letter-spacing:-0.05em">&#8902;</div>
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:66px;width:auto;align-self:flex-start;filter:brightness(0) invert(1);opacity:0.6">
+<div style="position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.24em;text-transform:uppercase;opacity:0.75">Werkstatt</div>
+<div style="font-size:19px;margin-top:12px;opacity:0.85">Ein Nachmittag, ein GeoPackage, eine Reise</div>
+</div>
+</div>
+<div style="flex:1;box-sizing:border-box;padding:68px 70px;display:flex;flex-direction:column;justify-content:center;position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:24px">Workshop &middot; QGIS und QField</div>
+<h1 style="font-size:58px;font-weight:600;line-height:1.06;letter-spacing:-0.02em;margin:0 0 20px;max-width:16ch">Den Atlas als Bahnreise-Planer aufs Handy bringen</h1>
+<p style="font-size:24px;color:var(--grey-dark);margin:0;max-width:32ch">Wie aus Kartenbl&auml;ttern, offenen Fahrplandaten und einer freien Feld-App ein Reisebegleiter wird, der ohne Netz funktioniert.</p>
+<div style="width:84px;height:6px;background:var(--acc,var(--orange));margin-top:32px"></div>
+<sc-if value="{{ pageNumbers }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;right:70px;bottom:32px;font:14px var(--font-mono);color:var(--grey)">01 / 16</span></sc-if>
+</div>
+</section>
+
+<section data-screen-label="02 Voraussetzungen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Voraussetzungen</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 16px">Was Sie mitbringen sollten</h2>
+<p style="font-size:21px;color:var(--grey-dark);margin:0 0 36px;max-width:70ch">Der Workshop setzt QGIS-Grundkenntnisse voraus: Layer laden, Attributtabelle lesen, ein Projekt speichern. Alles Weitere entsteht heute.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px">
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:26px;font-weight:600;margin-bottom:12px">Auf dem Rechner</div><div style="font:500 17px/1.9 var(--font-mono);color:var(--grey-dark)">QGIS 4.2<br>QFieldSync-Erweiterung<br>ein Ordner mit Schreibrecht</div></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:26px;font-weight:600;margin-bottom:12px">Auf dem Telefon</div><div style="font:500 17px/1.9 var(--font-mono);color:var(--grey-dark)">QField &raquo;Coral Sea&laquo;<br>2 GB freier Speicher<br>ein USB-Kabel</div></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:26px;font-weight:600;margin-bottom:12px">An Daten</div><div style="font:500 17px/1.9 var(--font-mono);color:var(--grey-dark)">OSM-Auszug der Region<br>GTFS des Verkehrsbetriebs<br>eine Basiskarte</div></div>
+</div>
+<p style="font-size:20px;line-height:1.5;margin:36px 0 0;max-width:76ch;color:var(--grey-dark)">Kein Konto, keine Lizenz, kein Abonnement. Der ganze Weg l&auml;uft auf freier Software und offenen Daten &mdash; das ist keine Sparma&szlig;nahme, sondern die Bedingung daf&uuml;r, dass die Reise auch in f&uuml;nf Jahren noch funktioniert.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:28px;font:14px var(--font-mono);color:var(--grey)">02 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="03 Der Weg" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">&Uuml;bersicht</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 36px">Der Weg in sechs Schritten</h2>
+<div style="display:flex;align-items:stretch;gap:0;height:340px">
+<sc-for list="{{ schritte }}" as="s" hint-placeholder-count="6">
+<div style="flex:1;display:flex;flex-direction:column;padding:0 16px;border-left:1px solid var(--grey-light)">
+<div style="font:500 32px var(--font-mono);color:var(--acc,var(--orange));line-height:1;margin-bottom:12px">{{ s.nr }}</div>
+<div style="font-size:22px;font-weight:600;line-height:1.2;margin-bottom:9px">{{ s.titel }}</div>
+<div style="font-size:17px;line-height:1.4;color:var(--grey-dark)">{{ s.text }}</div>
+<div style="margin-top:auto;padding-top:12px;font:500 13px var(--font-mono);letter-spacing:0.06em;color:var(--grey)">{{ s.wo }}</div>
+</div>
+</sc-for>
+</div>
+<p style="font-size:20px;line-height:1.5;margin:30px 0 0;max-width:78ch;color:var(--grey-dark)">Die Reihenfolge ist keine Empfehlung, sondern eine Abh&auml;ngigkeit: jeder Schritt braucht das Ergebnis des vorigen. Wer bei vier anf&auml;ngt, baut eine Karte ohne Inhalt.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:28px;font:14px var(--font-mono);color:var(--grey)">03 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="04 Datenfluss" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Schritt eins</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 26px">Woher die Daten kommen</h2>
+<div style="display:flex;gap:44px;align-items:flex-start">
+<svg viewBox="0 0 560 390" style="width:540px;flex:none" role="img" aria-label="Datenfluss von den Quellen ins GeoPackage">
+<g font-family="'Noto Sans Mono',monospace" font-weight="500" font-size="15" fill="#2a231c">
+<rect x="4" y="10" width="152" height="44" fill="none" stroke="#2a231c" stroke-width="1.6"></rect>
+<text x="80" y="30" text-anchor="middle">OpenStreetMap</text><text x="80" y="46" text-anchor="middle" font-size="12" fill="#4a4139">Strecken, Bahnh&#246;fe</text>
+<rect x="4" y="86" width="152" height="44" fill="none" stroke="#2a231c" stroke-width="1.6"></rect>
+<text x="80" y="106" text-anchor="middle">GTFS-Feed</text><text x="80" y="122" text-anchor="middle" font-size="12" fill="#4a4139">Fahrplan, Halte</text>
+<rect x="4" y="162" width="152" height="44" fill="none" stroke="#2a231c" stroke-width="1.6"></rect>
+<text x="80" y="182" text-anchor="middle">Atlas-Blatt</text><text x="80" y="198" text-anchor="middle" font-size="12" fill="#4a4139">Signaturen, Farben</text>
+<rect x="4" y="238" width="152" height="44" fill="none" stroke="#2a231c" stroke-width="1.6"></rect>
+<text x="80" y="258" text-anchor="middle">Eigene Notizen</text><text x="80" y="274" text-anchor="middle" font-size="12" fill="#4a4139">Orte, Etappen</text>
+<path d="M156 32 L196 32 L196 146" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M156 108 L196 108" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M156 184 L196 184" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M156 260 L196 260 L196 190" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M196 146 L196 190" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M196 168 L226 168" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<rect x="226" y="138" width="136" height="62" fill="#f7f4ee" stroke="#2a231c" stroke-width="2"></rect>
+<text x="294" y="165" text-anchor="middle" font-size="17">QGIS</text><text x="294" y="185" text-anchor="middle" font-size="12" fill="#4a4139">zuschneiden, stilen</text>
+<path d="M362 169 L404 169" fill="none" stroke="#2a231c" stroke-width="1.8"></path>
+<path d="M404 164 L416 169 L404 174 z" fill="#2a231c"></path>
+<rect x="420" y="138" width="132" height="62" fill="none" stroke="#cb5a2a" stroke-width="2.4"></rect>
+<text x="486" y="165" text-anchor="middle" font-size="17" fill="#cb5a2a">GeoPackage</text>
+<text x="486" y="185" text-anchor="middle" font-size="12" fill="#4a4139">eine Datei</text>
+<path d="M486 200 L486 286" fill="none" stroke="#4a4139" stroke-width="1.4" stroke-dasharray="5 3"></path>
+<path d="M481 286 L486 298 L491 286 z" fill="#4a4139"></path>
+<text x="486" y="322" text-anchor="middle" font-size="15">QField</text>
+<text x="486" y="342" text-anchor="middle" font-size="12" fill="#4a4139">offline lesbar</text>
+</g>
+</svg>
+<div style="flex:1">
+<p style="font-size:21px;line-height:1.5;margin:0 0 18px">Vier Quellen, ein Ziel. <strong>Alles landet in einer einzigen Datei</strong> &mdash; einem GeoPackage. Das ist der Unterschied zum Shapefile: eine Datei statt sechs, mit Stilen, Rasterdaten und Beziehungen darin.</p>
+<p style="font-size:21px;line-height:1.5;margin:0 0 18px;color:var(--grey-dark)">Der GTFS-Feed ist eine ZIP mit Textdateien. <span style="font-family:var(--font-mono);font-size:17px">stops.txt</span> tr&auml;gt Koordinaten und wird direkt zum Punktlayer; <span style="font-family:var(--font-mono);font-size:17px">stop_times.txt</span> verkn&uuml;pft Halte zu Fahrten.</p>
+<p style="font-size:19px;line-height:1.5;margin:0;color:var(--grey-dark)">Die Signaturen kommen aus dem Atlas &mdash; nicht neu gezeichnet, sondern als <span style="font-family:var(--font-mono);font-size:16px">.qml</span> importiert. Druck und Handy sprechen dieselbe Kartensprache.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">04 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="05 Daten ziehen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Schritt eins, konkret</div>
+<h2 style="font-size:42px;font-weight:600;letter-spacing:-0.02em;margin:0 0 12px">Wo es liegt und wie man es holt</h2>
+<p style="font-size:19px;color:var(--grey-dark);margin:0 0 22px;max-width:82ch">Vier Quellen, vier Wege. Keiner braucht ein Konto, drei laufen im Browser, einer in QGIS selbst.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 40px">
+<sc-for list="{{ quellen }}" as="q" hint-placeholder-count="4">
+<div style="border-top:2px solid var(--ink);padding-top:14px">
+<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+<span style="font-size:21px;font-weight:600">{{ q.was }}</span>
+<span style="font:500 13px var(--font-mono);letter-spacing:0.06em;color:var(--acc,var(--orange))">{{ q.weg }}</span>
+</div>
+<div style="font:500 15px/1.5 var(--font-mono);color:var(--pri,var(--petrol));word-break:break-all;margin-bottom:8px">{{ q.adresse }}</div>
+<div style="font-size:17px;line-height:1.38;color:var(--grey-dark)">{{ q.wie }}</div>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:18px;background:var(--surface);border-left:3px solid var(--acc,var(--orange));padding:12px 20px;display:flex;gap:28px;align-items:center">
+<div style="font:500 12px var(--font-mono);letter-spacing:0.1em;color:var(--grey-dark);flex:none;max-width:15ch;line-height:1.5">OVERPASS: BAHNNETZ EINES KREISES</div>
+<pre style="font:500 13px/1.45 var(--font-mono);margin:0;color:var(--ink);white-space:pre;flex:1">[out:json][timeout:180];  area["ISO3166-2"="RO-TM"]-&gt;.a;
+( way["railway"="rail"](area.a); node["railway"~"station|halt"](area.a); );  out geom;</pre>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">05 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="06 Schema" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Schritt zwei</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 14px">F&uuml;nf Layer &mdash; und genau einer davon schreibbar</h2>
+<p style="font-size:19px;color:var(--grey-dark);margin:0 0 22px;max-width:78ch">Die Trennung ist der wichtigste Handgriff des ganzen Tages: alles, was unterwegs ver&auml;ndert wird, geh&ouml;rt in einen einzigen Layer. Der Rest wird gesperrt &mdash; sonst schreibt ein Fehlgriff im Zug die Bahnstrecke um.</p>
+<div>
+<div style="display:grid;grid-template-columns:1.5fr 1fr 2.5fr 1fr;gap:0 22px;border-bottom:2px solid var(--ink);padding-bottom:8px;font:500 14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark)"><span>LAYER</span><span>GEOMETRIE</span><span>WOF&Uuml;R</span><span>SCHREIBEN</span></div>
+<sc-for list="{{ layer }}" as="l" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:1.5fr 1fr 2.5fr 1fr;gap:0 22px;border-bottom:1px solid var(--grey-light);padding:12px 0;align-items:baseline"><span style="font-family:var(--font-mono);font-size:18px;font-weight:500">{{ l.name }}</span><span style="color:var(--grey-dark);font-size:19px">{{ l.geom }}</span><span style="font-size:19px">{{ l.zweck }}</span><span style="font-size:19px;font-weight:600;color:{{ l.farbe }}">{{ l.schreib }}</span></div>
+</sc-for>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">06 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="07 Symbologie" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Schritt drei</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 14px">Die Karte muss drau&szlig;en anders aussehen</h2>
+<p style="font-size:20px;color:var(--grey-dark);margin:0 0 34px;max-width:78ch">Eine Druckkarte wird bei Tageslicht aus 40 cm gelesen, eine Feldkarte im Gehen, bei Gegenlicht, mit einer Hand. Die Signaturen bleiben dieselben, ihre Ma&szlig;e nicht.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 64px">
+<div>
+<div style="font:500 14px var(--font-mono);letter-spacing:0.12em;color:var(--grey-dark);margin-bottom:14px">WAS BLEIBT</div>
+<sc-for list="{{ bleibt }}" as="b" hint-placeholder-count="3">
+<div style="display:flex;gap:16px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:13px 0"><span style="color:var(--pri,var(--petrol));font-size:19px">&#10003;</span><span style="font-size:20px;line-height:1.35">{{ b }}</span></div>
+</sc-for>
+</div>
+<div>
+<div style="font:500 14px var(--font-mono);letter-spacing:0.12em;color:var(--acc,var(--orange));margin-bottom:14px">WAS SICH &Auml;NDERT</div>
+<sc-for list="{{ aendert }}" as="a" hint-placeholder-count="4">
+<div style="display:flex;gap:16px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:13px 0"><span style="color:var(--acc,var(--orange));font-size:19px">&rarr;</span><span style="font-size:20px;line-height:1.35">{{ a }}</span></div>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">07 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="08 Packen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Schritt vier</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 26px">Packen mit QFieldSync</h2>
+<div style="display:flex;gap:52px;align-items:flex-start">
+<svg viewBox="0 0 480 340" style="width:460px;flex:none" role="img" aria-label="Ablauf des Packens und Rücksyncs">
+<g font-family="'Noto Sans Mono',monospace" font-weight="500" font-size="14" fill="#2a231c">
+<rect x="6" y="16" width="180" height="52" fill="#f7f4ee" stroke="#2a231c" stroke-width="1.8"></rect>
+<text x="96" y="40" text-anchor="middle" font-size="15">QGIS-Projekt</text><text x="96" y="57" text-anchor="middle" font-size="12" fill="#4a4139">Layer, Stile, Formulare</text>
+<path d="M186 42 L246 42" fill="none" stroke="#2a231c" stroke-width="1.6"></path>
+<path d="M246 37 L258 42 L246 47 z" fill="#2a231c"></path>
+<text x="216" y="30" text-anchor="middle" font-size="12" fill="#4a4139">packen</text>
+<rect x="262" y="16" width="180" height="52" fill="none" stroke="#cb5a2a" stroke-width="2.2"></rect>
+<text x="352" y="40" text-anchor="middle" font-size="15" fill="#cb5a2a">Feldpaket</text><text x="352" y="57" text-anchor="middle" font-size="12" fill="#4a4139">Ordner mit GeoPackage</text>
+<path d="M352 68 L352 128" fill="none" stroke="#2a231c" stroke-width="1.6"></path>
+<path d="M347 128 L352 140 L357 128 z" fill="#2a231c"></path>
+<text x="368" y="104" font-size="12" fill="#4a4139">Kabel oder Cloud</text>
+<rect x="262" y="144" width="180" height="52" fill="#f7f4ee" stroke="#2a231c" stroke-width="1.8"></rect>
+<text x="352" y="168" text-anchor="middle" font-size="15">QField</text><text x="352" y="185" text-anchor="middle" font-size="12" fill="#4a4139">unterwegs, offline</text>
+<path d="M262 196 L262 236 L96 236 L96 208" fill="none" stroke="#4a4139" stroke-width="1.6" stroke-dasharray="6 4"></path>
+<path d="M91 208 L96 196 L101 208 z" fill="#4a4139"></path>
+<text x="176" y="254" text-anchor="middle" font-size="12" fill="#4a4139">zur&#252;cksynchronisieren</text>
+<rect x="6" y="144" width="180" height="52" fill="none" stroke="#2f6f74" stroke-width="2.2"></rect>
+<text x="96" y="168" text-anchor="middle" font-size="15" fill="#2f6f74">Erfasste Daten</text><text x="96" y="185" text-anchor="middle" font-size="12" fill="#4a4139">Notizen, Fotos, Spuren</text>
+<text x="6" y="300" font-size="12" fill="#4a4139">Der Kreis schlie&#223;t sich: was drau&#223;en entsteht,</text>
+<text x="6" y="318" font-size="12" fill="#4a4139">landet im selben Projekt, aus dem die Karte kam.</text>
+</g>
+</svg>
+<div style="flex:1">
+<p style="font-size:21px;line-height:1.5;margin:0 0 18px">QFieldSync macht aus dem Projekt einen Ordner, der auf dem Telefon f&uuml;r sich steht. <strong>Vor dem Packen die Basiskarte beschneiden</strong> &mdash; sonst wandern Kacheln f&uuml;r halb Europa mit.</p>
+<p style="font-size:21px;line-height:1.5;margin:0 0 18px;color:var(--grey-dark)">Mischmodi abschalten. Die Schummerung liegt auf &raquo;Multiplizieren&laquo;, und das rasterisiert beim Export &mdash; auf dem Telefon kostet das Bildrate, drau&szlig;en gewinnt die n&uuml;chterne Karte.</p>
+<p style="font-size:19px;line-height:1.5;margin:0;color:var(--grey-dark)">Zwei Wege aufs Ger&auml;t: USB-Kabel oder eine eigene QFieldCloud-Instanz. Das Kabel ist schneller, die Cloud &uuml;berlebt einen Ger&auml;tewechsel.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">08 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="09 Unterwegs" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:62px 84px;overflow:hidden">
+<div style="position:absolute;top:-40px;right:50px;font-size:300px;line-height:1;color:rgba(255,255,255,0.07);letter-spacing:-0.04em">&#8902;</div>
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-light);margin-bottom:14px;position:relative">Unterwegs</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 34px;position:relative">Was im Zug tats&auml;chlich passiert</h2>
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0 64px;position:relative">
+<sc-for list="{{ unterwegs }}" as="u" hint-placeholder-count="6">
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid rgba(255,255,255,0.18);padding:17px 0"><span style="font:500 17px var(--font-mono);color:var(--acc,var(--orange));min-width:34px">{{ u.nr }}</span><div><div style="font-size:23px;font-weight:600;margin-bottom:3px">{{ u.titel }}</div><div style="font-size:18px;line-height:1.35;opacity:0.75">{{ u.text }}</div></div></div>
+</sc-for>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">09 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="10 Fahrplan" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Der Kniff</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 14px">Einen Fahrplan in eine Karte verwandeln</h2>
+<p style="font-size:20px;color:var(--grey-dark);margin:0 0 32px;max-width:78ch">GTFS ist eine ZIP mit CSV-Dateien. Drei davon gen&uuml;gen, um aus Abfahrtszeiten Kartenobjekte zu machen.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<sc-for list="{{ gtfs }}" as="g" hint-placeholder-count="3">
+<div style="border-top:2px solid var(--ink);padding-top:16px">
+<div style="font:500 22px var(--font-mono);color:var(--acc,var(--orange));margin-bottom:12px">{{ g.datei }}</div>
+<div style="font-size:20px;line-height:1.45;margin-bottom:12px">{{ g.text }}</div>
+<div style="font:500 15px/1.7 var(--font-mono);color:var(--grey-dark)">{{ g.spalten }}</div>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:34px;border-left:3px solid var(--acc,var(--orange));padding-left:24px;max-width:80ch">
+<p style="font-size:20px;line-height:1.5;margin:0">Der Trick, der die meiste Arbeit spart: <strong>nicht jede Fahrt abbilden, sondern einen Werktag</strong>. Eine Strecke, die zw&ouml;lfmal t&auml;glich bedient wird, braucht auf der Karte eine Linie und die Angabe &raquo;12&times;&laquo; &mdash; nicht zw&ouml;lf Linien.</p>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">10 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="11 Fallstricke" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Aus Erfahrung</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 32px">F&uuml;nf Fallstricke, jeder schon getreten</h2>
+<sc-for list="{{ fallen }}" as="f" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:1.15fr 1fr;gap:0 44px;border-bottom:1px solid var(--grey-light);padding:19px 0;align-items:baseline">
+<div style="font-size:22px;line-height:1.35">{{ f.problem }}</div>
+<div style="font-size:20px;line-height:1.35;color:var(--pri,var(--petrol))">{{ f.loesung }}</div>
+</div>
+</sc-for>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">11 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="12 Zu mehreren" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Zu mehreren</div>
+<h2 style="font-size:42px;font-weight:600;letter-spacing:-0.02em;margin:0 0 12px">Dieselbe Karte, mehrere Leute</h2>
+<p style="font-size:19px;color:var(--grey-dark);margin:0 0 24px;max-width:82ch">Sobald zwei Menschen dieselbe Karte f&uuml;hren, entstehen genau vier Probleme. QFieldCloud l&ouml;st sie nicht durch Zauberei, sondern durch eine klare Rollenverteilung.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 38px">
+<sc-for list="{{ kollab }}" as="k" hint-placeholder-count="4">
+<div style="border-top:2px solid var(--ink);padding-top:13px">
+<div style="font-size:21px;font-weight:600;margin-bottom:7px">{{ k.problem }}</div>
+<div style="font-size:16.5px;line-height:1.36;color:var(--grey-dark);margin-bottom:6px">{{ k.wehtut }}</div>
+<div style="display:flex;gap:10px;align-items:baseline"><span style="color:var(--acc,var(--orange));font-size:17px;flex:none">&rarr;</span><span style="font-size:17px;line-height:1.4;color:var(--pri,var(--petrol))">{{ k.loesung }}</span></div>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:16px;background:var(--surface);border-left:3px solid var(--acc,var(--orange));padding:12px 22px">
+<p style="font-size:17px;line-height:1.45;margin:0">Die Rollenverteilung, die sich bew&auml;hrt hat: <strong>eine Person pflegt das Projekt</strong> &mdash; Layer, Stile, Formulare &mdash; und alle anderen erfassen nur. Wer Geometrie &auml;ndern darf, sollte man z&auml;hlen k&ouml;nnen, ohne nachzusehen.</p>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">12 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="13 Fotos und Teilen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:48px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:9px">Fotos und Teilen</div>
+<h2 style="font-size:38px;font-weight:600;letter-spacing:-0.02em;margin:0 0 14px">Zwei Dinge, die man vorher wissen sollte</h2>
+<div style="display:flex;gap:48px;align-items:flex-start">
+<div style="flex:1">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:var(--acc,var(--orange));margin-bottom:12px">FOTOS</div>
+<sc-for list="{{ fotos }}" as="f" hint-placeholder-count="4">
+<div style="border-bottom:1px solid var(--grey-light);padding:9px 0">
+<div style="font-size:17.5px;font-weight:600;margin-bottom:3px">{{ f.k }}</div>
+<div style="font-size:16px;line-height:1.36;color:var(--grey-dark)">{{ f.t }}</div>
+</div>
+</sc-for>
+</div>
+<div style="flex:1">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:var(--pri,var(--petrol));margin-bottom:12px">TEILEN</div>
+<sc-for list="{{ teilen }}" as="s" hint-placeholder-count="4">
+<div style="border-bottom:1px solid var(--grey-light);padding:9px 0">
+<div style="font-size:17.5px;font-weight:600;margin-bottom:3px">{{ s.k }}</div>
+<div style="font-size:16px;line-height:1.36;color:var(--grey-dark)">{{ s.t }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="margin-top:12px;background:var(--surface);border-left:3px solid var(--acc,var(--orange));padding:10px 20px">
+<p style="font-size:16px;line-height:1.45;margin:0">Fürs Reisen der brauchbarste Weg: das Projekt <strong>öffentlich</strong> stellen. Dann lädt es jeder mit QField herunter, ohne Einladung und ohne Konto bei mir. Die Karte wird damit zum Reiseführer, den man weitergeben kann.</p>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:24px;font:14px var(--font-mono);color:var(--grey)">13 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="14 Bilder-Abgleich" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:44px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:8px">Bilder-Abgleich</div>
+<h2 style="font-size:36px;font-weight:600;letter-spacing:-0.02em;margin:0 0 9px">So wird der Foto-Abgleich brauchbar</h2>
+<p style="font-size:16px;color:var(--grey-dark);margin:0 0 13px;max-width:96ch">Fotos machen das Volumen, nicht die Geometrie. Sechs Einstellungen entscheiden dar&uuml;ber, ob der Abgleich nach zweihundert Aufnahmen noch l&auml;uft &mdash; alle im QGIS-Projekt, keine davon im Nachhinein.</p>
+<div>
+<div style="display:grid;grid-template-columns:1.15fr 1.15fr 1.7fr 0.7fr;gap:0 22px;border-bottom:2px solid var(--ink);padding-bottom:7px;font:500 13px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark)"><span>EINSTELLUNG</span><span>WO</span><span>WARUM</span><span>WIRKUNG</span></div>
+<sc-for list="{{ bildsync }}" as="s" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:1.15fr 1.15fr 1.7fr 0.7fr;gap:0 22px;border-bottom:1px solid var(--grey-light);padding:7.5px 0;align-items:baseline">
+<span style="font-size:16px;font-weight:600;line-height:1.22">{{ s.was }}</span>
+<span style="font:500 13px var(--font-mono);line-height:1.38;color:var(--pri,var(--petrol))">{{ s.wo }}</span>
+<span style="font-size:14.5px;line-height:1.3;color:var(--grey-dark)">{{ s.warum }}</span>
+<span style="font:500 14px var(--font-mono);color:{{ s.farbe }}">{{ s.wirkung }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:12px;border-left:3px solid var(--acc,var(--orange));padding-left:22px;max-width:96ch">
+<p style="font-size:15.5px;line-height:1.4;margin:0">Auf einer selbst betriebenen Instanz kommt eine siebte M&ouml;glichkeit dazu: <strong>Anh&auml;nge auf einen eigenen WebDAV-Speicher legen</strong>, getrennt vom Objektspeicher der Projektdaten. Das ist vorgesehen, kein Kunstgriff &mdash; und es trennt das, was w&auml;chst, von dem, was gesichert werden muss.</p>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:22px;font:14px var(--font-mono);color:var(--grey)">14 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="15 Rücksync" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Nach der Reise</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 14px">Der R&uuml;ckweg ist der eigentliche Gewinn</h2>
+<p style="font-size:20px;color:var(--grey-dark);margin:0 0 34px;max-width:78ch">Was drau&szlig;en aufgenommen wird, kommt in dasselbe Projekt zur&uuml;ck, aus dem die Karte kam. Beim n&auml;chsten Mal ist die Karte besser &mdash; und irgendwann ist sie besser als jede gekaufte.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:25px;font-weight:600;margin-bottom:11px">Vor dem Sync</div><p style="font-size:19px;line-height:1.45;margin:0;color:var(--grey-dark)">Ger&auml;t am Netz, Projekt in QGIS geschlossen. Der h&auml;ufigste Datenverlust entsteht, weil beide Seiten gleichzeitig offen waren.</p></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:25px;font-weight:600;margin-bottom:11px">Beim Sync</div><p style="font-size:19px;line-height:1.45;margin:0;color:var(--grey-dark)">QFieldSync zeigt Konflikte einzeln. Nicht pauschal best&auml;tigen &mdash; jeder Konflikt ist eine Entscheidung, keine Formalie.</p></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:25px;font-weight:600;margin-bottom:11px">Danach</div><p style="font-size:19px;line-height:1.45;margin:0;color:var(--grey-dark)">Plausibilit&auml;t pr&uuml;fen: Punkte ohne Foto, Fotos ohne Punkt, Koordinaten mit Genauigkeit &uuml;ber 15 m. Dann erst archivieren.</p></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">15 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="16 Schluss" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:70px 84px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden">
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:44px;width:auto;margin-bottom:24px;filter:brightness(0) invert(1);opacity:0.8">
+<h2 style="font-size:60px;font-weight:600;letter-spacing:-0.02em;margin:0 0 22px;max-width:22ch">Eine Karte, die mitf&auml;hrt, wird zu einer besseren Karte.</h2>
+<p style="font-size:22px;margin:0;opacity:0.85;max-width:44ch">Der Unterschied zur App aus dem Store: diese hier geh&ouml;rt Ihnen, l&auml;uft ohne Netz und wird mit jeder Reise genauer.</p>
+<p style="font:17px/1.7 var(--font-mono);margin:28px 0 0;opacity:0.85">jan<span style="font-family:var(--font-serif);letter-spacing:-.03em">&#8902;<sub style="font-size:10px;margin-left:-.08em">&#8463;</sub></span>sternprodukt.de</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">16 / 16</span></sc-if>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Oliv&quot;,&quot;Orange&quot;,&quot;Aubergine&quot;],&quot;default&quot;:&quot;Petrol&quot;,&quot;tsType&quot;:&quot;'Petrol'|'Oliv'|'Orange'|'Aubergine'&quot;,&quot;section&quot;:&quot;Farben&quot;},&quot;pageNumbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Stil&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  applyAcc() {
+    const el = this.rootRef.current; if (!el) return;
+    const map = { 'Petrol': 'var(--petrol)', 'Oliv': 'var(--olive)', 'Orange': 'var(--orange-deep)', 'Aubergine': 'var(--plum)' };
+    el.style.setProperty('--pri', map[this.props.primaryColor] ?? 'var(--petrol)');
+  }
+  componentDidMount() { this.applyAcc(); }
+  componentDidUpdate() { this.applyAcc(); }
+  renderVals() {
+    return {
+      rootRef: this.rootRef,
+      pageNumbers: this.props.pageNumbers ?? true,
+      bildsync: [
+        { was: 'Bilder verkleinern', wo: 'Anh\u00e4nge und Verzeichnisse', warum: 'Rohaufnahmen wiegen 5 bis 10 MB. Eine Belegaufnahme braucht keine 4500 Pixel Kantenl\u00e4nge \u2014 1600 gen\u00fcgen. Nachteil: das Verkleinern verwirft die EXIF-Daten.', wirkung: 'gr\u00f6\u00dfte', farbe: 'var(--orange-deep)' },
+        { was: 'Relativer Pfad', wo: 'Anhang-Widget im Formular', warum: 'Absolute Pfade \u00fcberleben den Weg aufs Ger\u00e4t nicht. Der h\u00e4ufigste Grund f\u00fcr Bilder, die es nie in die Cloud schaffen.', wirkung: 'Pflicht', farbe: 'var(--orange-deep)' },
+        { was: 'Verzeichnis eintragen', wo: 'Projekt \u2192 Eigenschaften \u2192 QField', warum: 'Alles au\u00dferhalb von DCIM/, audio/, video/ wandert nur mit, wenn es dort steht \u2014 mit Pfad relativ zur Projektdatei.', wirkung: 'Pflicht', farbe: 'var(--orange-deep)' },
+        { was: 'In QField fotografieren', wo: 'Gewohnheit, nicht Einstellung', warum: 'Aus der Galerie angeh\u00e4ngte Bilder landen zwar im Projekt, werden aber nicht zuverl\u00e4ssig hochgeladen.', wirkung: 'hoch', farbe: 'var(--olive-deep)' },
+        { was: 'Bildstempel erzwingen', wo: 'Anh\u00e4nge \u2192 Stempel-Einstellungen', warum: 'Koordinate, Datum und Erfasser als Ausdruck ins Bild gebrannt. Dann tr\u00e4gt jedes Foto seinen Kontext selbst, auch wenn der Datensatz danebengeht.', wirkung: 'hoch', farbe: 'var(--olive-deep)' },
+        { was: 'Nie gleichzeitig packen', wo: 'Absprache im Team', warum: 'Wer das QGIS-Projekt hochl\u00e4dt, w\u00e4hrend jemand im Feld erfasst, \u00fcberschreibt dessen Stand in der Cloud.', wirkung: 'kritisch', farbe: 'var(--konflikt,#a83a28)' }
+      ],
+      fotos: [
+        { k: 'Im Feld fotografieren, nicht aus der Galerie anh\u00e4ngen', t: 'Nur die Aufnahme aus QField selbst landet verl\u00e4sslich in der Cloud. Galeriebilder werden zwar kopiert, aber nicht immer hochgeladen \u2014 zur\u00fcck bleibt ein Pfad ohne Datei.' },
+        { k: 'Feld auf \u00bbrelativer Pfad\u00ab stellen', t: 'Im QGIS-Formular am Anhang-Widget. Absolute Pfade \u00fcberleben den Weg aufs Ger\u00e4t nicht.' },
+        { k: 'DCIM heißt DCIM', t: 'Bilder landen in DCIM/, T\u00f6ne in audio/, Videos in video/. Eigene Ordner m\u00fcssen unter Projekt \u2192 Eigenschaften \u2192 QField eingetragen werden, sonst wandern sie nicht mit.' },
+        { k: 'Zu mehreren wird es z\u00e4h', t: 'Jedes Ger\u00e4t l\u00e4dt die Fotos aller anderen mit. Ab ein paar hundert Aufnahmen dauert der Abgleich sp\u00fcrbar \u2014 eine Auswahl je Ger\u00e4t gibt es bisher nicht.' }
+      ],
+      teilen: [
+        { k: '\u00d6ffentlich oder privat', t: 'Ein QFieldCloud-Projekt ist entweder privat (nur eingeladene Mitarbeitende) oder \u00f6ffentlich \u2014 dann kann es jeder QFieldCloud-Nutzer finden und laden.' },
+        { k: '100 MB kostenlos', t: 'Reicht f\u00fcr Vektordaten bequem. Eine Basiskarte sprengt es \u2014 die geh\u00f6rt dann als gemeinsamer Datensatz daneben oder per Kabel aufs Ger\u00e4t.' },
+        { k: 'Gemeinsame Datens\u00e4tze extra freigeben', t: 'Basiskarten liegen im Projekt shared_datasets. Zugriff auf ein Projekt gibt noch keinen Zugriff darauf \u2014 das muss man einzeln erteilen.' },
+        { k: 'Das Projekt bleibt eine .qgz', t: 'QFieldCloud nimmt keine Projekte, die im GeoPackage stecken. Die Daten d\u00fcrfen darin liegen, die Projektdatei nicht.' }
+      ],
+      kollab: [
+        { problem: 'Zwei bearbeiten denselben Punkt', wehtut: 'Ohne Abgleich gewinnt, wer zuletzt synchronisiert \u2014 die Arbeit der anderen verschwindet lautlos.', loesung: 'QFieldCloud meldet den Konflikt einzeln und zeigt beide Fassungen nebeneinander. Entschieden wird von Hand.' },
+        { problem: 'Jeder hat einen anderen Stand', wehtut: 'Feldpakete per USB verteilt altern sofort. Nach zwei Wochen wei\u00df niemand mehr, welche Datei die aktuelle ist.', loesung: 'Ein Projekt in der Cloud, jedes Ger\u00e4t zieht daraus. Der Stand steht am Projekt, nicht im Dateinamen.' },
+        { problem: 'Alle d\u00fcrfen alles', wehtut: 'Ein Fehlgriff im Zug verschiebt eine Bahnstrecke, und es f\u00e4llt erst Wochen sp\u00e4ter auf.', loesung: 'Rollen: Manager \u00e4ndert das Projekt, Reporter erfasst nur. Dazu bleibt weiterhin ein einziger Layer schreibbar.' },
+        { problem: 'Niemand wei\u00df, wer was erfasst hat', wehtut: 'Bei drei Leuten und 200 Punkten ist eine fragw\u00fcrdige Aufnahme nicht mehr zuzuordnen.', loesung: 'Zwei Standardwerte im Formular: Erfasser und Zeitstempel, automatisch gesetzt. Kostet nichts, rettet jede R\u00fcckfrage.' }
+      ],
+      quellen: [
+        { was: 'Bahn- und Tramstrecken', weg: 'QGIS-ERWEITERUNG', adresse: 'QuickOSM — oder overpass-turbo.eu', wie: 'QuickOSM baut die Abfrage im Dialog: Schlüssel railway, Wert rail, Gebiet wählen. Ergebnis liegt sofort als Layer im Projekt.' },
+        { was: 'Fahrplan (GTFS)', weg: 'BROWSER', adresse: 'tranzy.ai/opendata · stpt.ro/open-data', wie: 'ZIP herunterladen, entpacken. stops.txt in QGIS über »Getrennte Texte« laden, X = stop_lon, Y = stop_lat, EPSG:4326.' },
+        { was: 'Großer OSM-Auszug', weg: 'BROWSER', adresse: 'download.geofabrik.de/europe/romania.html', wie: 'Für ganze Länder schneller als Overpass. Als .osm.pbf laden, in QGIS öffnen, gewünschte Ebenen ins GeoPackage kopieren.' },
+        { was: 'Signaturen und Farben', weg: 'AUS DEM ATLAS', adresse: 'atlas/qgis/ · atlas/paletten/', wie: 'Layerstile als .qml laden, Palette unter Einstellungen → Optionen → Farben importieren. Nichts neu zeichnen.' }
+      ],
+      schritte: [
+        { nr: '01', titel: 'Daten holen', text: 'OSM-Auszug, GTFS-Feed, Basiskarte. Alles offen, alles ohne Konto.', wo: 'BROWSER' },
+        { nr: '02', titel: 'Schema bauen', text: 'F\u00fcnf Layer in einem GeoPackage, einer davon schreibbar.', wo: 'QGIS' },
+        { nr: '03', titel: 'Symbologie', text: 'Atlas-Stile als .qml laden, Ma\u00dfe f\u00fcr den Bildschirm anheben.', wo: 'QGIS' },
+        { nr: '04', titel: 'Formular', text: 'Auswahlfelder statt Freitext, h\u00e4ufigster Wert oben.', wo: 'QGIS' },
+        { nr: '05', titel: 'Packen', text: 'Basiskarte beschneiden, Mischmodi aus, QFieldSync starten.', wo: 'QFIELDSYNC' },
+        { nr: '06', titel: 'Fahren', text: 'Offline lesen, unterwegs erfassen, danach zur\u00fccksynchronisieren.', wo: 'QFIELD' }
+      ],
+      layer: [
+        { name: 'strecken', geom: 'Linie', zweck: 'Bahn- und Tramstrecken aus OSM, nach Betriebsart getrennt', schreib: 'gesperrt', farbe: 'var(--grey-dark)' },
+        { name: 'halte', geom: 'Punkt', zweck: 'Bahnh\u00f6fe und Haltestellen aus GTFS, mit Bedienungsh\u00e4ufigkeit', schreib: 'gesperrt', farbe: 'var(--grey-dark)' },
+        { name: 'etappen', geom: 'Linie', zweck: 'die geplante Reise, Abschnitt f\u00fcr Abschnitt', schreib: 'gesperrt', farbe: 'var(--grey-dark)' },
+        { name: 'orte', geom: 'Punkt', zweck: 'Sehensw\u00fcrdiges, Quartiere, alles Vorbereitete', schreib: 'gesperrt', farbe: 'var(--grey-dark)' },
+        { name: 'notizen', geom: 'Punkt', zweck: 'was unterwegs entsteht \u2014 Text, Foto, Zeitstempel', schreib: 'schreibbar', farbe: 'var(--orange-deep)' }
+      ],
+      bleibt: [
+        'Die Signaturen selbst \u2014 Bahnhof, Halt, Strecke sehen aus wie im gedruckten Blatt.',
+        'Das Farbsystem: dieselbe Palette, damit Papier und Bildschirm zusammengeh\u00f6ren.',
+        'Die Beschriftungsregeln: Serife f\u00fcr Orte, Mono f\u00fcr alles Technische.'
+      ],
+      aendert: [
+        'Alle Ma\u00dfe wachsen um etwa die H\u00e4lfte \u2014 ein Ziel unter 44 Punkt trifft niemand im fahrenden Zug.',
+        'Haarlinien unter 0,3 mm fliegen raus; sie verschwinden auf jedem Display.',
+        'Die Schummerung wird flacher oder ganz abgeschaltet: Kontrast schl\u00e4gt Plastizit\u00e4t.',
+        'Beschriftung nur noch, was gebraucht wird \u2014 drau\u00dfen liest niemand Nebennamen.'
+      ],
+      unterwegs: [
+        { nr: '01', titel: 'Wo bin ich gerade', text: 'GPS-Punkt auf dem Atlasblatt, nicht auf einer fremden Grundkarte.' },
+        { nr: '02', titel: 'Was fahre ich hier', text: 'Antippen der Strecke zeigt Linie, Betreiber und Bedienungsh\u00e4ufigkeit.' },
+        { nr: '03', titel: 'Wann geht der n\u00e4chste', text: 'Abfahrten aus dem GTFS-Auszug, im Ger\u00e4t, ohne Netz.' },
+        { nr: '04', titel: 'Was ist das da drau\u00dfen', text: 'Ortslayer beantwortet, was am Fenster vorbeizieht.' },
+        { nr: '05', titel: 'Das merke ich mir', text: 'Notiz mit Foto und Zeitstempel, an der aktuellen Position.' },
+        { nr: '06', titel: 'Das stimmt nicht', text: 'Korrektur als Notiz erfassen \u2014 die Karte lernt von der Reise.' }
+      ],
+      gtfs: [
+        { datei: 'stops.txt', text: 'Jede Haltestelle mit Koordinaten. Wird ohne Umweg zum Punktlayer.', spalten: 'stop_id\nstop_name\nstop_lat, stop_lon' },
+        { datei: 'routes.txt', text: 'Die Linien mit Nummer, Namen und Verkehrsmittel.', spalten: 'route_id\nroute_short_name\nroute_type' },
+        { datei: 'stop_times.txt', text: 'Verkn\u00fcpft Halte zu Fahrten. Hier steckt die Reihenfolge \u2014 und die Bedienungsh\u00e4ufigkeit.', spalten: 'trip_id\nstop_id\nstop_sequence' }
+      ],
+      fallen: [
+        { problem: 'Das Feldpaket ist 4 GB gro\u00df und passt nicht aufs Telefon.', loesung: 'Basiskarte vor dem Packen auf den Reisekorridor beschneiden.' },
+        { problem: 'Die Karte ruckelt beim Verschieben.', loesung: 'Mischmodi und Rasterfilter abschalten \u2014 sie kosten drau\u00dfen am meisten.' },
+        { problem: 'Nach dem R\u00fccksync fehlen Fotos.', loesung: 'Fotopfade relativ setzen (DCIM/), nie absolut.' },
+        { problem: 'Ein Fehlgriff hat eine Bahnstrecke verschoben.', loesung: 'Nur den Notizlayer schreibbar lassen, alles andere sperren.' },
+        { problem: 'Der GPS-Punkt springt in der Stadt.', loesung: 'Genauigkeit mit aufzeichnen, sp\u00e4ter alles \u00fcber 15 m aussortieren.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

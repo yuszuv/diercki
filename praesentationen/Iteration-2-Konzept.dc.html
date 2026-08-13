@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{background:#d8d8da;margin:0}a{color:#2f6f74}a:hover{color:#2a231c}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--pri:var(--petrol);--acc:var(--orange);display:flex;flex-direction:column;gap:22px;padding:22px 0;align-items:center;font-family:var(--font-serif)">
+
+<section data-screen-label="01 Titel" style="width:1280px;height:720px;background:var(--paper);position:relative;box-sizing:border-box;display:flex;color:var(--ink);overflow:hidden">
+<div style="width:448px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:64px 52px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+<div style="position:absolute;bottom:-26px;right:-10px;font-size:200px;line-height:1;color:rgba(255,255,255,0.06);letter-spacing:-0.05em">&#8902;</div>
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:66px;width:auto;align-self:flex-start;filter:brightness(0) invert(1);opacity:0.6">
+<div style="position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.24em;text-transform:uppercase;opacity:0.75">Atlas &middot; Iteration 2</div>
+<div style="font-size:19px;margin-top:12px;opacity:0.85">Konzept vor Bau. Eine Entscheidung, drei Zuschnitte.</div>
+</div>
+</div>
+<div style="flex:1;box-sizing:border-box;padding:68px 70px;display:flex;flex-direction:column;justify-content:center;position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--pri);margin-bottom:24px">Mobil, Feld, Nutzung</div>
+<h1 style="font-size:56px;font-weight:600;line-height:1.06;letter-spacing:-0.02em;margin:0 0 20px;max-width:17ch">Was das Blatt nicht kann &mdash; und was es doch kann</h1>
+<p style="font-size:23px;color:var(--grey-dark);margin:0;max-width:34ch;text-wrap:pretty">Der erste Teil von Iteration 2 steht: das QField-Feldpaket. Der zweite ist eine offene Frage, und diese Vorlage stellt sie, statt sie zu bauen.</p>
+<div style="width:84px;height:6px;background:var(--acc);margin-top:32px"></div>
+<sc-if value="{{ pageNumbers }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;right:70px;bottom:32px;font:14px var(--font-mono);color:var(--grey)">01 / 10</span></sc-if>
+</div>
+</section>
+
+<section data-screen-label="02 Stand" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:62px 84px;border-top:6px solid var(--pri);overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Ausgangslage</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 16px">Wo Iteration 1 endet</h2>
+<p style="font-size:21px;color:var(--grey-dark);margin:0 0 36px;max-width:74ch;text-wrap:pretty">Die Blattfolge ist gebaut: Signaturenkatalog, Farbsystem, Typenscale, Quellenregister mit <em>belegt / abgeleitet / unbelegt</em>, A4-Druckgeometrie. Sie hat drei Grenzen, und keine davon ist ein Gestaltungsfehler.</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px">
+<sc-for list="{{ grenzen }}" as="g" hint-placeholder-count="3">
+<div style="border-top:2px solid var(--ink);padding-top:16px">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);margin-bottom:10px">{{ g.kennung }}</div>
+<div style="font-size:26px;font-weight:600;line-height:1.15;margin-bottom:12px">{{ g.titel }}</div>
+<div style="font-size:18px;line-height:1.45;color:var(--grey-dark);text-wrap:pretty">{{ g.text }}</div>
+</div>
+</sc-for>
+</div>
+<p style="font-size:20px;line-height:1.5;margin:38px 0 0;max-width:80ch;color:var(--grey-dark);text-wrap:pretty">Die dritte Grenze ist die teuerste: vier Aussagen im Atlas stehen als <em>abgeleitet</em> oder <em>unbelegt</em> auf dem Blatt, und drei von ihnen l&ouml;st kein Rechner auf. Es muss jemand hinsehen.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:28px;font:14px var(--font-mono);color:var(--grey)">02 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="03 Kreis" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:56px 84px;border-top:6px solid var(--pri);overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Der Gedanke</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 26px">Iteration 2 schlie&szlig;t den Kreis</h2>
+<div style="display:flex;gap:52px;align-items:flex-start">
+<svg viewBox="0 0 520 380" style="width:520px;flex:none" role="img" aria-label="Kreislauf von Blatt über Feldpaket und Aufnahme zurück zum Blatt">
+<g font-family="'Noto Sans Mono',monospace" font-weight="500" font-size="15" fill="#2a231c">
+<rect x="16" y="16" width="196" height="70" fill="#f7f4ee" stroke="#2a231c" stroke-width="2"></rect>
+<text x="114" y="44" text-anchor="middle" font-size="17">Blatt</text>
+<text x="114" y="64" text-anchor="middle" font-size="12" fill="#4a4139">Signatur, Ma&#223;stab, Quelle</text>
+<rect x="308" y="16" width="196" height="70" fill="none" stroke="#2a231c" stroke-width="1.6"></rect>
+<text x="406" y="44" text-anchor="middle" font-size="17">Feldpaket</text>
+<text x="406" y="64" text-anchor="middle" font-size="12" fill="#4a4139">QGIS &#8594; QFieldSync</text>
+<rect x="308" y="288" width="196" height="70" fill="none" stroke="#cb5a2a" stroke-width="2.4"></rect>
+<text x="406" y="316" text-anchor="middle" font-size="17" fill="#cb5a2a">Aufnahme</text>
+<text x="406" y="336" text-anchor="middle" font-size="12" fill="#4a4139">richtung_ist, Foto, Genauigkeit</text>
+<rect x="16" y="288" width="196" height="70" fill="none" stroke="#2a231c" stroke-width="1.6"></rect>
+<text x="114" y="316" text-anchor="middle" font-size="17">Belegstatus</text>
+<text x="114" y="336" text-anchor="middle" font-size="12" fill="#4a4139">abgeleitet &#8594; belegt</text>
+<path d="M212 51 L296 51" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M296 46 L308 51 L296 56 z" fill="#4a4139"></path>
+<path d="M406 86 L406 276" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M401 276 L406 288 L411 276 z" fill="#4a4139"></path>
+<path d="M308 323 L224 323" fill="none" stroke="#4a4139" stroke-width="1.4"></path>
+<path d="M224 318 L212 323 L224 328 z" fill="#4a4139"></path>
+<path d="M114 288 L114 98" fill="none" stroke="#2a231c" stroke-width="1.8" stroke-dasharray="6 4"></path>
+<path d="M109 98 L114 86 L119 98 z" fill="#2a231c"></path>
+<text x="252" y="192" text-anchor="middle" font-size="13" fill="#8b8173">ein Gegenstand,</text>
+<text x="252" y="210" text-anchor="middle" font-size="13" fill="#8b8173">vier Zust&#228;nde</text>
+</g>
+</svg>
+<div style="flex:1">
+<p style="font-size:21px;line-height:1.5;margin:0 0 18px;text-wrap:pretty">Bisher lief der Weg in eine Richtung: Daten hinein, Blatt heraus. <strong>Iteration 2 macht daraus einen Kreis</strong> &mdash; das Blatt erzeugt das Feldpaket, das Feldpaket erzeugt die Aufnahme, die Aufnahme hebt den Belegstatus, und der Belegstatus &auml;ndert das Blatt.</p>
+<p style="font-size:20px;line-height:1.5;margin:0 0 18px;color:var(--grey-dark);text-wrap:pretty">Das Entscheidende ist die gestrichelte Linie zur&uuml;ck nach oben. Ohne sie ist Mobilit&auml;t nur eine zweite Ausgabeform; mit ihr ist sie der Weg, auf dem unbelegte Aussagen verschwinden.</p>
+<p style="font-size:19px;line-height:1.5;margin:0;color:var(--grey-dark);text-wrap:pretty">Und sie hat einen Preis: jede Aufnahme drau&szlig;en muss ihre Genauigkeit mitbringen, sonst tauscht man eine unbelegte Aussage gegen eine schlecht belegte.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">03 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="04 Teil 1 steht" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri);overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Teil 1 &middot; gebaut</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 12px">Das Feldpaket Hanfkontrolle</h2>
+<p style="font-size:20px;color:var(--grey-dark);margin:0 0 20px;max-width:82ch;text-wrap:pretty">Liegt unter <span style="font-family:var(--font-mono);font-size:17px">atlas/qgis/themen/brandenburg-hanf/</span> &mdash; Layerstil, Erfassungsformular, Layerskript, Anleitung von Packen bis R&uuml;cksync. Sein Zweck ist genau eine Spalte.</p>
+<div style="display:grid;grid-template-columns:1.15fr 1fr;gap:44px;align-items:start">
+<div>
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);margin-bottom:12px">Was drau&szlig;en aufgenommen wird</div>
+<sc-for list="{{ felder }}" as="f" hint-placeholder-count="5">
+<div style="display:flex;gap:16px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--grey-light)">
+<span style="font:500 17px var(--font-mono);color:{{ f.farbe }};min-width:148px">{{ f.name }}</span>
+<span style="font-size:18px;line-height:1.4;color:var(--grey-dark);flex:1;text-wrap:pretty">{{ f.zweck }}</span>
+</div>
+</sc-for>
+</div>
+<div style="border-left:2px solid var(--ink);padding-left:26px">
+<div style="font-size:26px;font-weight:600;line-height:1.15;margin-bottom:14px">Der Vorbehalt, den es aufl&ouml;st</div>
+<p style="font-size:19px;line-height:1.5;margin:0 0 14px;color:var(--grey-dark);text-wrap:pretty">Die Nutzungsrichtung der 54 Hanfschl&auml;ge ist auf dem Landwirtschaftsblatt <em>abgeleitet</em> &mdash; aus dem Zuchtziel der Sorte. Die Sorte entscheidet die Nutzung aber nicht: das tun Erntezeitpunkt und Schnitth&ouml;he.</p>
+<p style="font-size:19px;line-height:1.5;margin:0 0 14px;color:var(--grey-dark);text-wrap:pretty">Sechs Schl&auml;ge mit 55 ha (9 % der Fl&auml;che) stehen deshalb als <em>ungekl&auml;rt</em> auf der Karte, mit eigener Signaturklasse statt geratener Farbe.</p>
+<p style="font-size:19px;line-height:1.5;margin:0;text-wrap:pretty">Eine Begehung mit dem Paket macht aus 9 % Ungekl&auml;rtem eine Beobachtung mit Datum, Erfasser und Foto.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">04 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="05 Die Frage" style="width:1280px;height:720px;background:var(--surface);color:var(--ink);position:relative;box-sizing:border-box;padding:60px 84px 58px;border-top:6px solid var(--acc);overflow:hidden;display:flex;flex-direction:column">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--acc);margin-bottom:14px">Teil 2 &middot; offen</div>
+<h2 style="font-size:48px;font-weight:600;letter-spacing:-0.02em;margin:0 0 20px;max-width:26ch">Tr&auml;gt ein Zoom-Werkzeug im Web etwas, was das Blatt nicht kann?</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:8px">
+<div>
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);margin-bottom:12px">Wovon die Rede ist</div>
+<p style="font-size:21px;line-height:1.5;margin:0 0 16px;text-wrap:pretty">Das Prezi-Prinzip: statt einer Folienfolge eine einzige gro&szlig;e Fl&auml;che, durch die die Kamera f&auml;hrt. Hineinfahren zeigt Detail, herausfahren zeigt Zusammenhang, und die Bewegung selbst tr&auml;gt die Erz&auml;hlung.</p>
+<p style="font-size:20px;line-height:1.5;margin:0;color:var(--grey-dark);text-wrap:pretty">Auf einen Atlas &uuml;bertragen: die Blattfolge als bereisbare Fl&auml;che, mit dem Weg von der &Uuml;bersicht in die Nebenkarte als Kamerafahrt statt als Bl&auml;ttern.</p>
+</div>
+<div style="border-left:2px solid var(--ink);padding-left:28px">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);margin-bottom:12px">Warum die Frage nicht rhetorisch ist</div>
+<p style="font-size:20px;line-height:1.5;margin:0 0 16px;text-wrap:pretty">Der Atlas hat die Maßstabsleiter schon: Blattmaßstab, Nebenkarte, Übersichtskarte. Was ein Zoom-Werkzeug verspricht, ist der <em>stufenlose</em> &Uuml;bergang dazwischen.</p>
+<p style="font-size:20px;line-height:1.5;margin:0;color:var(--grey-dark);text-wrap:pretty">Stufenlos ist in der Kartographie aber kein Fortschritt, sondern ein Problem &mdash; und das ist der Kern der n&auml;chsten Folie.</p>
+</div>
+</div>
+<div style="margin-top:auto;border-top:2px solid var(--ink);padding-top:16px;font-size:19px;color:var(--grey-dark);text-wrap:pretty"><strong style="color:var(--ink)">Belegstatus dieser Folie:</strong> abgeleitet. Was Zoom-Erz&auml;hlwerkzeuge leisten, ist hier Kategorienkenntnis, keine Messung an einem gebauten Prototyp. Ein Beleg w&auml;re ein Nutzungsversuch mit zwei Blättern.</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">05 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="06 Gegenüberstellung" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri);overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Pr&uuml;fung</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 18px">Aufgabe f&uuml;r Aufgabe</h2>
+<div style="display:grid;grid-template-columns:1.1fr 1.35fr 1.35fr 0.75fr;gap:0 26px;font-size:13px">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);padding-bottom:10px;border-bottom:2px solid var(--ink)">Aufgabe</div>
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);padding-bottom:10px;border-bottom:2px solid var(--ink)">Blatt heute</div>
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);padding-bottom:10px;border-bottom:2px solid var(--ink)">Zoom-Werkzeug</div>
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);padding-bottom:10px;border-bottom:2px solid var(--ink)">Urteil</div>
+<sc-for list="{{ pruefung }}" as="p" hint-placeholder-count="5">
+<div style="font-size:19px;font-weight:600;line-height:1.3;padding:13px 0;border-bottom:1px solid var(--grey-light)">{{ p.aufgabe }}</div>
+<div style="font-size:17px;line-height:1.4;color:var(--grey-dark);padding:13px 0;border-bottom:1px solid var(--grey-light);text-wrap:pretty">{{ p.blatt }}</div>
+<div style="font-size:17px;line-height:1.4;color:var(--grey-dark);padding:13px 0;border-bottom:1px solid var(--grey-light);text-wrap:pretty">{{ p.zoom }}</div>
+<div style="font:500 15px/1.35 var(--font-mono);color:{{ p.farbe }};padding:13px 0;border-bottom:1px solid var(--grey-light)">{{ p.urteil }}</div>
+</sc-for>
+</div>
+<p style="font-size:19px;line-height:1.45;margin:18px 0 0;max-width:84ch;color:var(--grey-dark);text-wrap:pretty">Von f&uuml;nf Aufgaben gewinnt das Werkzeug eine deutlich, eine knapp, bei drei verliert es &mdash; kein Nein, aber ein schmaler Zuschnitt.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">06 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="07 Einwand" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri);overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Der kartographische Einwand</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 12px;max-width:30ch">Zoomen ist Vergr&ouml;&szlig;ern, nicht Ma&szlig;stabswechsel</h2>
+<p style="font-size:21px;line-height:1.45;margin:0 0 22px;max-width:84ch;text-wrap:pretty">Eine Ma&szlig;stabszahl zu &auml;ndern hei&szlig;t, den Karteninhalt neu auszuw&auml;hlen. Wer nur die Darstellung skaliert, beh&auml;lt die Generalisierung des Ausgangsma&szlig;stabs &mdash; und die ist f&uuml;r jeden anderen falsch.</p>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-bottom:26px">
+<sc-for list="{{ generalisierung }}" as="g" hint-placeholder-count="4">
+<div style="border-top:2px solid var(--ink);padding-top:12px">
+<div style="font-size:22px;font-weight:600;margin-bottom:7px">{{ g.name }}</div>
+<div style="font-size:17px;line-height:1.38;color:var(--grey-dark);text-wrap:pretty">{{ g.text }}</div>
+</div>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:30px;align-items:start">
+<div style="background:var(--surface);padding:18px 22px;box-sizing:border-box">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);margin-bottom:10px">Hineinfahren, ohne nachzuf&uuml;hren</div>
+<p style="font-size:17px;line-height:1.4;margin:0;text-wrap:pretty">Der Grundriss bleibt zusammengefasst, die Isohypsen behalten ihre &Auml;quidistanz aus 1:1 000 000, Signaturen wachsen zu Klumpen. Das Blatt wird gr&ouml;&szlig;er und nicht genauer.</p>
+</div>
+<div style="background:var(--surface);padding:18px 22px;box-sizing:border-box">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--acc);margin-bottom:10px">Herausfahren, ohne nachzuf&uuml;hren</div>
+<p style="font-size:17px;line-height:1.4;margin:0;text-wrap:pretty">Die Zeichendichte steigt bis zur Unlesbarkeit, weil nichts verdr&auml;ngt und nichts weggelassen wird. Genau daf&uuml;r gibt es Ma&szlig;stabsgrenzen im regelbasierten Renderer.</p>
+</div>
+<div style="border-left:2px solid var(--ink);padding-left:24px">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:var(--grey);margin-bottom:10px">Der wahre Preis</div>
+<p style="font-size:18px;line-height:1.4;margin:0;text-wrap:pretty">Ein tragf&auml;higes Zoom-Werkzeug braucht <strong>je Stufe eine eigene Auswahl</strong> &mdash; drei bis vier gestaltete Ma&szlig;st&auml;be, nicht einen skalierten. Beim Konzept wird das meist untersch&auml;tzt.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">07 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="08 Drei Zuschnitte" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri);overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Zur Wahl</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 26px">Drei Zuschnitte, steigender Aufwand</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:34px">
+<sc-for list="{{ zuschnitte }}" as="z" hint-placeholder-count="3">
+<div style="border-top:6px solid {{ z.kante }};padding-top:18px;display:flex;flex-direction:column;height:474px;box-sizing:border-box">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px">
+<span style="font:500 30px var(--font-mono);color:{{ z.kante }};line-height:1">{{ z.buchstabe }}</span>
+<span style="font:500 12px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;color:{{ z.markeFarbe }}">{{ z.marke }}</span>
+</div>
+<div style="font-size:26px;font-weight:600;line-height:1.15;margin-bottom:12px">{{ z.titel }}</div>
+<div style="font-size:18px;line-height:1.45;color:var(--grey-dark);margin-bottom:16px;text-wrap:pretty">{{ z.text }}</div>
+<div style="font-size:17px;line-height:1.45;margin-bottom:16px;text-wrap:pretty"><strong>Gewinn:</strong> {{ z.gewinn }}</div>
+<div style="font-size:17px;line-height:1.45;color:var(--grey-dark);text-wrap:pretty"><strong style="color:var(--ink)">Preis:</strong> {{ z.preis }}</div>
+<div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--grey-light);font:500 14px/1.5 var(--font-mono);color:var(--grey)">{{ z.aufwand }}</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:22px;font:14px var(--font-mono);color:var(--grey)">08 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="09 Bedingungen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri);overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Vor dem Bauen</div>
+<h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 14px">Was zuerst geliefert sein muss</h2>
+<p style="font-size:20px;line-height:1.5;margin:0 0 22px;max-width:84ch;color:var(--grey-dark);text-wrap:pretty">Zwei der vier offenen Stellen im Atlas fallen mit Daten weg, die schon beschafft werden k&ouml;nnen. Sie stehen vor jedem Zoom-Werkzeug &mdash; ein neues Werkzeug auf unbelegtem Inhalt vergr&ouml;&szlig;ert nur die Behauptung.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 44px">
+<sc-for list="{{ bedingungen }}" as="b" hint-placeholder-count="4">
+<div style="border-top:2px solid var(--ink);padding-top:14px">
+<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px">
+<span style="font-size:22px;font-weight:600">{{ b.was }}</span>
+<span style="font:500 12px var(--font-mono);letter-spacing:0.12em;text-transform:uppercase;color:{{ b.statusFarbe }}">{{ b.status }}</span>
+</div>
+<div style="font:500 15px/1.5 var(--font-mono);color:var(--pri);margin-bottom:8px;word-break:break-word">{{ b.weg }}</div>
+<div style="font-size:17px;line-height:1.42;color:var(--grey-dark);text-wrap:pretty">{{ b.wirkung }}</div>
+</div>
+</sc-for>
+</div>
+<p style="font-size:19px;line-height:1.45;margin:20px 0 0;max-width:86ch;text-wrap:pretty">Beide Skripte laufen lokal und legen ihre Ausgaben neben sich ab; ins Projekt kommt nur das Ergebnis. Die Reihenfolge: <strong>Daten, dann Entscheidung &uuml;ber den Zuschnitt, dann Bau.</strong></p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">09 / 10</span></sc-if>
+</section>
+
+<section data-screen-label="10 Entscheidung" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:70px 84px;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+<div style="position:absolute;bottom:-40px;right:16px;font-size:260px;line-height:1;color:rgba(255,255,255,0.05);letter-spacing:-0.05em">&#8902;</div>
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);margin-bottom:20px;position:relative">Die Entscheidung</div>
+<h2 style="font-size:52px;font-weight:600;line-height:1.1;letter-spacing:-0.02em;margin:0 0 24px;max-width:30ch;position:relative">Zuerst die zwei Datenl&uuml;cken, dann ein Zuschnitt</h2>
+<p style="font-size:23px;line-height:1.5;margin:0 0 34px;max-width:62ch;opacity:0.88;position:relative;text-wrap:pretty">Der Feldweg ist gebaut und wartet auf eine Begehung. Das Zoom-Werkzeug wartet auf eine Antwort &mdash; und die lautet nach dieser Pr&uuml;fung nicht ja oder nein, sondern: welcher der drei Zuschnitte.</p>
+<div style="display:flex;gap:56px;position:relative;border-top:2px solid rgba(255,255,255,0.28);padding-top:24px;max-width:88ch">
+<div style="flex:1"><div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Sofort m&ouml;glich</div><div style="font-size:19px;line-height:1.45;text-wrap:pretty">CLC5 und CLC2018 einspielen; Begehung eines der sechs ungekl&auml;rten Schl&auml;ge mit dem Feldpaket.</div></div>
+<div style="flex:1"><div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Braucht eine Antwort</div><div style="font-size:19px;line-height:1.45;text-wrap:pretty">Zuschnitt A, B oder C &mdash; und bei C, welche drei Ma&szlig;st&auml;be gestaltet werden.</div></div>
+<div style="flex:1"><div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Bleibt liegen</div><div style="font-size:19px;line-height:1.45;text-wrap:pretty">DWD-Monatsmittel und die Loreley auf DGM1 &mdash; unabh&auml;ngig von dieser Entscheidung.</div></div>
+</div>
+<div style="position:absolute;left:84px;bottom:34px;font:500 13px var(--font-mono);letter-spacing:0.1em;opacity:0.5">Sternprodukt &middot; Atlas, Iteration 2 &middot; <span class="sp-137-alpha">&#945;&#8315;&#185;</span></div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:32px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">10 / 10</span></sc-if>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:760},&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Oliv&quot;,&quot;Orange&quot;,&quot;Aubergine&quot;],&quot;default&quot;:&quot;Petrol&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Folienchrome&quot;},&quot;pageNumbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Folienchrome&quot;},&quot;empfehlung&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A — Nichts bauen&quot;,&quot;B — Führung durch die Blätter&quot;,&quot;C — Echtes Multiscale&quot;],&quot;default&quot;:&quot;B — Führung durch die Blätter&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Inhalt&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  applyAcc() {
+    const el = this.rootRef.current; if (!el) return;
+    const map = { 'Petrol': 'var(--petrol)', 'Oliv': 'var(--olive)', 'Orange': 'var(--orange-deep)', 'Aubergine': 'var(--plum)' };
+    el.style.setProperty('--pri', map[this.props.primaryColor] ?? 'var(--petrol)');
+  }
+  componentDidMount() { this.applyAcc(); }
+  componentDidUpdate() { this.applyAcc(); }
+  renderVals() {
+    const empf = this.props.empfehlung ?? 'B — Führung durch die Blätter';
+    const zuschnitte = [
+      { buchstabe: 'A', titel: 'Nichts bauen, das Blatt schärfen', text: 'Die Maßstabsleiter bleibt, wie sie ist: Blattmaßstab, Nebenkarte, Übersichtskarte. Stattdessen bekommen die Blätter dort eine weitere Nebenkarte, wo eine Frage sie verlangt.', gewinn: 'kein neues Werkzeug zu pflegen, jede Stufe bleibt gestaltet und gedruckt lesbar.', preis: 'der Zusammenhang zwischen den Stufen bleibt beim Leser; niemand sieht die Kamerafahrt.', aufwand: 'Tage · keine neue Technik', kante: 'var(--grey)' },
+      { buchstabe: 'B', titel: 'Führung durch die Blätter', text: 'Kein eigener Kartenmaßstab, sondern eine geführte Fahrt über die vorhandenen Blätter und ihre Nebenkarten — Ausschnitt, Halt, Erklärtext, weiter. Die Blätter bleiben die Quelle.', gewinn: 'die Erzählung wird sichtbar, ohne dass ein zweiter Karteninhalt entsteht.', preis: 'ein Wegeverzeichnis je Fahrt, das mit den Blättern gepflegt werden muss.', aufwand: 'eine Woche · ein DC, kein Kartenstack', kante: 'var(--acc)' },
+      { buchstabe: 'C', titel: 'Echtes Multiscale', text: 'Ein Zoom-Werkzeug mit drei bis vier eigenen Maßstabsstufen, je Stufe eigene Auswahl, eigene Äquidistanz, eigene Signaturgrößen — die Generalisierung wird mitgeführt.', gewinn: 'stufenloser Übergang, der kartographisch trägt; Grundlage für alle späteren Blätter.', preis: 'drei Blätter Gestaltungsarbeit je Thema, plus Maßstabsgrenzen in jedem Layer.', aufwand: 'Wochen · Kartenstack, Tiling, QML-Pflege', kante: 'var(--pri)' }
+    ].map(z => Object.assign(z, empf.startsWith(z.buchstabe)
+      ? { marke: 'Empfehlung', markeFarbe: 'var(--acc)' }
+      : { marke: '', markeFarbe: 'var(--grey)' }));
+    return {
+      rootRef: this.rootRef,
+      pageNumbers: this.props.pageNumbers ?? true,
+      zuschnitte,
+      grenzen: [
+        { kennung: 'Zeit', titel: 'Das Blatt ist ein Zustand', text: 'Gedruckt gilt es für den Tag seiner Quelle. Hanf 2026 steht darauf, Hanf 2025 wäre ein zweites Blatt — Vergleich entsteht als Kartenpaar, nicht durch Nachführung.' },
+        { kennung: 'Maßstab', titel: 'Die Maßstabszahl ist gesetzt', text: 'Generalisierung ist eine Auswahl für genau einen Maßstab. Wer näher heran will, bekommt eine Nebenkarte — oder gar nichts.' },
+        { kennung: 'Beleg', titel: 'Papier klärt nichts auf', text: 'Was auf dem Blatt als abgeleitet steht, wird durch Gestaltung nicht belegt. Es braucht eine Messung, einen Aktenauszug oder eine Begehung.' }
+      ],
+      felder: [
+        { name: 'richtung_ist', zweck: 'was auf dem Schlag tatsächlich angebaut wird — der Grund für das ganze Paket', farbe: 'var(--orange-deep)' },
+        { name: 'erntetermin', zweck: 'Schätzung vor Ort; mit Schnitthöhe entscheidet er die Nutzungsrichtung', farbe: 'var(--orange-deep)' },
+        { name: 'bestand', zweck: 'Wuchshöhe, Lücken, Beikraut — Wertliste statt Freitext', farbe: 'var(--ink)' },
+        { name: 'foto', zweck: 'relativer Pfad in DCIM/, damit der Rücksync ihn behält', farbe: 'var(--ink)' },
+        { name: 'genauigkeit', zweck: 'GPS-Güte in Metern, mitgeschrieben; alles über 15 m wird später aussortiert', farbe: 'var(--ink)' },
+        { name: 'erfasser, zeit', zweck: 'Standardwerte aus dem Formular — jede Rückfrage bleibt zuordenbar', farbe: 'var(--grey-dark)' }
+      ],
+      pruefung: [
+        { aufgabe: 'Zusammenhang zwischen Übersicht und Detail zeigen', blatt: 'Nebenkarte mit Rahmen im Hauptkartenfeld; der Leser stellt die Verbindung selbst her.', zoom: 'die Kamerafahrt zeigt die Verbindung als Bewegung — dafür ist das Prinzip gemacht.', urteil: 'Werkzeug', farbe: 'var(--acc)' },
+        { aufgabe: 'Reihenfolge einer Erklärung festlegen', blatt: 'Blattfolge und Leserichtung; ein Vortrag daneben ordnet den Rest.', zoom: 'Halte auf einem Weg, in fester Folge, mit Text je Halt.', urteil: 'knapp Werkzeug', farbe: 'var(--acc)' },
+        { aufgabe: 'Karteninhalt je Maßstab richtig auswählen', blatt: 'je Blatt eine gestaltete Generalisierung, geprüft in Druckgröße.', zoom: 'nur, wenn je Stufe neu ausgewählt wird — sonst skalierte Vergrößerung.', urteil: 'Blatt', farbe: 'var(--ink)' },
+        { aufgabe: 'Druck und PDF', blatt: 'A4-Geometrie, Typenscale mit Untergrenze 5,5 pt, alles nachgemessen.', zoom: 'ein Zwischenzustand einer Fahrt ist kein Blatt; Druck bliebe ein zweiter Weg.', urteil: 'Blatt', farbe: 'var(--ink)' },
+        { aufgabe: 'Belegstatus sichtbar halten', blatt: 'Quellenregister am Blattrand, je Aussage belegt / abgeleitet / unbelegt.', zoom: 'muss mitfahren, sonst verliert die Aussage beim Hineinfahren ihre Herkunft.', urteil: 'Blatt', farbe: 'var(--ink)' }
+      ],
+      generalisierung: [
+        { name: 'Zusammenfassen', text: 'drei Gehöfte werden eine Ortssignatur.' },
+        { name: 'Vereinfachen', text: 'der Linienzug verliert Stützpunkte, nicht seinen Charakter.' },
+        { name: 'Verdrängen', text: 'Bahn, Straße und Fluss im Talgrund weichen einander aus.' },
+        { name: 'Betonen', text: 'die Aussage wird über ihr maßstäbliches Maß hinaus gezeichnet.' }
+      ],
+      bedingungen: [
+        { was: 'CLC5 Brandenburg', status: 'Skript steht', weg: 'atlas/geodaten/brandenburg/nutzung.sh', wirkung: 'ersetzt die von Hand generalisierten Zonen auf dem Landwirtschaftsblatt und gibt der Kyritz-Nebenkarte einen belegten Hintergrund. Holt CLC5 und OSM selbst.', statusFarbe: 'var(--olive)' },
+        { was: 'CLC2018 Rumänien', status: 'braucht Handdownload', weg: 'ruby atlas/geodaten/rumaenien-nutzung.rb', wirkung: 'neun echte Flächenklassen statt nachgezogener Polygone auf dem Wirtschaftsblatt. Braucht clc2018.zip oder .gpkg neben dem Skript.', statusFarbe: 'var(--orange-deep)' },
+        { was: 'Eine Begehung', status: 'Paket wartet', weg: 'atlas/qgis/themen/brandenburg-hanf/', wirkung: 'sechs Schläge, 55 ha: aus ungeklärt wird beobachtet. Ein Nachmittag reicht für die Auflösung der größten fachlichen Lücke des Blattes.', statusFarbe: 'var(--olive)' },
+        { was: 'Entscheidung Zuschnitt', status: 'offen', weg: 'A, B oder C — Folie 08', wirkung: 'bestimmt, ob überhaupt Kartenmaterial für weitere Maßstäbe entsteht. Ohne diese Antwort ist jeder Bau ein Vorgriff.', statusFarbe: 'var(--orange-deep)' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

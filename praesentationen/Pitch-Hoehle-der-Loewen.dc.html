@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./ds-base.js"></script>
+<style>body{background:#d8d8da;margin:0}a{color:#2f6f74}a:hover{color:#2a231c}</style>
+</helmet>
+<div ref="{{ rootRef }}" style="--pri:var(--petrol);--acc:var(--orange);--logo-filter:brightness(0) invert(1);display:flex;flex-direction:column;gap:22px;padding:22px 0;align-items:center;font-family:var(--font-serif)">
+
+<section data-screen-label="01 Titel" style="width:1280px;height:720px;background:var(--paper);position:relative;box-sizing:border-box;display:flex;font-family:var(--font-serif);color:var(--ink);overflow:hidden">
+<div style="width:474px;background:var(--surface-ink);color:var(--text-inverse);box-sizing:border-box;padding:64px 56px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden">
+<div style="position:absolute;bottom:-30px;right:-14px;font-size:210px;line-height:1;color:rgba(255,255,255,0.06);font-family:var(--font-symbol);letter-spacing:-0.05em">&#8902;<span style="font-size:100px;vertical-align:-10px">&#8463;</span></div>
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:72px;width:auto;align-self:flex-start;filter:var(--logo-filter,brightness(0) invert(1));opacity:0.6">
+<div style="position:relative">
+<div style="font:500 16px/1 var(--font-mono);letter-spacing:0.24em;text-transform:uppercase;opacity:0.75">sternprodukt</div>
+<div style="font-size:20px;margin-top:12px;opacity:0.85">Jan Paki &mdash; IT &amp; Naturschutz, Prignitz</div>
+</div>
+</div>
+<div style="flex:1;box-sizing:border-box;padding:72px 76px;display:flex;flex-direction:column;justify-content:center;position:relative">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:26px">Pitch &middot; Die H&ouml;hle der L&ouml;wen</div>
+<h1 style="font-size:64px;font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin:0 0 22px;max-width:16ch">Der Bahnreiseplaner, der eine Karte ist</h1>
+<p style="font-size:26px;color:var(--grey-dark);margin:0;max-width:30ch">Offline, quelloffen, druckbar. Kein App-Store, kein Konto, kein Akku-Drama &mdash; ein Geoinformationssystem in der Hosentasche.</p>
+<div style="width:88px;height:6px;background:var(--acc,var(--orange));margin-top:34px"></div>
+<sc-if value="{{ pageNumbers }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;right:76px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">01 / 16</span></sc-if>
+</div>
+</section>
+
+<section data-screen-label="02 Problem" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Das Problem</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Die App kennt den Fahrplan. Aber nicht das Land.</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">01</div><p style="font-size:24px;line-height:1.4;margin:0">Fahrplan-Apps zeigen Abfahrtszeiten &mdash; aber <strong>keine Karte, die den Namen verdient</strong>. Wo der Zug gerade durchs Banat rollt, bleibt Geheimsache.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">02</div><p style="font-size:24px;line-height:1.4;margin:0">Auf dem Land ist das Netz weg. <strong>Offline funktioniert nichts</strong> &mdash; ausgerechnet dort, wo man eine Karte am dringendsten braucht.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">03</div><p style="font-size:24px;line-height:1.4;margin:0">Rum&auml;niens Z&uuml;ge fahren im Schnitt <strong>unter 45 km/h</strong>. Das hei&szlig;t: viel Zeit am Fenster. Zeit, in der man gern w&uuml;sste, was man da sieht.</p></div>
+</div>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;border-top:1px solid var(--grey-light);padding-top:12px;font:500 14px var(--font-mono);color:var(--grey)"><span>Reisegeschwindigkeit: Berichtslage rum&auml;nische Fachpresse, 2026</span><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto">02 / 16</span></sc-if></div>
+</section>
+
+<section data-screen-label="03 Idee" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:76px 84px;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+<div style="position:absolute;top:-40px;right:40px;font-size:340px;font-weight:700;line-height:1;color:rgba(255,255,255,0.08);letter-spacing:-0.04em">&#8902;</div>
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-light);margin-bottom:22px;position:relative">Die Idee</div>
+<h2 style="font-size:60px;font-weight:600;letter-spacing:-0.02em;line-height:1.1;margin:0 0 26px;max-width:20ch;position:relative">Wir bauen keine App. Wir geben der Reise ihre Karte zur&uuml;ck.</h2>
+<p style="font-size:26px;line-height:1.5;margin:0;max-width:44ch;opacity:0.85;position:relative">Ein Atlas nach Diercke-Vorbild, ein Fahrplan aus offenen GTFS-Daten, beides in einem GeoPackage &mdash; gelesen von QField, einer freien Feld-App aus der Vermessungswelt. Die Karte ist der Reiseplaner.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">03 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="04 Demo" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Die Demo</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 30px">Zwei Screens. Mehr braucht eine Reise nicht.</h2>
+<div style="display:flex;gap:56px;align-items:flex-start">
+<div style="display:flex;gap:36px">
+<figure style="margin:0"><img src="./wf-a.png" alt="Wireframe Reiseplaner" style="height:380px;width:auto;border:2px solid var(--grey-light);padding:3px;background:#fff;filter:grayscale(30%) contrast(110%) sepia(30%)"><figcaption style="font:500 13px var(--font-mono);color:var(--grey-dark);margin-top:10px;letter-spacing:0.04em">PLANEN &mdash; THEMEN, TOUREN, BAHNLINIEN</figcaption></figure>
+<figure style="margin:0"><img src="./wf-b.png" alt="Wireframe Reisebegleitung" style="height:380px;width:auto;border:2px solid var(--grey-light);padding:3px;background:#fff;filter:grayscale(30%) contrast(110%) sepia(30%)"><figcaption style="font:500 13px var(--font-mono);color:var(--grey-dark);margin-top:10px;letter-spacing:0.04em">UNTERWEGS &mdash; POSITION AUF DEM ATLASBLATT</figcaption></figure>
+</div>
+<div style="flex:1;border-left:2px solid var(--acc,var(--orange));padding-left:28px;margin-top:8px">
+<p style="font-size:23px;line-height:1.45;margin:0 0 18px">Was Sie sehen, sind Wireframes. Eine Live-Demo gibt es nicht &mdash; <strong>die App ist ein QGIS-Projekt</strong>, und das l&auml;uft heute schon.</p>
+<p style="font-size:23px;line-height:1.45;margin:0;color:var(--grey-dark)">Wir haben zuerst die Kartografie gebaut und zuletzt die Oberfl&auml;che. Bei den meisten Apps ist es umgekehrt, und man sieht es ihnen an.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">04 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="05 Markt" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Der Markt</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 50px">Das Schienennetz ist da. Es wartet nur auf Karten.</h2>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:36px">
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:64px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--acc,var(--orange))">19&thinsp;629</div><div style="font:500 14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark);margin-top:10px">KM SCHIENE IN RUM&Auml;NIEN</div></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:64px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--acc,var(--orange))">Nr.&thinsp;7</div><div style="font:500 14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark);margin-top:10px">DER GR&Ouml;SSTEN NETZE EUROPAS</div></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:64px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--acc,var(--orange))">1&thinsp;700+</div><div style="font:500 14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark);margin-top:10px">BAHNH&Ouml;FE UND HALTEPUNKTE</div></div>
+<div style="border-top:2px solid var(--ink);padding-top:16px"><div style="font-size:64px;font-weight:700;letter-spacing:-0.02em;line-height:1;color:var(--acc,var(--orange))">90&thinsp;Mio.</div><div style="font:500 14px var(--font-mono);letter-spacing:0.06em;color:var(--grey-dark);margin-top:10px">FAHRG&Auml;STE/JAHR ALLEIN IN TIMI&#536;OARA</div></div>
+</div>
+<p style="font-size:23px;line-height:1.45;margin:44px 0 0;max-width:52ch;color:var(--grey-dark)">Dazu ein Trend, den niemand bestellen musste: Bahnreisen nach Osteuropa sind das, was Interrail-Kinder machen, wenn sie erwachsen werden.</p>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;border-top:1px solid var(--grey-light);padding-top:12px;font:500 14px var(--font-mono);color:var(--grey)"><span>Quellen: CNCF CFR SA (Netz, Stand 2026) &middot; STPT (Fahrg&auml;ste 2024)</span><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto">05 / 16</span></sc-if></div>
+</section>
+
+<section data-screen-label="06 Pilotregion" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Die Pilotregion</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Das Banat: wo Rum&auml;niens Eisenbahn geboren wurde</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">1854</div><p style="font-size:24px;line-height:1.4;margin:0">Die &auml;lteste Bahnstrecke des Landes: <strong>Oravi&#539;a&ndash;Bazia&#537;</strong>, gebaut f&uuml;r Kohle, gelegen im Banat. Geschichte f&auml;hrt hier mit.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">1869</div><p style="font-size:24px;line-height:1.4;margin:0">Timi&#537;oara f&auml;hrt Tram seit der Pferdebahn &mdash; heute betreibt die STPT <strong>9 Linien</strong>, dazu O-Bus, Stadtbus und ein Wasserbus auf der Bega.</p></div>
+<div><div style="font:500 22px var(--font-mono);color:var(--pri,var(--petrol));margin-bottom:14px">20&thinsp;s</div><p style="font-size:24px;line-height:1.4;margin:0">Seit 2024 liefert die Stadt <strong>GTFS-Open-Data im 20-Sekunden-Takt</strong>. Der Fahrplan liegt frei auf der Stra&szlig;e. Man muss ihn nur aufheben.</p></div>
+</div>
+<div style="position:absolute;left:84px;right:84px;bottom:30px;display:flex;align-items:center;border-top:1px solid var(--grey-light);padding-top:12px;font:500 14px var(--font-mono);color:var(--grey)"><span>Quellen: STPT/Prim&#259;ria Timi&#537;oara (Open Data, 2024) &middot; Wikipedia (Oravi&#539;a&ndash;Bazia&#537;)</span><sc-if value="{{ pageNumbers }}"><span style="margin-left:auto">06 / 16</span></sc-if></div>
+</section>
+
+<section data-screen-label="07 Traktion" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Traktion</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 20px">Nutzer: einer. Churn: null Prozent.</h2>
+<p style="font-size:23px;color:var(--grey-dark);margin:0 0 40px;max-width:56ch">Bevor Sie lachen: sehen Sie sich an, was dieser eine Nutzer schon gebaut hat.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 60px">
+<div style="display:flex;gap:22px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:16px 0"><span style="font:500 20px var(--font-mono);color:var(--pri,var(--petrol))">&#10003;</span><div style="font-size:25px"><strong>Sechs Atlasbl&auml;tter</strong> Rum&auml;nien &amp; Brandenburg, D3-gerendert, druckreif</div></div>
+<div style="display:flex;gap:22px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:16px 0"><span style="font:500 20px var(--font-mono);color:var(--pri,var(--petrol))">&#10003;</span><div style="font-size:25px"><strong>Signaturenkatalog</strong> nach Diercke-Vorbild, ein Farbsystem, eine Quelle</div></div>
+<div style="display:flex;gap:22px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:16px 0"><span style="font:500 20px var(--font-mono);color:var(--pri,var(--petrol))">&#10003;</span><div style="font-size:25px"><strong>QGIS-Kartensatz</strong> mit Symbolbibliothek, Layerstilen und Paletten</div></div>
+<div style="display:flex;gap:22px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:16px 0"><span style="font:500 20px var(--font-mono);color:var(--pri,var(--petrol))">&#10003;</span><div style="font-size:25px"><strong>Eigene QFieldCloud-Instanz</strong> &mdash; Verteilung kostet keinen Dienstleister</div></div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">07 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="08 Geschäftsmodell" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Das Gesch&auml;ftsmodell</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Drei Erl&ouml;squellen, ein Bestand</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:44px">
+<div style="border-top:2px solid var(--ink);padding-top:18px"><div style="font-size:28px;font-weight:600;margin-bottom:12px">Der gedruckte Atlas</div><p style="font-size:22px;line-height:1.45;margin:0;color:var(--grey-dark)">Reiseatlas Banat als Buch &mdash; Print on Demand, keine Lagerkosten. Karten altern langsamer als Apps.</p></div>
+<div style="border-top:2px solid var(--ink);padding-top:18px"><div style="font-size:28px;font-weight:600;margin-bottom:12px">Touren-Pakete</div><p style="font-size:22px;line-height:1.45;margin:0;color:var(--grey-dark)">Kuratierte Reisen als GeoPackage: Bahnroute, Etappen, Orte, Geschichten. Einmal kaufen, offline mitnehmen.</p></div>
+<div style="border-top:2px solid var(--ink);padding-top:18px"><div style="font-size:28px;font-weight:600;margin-bottom:12px">Beratung &amp; Workshops</div><p style="font-size:22px;line-height:1.45;margin:0;color:var(--grey-dark)">GIS-Handwerk f&uuml;r Verlage, Tourismusverb&auml;nde, Regionalbahnen. Das Gesch&auml;ft, das es heute schon gibt.</p></div>
+</div>
+<p style="font-size:23px;line-height:1.45;margin:44px 0 0;color:var(--grey-dark);max-width:54ch">Ehrlicherweise: Umsatz bisher 0&nbsp;&euro;. Andererseits: Lizenz- und Serverkosten ebenfalls 0&nbsp;&euro;. Die Marge stimmt schon mal.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">08 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="09 Wettbewerb" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Der Wettbewerb</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Alle haben den Fahrplan. Niemand hat die Karte.</h2>
+<div style="font-size:23px">
+<div style="display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:0 24px;border-bottom:2px solid var(--ink);padding-bottom:10px;font:500 15px var(--font-mono);letter-spacing:0.05em;color:var(--grey-dark)"><span></span><span>FAHRPLAN-APPS</span><span>KARTEN-APPS</span><span>WIR</span></div>
+<sc-for list="{{ wettbewerb }}" as="w" hint-placeholder-count="5">
+<div style="display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:0 24px;border-bottom:1px solid var(--grey-light);padding:14px 0;align-items:baseline"><span style="font-weight:600">{{ w.k }}</span><span style="color:var(--grey-dark)">{{ w.a }}</span><span style="color:var(--grey-dark)">{{ w.b }}</span><span style="color:var(--pri,var(--petrol));font-weight:600">{{ w.c }}</span></div>
+</sc-for>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">09 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="10 Technik" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Die Technik</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 40px">Der ganze Stack ist frei. Und das Diagramm kommutiert.</h2>
+<div style="display:flex;gap:70px;align-items:center">
+<div style="display:grid;grid-template-columns:max-content 170px max-content;grid-template-rows:max-content 120px max-content;align-items:center;justify-items:center;column-gap:22px;row-gap:14px;color:var(--ink)">
+  <div style="text-align:center"><div style="font-size:28px;font-weight:600">Rohdaten</div><div style="font:500 14px var(--font-mono);color:var(--grey-dark);margin-top:4px">OSM &middot; GTFS</div></div>
+  <svg width="170" height="34" viewBox="0 0 170 34" style="color:var(--ink)"><line x1="2" y1="24" x2="160" y2="24" stroke="currentColor" stroke-width="1.5"></line><path d="M160 19 L168 24 L160 29 z" fill="currentColor"></path><text x="85" y="12" text-anchor="middle" font-size="14" font-family="Noto Sans Mono" font-weight="500" fill="currentColor">kuratieren</text></svg>
+  <div style="text-align:center"><div style="font-size:28px;font-weight:600">GeoPackage</div><div style="font:500 14px var(--font-mono);color:var(--grey-dark);margin-top:4px">eine Datei</div></div>
+  <svg width="110" height="120" viewBox="0 0 110 120" style="color:var(--ink)"><line x1="30" y1="2" x2="30" y2="110" stroke="currentColor" stroke-width="1.5"></line><path d="M25 110 L30 118 L35 110 z" fill="currentColor"></path><text x="42" y="64" font-size="14" font-family="Noto Sans Mono" font-weight="500" fill="currentColor">drucken</text></svg>
+  <div></div>
+  <svg width="110" height="120" viewBox="0 0 110 120" style="color:var(--ink)"><line x1="30" y1="2" x2="30" y2="110" stroke="currentColor" stroke-width="1.5"></line><path d="M25 110 L30 118 L35 110 z" fill="currentColor"></path><text x="42" y="64" font-size="14" font-family="Noto Sans Mono" font-weight="500" fill="currentColor">packen</text></svg>
+  <div style="text-align:center"><div style="font-size:28px;font-weight:600">Atlas</div><div style="font:500 14px var(--font-mono);color:var(--grey-dark);margin-top:4px">A4 &middot; Papier</div></div>
+  <svg width="170" height="34" viewBox="0 0 170 34" style="color:var(--ink)"><line x1="2" y1="24" x2="160" y2="24" stroke="currentColor" stroke-width="1.5"></line><path d="M160 19 L168 24 L160 29 z" fill="currentColor"></path><text x="85" y="12" text-anchor="middle" font-size="14" font-family="Noto Sans Mono" font-weight="500" fill="currentColor">mitnehmen</text></svg>
+  <div style="text-align:center;color:var(--acc,var(--orange))"><div style="font-size:28px;font-weight:600">QField</div><div style="font:500 14px var(--font-mono);margin-top:4px">Hosentasche</div></div>
+</div>
+<div style="flex:1;border-left:2px solid var(--acc,var(--orange));padding-left:28px">
+<p style="font-size:23px;line-height:1.45;margin:0 0 18px">Ob Sie erst drucken und dann reisen oder erst packen und unterwegs drucken lassen &mdash; <strong>Sie kommen bei derselben Karte an</strong>. Ein Bestand, zwei Wege, kein Widerspruch.</p>
+<p style="font-size:23px;line-height:1.45;margin:0;color:var(--grey-dark)">Alles darunter ist frei: OSM, GTFS, QGIS, QField, die eigene QFieldCloud. Kein App-Store-Gatekeeper, kein Vendor-Lock-in &mdash; das Plattformrisiko tr&auml;gt die Open-Source-Gemeinde, und die ist z&auml;her als wir alle.</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">10 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="11 Team" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Das Team</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 44px">Ein Gr&uuml;nder. Daf&uuml;r mit Beweisf&uuml;hrung.</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:60px">
+<div>
+<p style="font-size:25px;line-height:1.5;margin:0 0 20px"><strong>Jan Paki</strong> &mdash; Diplom in theoretischer Physik (Deformations&shy;quantisierung, Stetigkeit von Sternprodukten), zwanzig Jahre Web-Entwicklung, heute Hanf- und Naturschutz-Berater in der Prignitz.</p>
+<p style="font-size:23px;line-height:1.45;margin:0;color:var(--grey-dark)">Kartografie, Datenpipeline, Beratung: alles eine Person. Das ist ein Risiko, ja. Es ist auch der Grund, warum das Produkt aus einem Guss ist.</p>
+</div>
+<div style="border-left:2px solid var(--acc,var(--orange));padding-left:28px;align-self:center">
+<p style="font-size:23px;line-height:1.5;margin:0;font-style:italic;color:var(--grey-dark)">&bdquo;Meine Diplomarbeit handelte davon, wann ein Produkt stetig ist. Diese Frage stellt sich bei Software &ouml;fter, als man denkt.&ldquo;</p>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">11 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="12 Woher der Name" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:60px 84px;border-top:6px solid var(--pri,var(--petrol));overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:12px">Zum Namen, kurz</div>
+<h2 style="font-size:46px;font-weight:600;letter-spacing:-0.02em;margin:0 0 34px">Eine Multiplikation, die sich verbiegen l&auml;sst</h2>
+<div style="display:flex;gap:46px;align-items:flex-start">
+<div style="flex:1.15">
+<div style="background:var(--surface);border-left:3px solid var(--acc,var(--orange));padding:24px 28px;font-size:27px;line-height:1.7">
+<div style="font:500 13px var(--font-mono);letter-spacing:0.12em;color:var(--grey-dark);margin-bottom:12px">DAS PRODUKT</div>
+<div>\( f \star g \;=\; f\cdot g \;+\; \lambda\,C_1(f,g) \;+\; \lambda^2 C_2(f,g) \;+\;\dots \)</div>
+<div style="font-size:21px;margin-top:18px;color:var(--grey-dark)">\( C_1(f,g)-C_1(g,f) \;=\; i\{f,g\} \)</div>
+</div>
+<p style="font-size:20px;line-height:1.5;margin:20px 0 0;color:var(--grey-dark)">Dreht man &#955; auf null, bleibt das gew&ouml;hnliche Produkt &uuml;brig &mdash; die klassische Welt. Dreht man auf, ist <em>f&nbsp;&#8902;&nbsp;g</em> nicht mehr <em>g&nbsp;&#8902;&nbsp;f</em>, und die erste Ordnung der Abweichung ist die Poisson-Klammer der Mechanik.</p>
+</div>
+<div style="flex:1">
+<p style="font-size:23px;line-height:1.5;margin:0 0 18px">Die spr&ouml;de Sch&ouml;nheit daran: <strong>der klassische Grenzfall ist nicht angeflanscht, er ist eingebaut</strong> &mdash; er steht als nullter Term da.</p>
+<p style="font-size:23px;line-height:1.5;margin:0 0 18px;color:var(--grey-dark)">Und der Hilbertraum? Kommt zum Schluss. Aus der Algebra und einem Zustand baut die GNS-Konstruktion ihn hervor: Ergebnis, nicht Voraussetzung.</p>
+<div style="border-top:1px solid var(--grey-light);padding-top:14px;font:500 15px/1.7 var(--font-mono);color:var(--grey-dark)">1978 Bayen &amp; Flato &amp; Lichnerowicz &amp; Sternheimer<br>1983 De&nbsp;Wilde &amp; Lecomte &middot; 1994 Fedosov<br>1997 Kontsevich &mdash; f&uuml;r <em>jede</em> Poisson-Mannigfaltigkeit</div>
+</div>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:26px;font:14px var(--font-mono);color:var(--grey)">12 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="13 Was das hier zu suchen hat" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:70px 84px;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+<div style="position:absolute;bottom:-70px;right:40px;font-size:330px;line-height:1;color:rgba(255,255,255,0.07);letter-spacing:-0.05em">&#8902;</div>
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-light);margin-bottom:20px;position:relative">Warum ich Ihnen das erz&auml;hle</div>
+<h2 style="font-size:52px;font-weight:600;letter-spacing:-0.02em;line-height:1.14;margin:0 0 28px;max-width:26ch;position:relative">Die offene Frage war: Wann bleibt so ein Produkt stetig?</h2>
+<div style="display:flex;gap:56px;align-items:flex-start;position:relative">
+<p style="flex:1;font-size:23px;line-height:1.5;margin:0;opacity:0.88">Formal ist die Reihe elegant &mdash; nur einsetzen kann man nichts, weil Konvergenz ungekl&auml;rt bleibt. Meine Diplomarbeit fragte, unter welchen Bedingungen sie stetig ist und sich zu einer <span style="font-family:var(--font-serif)">C*</span>-Algebra schlie&szlig;en l&auml;sst. Eine geschlossene Theorie gibt es bis heute nicht.</p>
+<p style="flex:1;font-size:23px;line-height:1.5;margin:0;opacity:0.7">Das ist keine Anekdote f&uuml;rs Lebenslauf-Fach. Es ist die Denkgewohnheit, mit der hier gearbeitet wird: erst die Struktur, dann die Oberfl&auml;che. Ein Kartensystem, das nur bei gutem Wetter stimmt, ist genauso wertlos wie eine Reihe, die nicht konvergiert.</p>
+</div>
+<p style="font:500 17px/1.7 var(--font-mono);margin:38px 0 0;opacity:0.55;position:relative">Ein Atlas ist auch nur eine Abbildung, die stetig sein sollte.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">13 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="14 Forderung" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:76px 84px;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--grey-light);margin-bottom:30px">Das Angebot</div>
+<div style="display:flex;align-items:baseline;gap:40px;flex-wrap:wrap">
+<div><div style="font-size:120px;font-weight:700;letter-spacing:-0.03em;line-height:1;color:var(--acc,var(--orange))">137&thinsp;000&nbsp;&euro;</div><div style="font:500 16px var(--font-mono);letter-spacing:0.08em;margin-top:14px;opacity:0.7">F&Uuml;R</div></div>
+<div><div style="font-size:120px;font-weight:700;letter-spacing:-0.03em;line-height:1">13,7&nbsp;%</div><div style="font:500 16px var(--font-mono);letter-spacing:0.08em;margin-top:14px;opacity:0.7">DER ANTEILE</div></div>
+</div>
+<p style="font-size:25px;line-height:1.5;margin:44px 0 0;max-width:46ch;opacity:0.85">Die Bewertung folgt der Feinstrukturkonstante &mdash; eine Zahl, die sich seit dem Urknall nicht bewegt hat. Stabiler wird eine Unternehmensbewertung in dieser Show nicht.</p>
+<p style="font-size:22px;line-height:1.5;margin:20px 0 0;max-width:46ch;opacity:0.6">Verwendung: ein Jahr Kartenarbeit Banat, GTFS-Pipeline f&uuml;r ganz Rum&auml;nien, Druck der ersten Auflage.</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">14 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="15 Für jeden Löwen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:66px 84px;border-top:6px solid var(--pri,var(--petrol))">
+<div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri,var(--petrol));margin-bottom:14px">Warum Sie</div>
+<h2 style="font-size:50px;font-weight:600;letter-spacing:-0.02em;margin:0 0 36px">F&uuml;r jeden L&ouml;wen ein Grund</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 60px">
+<sc-for list="{{ loewen }}" as="l" hint-placeholder-count="6">
+<div style="display:flex;gap:20px;align-items:baseline;border-bottom:1px solid var(--grey-light);padding:15px 0"><span style="font-size:24px;font-weight:600;min-width:210px">{{ l.name }}</span><span style="font-size:21px;color:var(--grey-dark)">{{ l.grund }}</span></div>
+</sc-for>
+</div>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:var(--grey)">15 / 16</span></sc-if>
+</section>
+
+<section data-screen-label="16 Schluss" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:76px 84px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:hidden">
+<img src="./logo-stern.png" alt="Sternprodukt" style="height:46px;width:auto;margin-bottom:26px;filter:var(--logo-filter,brightness(0) invert(1));opacity:0.8">
+<h2 style="font-size:80px;font-weight:600;letter-spacing:-0.02em;margin:0 0 26px">Wer bietet?</h2>
+<p style="font-size:24px;margin:0;opacity:0.85;max-width:36ch">Der Zug nach Timi&#537;oara f&auml;hrt so oder so. Die Frage ist nur, mit wessen Karte.</p>
+<p style="font:18px/1.7 var(--font-mono);margin:30px 0 0;opacity:0.9">jan <span style="font-size:19px">\(\mathbin{\star_{\scriptscriptstyle\mathrm{\hbar}}}\)</span> sternprodukt.de &middot; 0157 8867 2952</p>
+<sc-if value="{{ pageNumbers }}"><span style="position:absolute;right:84px;bottom:34px;font:14px var(--font-mono);color:rgba(255,255,255,0.55)">16 / 16</span></sc-if>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;primaryColor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Petrol&quot;,&quot;Oliv&quot;,&quot;Orange&quot;,&quot;Aubergine&quot;],&quot;default&quot;:&quot;Petrol&quot;,&quot;tsType&quot;:&quot;'Petrol'|'Oliv'|'Orange'|'Aubergine'&quot;,&quot;section&quot;:&quot;Farben&quot;},&quot;pageNumbers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Stil&quot;},&quot;echteNamen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Inhalt&quot;}}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  priHex() {
+    const map = { 'Petrol': 'var(--petrol)', 'Oliv': 'var(--olive)', 'Orange': 'var(--orange-deep)', 'Aubergine': 'var(--plum)' };
+    return map[this.props.primaryColor] ?? 'var(--petrol)';
+  }
+  applyAcc() {
+    const el = this.rootRef.current; if (!el) return;
+    el.style.setProperty('--pri', this.priHex());
+  }
+  typeset() {
+    if (window.MathJax && window.MathJax.typesetPromise && this.rootRef.current) {
+      window.MathJax.typesetPromise([this.rootRef.current]).catch(() => {});
+      return;
+    }
+    // MathJax kommt aus dem DS-Bundle (_ds_bundle.js) — nie selbst laden, sonst Doppel-Init.
+    clearTimeout(this._mjT);
+    this._mjT = setTimeout(() => this.typeset(), 400);
+  }
+  componentDidMount() { this.applyAcc(); this.typeset(); }
+  componentDidUpdate() { this.applyAcc(); }
+  componentWillUnmount() { clearTimeout(this._mjT); }
+  renderVals() {
+    const echteNamen = this.props.echteNamen ?? true;
+    const loewen = echteNamen ? [
+      { name: 'Ralf D\u00fcmmel', grund: 'Endlich wieder ein Produkt, das man anfassen kann: ein gedruckter Atlas im Regal.' },
+      { name: 'Judith Williams', grund: 'Sch\u00f6nheit als Differenzierung \u2014 Kartografie ist Kosmetik f\u00fcr Landschaften.' },
+      { name: 'Carsten Maschmeyer', grund: 'Skaliert ohne Personal: dieselbe Pipeline, jedes Land mit Schienennetz.' },
+      { name: 'Dagmar W\u00f6hrl', grund: 'Tourismus mit Tiefgang statt Overtourism \u2014 langsam reisen, viel sehen.' },
+      { name: 'Janna Ensthaler', grund: 'Green Tech im Wortsinn: das Produkt verkauft Bahnkilometer.' },
+      { name: 'Frank Thelen', grund: 'Ein reiner Open-Source-Stack ohne Plattformrisiko. Zero Marginal Cost.' }
+    ] : [
+      { name: 'Der Handelsl\u00f6we', grund: 'Ein gedruckter Atlas im Regal \u2014 ein Produkt zum Anfassen.' },
+      { name: 'Die Markenl\u00f6win', grund: 'Sch\u00f6nheit als Differenzierung.' },
+      { name: 'Der Vertriebsl\u00f6we', grund: 'Skaliert ohne Personal: jedes Land mit Schienennetz.' },
+      { name: 'Die Tourismusl\u00f6win', grund: 'Langsam reisen, viel sehen.' },
+      { name: 'Die Green-Tech-L\u00f6win', grund: 'Das Produkt verkauft Bahnkilometer.' },
+      { name: 'Der Tech-L\u00f6we', grund: 'Open-Source-Stack ohne Plattformrisiko.' }
+    ];
+    return {
+      rootRef: this.rootRef,
+      pageNumbers: this.props.pageNumbers ?? true,
+      loewen,
+      wettbewerb: [
+        { k: 'Fahrplan & Echtzeit', a: 'ja', b: 'teils', c: 'ja (GTFS)' },
+        { k: 'Karte mit Relief, Themen, Signaturen', a: 'nein', b: 'generisch', c: 'ja, eigener Atlas' },
+        { k: 'Vollst\u00e4ndig offline', a: 'nein', b: 'teils', c: 'ja, GeoPackage' },
+        { k: 'Druckbar als Buch', a: 'nein', b: 'nein', c: 'ja, dasselbe Blatt' },
+        { k: 'Ohne Konto & App-Store nutzbar', a: 'nein', b: 'nein', c: 'ja' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
