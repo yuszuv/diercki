@@ -221,4 +221,3 @@ Pathname.glob('nutzung-*.geojson')
   .each { |name, mb| puts format('%8.2f MB  %s', mb, name) }
 fehlend = CLASSES.keys.reject { Pathname("nutzung-#{_1}.geojson").exist? }
 puts "fehlen noch: #{fehlend.join(', ')} — Skript erneut aufrufen, es setzt fort." if fehlend.any?
-

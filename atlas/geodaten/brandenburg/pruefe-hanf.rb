@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 #
-# Sternprodukt atlas · hemp check — prüft sorten.csv gegen den Schlagauszug hanf-<jahr>.geojsonl.
+# Sternprodukt atlas · hemp check — prüft sorten.csv gegen den NN-Auszug.
 #
 # Erzeugt NICHTS. Die Sortenzuordnung ist bewusst kein Build-Schritt: das
 # Kartenblatt liest hanf-<jahr>.geojsonl und sorten.csv zur Laufzeit, QGIS
@@ -73,4 +73,3 @@ unless offen.empty?
   offen.group_by { _1[:sorte] }.sort_by { -_2.sum { |s| s[:ha] } }.first(5)
     .each { |s, fs| puts format('    %-16s %6.1f ha', s, fs.sum { _1[:ha] }) }
 end
-

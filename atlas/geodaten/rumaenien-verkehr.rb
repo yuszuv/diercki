@@ -101,4 +101,3 @@ TARGETS.map { Pathname(_1) }.select(&:exist?)
   .map { [_1.to_s, (_1.size / 1024.0 / 1024).round(2)] }
   .sort_by(&:last).reverse
   .each { |name, mb| puts format('%8.2f MB  %s', mb, name) }
-
