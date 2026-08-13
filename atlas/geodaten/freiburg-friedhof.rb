@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
 #
 # freiburg-friedhof.rb — Grundriss des Freiburger Hauptfriedhofs aus OpenStreetMap
 #
@@ -33,10 +32,7 @@ require 'erb'
 
 # Fenster um die Friedhofstraße 8. Großzügig — der Ausschnitt entsteht später
 # aus der Geometrie, nicht aus diesen Zahlen.
-S = 48.0055
-W = 7.8290
-N = 48.0215
-E = 7.8560
+S, W, N, E = 48.0055, 7.8290, 48.0215, 7.8560
 
 # Erst die Fläche holen, dann alles, was darin liegt — `area` statt Rechteck.
 # Das spart den halben Stadtteil: die alte Rechteck-Abfrage lieferte 4560 Objekte,
@@ -100,11 +96,7 @@ end
 
 def wickeln(ring, aussen)
   a = ring_flaeche(ring)
-  if aussen ? a > 0 : a < 0
-    ring.reverse
-  else
-    ring
-  end
+  (aussen ? a > 0 : a < 0) ? ring.reverse : ring
 end
 
 def geometrie_wickeln(geom)
@@ -127,12 +119,10 @@ def bestimme_art(tags)
   return 'gehoelz'   if tags['natural'] == 'scrub'
   return 'wasser'    if tags['natural'] == 'water'
   return 'hecke'     if tags['barrier'] == 'hedge'
-  return 'mauer'     if %w[wall fence].include?(tags['barrier'])
+  return 'mauer'     if %w[wall fence retaining_wall].include?(tags['barrier'])
   return 'rasen'     if tags['landuse'] == 'grass' || tags['leisure'] == 'park'
   return 'weg'       if tags['highway']
-  return 'moebel'    if %w[bench drinking_water
-                           waste_basket].include?(tags['amenity']) || tags['man_made'] == 'water_tap'
-
+  return 'moebel'    if %w[bench drinking_water waste_basket].include?(tags['amenity']) || tags['man_made'] == 'water_tap'
   nil
 end
 
@@ -156,7 +146,6 @@ end
 
 def im_friedhof?(punkt, ringe)
   return false unless im_ring?(punkt, ringe.first)
-
   ringe.drop(1).none? { im_ring?(punkt, _1) }
 end
 
@@ -229,7 +218,6 @@ if geparst['type'] == 'FeatureCollection'
 
     art = bestimme_art(tags)
     next unless art
-
     f.merge('properties' => {
       'art' => art, 'name' => tags['name'],
       'sorte' => tags['amenity'] || tags['historic'] || tags['barrier'],
@@ -246,14 +234,12 @@ if geparst['type'] == 'FeatureCollection'
   vorher = features.size
   features = features.select do |f|
     next true if f.dig('properties', 'art') == 'flaeche'
-
     punkte = case f['geometry']['type']
              when 'Point'   then [f['geometry']['coordinates']]
              when 'Polygon' then f['geometry']['coordinates'].flatten(1)
              else f['geometry']['coordinates']
              end
     next false if punkte.empty?
-
     punkte.count { im_friedhof?(_1, ringe) }.fdiv(punkte.size) >= ANTEIL
   end
   warn "zugeschnitten: #{vorher} → #{features.size} Objekte"
@@ -278,7 +264,6 @@ features = elements.filter_map do |e|
   if e['type'] == 'node'
     art = bestimme_art(tags)
     next unless art
-
     next {
       'type' => 'Feature',
       'properties' => {
@@ -293,7 +278,6 @@ features = elements.filter_map do |e|
 
   geom = e['geometry']
   next unless geom&.size&.>= 2
-
   ring = geom.map { [_1['lon'].round(6), _1['lat'].round(6)] }
 
   art = bestimme_art(tags)
@@ -306,17 +290,15 @@ features = elements.filter_map do |e|
   {
     'type' => 'Feature',
     'properties' => {
-      'art' => art,
+      'art'  => art,
       'name' => tags['name'],
       'sorte' => tags['amenity'] || tags['historic'] || tags['barrier'],
       'baumart' => baumart(tags),
-      'osm' => "#{e['type']}/#{e['id']}"
+      'osm'  => "#{e['type']}/#{e['id']}"
     }.compact,
-    'geometry' => if polygon
-                    { 'type' => 'Polygon', 'coordinates' => [ring] }
-                  else
-                    { 'type' => 'LineString', 'coordinates' => ring }
-                  end
+    'geometry' => polygon ?
+      { 'type' => 'Polygon',    'coordinates' => [ring] } :
+      { 'type' => 'LineString', 'coordinates' => ring }
   }
 end
 
