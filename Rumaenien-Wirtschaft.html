@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
 <script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
-<script src="atlas/geodaten/blatt15-daten.js"></script>
-<script src="atlas/geodaten/blatt18-daten.js"></script>
+<script src="atlas/geodaten/verkehr-daten.js"></script>
+<script src="atlas/geodaten/nutzung-daten.js"></script>
 <style>
   body{margin:0}
   doc-page:not(:defined){visibility:hidden}
@@ -18,10 +18,10 @@
 <body>
 <template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#6f7538"/><rect x="14" y="20" width="30" height="24" fill="#e7dcab"/><rect x="52" y="32" width="34" height="30" fill="#ccd5a9"/><circle cx="34" cy="66" r="9" fill="#cb5a2a"/><text x="50" y="92" font-size="15" font-family="Georgia,serif" fill="#fff" text-anchor="middle">BLATT 18</text></svg></template>
 <doc-page width="420mm" height="297mm">
-<section class="page" id="blatt18" data-screen-label="Blatt 18 · Rumänien Wirtschaft" style="position:relative;box-sizing:border-box;padding:10mm 13mm 8mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+<section class="page" id="wirtschaft" data-screen-label="Rumänien Wirtschaft" style="position:relative;box-sizing:border-box;padding:10mm 13mm 8mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
   <div style="border-top:2.5px solid #2a231c;padding-top:6px;display:flex;justify-content:space-between;align-items:baseline">
     <div style="font-size:22px;font-weight:600;letter-spacing:-.02em">Rum&auml;nien &middot; Wirtschaft</div>
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:10px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 18</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:10px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS</div>
   </div>
   <div style="font-style:italic;font-size:13px;color:#4a4139;margin:4px 0 5mm;max-width:250mm;text-wrap:pretty">Bodennutzung als Fl&auml;che, Standorte als Zeichen: neun Nutzungsklassen nach CORINE, dar&uuml;ber Bergbau, Industrie und Energie. Die verh&uuml;ttende Industrie tr&auml;gt den Tiegel, die Branchen den Kennbuchstaben, die Betriebsgr&ouml;&szlig;e die Staffelung.</div>
   <div style="height:214mm;display:flex;gap:7mm;min-height:0">
@@ -34,7 +34,7 @@
     </div>
   </div>
   <div style="margin-top:3.5mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:5px">
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.05em;color:#8b8173">BODENNUTZUNG: CORINE LAND COVER 2018 (COPERNICUS), GENERALISIERT &middot; STANDORTE: EIGENE ZUSAMMENSTELLUNG NACH DIERCKE-VORBILD &middot; K&Uuml;STEN UND STAATEN: NATURAL EARTH 1:50 M &middot; PROJEKTION: LAMBERT KONFORM KONISCH 44&deg;/48&deg; N &middot; STAND 08/2026</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.05em;color:#8b8173" id="quellen">BODENNUTZUNG: CORINE LAND COVER 2018 (COPERNICUS), GENERALISIERT &middot; STANDORTE: EIGENE ZUSAMMENSTELLUNG NACH DIERCKE-VORBILD &middot; K&Uuml;STEN UND STAATEN: NATURAL EARTH 1:50 M &middot; PROJEKTION: LAMBERT KONFORM KONISCH 44&deg;/48&deg; N &middot; STAND 08/2026</div>
     <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;color:#8b8173">137</div>
   </div>
 </section>
@@ -53,9 +53,29 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
   const MONO = "'Noto Sans Mono',monospace";
 
   const D = window.__blatt18Daten;
-  // Ringe sphärisch korrekt wickeln — sonst deutet d3 die Fläche als Weltkugel minus Polygon
-  const rewindF = f => { if (d3.geoArea(f) > Math.PI) f.geometry.coordinates[0] = f.geometry.coordinates[0].slice().reverse(); return f; };
+  // Ringe sphärisch korrekt wickeln — sonst deutet d3 die Fläche als Weltkugel minus
+  // Polygon. Polygonweise, weil die CORINE-MultiPolygone Löcher tragen (Lichtungen,
+  // Ortsinseln): kippt der Außenring, kippen alle Ringe des Polygons mit.
+  const rewindF = f => {
+    const polys = f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates : [f.geometry.coordinates];
+    for (const rings of polys)
+      if (d3.geoArea({ type: 'Polygon', coordinates: rings }) > 2 * Math.PI) rings.forEach(r => r.reverse());
+    return f;
+  };
   const rewind = fcoll => { fcoll.features.forEach(rewindF); return fcoll; };
+  // Echte CORINE-Flächen (rumaenien-nutzung.rb → atlas/geodaten/nutzung-*.geojson);
+  // acker bleibt Grundton und wird nicht geladen. Fehlen die Dateien, bleibt die
+  // Handzeichnung — und der Quellenvermerk am Blattfuß sagt es (Belegstatus).
+  const KLASSEN = { GRUENLAND: 'gruenland', STEPPE: 'steppe', WALD: 'wald', FEUCHT: 'feucht', WEINBAU: 'weinbau', OBSTBAU: 'obstbau', GEMUESE: 'gemuese', STADT: 'stadt' };
+  try {
+    const geladen = await Promise.all(Object.values(KLASSEN).map(k =>
+      fetch(`atlas/geodaten/nutzung-${k}.geojson`).then(r => { if (!r.ok) throw new Error(k); return r.json(); })));
+    Object.keys(KLASSEN).forEach((K, i) => { D.NUTZUNG[K] = geladen[i]; });
+  } catch (e) {
+    const q = document.getElementById('quellen');
+    q.textContent = q.textContent.replace('BODENNUTZUNG: CORINE LAND COVER 2018 (COPERNICUS), GENERALISIERT',
+      'BODENNUTZUNG: VON HAND NACH CORINE-VORBILD NACHGEZEICHNET — UNBELEGT (EXPORTE FEHLEN)');
+  }
   Object.values(D.NUTZUNG).forEach(rewind);
   rewind(D.HANF1980);
   const { gewaesser } = window.__blatt15Daten;
@@ -284,7 +304,7 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
     const paN = d3.geoPath(pN);
     ng.append('rect').attr('x', NB.x).attr('y', NB.y).attr('width', NB.w).attr('height', NB.h).attr('fill', F.meer);
     ng.selectAll('path.c').data(countries.features).join('path').attr('d', paN).attr('fill', d => String(d.id) === '642' ? F.papier : F.nachbar);
-    ng.append('path').attr('d', paN(D.NUTZUNG.FEUCHT.features[1])).attr('fill', 'url(#sumpf)').attr('stroke', F.wasser).attr('stroke-width', .18 * MM);
+    ng.append('path').attr('d', paN(D.NUTZUNG.FEUCHT)).attr('fill', 'url(#sumpf)').attr('stroke', F.wasser).attr('stroke-width', .18 * MM);
     const arm = (coords, w) => ng.append('path').attr('d', paN({ type: 'Feature', geometry: { type: 'LineString', coordinates: coords } }))
       .attr('fill', 'none').attr('stroke', F.wasser).attr('stroke-width', w).attr('stroke-linecap', 'round');
     arm([[28.5, 45.25], [28.75, 45.22]], 2.6);
