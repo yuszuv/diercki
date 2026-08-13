@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/colors.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/typography.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/effects.css">
+<link rel="stylesheet" href="_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/tokens/base.css">
+<style>
+  body { margin: 0; background: var(--paper); }
+  a { color: var(--petrol); }
+  a:hover { color: var(--ink); }
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:var(--paper);color:var(--ink);font-family:'Gentium Book Plus','Noto Serif',serif;font-size:17px;line-height:1.55">
+  <div style="height:5px;background:var(--ink)"></div>
+  <div style="border-bottom:1px solid var(--grey-light)">
+    <div style="max-width:800px;margin:0 auto;padding:14px var(--page-gutter,30px);display:flex;justify-content:space-between;align-items:baseline">
+      <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:13px;letter-spacing:.08em;color:var(--grey)">STERNPRODUKT &middot; ZEICHENFRAGE</span>
+      <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:13px;letter-spacing:.04em;color:var(--grey)">{{ messStand }}</span>
+    </div>
+  </div>
+
+  <div style="max-width:800px;margin:0 auto;padding:0 var(--page-gutter,30px) 90px">
+
+    <h1 style="font-size:clamp(27px,6vw,38px);font-weight:600;letter-spacing:-.02em;margin:44px 0 0;line-height:1.15">Die Unicode-N&auml;herung des Sternprodukt-Zeichens</h1>
+    <div style="height:2px;background:var(--ink);margin:14px 0 26px"></div>
+
+    <p style="margin:0 0 18px;text-wrap:pretty">Das Zeichen hat drei Register: die Bleistift-Zeichnung, das LaTeX-Register <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">\mathbin{\star_{\scriptscriptstyle\mathrm{\hbar}}}</span>, und die Unicode-N&auml;herung f&uuml;r alles, wo nur Text geht &mdash; Plaintext-Mail, Dateinamen, Kommandozeile. Die ersten beiden stehen. Das dritte &uuml;berzeugt nicht, und dieses Blatt sagt nach, warum.</p>
+
+    <p style="margin:0 0 18px;text-wrap:pretty">Die Frage ist nicht, welches Zeichen am sch&ouml;nsten aussieht. Sie ist, welches <em>bei jemand anderem</em> ankommt. Deshalb wird hier gemessen statt behauptet: jedes Zeichen wird gegen die Breite des Ersatzzeichens U+FFFF gestellt &mdash; gleiche Breite hei&szlig;t, es gibt gar keine Glyphe, und der Leser sieht ein leeres Rechteck.</p>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:38px 0 6px">Was gemessen wurde</h2>
+    <p style="margin:0 0 16px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Drei Schriftst&auml;nde, weil ein Zeichen bei dir da sein kann und beim Empf&auml;nger nicht: Gentium allein &mdash; Noto Serif allein &mdash; die volle Kette, wie diese Seite sie setzt.</p>
+
+    <div ref="{{ tabelleRef }}" style="margin:0 0 8px"></div>
+    <p style="margin:0 0 30px;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:12.5px;letter-spacing:.03em;color:var(--grey);line-height:1.8">&#9312; GENTIUM TR&Auml;GT ES &middot; &#9313; NOTO SERIF TR&Auml;GT ES &middot; &#9314; NUR DIE SYSTEMKETTE &middot; &#9315; TOFU</p>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:38px 0 6px">Die Fassungen</h2>
+    <p style="margin:0 0 22px;color:var(--grey-dark);font-size:16px;text-wrap:pretty">Sieben M&ouml;glichkeiten, jede mit dem Einwand daneben, der gegen sie spricht.</p>
+
+    <sc-for list="{{ kandidaten }}" as="k" hint-placeholder-count="7">
+      <div style="border-top:1px solid var(--grey-light);padding:20px 0;display:flex;gap:26px;align-items:flex-start">
+        <div style="flex:none;width:120px;text-align:center">
+          <div style="font-size:38px;line-height:1.2;color:var(--ink)">{{ k.zeichen }}</div>
+          <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:11px;letter-spacing:.04em;color:var(--grey);margin-top:8px;line-height:1.6">{{ k.punkte }}</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:18px;margin-bottom:5px">{{ k.name }}</div>
+          <div style="font-size:16px;line-height:1.5;color:var(--grey-dark);margin-bottom:7px;text-wrap:pretty">{{ k.fuer }}</div>
+          <div style="font-size:16px;line-height:1.5;color:var(--grey-dark);text-wrap:pretty"><em>Dagegen:</em> {{ k.gegen }}</div>
+          <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.04em;color:var(--grey);margin-top:9px">{{ k.tippen }}</div>
+        </div>
+      </div>
+    </sc-for>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:38px 0 6px">Zusammensetzen statt ausw&auml;hlen</h2>
+    <p style="margin:0 0 16px;text-wrap:pretty">Neo ist kein Zeichenvorrat, sondern ein Kompositionssystem &mdash; und das ist ein Unterschied, den ich zuerst &uuml;bersehen hatte. Drei Mechanismen, die verschiedene Dinge tun:</p>
+
+    <div style="border-left:2px solid var(--grey-light);padding-left:20px;margin:0 0 20px">
+      <p style="margin:0 0 12px;text-wrap:pretty"><b style="font-weight:600">Ebene 6</b> w&auml;hlt aus, was es gibt: <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">Mod3+Mod4</span> auf mathematische Zeichen.</p>
+      <p style="margin:0 0 12px;text-wrap:pretty"><b style="font-weight:600">Compose</b> (<span style="font-family:'Noto Sans Mono',monospace;font-size:15px">Mod3+Tab</span>, geschrieben &#9835;) setzt zusammen: &#9835;oc gibt &copy;, &#9835;ae gibt &aelig;. Und, hier wird es interessant: <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">&#9835;_1</span> gibt &#8321;, <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">&#9835;_2</span> gibt &#8322; &mdash; auch die meisten Buchstaben lassen sich so tiefstellen. <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">&#9835;_h</span> ergibt also &#8341;.</p>
+      <p style="margin:0;text-wrap:pretty"><b style="font-weight:600">Tote Tasten, doppelt gedr&uuml;ckt</b>, geben das <em>kombinierende</em> Zeichen selbst aus &mdash; <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">&lt;dead_circumflex&gt;&lt;dead_circumflex&gt;</span> liefert U+0302, nicht ein &circ; &uuml;ber einem Buchstaben. Damit lassen sich Zeichen bauen, die es als fertigen Codepunkt gar nicht gibt.</p>
+    </div>
+
+    <p style="margin:0 0 16px;text-wrap:pretty">Der entscheidende Schnitt liegt zwischen den letzten beiden, und er hat nichts mit der Tastatur zu tun:</p>
+
+    <p style="margin:0 0 16px;padding-left:20px;text-wrap:pretty"><b style="font-weight:600">Komposition, die auf einem fertigen Codepunkt endet</b> (&#9835;_h &rarr; U+2095) &auml;ndert nur, wie bequem ich tippe. Beim Empf&auml;nger kommt derselbe Codepunkt an wie vorher, mit demselben Risiko. F&uuml;r die Darstellung gewinnt sie nichts.</p>
+
+    <p style="margin:0 0 16px;padding-left:20px;text-wrap:pretty"><b style="font-weight:600">Komposition, die eine kombinierende Folge erzeugt</b> (h + U+0335) ist etwas anderes: zwei Codepunkte, die die Schrift &uuml;bereinanderlegen muss. Das kann gelingen, wo der fertige Codepunkt fehlt &mdash; und es kann anders scheitern, n&auml;mlich als zwei nebeneinanderstehende Zeichen statt einem.</p>
+
+    <p style="margin:0 0 18px;text-wrap:pretty">Das l&auml;sst sich messen, und zwar anders als oben: eine kombinierende Marke hat <em>keine eigene Vorschubbreite</em>. Wird der Text mit ihr breiter als ohne, hat die Schrift sie nicht verarbeitet und setzt sie daneben.</p>
+
+    <div ref="{{ verbundRef }}" style="margin:0 0 30px"></div>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:34px 0 6px">Selbst erzeugen &mdash; Kopiervorlagen</h2>
+    <p style="margin:0 0 16px;text-wrap:pretty">Was Compose ausgibt, steht in der rechten Spalte, direkt zum Kopieren. Die Tastenfolgen sind Neo2; &#9835; ist <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">Mod3+Tab</span>. Wo eine Folge in deiner Belegung nicht liegt, tut es die Zeichenfolge daneben.</p>
+
+    <div ref="{{ vorlagenRef }}" style="margin:0 0 14px"></div>
+    <p style="margin:0 0 30px;font-size:16px;color:var(--grey-dark);text-wrap:pretty">Zum Anlegen eigener Kombinationen: <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">~/.XCompose</span> unter Linux, bei ReNeo eine <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">.module</span>-Datei im Verzeichnis <span style="font-family:'Noto Sans Mono',monospace;font-size:15px">compose/</span>. Die Zeile daf&uuml;r steht jeweils in der letzten Spalte.</p>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:38px 0 6px">Was Neo l&ouml;st &mdash; und was nicht</h2>
+    <p style="margin:0 0 16px;text-wrap:pretty"><b style="font-weight:600">Neo l&ouml;st das Eingabeproblem vollst&auml;ndig.</b> &#8902; liegt auf Ebene 6, &#8463; ebenfalls, das Tiefstellen geht &uuml;ber Compose, und f&uuml;r alles Weitere sind die Kombinationen selbst erweiterbar. Wer Neo tippt, braucht keine Zeichentabelle und keinen Kompromiss. Das ist mehr, als ich zuerst zugestanden hatte.</p>
+    <p style="margin:0 0 16px;text-wrap:pretty"><b style="font-weight:600">Das Darstellungsproblem l&ouml;st es nicht</b>, und kann es nicht l&ouml;sen. Die Tastatur entscheidet, was ich schreiben kann; die Schrift des Empf&auml;ngers entscheidet, was ankommt. Ein Markenzeichen h&auml;ngt am Zweiten.</p>
+    <p style="margin:0 0 18px;text-wrap:pretty">F&uuml;r Jans eigenen Gebrauch hei&szlig;t das trotzdem etwas: die N&auml;herung muss nicht auf das leicht Tippbare R&uuml;cksicht nehmen. Wenn das Tippen ohnehin kein Hindernis ist, darf die Wahl allein danach gehen, was ankommt.</p>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:38px 0 6px">Rangfolge</h2>
+    <p style="margin:0 0 16px;text-wrap:pretty">Drei Ma&szlig;st&auml;be, und nur der erste ist gemessen. <b style="font-weight:600">Robustheit</b> kommt aus der Tabelle oben: die schlechteste Stufe, die ein beteiligter Codepunkt erreicht. <b style="font-weight:600">Treue</b> und <b style="font-weight:600">Register</b> sind Urteile, keine Messwerte &mdash; sie stehen hier, damit man sie bestreiten kann.</p>
+    <div ref="{{ rangRef }}" style="margin:0 0 16px"></div>
+    <p style="margin:0 0 30px;font-size:16px;color:var(--grey-dark);text-wrap:pretty">Ausgeschieden ist, was semantisch falsch ist &mdash; nicht, was sch&auml;big aussieht. Ein Zeichen, das die Involution einer C*-Algebra meint, w&auml;re hier der schlimmste Fehler, den man machen kann, und er f&auml;llt niemandem auf.</p>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:38px 0 6px">So tippst du es &mdash; T14, GNOME, NeoQwertz</h2>
+    <div ref="{{ tastenRef }}" style="margin:0 0 30px"></div>
+
+    <h2 style="font-size:24px;font-weight:600;letter-spacing:-.02em;margin:38px 0 6px">Was ich empfehle</h2>
+    <div ref="{{ fazitRef }}" style="margin:0 0 18px"></div>
+
+    <div style="border-top:1px solid var(--grey-light);margin-top:44px;padding-top:14px;display:flex;justify-content:space-between;align-items:baseline;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.04em;color:var(--grey)">
+      <span>MESSMETHODE NACH GUIDELINES/ZEICHENSATZ</span>
+      <span>&#8902;<sub style="font-size:9px">&#8463;</sub></span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;messen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Live messen (aus: nur die Fassungen)&quot;}}">
+class Component extends DCLogic {
+  tabelleRef = React.createRef();
+  fazitRef = React.createRef();
+  verbundRef = React.createRef();
+  vorlagenRef = React.createRef();
+  rangRef = React.createRef();
+  tastenRef = React.createRef();
+
+  // Die Bewertung. Robustheit ist gemessen, die beiden anderen sind Urteile —
+  // das steht so auf dem Blatt, damit man sie bestreiten kann.
+  static BEWERTUNG = [
+    { name: '*_hbar', zeichen: '*_hbar', punkte: [],
+      treue: 3, register: 1,
+      treueWarum: 'Sagt genau, was gemeint ist — in der Sprache, die es definiert.',
+      registerWarum: 'Eine Anweisung, kein Zeichen. Steht in einer Signatur wie unfertiger Satz.' },
+    { name: '⋆ allein', zeichen: '⋆', punkte: ['U+22C6'],
+      treue: 2, register: 3,
+      treueWarum: 'Der richtige Operator, aber ohne die Deformation — und die ist der Inhalt.',
+      registerWarum: 'Ein Zeichen, ein Codepunkt. Nichts kann brechen außer ihm selbst.' },
+    { name: '⋆ℏ', zeichen: '⋆ℏ', punkte: ['U+22C6', 'U+210F'],
+      treue: 3, register: 2,
+      treueWarum: 'Beide Bestandteile echt, beide richtig.',
+      registerWarum: 'Ohne Tiefstellung liest es sich als zwei Operatoren, nicht als Zeichen mit Index.' },
+    { name: '⋆ₕ', zeichen: '⋆ₕ', punkte: ['U+22C6', 'U+2095'],
+      treue: 1, register: 3,
+      treueWarum: 'Das Tiefstell-h ist ein h. Der Querstrich fehlt, und damit die Physik.',
+      registerWarum: 'Sieht am ehesten aus wie das gesetzte Zeichen.' },
+    { name: '⋆_ℏ', zeichen: '⋆_ℏ', punkte: ['U+22C6', 'U+210F'],
+      treue: 3, register: 1,
+      treueWarum: 'Unmissverständlich für jeden, der TeX kennt.',
+      registerWarum: 'Drei Zeichen für eines. In einer Signatur wirkt es wie ein Dateiname.' },
+    { name: 'h̵ (verbunden)', zeichen: '⋆h̵', punkte: ['U+22C6', 'U+0335'],
+      treue: 3, register: 2,
+      treueWarum: 'Baut das ℏ, statt es vorauszusetzen.',
+      registerWarum: 'Hängt daran, dass die Schrift die Marke verarbeitet — siehe Verbund-Messung.' },
+    { name: '∗ₕ', zeichen: '∗ₕ', punkte: ['U+2217', 'U+2095'],
+      treue: 0, register: 2, raus: true,
+      treueWarum: 'Falscher Operator. ∗ ist die Involution der C*-Algebra, ⋆ das Sternprodukt.',
+      registerWarum: '—' },
+    { name: '⋆ħ', zeichen: '⋆ħ', punkte: ['U+22C6', 'U+0127'],
+      treue: 0, register: 2, raus: true,
+      treueWarum: 'Ein maltesischer Buchstabe, keine Konstante. Sortierungen und Suche behandeln ihn als Text.',
+      registerWarum: '—' }
+  ];
+
+  // Konkrete Tastenwege. Was ich sicher weiß, steht als Weg; wo die genaue
+  // Tastenposition von der NeoQwertz-Permutation abhängt, sage ich das statt zu raten.
+  tasten() {
+    const host = this.tastenRef.current; if (!host) return;
+    const MONO = "font-family:'Noto Sans Mono',monospace;font-weight:500";
+    const k = s => '<span style="' + MONO + ';font-size:13px;border:1px solid var(--grey-light);padding:1px 6px;white-space:nowrap;background:var(--paper)">' + s + '</span>';
+    const wege = [
+      { t: 'Unicode direkt', sicher: true,
+        weg: k('Strg') + ' + ' + k('Umschalt') + ' + ' + k('U') + ' loslassen, dann Hexcode tippen, dann ' + k('Eingabe'),
+        bsp: 'f\u00fcr \u22c6: 22c6 \u00b7 f\u00fcr \u210f: 210f \u00b7 f\u00fcr \u2095: 2095',
+        was: 'Geht unter GNOME/IBus immer, unabh\u00e4ngig vom Layout. Der Weg, der nie scheitert \u2014 und der einzige, den ich ohne Vorbehalt angeben kann.' },
+      { t: 'Compose starten', sicher: true,
+        weg: k('Mod3') + ' + ' + k('Tab') + ' \u2014 Mod3 ist die ' + k('Feststelltaste') + ' links oder die Taste links neben ' + k('Eingabe'),
+        bsp: 'danach ' + k('_') + ' ' + k('1') + ' ergibt \u2081, ' + k('_') + ' ' + k('h') + ' ergibt \u2095',
+        was: 'Die Compose-Folgen f\u00fcr Tiefstellung sind in Neo fest belegt und funktionieren auf jeder Neo-Variante.' },
+      { t: 'Ebene 6', sicher: false,
+        weg: k('Mod3') + ' + ' + k('Mod4') + ' halten \u2014 Mod4 ist ' + k('&lt;') + ' links neben ' + k('Y') + ' oder ' + k('AltGr'),
+        bsp: '\u22c6 und \u210f liegen dort',
+        was: 'Auf welcher Buchstabentaste genau, h\u00e4ngt von der NeoQwertz-Permutation ab \u2014 das rate ich nicht. Mod3+Mod4 halten und die Belegungstafel danebenlegen, oder einmal durchprobieren.' },
+      { t: 'Eigene Kombination', sicher: true,
+        weg: 'Zeile aus der Tabelle oben in ' + k('~/.XCompose') + ' schreiben, dann ab- und wieder anmelden',
+        bsp: '&lt;Multi_key&gt; &lt;asterisk&gt; &lt;underscore&gt; : &quot;\u22c6\u2095&quot;',
+        was: 'IBus liest ~/.XCompose seit 1.5. Damit legst du dir das ganze Zeichen auf drei Anschl\u00e4ge \u2014 der Weg, den ich an deiner Stelle nehmen w\u00fcrde.' }
+    ];
+    const td = 'padding:11px 12px 11px 0;border-bottom:.5px solid var(--grey-light);vertical-align:top';
+    host.innerHTML = '<table style="width:100%;border-collapse:collapse"><tbody>' +
+      wege.map(w =>
+        '<tr>' +
+        '<td style="' + td + ';width:34px">' + (w.sicher ? '' : '<span style="color:var(--grey);font-size:16px" title="Position layoutabh\u00e4ngig">?</span>') + '</td>' +
+        '<td style="' + td + ';width:150px;font-weight:600;font-size:16px;line-height:1.4">' + w.t + '</td>' +
+        '<td style="' + td + ';font-size:15px;line-height:2">' + w.weg +
+          '<div style="margin-top:8px;line-height:2;color:var(--grey-dark)">' + w.bsp + '</div>' +
+          '<div style="margin-top:8px;font-size:14.5px;line-height:1.45;color:var(--grey-dark)">' + w.was + '</div></td>' +
+        '</tr>').join('') +
+      '</tbody></table>';
+  }
+
+  rangliste() {
+    const host = this.rangRef.current; if (!host || !this.state.messung) return;
+    const MONO = "font-family:'Noto Sans Mono',monospace;font-weight:500";
+    const bewertet = Component.BEWERTUNG.map(b => {
+      const stufen = b.punkte.map(p => this.stufe(p)).filter(Boolean);
+      const robust = stufen.length ? Math.max(...stufen) : 0; // 0 = ASCII, unschlagbar
+      return { ...b, robust, summe: (b.raus ? 99 : 0) + robust * 3 - b.treue - b.register };
+    }).sort((a, b) => a.summe - b.summe);
+
+    const td = 'padding:9px 10px 9px 0;border-bottom:.5px solid var(--grey-light);vertical-align:top';
+    const th = "padding:6px 10px 6px 0;border-bottom:1.5px solid var(--ink);text-align:left;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.06em;color:var(--grey-dark)";
+    const punkte = n => '●'.repeat(n) + '○'.repeat(3 - n);
+    let platz = 0;
+    host.innerHTML =
+      '<table style="width:100%;border-collapse:collapse"><thead><tr>' +
+      '<th style="' + th + '"></th><th style="' + th + '">FASSUNG</th><th style="' + th + '">ROBUST</th>' +
+      '<th style="' + th + '">TREUE</th><th style="' + th + '">REGISTER</th><th style="' + th + '">BEGRÜNDUNG</th>' +
+      '</tr></thead><tbody>' +
+      bewertet.map(b => {
+        const raus = !!b.raus;
+        if (!raus) platz++;
+        const dim = raus ? ';opacity:.5' : '';
+        return '<tr>' +
+        '<td style="' + td + ';' + MONO + ';font-size:14px;color:' + (raus ? 'var(--red,#a83a28)' : 'var(--ink)') + '">' + (raus ? '✕' : platz) + '</td>' +
+        '<td style="' + td + dim + ';font-size:22px;line-height:1.25;user-select:all">' + b.zeichen + '</td>' +
+        '<td style="' + td + dim + ';' + MONO + ';font-size:12.5px;line-height:1.6">' + (b.robust ? 'Stufe ' + b.robust : 'ASCII') + '</td>' +
+        '<td style="' + td + dim + ';font-size:13px;letter-spacing:.1em;color:var(--ink)">' + punkte(b.treue) + '</td>' +
+        '<td style="' + td + dim + ';font-size:13px;letter-spacing:.1em;color:var(--ink)">' + punkte(b.register) + '</td>' +
+        '<td style="' + td + dim + ';font-size:14.5px;line-height:1.45;color:var(--grey-dark)">' + b.treueWarum + (raus ? '' : ' ' + b.registerWarum) + '</td>' +
+        '</tr>';
+      }).join('') +
+      '</tbody></table>';
+  }
+
+  // Kopiervorlagen. Jede Zeile: was man tippt, was herauskommt, und die Zeile
+  // fuer die eigene Compose-Datei, falls die Folge nicht schon belegt ist.
+  static VORLAGEN = [
+    { folge: '♫_h',        zeichen: 'ₕ', punkte: 'U+2095',
+      xcompose: '<Multi_key> <underscore> <h> : "ₕ" U2095' },
+    { folge: 'Ebene 6 auf ⋆', zeichen: '⋆', punkte: 'U+22C6',
+      xcompose: '<Multi_key> <asterisk> <s> : "⋆" U22C6' },
+    { folge: 'Ebene 6 auf ℏ', zeichen: 'ℏ', punkte: 'U+210F',
+      xcompose: '<Multi_key> <h> <bar> : "ℏ" U210F' },
+    { folge: '♫⋆ dann ♫_h', zeichen: '⋆ₕ', punkte: 'U+22C6 U+2095',
+      xcompose: '<Multi_key> <asterisk> <underscore> : "⋆ₕ"' },
+    { folge: 'h, dann T-Taste doppelt', zeichen: 'h̵', punkte: 'U+0068 U+0335',
+      xcompose: '<Multi_key> <h> <slash> : "h̵"' },
+    { folge: '—', zeichen: '⋆ℏ', punkte: 'U+22C6 U+210F',
+      xcompose: '<Multi_key> <asterisk> <h> : "⋆ℏ"' },
+    { folge: '— (reines ASCII)', zeichen: '*_hbar', punkte: 'ASCII',
+      xcompose: '— braucht nichts' }
+  ];
+
+  vorlagen() {
+    const host = this.vorlagenRef.current; if (!host) return;
+    const td = 'padding:9px 10px 9px 0;border-bottom:.5px solid var(--grey-light);vertical-align:top';
+    const th = "padding:6px 10px 6px 0;border-bottom:1.5px solid var(--ink);text-align:left;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.06em;color:var(--grey-dark)";
+    const mono = "font-family:'Noto Sans Mono',monospace;font-weight:500";
+    host.innerHTML =
+      '<table style="width:100%;border-collapse:collapse"><thead><tr>' +
+      '<th style="' + th + '">TIPPEN</th><th style="' + th + '">ERGIBT</th>' +
+      '<th style="' + th + '">CODEPUNKTE</th><th style="' + th + '">ZEILE FÜR XCOMPOSE</th>' +
+      '</tr></thead><tbody>' +
+      Component.VORLAGEN.map(v =>
+        '<tr>' +
+        '<td style="' + td + ';' + mono + ';font-size:13px;line-height:1.5">' + v.folge + '</td>' +
+        '<td style="' + td + ';font-size:26px;line-height:1.2;user-select:all;cursor:text" title="markieren und kopieren">' + v.zeichen + '</td>' +
+        '<td style="' + td + ';' + mono + ';font-size:12px;color:var(--grey);line-height:1.6">' + v.punkte + '</td>' +
+        '<td style="' + td + ';' + mono + ';font-size:11.5px;color:var(--grey-dark);line-height:1.6;user-select:all">' + v.xcompose.replace(/</g, '&lt;').replace(/>/g, '&gt;') + '</td>' +
+        '</tr>').join('') +
+      '</tbody></table>';
+  }
+
+  // Kombinierende Folgen. Eine echte kombinierende Marke hat KEINE eigene
+  // Vorschubbreite — der Text wird mit ihr nicht breiter. Wird er breiter,
+  // hat die Schrift sie nicht verarbeitet und setzt sie daneben.
+  static VERBUENDE = [
+    { basis: 'h', mark: '̵', mu: 'U+0335', name: 'kurzer Querstrich',
+      ziel: 'ℏ', zielName: 'ℏ (U+210F)',
+      zweck: 'Das Planck-Zeichen bauen statt es vorauszusetzen.' },
+    { basis: 'h', mark: '̶', mu: 'U+0336', name: 'langer Querstrich',
+      ziel: 'ħ', zielName: 'ħ (U+0127)',
+      zweck: 'Dasselbe, mit der längeren Marke — zielt auf den Buchstaben ħ.' },
+    { basis: '⋆', mark: '̲', mu: 'U+0332', name: 'Linie darunter',
+      ziel: null, zielName: '—',
+      zweck: 'Einen Index andeuten, wo Unicode keinen anbietet.' },
+    { basis: '⋆', mark: '̣', mu: 'U+0323', name: 'Punkt darunter',
+      ziel: null, zielName: '—',
+      zweck: 'Dasselbe, mit der üblichsten Marke unterhalb.' }
+  ];
+
+  verbund() {
+    const host = this.verbundRef.current; if (!host) return;
+    const MONO = "font-family:" + "'Noto Sans Mono',monospace" + ";font-weight:500";
+    const stack = "'Gentium Book Plus','Noto Serif',serif";
+    const zeilen = Component.VERBUENDE.map(v => {
+      const ohne = this.breite(v.basis, stack);
+      const mit = this.breite(v.basis + v.mark, stack);
+      const zuwachs = Math.round((mit - ohne) * 100) / 100;
+      const verbunden = zuwachs < 1.5;
+      const zielBreite = v.ziel ? this.breite(v.ziel, stack) : null;
+      const zielTofu = v.ziel ? Math.abs(zielBreite - this.breite('￿', stack)) < 0.5 : null;
+      return { v, ohne, mit, zuwachs, verbunden, zielTofu };
+    });
+
+    const td = 'padding:9px 10px 9px 0;border-bottom:.5px solid var(--grey-light);vertical-align:top';
+    const th = "padding:6px 10px 6px 0;border-bottom:1.5px solid var(--ink);text-align:left;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.06em;color:var(--grey-dark)";
+    host.innerHTML =
+      '<table style="width:100%;border-collapse:collapse"><thead><tr>' +
+      '<th style="' + th + '">FOLGE</th><th style="' + th + '">MARKE</th>' +
+      '<th style="' + th + '">ZUWACHS</th><th style="' + th + '">FERTIGES ZEICHEN</th><th style="' + th + '">BEFUND</th>' +
+      '</tr></thead><tbody>' +
+      zeilen.map(({ v, zuwachs, verbunden, zielTofu }) =>
+        '<tr>' +
+        '<td style="' + td + ';font-size:26px;line-height:1.2">' + v.basis + v.mark + '</td>' +
+        '<td style="' + td + ';' + MONO + ';font-size:12.5px;line-height:1.6">' + v.mu + '<br><span style="color:var(--grey);font-size:11.5px">' + v.name + '</span></td>' +
+        '<td style="' + td + ';' + MONO + ';font-size:13px;color:' + (verbunden ? 'var(--ink)' : 'var(--red,#a83a28)') + '">' + zuwachs.toFixed(1) + ' px</td>' +
+        '<td style="' + td + ';font-size:20px;line-height:1.3">' + (v.ziel ? v.ziel + '<br><span style="' + MONO + ';font-size:11px;color:' + (zielTofu ? 'var(--red,#a83a28)' : 'var(--grey)') + '">' + (zielTofu ? 'TOFU' : 'vorhanden') + '</span>' : '<span style="font-size:14px;color:var(--grey)">gibt es nicht</span>') + '</td>' +
+        '<td style="' + td + ';font-size:15px;line-height:1.45;color:var(--grey-dark)">' +
+          (verbunden ? '<b style="font-weight:600">Verbunden.</b> ' : '<b style="font-weight:600;color:var(--red,#a83a28)">Nicht verbunden</b> — die Marke steht daneben. ') +
+          v.zweck + '</td>' +
+        '</tr>').join('') +
+      '</tbody></table>';
+  }
+  state = { messung: null };
+
+  // Die Codepunkte, aus denen die Fassungen gebaut sind. Gemessen wird jeder
+  // einzeln — eine Fassung ist nur so gut wie ihr schwächstes Zeichen.
+  static ZEICHEN = [
+    { c: '\u22c6', u: 'U+22C6', n: 'STAR OPERATOR' },
+    { c: '\u2217', u: 'U+2217', n: 'ASTERISK OPERATOR' },
+    { c: '\u210f', u: 'U+210F', n: 'PLANCK CONSTANT OVER TWO PI' },
+    { c: '\u2095', u: 'U+2095', n: 'LATIN SUBSCRIPT SMALL LETTER H' },
+    { c: '\u2093', u: 'U+2093', n: 'LATIN SUBSCRIPT SMALL LETTER X' },
+    { c: '\u0127', u: 'U+0127', n: 'LATIN SMALL LETTER H WITH STROKE' }
+  ];
+
+  static STAENDE = [
+    { id: 'g', label: 'Gentium',    css: "'Gentium Book Plus'" },
+    { id: 'n', label: 'Noto Serif', css: "'Noto Serif'" },
+    { id: 'k', label: 'Kette',      css: "'Gentium Book Plus','Noto Serif',serif" }
+  ];
+
+  componentDidMount() { this.messen(); }
+
+  // document.fonts.ready sagt nur, dass keine Anfrage mehr offen ist — nicht, dass
+  // die unicode-range-Subsets geladen sind. Die kommen erst, wenn ein Zeichen daraus
+  // wirklich gesetzt wird. Wer vorher misst, misst die Systemschrift und haelt sie
+  // fuer Gentium. Also jedes Zeichen einzeln anfordern.
+  async subsetsLaden() {
+    if (!document.fonts || !document.fonts.load) return;
+    const zeichen = new Set(
+      Component.ZEICHEN.map(z => z.c)
+        .concat(Component.VERBUENDE.flatMap(v => [v.basis, v.mark, v.ziel].filter(Boolean)))
+        .concat([String.fromCharCode(0xffff)])
+    );
+    const anfragen = [];
+    for (const st of Component.STAENDE)
+      for (const c of zeichen)
+        anfragen.push(document.fonts.load("64px " + st.css, c).catch(() => {}));
+    await Promise.all(anfragen);
+  }
+  componentDidUpdate(pp, ps) { if (ps.messung !== this.state.messung) this.allesZeichnen(); }
+  componentWillUnmount() { this._abbruch = true; }
+
+  // Wartet, bis das Template weit genug gestroemt ist. Ohne das bleibt alles leer,
+  // wenn die Messung schneller fertig ist als der Seitenaufbau.
+  allesZeichnen = (versuch = 0) => {
+    if (this._abbruch) return;
+    const ziele = [this.tabelleRef, this.verbundRef, this.vorlagenRef, this.rangRef, this.tastenRef, this.fazitRef];
+    if (ziele.some(r => !r.current)) {
+      if (versuch > 300) { console.warn('Zeichen-Naeherung: Ziel-Container nie erschienen, nach', versuch, 'Anlaeufen aufgegeben'); return; }
+      requestAnimationFrame(() => this.allesZeichnen(versuch + 1));
+      return;
+    }
+    this.tabelle(); this.verbund(); this.vorlagen(); this.rangliste(); this.tasten(); this.fazit();
+  };
+
+  // Breitenvergleich gegen U+FFFF: gleiche Breite heißt, die Schrift hat für dieses
+  // Zeichen keine Glyphe und zeigt dasselbe Ersatzkästchen. Das ist die Methode der
+  // Zeichensatz-Karte des Design-Systems, nicht neu erfunden.
+  breite(zeichen, fontCss) {
+    const s = document.createElement('span');
+    s.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font-size:64px;font-family:' + fontCss;
+    s.textContent = zeichen;
+    document.body.appendChild(s);
+    const w = s.getBoundingClientRect().width;
+    s.remove();
+    return Math.round(w * 100) / 100;
+  }
+
+  einmalMessen() {
+    const messung = {};
+    const ERSATZ = String.fromCharCode(0xffff);
+    for (const st of Component.STAENDE) {
+      const tofu = this.breite(ERSATZ, st.css);
+      messung[st.id] = {};
+      for (const z of Component.ZEICHEN) {
+        const w = this.breite(z.c, st.css);
+        messung[st.id][z.u] = { w, tofu, hat: Math.abs(w - tofu) > 0.5 && w > 1 };
+      }
+    }
+    return messung;
+  }
+
+  async messen() {
+    await this.subsetsLaden();
+    this.setState({ messung: this.einmalMessen() }, this.allesZeichnen);
+
+    // Nachmessen. Kommt doch noch ein Subset spaet, korrigiert sich das Blatt
+    // selbst, statt einen falschen Befund einzufrieren.
+    let n = 0;
+    const nach = () => {
+      if (this._abbruch || n++ > 60) return;
+      const neu = this.einmalMessen();
+      if (JSON.stringify(neu) !== JSON.stringify(this.state.messung)) {
+        console.info("Zeichen-Naeherung: Schriftlage hat sich geaendert, Messung nachgezogen (Anlauf " + n + ")");
+        this.setState({ messung: neu }, this.allesZeichnen);
+      }
+      requestAnimationFrame(nach);
+    };
+    requestAnimationFrame(nach);
+  }
+
+  // Stufe nach der Rangfolge des Design-Systems.
+  stufe(u) {
+    const m = this.state.messung; if (!m) return null;
+    if (m.g[u] && m.g[u].hat) return 1;
+    if (m.n[u] && m.n[u].hat) return 2;
+    if (m.k[u] && m.k[u].hat) return 3;
+    return 4;
+  }
+
+  tabelle() {
+    const host = this.tabelleRef.current, m = this.state.messung;
+    if (!host || !m) return;
+    const kreise = ['', '\u2460', '\u2461', '\u2462', '\u2463'];
+    const zeile = (z) => {
+      const s = this.stufe(z.u);
+      const zellen = Component.STAENDE.map(st =>
+        '<td style="padding:8px 10px 8px 0;border-bottom:.5px solid var(--grey-light);font-family:\'Noto Sans Mono\',monospace;font-weight:500;font-size:13px;color:' +
+        (m[st.id][z.u].hat ? 'var(--ink)' : 'var(--red,#a83a28)') + '">' +
+        (m[st.id][z.u].hat ? m[st.id][z.u].w + ' px' : 'Tofu') + '</td>').join('');
+      return '<tr>' +
+        '<td style="padding:8px 10px 8px 0;border-bottom:.5px solid var(--grey-light);font-size:26px;line-height:1">' + z.c + '</td>' +
+        '<td style="padding:8px 10px 8px 0;border-bottom:.5px solid var(--grey-light);font-family:\'Noto Sans Mono\',monospace;font-weight:500;font-size:13px">' + z.u + '</td>' +
+        '<td style="padding:8px 10px 8px 0;border-bottom:.5px solid var(--grey-light);font-size:14px;color:var(--grey-dark)">' + z.n + '</td>' +
+        zellen +
+        '<td style="padding:8px 0;border-bottom:.5px solid var(--grey-light);font-size:19px;text-align:center">' + kreise[s] + '</td>' +
+      '</tr>';
+    };
+    const th = 'padding:6px 10px 6px 0;border-bottom:1.5px solid var(--ink);text-align:left;font-family:\'Noto Sans Mono\',monospace;font-weight:500;font-size:12px;letter-spacing:.06em;color:var(--grey-dark)';
+    host.innerHTML =
+      '<table style="width:100%;border-collapse:collapse"><thead><tr>' +
+      '<th style="' + th + '">ZEI</th><th style="' + th + '">PUNKT</th><th style="' + th + '">NAME</th>' +
+      Component.STAENDE.map(s => '<th style="' + th + '">' + s.label.toUpperCase() + '</th>').join('') +
+      '<th style="' + th + ';text-align:center">STUFE</th>' +
+      '</tr></thead><tbody>' + Component.ZEICHEN.map(zeile).join('') + '</tbody></table>';
+  }
+
+  fazit() {
+    const host = this.fazitRef.current; if (!host || !this.state.messung) return;
+    const sub = this.stufe('U+2095'), hbar = this.stufe('U+210F'), stern = this.stufe('U+22C6');
+    const p = (t) => '<p style="margin:0 0 16px;text-wrap:pretty">' + t + '</p>';
+    const mono = (t) => '<span style="font-family:\'Noto Sans Mono\',monospace;font-size:15px">' + t + '</span>';
+
+    let text = '';
+    if (sub >= 3) {
+      text += p('Die Messung entscheidet die Frage, und zwar gegen die naheliegende Fassung. ' +
+        'Das Tiefstell-h ' + mono('U+2095') + ' erreicht nur Stufe ' + sub + ' — es h&auml;ngt an der Systemkette des Lesers ' +
+        'oder ist gar nicht da. Genau in dem Register, das die N&auml;herung bedienen soll — Plaintext-Mail, ' +
+        'Dateiname, Kommandozeile — ist das die Umgebung mit der schlechtesten Schriftausstattung. ' +
+        'Ein Zeichen, das dort bricht, ist als N&auml;herung wertlos.');
+    } else {
+      text += p('Das Tiefstell-h ' + mono('U+2095') + ' erreicht Stufe ' + sub + ' und ist damit brauchbarer als gedacht. ' +
+        'Es bleibt aber ein <em>h</em> ohne Querstrich: typografisch sauber, physikalisch falsch.');
+    }
+    text += p('Der Stern ' + mono('U+22C6') + ' steht auf Stufe ' + stern + ', das ' + mono('U+210F') + ' auf Stufe ' + hbar +
+      ' — beide aus dem selbstgehosteten math-Subset. Sie sind da, solange die eigenen Schriften geladen sind. ' +
+      'In fremder Umgebung gilt das nicht.');
+    text += p('<b style="font-weight:600">Mein Vorschlag: ' + mono('*_hbar') + ' als ASCII-Fassung, ' + mono('\u22c6') +
+      ' allein als Zeichen-Fassung.</b> Zwei N&auml;herungen f&uuml;r zwei Lagen, statt einer, die beides halb kann. ' +
+      'Die ASCII-Fassung ist die LaTeX-Quelle selbst — sie bricht nirgends, ist versionierbar, und wer sie liest, ' +
+      'wei&szlig; sofort, was gemeint ist. Der blanke Stern tr&auml;gt, wo ein Zeichen stehen muss und der Kontext ' +
+      'das ' + mono('\u210f') + ' ohnehin mitliefert.');
+    text += p('Was damit entf&auml;llt: der Versuch, die tiefgestellte Konstante in Unicode <em>nachzubauen</em>. ' +
+      'Unicode kennt keinen tiefgestellten Planck-Strich, und jede Ersatzkonstruktion kauft die Optik mit einem ' +
+      'Zeichen, das irgendwo bricht. Das Register, das die Tiefstellung wirklich kann, ist LaTeX — und das ist ' +
+      'bereits gesetzt.');
+    host.innerHTML = text;
+  }
+
+  renderVals() {
+    const m = this.state.messung;
+    return {
+      tabelleRef: this.tabelleRef, fazitRef: this.fazitRef, verbundRef: this.verbundRef, vorlagenRef: this.vorlagenRef, rangRef: this.rangRef, tastenRef: this.tastenRef,
+      messStand: m ? 'GEMESSEN IN DIESEM BROWSER' : 'WIRD GEMESSEN \u2026',
+      kandidaten: [
+        { zeichen: '\u22c6\u2095', punkte: 'U+22C6 U+2095', name: 'Stern mit Tiefstell-h',
+          fuer: 'Zwei echte Codepunkte, kein Markup. L\u00e4uft in Plaintext-Mail, Dateinamen, Kommandozeile — genau dort, wof\u00fcr die N\u00e4herung gedacht ist.',
+          gegen: 'Das Tiefstell-h ist ein h, kein \u210f. Der Querstrich fehlt, und damit die Physik. Dazu liegt es in den Phonetischen Erweiterungen, einem Block, den Textschriften oft auslassen.',
+          tippen: 'NEO: EBENE 6 \u00b7 SONST COMPOSE' },
+        { zeichen: '\u22c6\u210f', punkte: 'U+22C6 U+210F', name: 'Stern und \u210f nebeneinander',
+          fuer: 'Beide Zeichen sind echt und liegen im selbstgehosteten math-Subset. Nichts wird nachgebaut.',
+          gegen: 'Ohne Tiefstellung liest es sich als zwei Operatoren hintereinander, nicht als ein Zeichen mit Index.',
+          tippen: 'NEO: EBENE 6' },
+        { zeichen: '\u22c6_\u210f', punkte: 'U+22C6 _ U+210F', name: 'Mit gesetztem Unterstrich',
+          fuer: 'Unmissverst\u00e4ndlich f\u00fcr jeden, der TeX kennt. Die Tiefstellung ist behauptet, nicht gefaked.',
+          gegen: 'Drei Zeichen f\u00fcr ein Zeichen. In einer Signatur wirkt es wie ein Dateiname.',
+          tippen: 'NEO: EBENE 6 + EBENE 3' },
+        { zeichen: '\u2217\u2095', punkte: 'U+2217 U+2095', name: 'Asterisk-Operator statt Stern',
+          fuer: 'U+2217 ist der \u00e4ltere, weiter verbreitete Operator — in mehr Schriften vorhanden als U+22C6.',
+          gegen: 'Es ist der falsche Operator. C*-Algebren schreiben die Involution als \u2217; das Sternprodukt ist \u22c6. Die Verwechslung w\u00e4re hier besonders unangenehm.',
+          tippen: 'NEO: EBENE 6' },
+        { zeichen: '\u22c6\u0127', punkte: 'U+22C6 U+0127', name: 'Mit dem lateinischen h-Strich',
+          fuer: 'U+0127 ist ein gew\u00f6hnlicher Buchstabe (maltesisch) und deshalb in fast jeder Schrift vorhanden — deutlich robuster als \u210f.',
+          gegen: 'Optisch nah, semantisch daneben: das ist ein Buchstabe, keine Konstante. Suchmaschinen und Sortierungen behandeln ihn als Text.',
+          tippen: 'COMPOSE' },
+        { zeichen: '\u22c6', punkte: 'U+22C6', name: 'Nur der Stern',
+          fuer: 'Ein Zeichen, ein Codepunkt, nichts kann brechen au\u00dfer ihm selbst. Der Kontext liefert das \u210f ohnehin mit.',
+          gegen: 'Verzichtet auf die Deformation — und die ist der Inhalt. Ein Stern ohne \u210f ist nur ein Produkt.',
+          tippen: 'NEO: EBENE 6' },
+        { zeichen: '*_hbar', punkte: 'ASCII', name: 'Die LaTeX-Quelle selbst',
+          fuer: 'Reines ASCII. Bricht nirgends, in keiner Kodierung, auf keinem System. Wer es liest, wei\u00df sofort, was gemeint ist.',
+          gegen: 'Kein Zeichen, sondern eine Anweisung. Steht in einer Signatur wie unfertiger Satz.',
+          tippen: 'JEDE TASTATUR' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
