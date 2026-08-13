@@ -9,6 +9,7 @@
 <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<script src="atlas/geodaten/verkehr-daten.js"></script>
 <style>
   body{margin:0}
   doc-page:not(:defined){visibility:hidden}
@@ -17,13 +18,14 @@
 </style>
 </head>
 <body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#2a6f97"/><text x="50" y="62" font-size="34" font-family="Georgia, serif" fill="#fff" text-anchor="middle">RO</text></svg></template>
 <doc-page size="a4" orientation="landscape">
-<section class="page" id="blatt15" data-screen-label="Blatt 15 · Rumänien Verkehr" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
+<section class="page" id="blatt15" data-screen-label="Rumänien Verkehr" style="position:relative;box-sizing:border-box;padding:9mm 12mm 7mm;display:flex;flex-direction:column;background:#fdfdfd;color:#2a231c;font-family:'Gentium Book Plus','Noto Serif',serif">
   <div style="border-top:2px solid #2a231c;padding-top:5px;display:flex;justify-content:space-between;align-items:baseline">
     <div style="font-size:15px;font-weight:600;letter-spacing:-.02em">Rum&auml;nien &middot; Hauptverkehrsnetz</div>
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS &middot; BLATT 15</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:8.5px;letter-spacing:.08em;color:#8b8173">STERNPRODUKT-ATLAS</div>
   </div>
-  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 4mm">Trassengenaue F&uuml;hrung aus OpenStreetMap &mdash; die neun CFR-Magistralen mit ihren Streckennummern, dazu Nebenbahnen, Autobahnen und Schnellstra&szlig;en. Im Donaudelta endet das Landverkehrsnetz bei Tulcea; weiter geht es nur &uuml;ber die Wasserstra&szlig;e.</div>
+  <div style="font-style:italic;font-size:10.5px;color:#4a4139;margin:3px 0 4mm">Trassengenaue F&uuml;hrung aus OpenStreetMap &mdash; die CFR-Magistralen mit ihren Streckennummern, soweit als Trasse in den Daten enthalten, dazu Nebenbahnen, Autobahnen und Schnellstra&szlig;en. Im Donaudelta endet das Landverkehrsnetz bei Tulcea; weiter geht es nur &uuml;ber die Wasserstra&szlig;e.</div>
   <div style="height:157mm;display:flex;gap:7mm;min-height:0">
     <div id="map" style="flex:1;min-width:0;position:relative"><div id="lade" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:9px;letter-spacing:.08em;color:#8b8173">KARTE LÄDT — OSM-TRASSEN + GELÄNDE …</div></div>
     <div style="width:54mm;flex:none;display:flex;flex-direction:column;font-size:9.5px">
@@ -38,7 +40,7 @@
   </div>
   <div style="margin-top:3mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #e5ddce;padding-top:4px">
     <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.5px;letter-spacing:.05em;color:#8b8173">QUELLEN: &copy; OPENSTREETMAP-MITWIRKENDE (ODBL) &middot; NATURAL EARTH 1:50 M &middot; GEL&Auml;NDE: TERRAIN TILES (SRTM, AWS) &middot; PROJEKTION: LAMBERT KONFORM KONISCH 44&deg;/48&deg; N &middot; STAND 08/2026</div>
-    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">fnord</div>
+    <div style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7px;color:#8b8173">137</div>
   </div>
 </section>
 </doc-page>
@@ -61,11 +63,8 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
   const SERIF = "'Gentium Book Plus','Noto Serif',serif";
   const MONO = "'Noto Sans Mono',monospace";
 
-  const [topo, bahn, strassen, bau, gewaesser] = await Promise.all([
-    'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json',
-    'uploads/bahn.geojson.dat', 'uploads/strassen.geojson.dat', 'uploads/strassen-bau.geojson.dat',
-    'uploads/gewaesser.geojson-86b9210a.dat'
-  ].map(u => fetch(u).then(r => { if (!r.ok) throw new Error(u + ' \u2192 HTTP ' + r.status); return r.json(); })));
+  const { bahn, strassen, bau, gewaesser } = window.__blatt15Daten; // fest eingebettet: kein Laufzeit-Fetch, das Blatt ist für sich vollständig
+  const topo = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json').then(r => r.json());
   await customElements.whenDefined('doc-page');
   await new Promise(r => { requestAnimationFrame(() => requestAnimationFrame(r)); setTimeout(r, 250); }); // rAF stalls in throttled iframes — race against a timeout
   const countries = topojson.feature(topo, topo.objects.countries);
@@ -695,10 +694,16 @@ window.__applyMapTweaks = t => { Object.assign(window.__mapTweaks, t); if (windo
 
     // Magistralen-Verzeichnis
     document.getElementById('magistralen').innerHTML = MAGISTRALEN.map(([n, route]) => {
-      const da = magGroup.get(n).length ? '' : ' style="opacity:.45"';
-      return `<div${da} style="display:flex;gap:6px;align-items:baseline;padding:.6px 0">
-        <span style="font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.6px;border:1px solid #2a231c;padding:0 2.5px;flex:none">${n}</span>
-        <span style="font-size:8.2px;line-height:1.15">${route}</span></div>`;
+      const fehlt = !magGroup.get(n).length;
+      const kasten = fehlt
+        ? "font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.6px;border:1px dashed #8b8173;padding:0 2.5px;flex:none;color:#8b8173"
+        : "font-family:'Noto Sans Mono',monospace;font-weight:500;font-size:7.6px;border:1px solid #2a231c;padding:0 2.5px;flex:none";
+      const vermerk = fehlt
+        ? '<span style="font-size:7.2px;font-style:italic;color:#8b8173;line-height:1.15">Trasse in den Daten nicht enthalten</span>'
+        : '';
+      return `<div style="display:flex;gap:6px;align-items:baseline;padding:.6px 0">
+        <span style="${kasten}">${n}</span>
+        <span style="font-size:8.2px;line-height:1.15;color:${fehlt ? '#8b8173' : 'inherit'}">${route}${vermerk ? '<br>' + vermerk : ''}</span></div>`;
     }).join('');
 
     // Zeichenerklärung — die Strichstärken kommen aus denselben MM-Konstanten wie die Karte
