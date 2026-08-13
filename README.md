@@ -113,10 +113,13 @@ gelesen wird er von niemandem — Blatt 15 holt seine Daten direkt aus `uploads/
 das Modul gar nicht ein. Falls er doch gebraucht wird, erzeugt ihn
 `atlas/geodaten/rumaenien-verkehr.rb` neu.
 
-**Nicht importierte Bilddateien.** Aus dem Design-Projekt fehlen lokal noch die Binärdateien:
-`scans/` (8 Vorlagenscans des gedruckten Atlas), einige `screenshots/`, sowie die Assets des
-Reiseplaners (`wf-a.png`, `wf-b.png`, `logo-stern.png`, `wordmark-hand.png`). Die
-Präsentationen unter `arbeit/reiseplaner/` zeigen deshalb leere Bildrahmen.
+**Nicht importierte Bilddateien.** Aus dem Design-Projekt fehlen lokal noch die Vorlagenscans
+unter `scans/` (Seiten und Legenden des gedruckten Atlas). Sie werden von keinem Blatt
+referenziert und sind reines Vergleichsmaterial.
+
+**Das Design-Projekt ist weitergezogen.** Es wurde inzwischen umstrukturiert und um mehrere
+Blätter erweitert, die hier noch fehlen. Der lokale Stand entspricht nicht mehr dem
+Upstream — ein Abgleich steht aus.
 
 ## Konventionen
 
