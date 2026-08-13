@@ -43,8 +43,12 @@ clc5_2018.utm32s.shape/
 /nikolai-*.png
 /neumaier_kurzhaar.jpg
 
-# QA-Screenshots aus der Design-Session — unreferenziert, kein Deliverable
-/screenshots/
+# QA-Screenshots aus der Design-Session — unreferenziert, kein Deliverable.
+# Ausgenommen sind die Vorschauen, die „Kleiner Gruß aus der Küche“ einbindet:
+# sie sind Bestandteil eines Blattes und keine Arbeitsablage.
+/screenshots/*
+!/screenshots/vorschau-verkehr.png
+!/screenshots/vorschau-baer.png
 
 # Arbeitsdateien — vom Redesign wird nur das PDF versioniert
 /Diercke-Atlas_Redesign.pptx
