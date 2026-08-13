@@ -35,6 +35,23 @@ In Arbeit:
   verschoben** (Feinschliff Beschnitt, ggf. Deskew, Legenden-Rekonstruktion S. 48,
   Nachscan-Streifen einsetzen — s. DATENBEDARF № 11).
 
+- **TODO · Grabfeld auf dem Freiburger Hauptfriedhof recherchieren** (offen, 13.08.2026)
+
+  Zwei Fragen, die auseinandergehalten gehören:
+
+  1. **Welche Grabart?** Drei Kandidaten stehen nebeneinander — das anonyme
+     Urnengrabfeld (**Feld 35**, so die Recherche), der **Waldfriedhofsteil** (so die
+     frühere Notiz) und das **Baumfeld** als eigene Grabart. Das ist keine
+     Recherchefrage, sondern Jans Erinnerung; sie wird nicht gegengeprüft.
+  2. **Wo liegt das Feld im Grundriss?** Das ist die Recherchefrage. OSM kennt die
+     Feldnummern nicht. Nötig ist der Feldplan der Friedhofsverwaltung (Eigenbetrieb
+     Friedhöfe Stadt Freiburg, Friedhofstraße 8) — ein abfotografierter
+     Übersichtsplan am Eingang genügt zum Digitalisieren. Siehe DATENBEDARF № 8.
+
+  Solange beides offen ist, zeigt das Blatt **Näherungen statt eines Punkts** und
+  beschriftet sie als solche. Nichts anderes eintragen — die Regel steht im Skill
+  `sternprodukt-ton`: nicht behaupten, wo etwas ist, wenn es nicht bekannt ist.
+
 - Stilles Blatt: Freiburger Hauptfriedhof, Nikolais Ort — `Nikolais-Ort.dc.html` steht als
   erste Fassung: Grundriss aus OSM, Markier-Modus, fünf Zeichen-Fassungen als Tweak.
   Offen: **welches Feld?** Die Recherche findet das anonyme Urnengrabfeld als **Feld 35**,
