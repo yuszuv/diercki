@@ -177,6 +177,19 @@ selbst bleiben unangetastet — sie gehören dem Design-Projekt und müssen byte
 vergleichbar bleiben. Die `integrity`-Hashes gelten weiter, weil die eingebackenen
 Dateien byte-gleich sind; der Bau prüft das und bricht sonst ab.
 
+Selbst auszuliefern hat außer der Vorschau ohne Netz zwei Gründe, die auch öffentlich
+gelten: die IP-Adressen der Besucher gehen nicht an Dritte, und
+`deutschlandGeoJSON@main` ist ein bewegliches Ziel — was ein fertiges Blatt lädt, soll
+sich nicht unter ihm ändern. Dieselbe Begründung wie dafür, dass die erzeugten
+Geodaten im Repo liegen.
+
+Umgeschrieben werden **genau die neun eingebackenen Adressen**, nicht der Host. Eine
+Präfixregel würde jede unpkg-URL treffen: eine Versionsanhebung upstream ergäbe einen
+`/vendor`-Pfad, den es nicht gibt, und das Blatt liefe auf 404. So fällt eine nicht
+eingebackene Version auf das CDN zurück — sie verschlechtert sich auf den Ist-Zustand,
+statt zu brechen. Eine Quellenangabe, die per `href` ein CDN zitiert, bleibt aus
+demselben Grund ein funktionierender Verweis.
+
 Einzige echte Netz-Abhängigkeit bleibt der Overpass-Aufruf in `Nikolais-Ort.dc.html`
 — eine Live-Abfrage, die sich nicht einbacken lässt. Ohne Netz zeichnet das Blatt aus
 `atlas/geodaten/friedhof-freiburg.geojson`.
