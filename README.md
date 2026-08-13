@@ -135,19 +135,33 @@ aus `atlas/typenscale.js`, Untergrenze 5,5 pt.
 - Arbeits-CRS: EPSG:3844 (Stereo 70) für Rumänien, EPSG:25833 für Brandenburg.
 - QGIS 4.2, QField „Coral Sea".
 
-## Was in diesem Klon fehlt
+## Wo der Klon vom Design-Projekt abweicht
 
-Der Klon ist kein vollständiges Abbild des Design-Projekts — drei Sorten Datei
-bleiben draußen, jede aus einem eigenen Grund.
+Das Design-Projekt ist die Quelle der Wahrheit — aber nicht in jedem Punkt der
+jüngere Stand. Was hier bewusst anders ist, steht hier, damit es beim nächsten
+Abgleich nicht als Drift durchgeht und still zurückgedreht wird.
 
-**`atlas/geodaten/verkehr-daten.js`** ist eine Rekonstruktion aus dem
-Upload-Sidecar, aus demselben Grund. Es enthält den `gewaesser`-Datensatz, den die
-Blätter tatsächlich lesen; der `bahn`-Datensatz des Originals fehlt bewusst und
-ließe sich mit `rumaenien-verkehr.rb` neu erzeugen.
+**Der Klon ist voraus, weil er einen Fehler behoben hat:**
 
-**Bilddateien**, die kein Blatt braucht: die Vorlagenscans unter `scans/` sind
-reines Vergleichsmaterial und nicht importiert. Was `.gitignore` draußen hält,
-steht dort begründet.
+- `atlas/qgis/themen/brandenburg-hanf/qfield/hanf_kontrolle.qml` — drüben schließt
+  ein gerades Anführungszeichen in „unklar" das `desc`-Attribut vorzeitig; die Datei
+  ist dort kein wohlgeformtes XML und QGIS liest sie nicht.
+- `atlas/qgis/basis/layout/layout_a4_quer_thema.qpt` — drüben trägt der
+  Rahmen-Eintrag fünf doppelte Attribute mit widersprüchlichen Werten
+  (Papierton/0,6 mm gegen Tinte/0,3 mm). Hier steht die Papier-Fassung.
+- `atlas/geodaten/brandenburg/README.md` und `SORTEN.md` benennen die
+  InVeKoS-Antragsdaten als Hanf-Geometrie. Drüben steht noch der ältere Stand
+  („Hanf hat keine offene Geometrie"), der dem eigenen Kartenblatt widerspricht:
+  das liest `hanf-2026.geojsonl` und `sorten.csv` zur Laufzeit.
+
+**Bilder liegen kleiner als drüben.** `screenshots/katzundgoldt-crop.png` (472 KB
+statt 1,2 MB) und `uploads/neumaier-frueher.png` (67 KB statt 1,5 MB) sind
+absichtlich verkleinert — für die Bildschirmgröße, in der die Grüße sie einbinden,
+reicht das. Wer sie in Druckgröße braucht, holt sie aus dem Design-Projekt.
+
+**Draußen bleiben Dateien, die kein Blatt braucht:** die Vorlagenscans unter
+`scans/` sind reines Vergleichsmaterial. Was `.gitignore` ausschließt, steht dort
+begründet.
 
 ## git-Repo
 
