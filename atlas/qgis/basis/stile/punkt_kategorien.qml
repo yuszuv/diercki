@@ -7,7 +7,7 @@
   weitere Kategorien = weitere <category> plus passendes <symbol>.
 -->
 <qgis version="3.28" styleCategories="Symbology|Labeling">
-<renderer-v2 type="categorizedSymbol" attr="art" forceraster="0" enableorderby="0" symbollevels="0" referencescale="-1">
+<renderer-v2 type="categorizedSymbol" attr="art" forceraster="0" enableorderby="0" symbollevels="0" referencescale="2500000">
 <categories>
 <category render="true" value="a" symbol="0" label="Kategorie A"/>
 <category render="true" value="b" symbol="1" label="Kategorie B"/>
@@ -22,7 +22,7 @@
 </symbols></renderer-v2>
 <labeling type="simple"><settings calloutType="simple">
 <text-style fontFamily="Gentium Book Plus" fontSize="8.5" fontSizeUnit="Point" fontWeight="63" fontItalic="0" textColor="42,35,28,255" textOpacity="1" namedStyle="Regular" multilineHeight="1.1" fieldName="&quot;name&quot;" isExpression="1" allowHtml="0" legendString="Aa">
-<families/><text-buffer bufferDraw="1" bufferSize="0.8" bufferSizeUnits="MM" bufferColor="253,253,253,255" bufferOpacity="0.85" bufferJoinStyle="128" bufferNoFill="1"/><text-mask maskEnabled="0"/><background shapeDraw="0"/><shadow shadowDraw="0"/>
+<families><family name="Gentium Book Plus"/><family name="Gentium Plus"/><family name="Noto Serif"/></families><text-buffer bufferDraw="1" bufferSize="0.8" bufferSizeUnits="MM" bufferColor="253,253,253,255" bufferOpacity="0.85" bufferJoinStyle="128" bufferNoFill="1"/><text-mask maskEnabled="0"/><background shapeDraw="0"/><shadow shadowDraw="0"/>
 <dd_properties><Option type="Map"><Option name="name" type="QString" value=""/><Option name="properties"/><Option name="type" type="QString" value="collection"/></Option></dd_properties></text-style>
 <text-format formatNumbers="0" plussign="0" addDirectionSymbol="0" multilineAlign="3" autoWrapLength="0" decimals="3"/>
 <placement placement="0" polygonPlacementFlags="2" dist="2.2" distUnits="MM" xOffset="0" yOffset="0" offsetUnits="MM" quadOffset="4" centroidInside="1" priority="5" overlapHandling="PreventOverlap" fitInPolygonOnly="0"/>

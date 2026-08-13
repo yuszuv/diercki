@@ -9,7 +9,7 @@
   Farben aus atlas/farben.js; keine neuen Werte erfinden.
 -->
 <qgis version="3.28" styleCategories="Symbology">
-<renderer-v2 type="categorizedSymbol" attr="branche" forceraster="0" enableorderby="0" symbollevels="1" referencescale="-1">
+<renderer-v2 type="categorizedSymbol" attr="branche" forceraster="0" enableorderby="0" symbollevels="1" referencescale="2500000">
 <categories>
 <category render="true" value="eisen" symbol="0" label="Eisen"/>
 <category render="true" value="buntmetall" symbol="1" label="Buntmetall"/>

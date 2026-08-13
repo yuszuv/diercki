@@ -7,7 +7,7 @@
   Wiederverwenden: Feldnamen im Renderer anpassen, Farben aus basis/paletten/sternprodukt-atlas.gpl
 -->
 <qgis version="3.28" styleCategories="Symbology">
-<renderer-v2 type="singleSymbol" forceraster="0" enableorderby="0" symbollevels="0">
+<renderer-v2 type="singleSymbol" forceraster="0" enableorderby="0" symbollevels="0" referencescale="2500000">
 <symbols><symbol type="marker" name="0" alpha="1" clip_to_extent="1" force_rhr="0"><layer class="SvgMarker" enabled="1" locked="0" pass="0">
 <prop k="name" v="baer.svg"/><prop k="color" v="122,74,43,255"/><prop k="outline_color" v="42,35,28,255"/>
 <prop k="outline_width" v="0.18"/><prop k="outline_width_unit" v="MM"/>
