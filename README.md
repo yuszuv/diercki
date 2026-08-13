@@ -72,6 +72,26 @@ Farben und Signaturen laufen ausschließlich über `atlas/farben.js` und
 Die `.gpl`-Paletten sind daraus abgeleitet (`atlas/farben-paletten.rb`) und
 werden nicht von Hand gepflegt.
 
+## Erzeugte Geodaten werden versioniert
+
+Die Skripte unter `atlas/geodaten/` erzeugen Kartendaten aus fremden Lieferungen.
+Ihre **Ergebnisse liegen im Repo**, nicht nur die Skripte — auch wenn das der
+üblichen Regel widerspricht, Erzeugtes nicht zu versionieren.
+
+Der Grund ist die Eingangsseite: CLC2018 kommt als mehrere Gigabyte über ein
+Portal, verschachtelt als `Results/…geoPackage.zip/DATA/…gpkg`; die GBIF- und
+Overpass-Abfragen liefern je nach Tag ein anderes Ergebnis. Ein Erzeugnis, dessen
+Eingang sich nicht verlässlich wiederbeschaffen lässt, ist praktisch eine Quelle
+und wird wie eine behandelt. Sonst zahlt den Preis, wer klont: ein Blatt, das
+stumm leer bleibt, und ein halber Tag Suche nach dem Grund.
+
+Betroffen sind `nutzung-*.geojson` (neun Flächenklassen, 12 MB, gelesen von
+`Rumaenien-Wirtschaft.html`), `friedhof-freiburg.geojson` und die Datensätze
+unter `atlas/qgis/themen/rumaenien-baer/daten/`.
+
+Draußen bleiben nur die **Zwischenstufen** — Rohlieferungen, entpackte Archive,
+Arbeitskopien. Was `.gitignore` ausschließt, steht dort begründet.
+
 ## Zuordnungstabellen ohne Build-Schritt
 
 Tabellen, die ein Mensch pflegt, werden **zur Laufzeit** gelesen — vom Blatt beim
@@ -119,12 +139,6 @@ aus `atlas/typenscale.js`, Untergrenze 5,5 pt.
 
 Der Klon ist kein vollständiges Abbild des Design-Projekts — drei Sorten Datei
 bleiben draußen, jede aus einem eigenen Grund.
-
-**Die neun Landnutzungsflächen** unter `atlas/geodaten/nutzung-*.geojson` (zusammen
-11,6 MB) sind nicht versioniert und lassen sich auch nicht aus dem Design-Projekt
-holen: der Export deckelt bei 256 KiB. Sie entstehen mit
-`ruby atlas/geodaten/rumaenien-nutzung.rb`, nachdem CLC2018 einmal von Hand
-heruntergeladen wurde — siehe `atlas/geodaten/LIESMICH.md`.
 
 **`atlas/geodaten/verkehr-daten.js`** ist eine Rekonstruktion aus dem
 Upload-Sidecar, aus demselben Grund. Es enthält den `gewaesser`-Datensatz, den die
