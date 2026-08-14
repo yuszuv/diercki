@@ -194,14 +194,12 @@ image cannot work it out for itself; CI passes the pushed SHA. Outside a built
 image the route answers `arbeitsbaum` rather than inventing a value — a word that
 can never be mistaken for a SHA.
 
-It exists because a deploy could report success while changing nothing. On
-14.08.2026 one did: the image was never pulled, the container never recreated,
-and the site served a week-old tree for hours. The `curl` checks that ran
-afterwards all passed — they asked whether the gate worked, and it did. Nothing
-asked *which version* was answering. bmeise's deploy now compares this route
-against the commit it checked out and fails if they differ. `/version` is public
-and unguarded like `/health`: the commit is public anyway, and a check that needs
-a login is a check with more ways to fail than the thing it watches.
+bmeise's deploy compares this route against the commit it checked out and fails if
+they differ. Without it a deploy can pull nothing, recreate nothing and still
+report success: the checks around it ask whether a thing works, which stays true
+while a stale container keeps answering. `/version` is public and unguarded like
+`/health` — the commit is public anyway, and a check that needs a login has more
+ways to fail than the thing it watches.
 
 **Why the build moved off the server.** It used to happen there, on the argument
 that the image is content rather than a compiled artefact. That was true while the

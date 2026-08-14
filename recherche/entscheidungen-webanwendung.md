@@ -179,20 +179,17 @@ drei Prüfungen wäre dieselbe Rechnung wie bei `dry-transformer` oben.
 
 Nachgetragen am 15.08.2026.
 
-Am 14.08. lief `make webhost LIMIT=paketzentrum` durch, meldete Erfolg und lieferte
-weiter den Stand von `07a96b1` aus — drei gemergte PRs später. Gemessen: der Container
-war Stunden alt, und die laufende Seite trug in `WEB-APPLICATION.md` noch „not yet
-applied". Aufgefallen ist es nur, weil PR #4 zufällig ein **sichtbares** Merkmal
-mitbrachte (die Rubrik *Abgeschlossen* in der Werkstatt). Ohne dieses Merkmal wäre es
-nicht aufgefallen, und das ist der eigentliche Befund.
+Ein Deploy kann Erfolg melden, ohne etwas auszuliefern — gemessen, nicht befürchtet.
+Die Ursache dafür lag in bmeise und ist dort behoben (Ansibles `omit` ist eine
+Zeichenkette und liest sich als *definiert*, weshalb ein `default('always')` nie griff
+und das Image nie geholt wurde). Hier interessiert die zweite Hälfte: **nichts prüfte,
+welcher Stand ausliefert.**
 
-Die Ursache lag in bmeise und ist dort behoben (Ansibles `omit` ist eine Zeichenkette
-und liest sich als *definiert*, weshalb ein `default('always')` nie griff und das Image
-nie geholt wurde). Hier interessiert die zweite Hälfte: **nichts prüfte, welcher Stand
-ausliefert.** Die vier `curl`-Nachkontrollen in `paketzentrum.yml` gingen alle durch —
-sie fragen, ob der Wächter hält, und der hielt ja. Eine Zusage, die niemand prüft, ist
-keine Zusage; genau deshalb gibt es in der CI schon den Schritt, der das
-veröffentlichte Image zurückzieht und befragt.
+Die Nachkontrollen, die es gab, konnten das nicht fangen. Sie fragen, ob der Wächter
+hält — und das bleibt wahr, während ein alter Container weiterantwortet. Bemerkt wurde
+es nur, weil eine der Änderungen zufällig auf einer Seite sichtbar war; darauf lässt
+sich nichts bauen. Eine Zusage, die niemand prüft, ist keine Zusage — dieselbe
+Begründung wie beim CI-Schritt, der das veröffentlichte Image zurückzieht und befragt.
 
 `/version` nennt den Commit, aus dem das Image gebaut wurde. Drei Entscheidungen dazu:
 
