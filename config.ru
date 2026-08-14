@@ -26,34 +26,16 @@
 # every link in every Blatt keeps working — and its framed view at
 # /blatt/Rumaenien-Physisch.html.
 
-# .env, for the times nothing else reads it.
+# Nothing reads .env here anymore: the settings provider in web/boot.rb does it,
+# through dotenv, and it reads a chain rather than one file. docker compose loads
+# .env by itself and `bundle exec puma` does not — that gap is what this file
+# used to close by hand.
 #
-# docker compose loads this file by itself; `bundle exec puma` does not, and the
-# application refuses to start without ATLAS_KONTO and friends. So the documented
-# way to run it locally would fail on a machine that has a perfectly good .env
-# sitting next to this file.
-#
-# Read literally: no ${…} resolution, no `export` prefix, no multi-line values.
-# That is the same stance as the semicolon CSVs — these files carry none of it,
-# and reading them plainly keeps the failure mode obvious if they ever do. It
-# also means a value never changes on the way in, which is exactly the mistake
-# compose makes with a bcrypt hash.
-#
-# A variable already in the environment wins. That is what lets CI and the
-# container set them without a file, and what lets you override one for a single
-# run without editing anything.
-env_file = File.expand_path('.env', __dir__)
-if File.exist?(env_file)
-  File.readlines(env_file, chomp: true).each do |line|
-    next if line.strip.empty? || line.strip.start_with?('#')
-
-    key, value = line.split('=', 2)
-    next if key.nil? || value.nil?
-
-    ENV[key.strip] ||= value.strip.gsub(/\A(["'])(.*)\1\z/m, '\2')
-  end
-end
-
+# The order below still matters. web/auth.rb reads the login's three values while
+# its class body runs, which is before the finalize! underneath it; that works
+# because an unfinalized container resolves lazily and starts the provider on the
+# way. Moving finalize! up would be the wrong repair for a problem that is not
+# there.
 require_relative 'web/app'
 require_relative 'web/auth'
 

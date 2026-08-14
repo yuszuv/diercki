@@ -19,7 +19,11 @@ ENV['RACK_ENV'] = 'test'
 # the suite can log in; nothing else in the repo knows it.
 require 'bcrypt'
 ENV['ATLAS_KONTO'] ||= 'pruefer'
-# base64, like everywhere else — see the comment on Atlas::Auth::BCRYPT.
+# base64, like everywhere else — see the settings provider in web/boot.rb.
+#
+# Setting these before config.ru is loaded is what keeps the suite hermetic: the
+# provider's dotenv chain never overwrites a variable that is already in the
+# environment, so a real .env sitting in this repo cannot reach the tests.
 ENV['ATLAS_PASSWORT_HASH'] ||= [BCrypt::Password.create('probelauf')].pack('m0')
 ENV['ATLAS_SESSION_SECRET'] ||= 'p' * 64
 

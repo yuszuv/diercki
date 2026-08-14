@@ -149,7 +149,8 @@ Five things the picture is meant to show:
 
 ## What the application is built from
 
-Roda routes, `dry-system` wires the readers, `dry-monads` brings the `Result`.
+Roda routes, `dry-system` wires the readers and carries the settings, `dry-monads` brings
+the `Result`.
 
 The last one is not decoration — every reader returns `Success` or `Failure`, and a
 `Failure` becomes a visible box. That puts the project rule "fehlt ein Eintrag, wird
@@ -249,22 +250,35 @@ than none, because nothing looks broken while it is in place:
 | `ATLAS_PASSWORT_HASH` | `ruby -rbcrypt -e 'print [BCrypt::Password.create("…")].pack("m0")'` — **base64**, see below |
 | `ATLAS_SESSION_SECRET` | `ruby -rsecurerandom -e 'print SecureRandom.hex(64)'` |
 
+**Declared, not read by hand.** They are settings on the container, registered in
+`web/boot.rb` through `dry-system`'s settings provider; the shape of each one lives in a
+constructor next to its name. Every check runs before any of them is reported, so three
+wrong values produce one message naming three faults. The `.env` reading comes with it —
+dotenv's chain, `.env.<RACK_ENV>.local · .env.local` (never in test) · `.env.<RACK_ENV>`
+· `.env`, with the environment winning over every file. Why this rather than reading
+`ENV` by hand: `recherche/entscheidungen-webanwendung.md`.
+
+`AuthApp` takes the secret while its class body runs, which is before
+`Container.finalize!` in `config.ru`. That is not an oversight and needs no deferring: an
+unfinalized `dry-system` container resolves lazily and starts the provider on the way.
+Deferring would not be available anyway — `plugin :sessions` checks that `:secret` is a
+String inside its own configure step and refuses a callable outright.
+
 ### Why the hash is base64
 
-Docker Compose resolves `${…}` inside every value it reads, and that includes the
-values in a `.env` file — no quoting and no `$$`-doubling stops it there. A bcrypt
-hash is `$2a$12$…`, three fields separated by dollar signs.
+A bcrypt hash is `$2a$12$…`, three fields separated by dollar signs, and both readers of
+a `.env` resolve those — Compose on the way into the container, dotenv when the
+application reads the file without Docker. A raw hash arrives mangled or empty, the
+application starts, and the correct password is simply rejected with nothing in any log
+to say why.
 
-Measured, not feared: `$2a$12$KDvI6RuYis…/qxuoa` reaches the container as
-`a2/qxuoa`. The application starts, and the correct password is simply rejected.
-Nothing in any log says why.
+Base64 has no dollar signs. The constructor in `web/boot.rb` decodes it and checks the
+result against the bcrypt shape, so a raw one is a loud failure at start instead of a
+quiet one at the login screen. The same applies to `dockerapp_env` in bmeise — it writes
+exactly such a `.env`.
 
-Base64 has no dollar signs, so nothing on the way in can chew on it. `Atlas::Auth`
-decodes it and checks the result against the bcrypt shape; a raw hash aborts the
-boot with the command that produces the right value. A loud failure at start
-instead of a quiet one at the login screen.
-
-The same applies to `dockerapp_env` in bmeise — it writes exactly such a `.env`.
+The measurements behind this, both paths with the mangled values, are recorded once in
+`recherche/entscheidungen-webanwendung.md`.
 
 `Sources::Restricted` **fails closed**: if the list cannot be read, every path counts as
 guarded and the whole derived layer shuts rather than opens. Every other reader in this
@@ -276,13 +290,13 @@ complete. It cannot check that, and neither can anything else: what is missing f
 list is public, and nothing reports it.
 
 The host's Caddy still terminates TLS and routes the domain. Its `basicauth` block for
-this service became redundant with the gate above, and `bmeise` has already dropped it
-(commit `d632fd4`, committed and pushed, **not yet applied**).
+this service became redundant with the gate above and is gone — applied on 14.08.2026,
+checked against the live site: the four guarded paths answer `302 → /anmelden` and carry
+no `WWW-Authenticate`, so it is this application's guard that holds them, and an
+unguarded Blatt still answers 200.
 
-That inverts the old warning. The danger is no longer removing the block too early but
-**deploying too early**: on the host the block is still in place, so nothing is open
-right now — but the moment `make webhost LIMIT=paketzentrum` runs, Caddy is rewritten
-without it. If `ghcr.io/yuszuv/diercki:latest` does not yet carry the gate at that
-point, the old container keeps serving the old tree with no guard at all. The order is
-therefore: merge, wait for the `Image` job to publish, deploy, then the two `curl`
-checks recorded in `inventory/host_vars/paketzentrum.yml`.
+The sequence that got there mattered and is worth keeping in mind for the next such
+swap: merge first, wait for the `Image` job to publish, deploy only then. Deploying
+before the published image carries the gate would have rewritten Caddy without the
+block while the old container kept serving the old tree — a window with no guard at
+all. `recherche/bmeise-nachzuziehen.md` records how it ran.

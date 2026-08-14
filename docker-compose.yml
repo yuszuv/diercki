@@ -35,9 +35,10 @@
 #
 # ATLAS_PASSWORT_HASH is base64, and that is not a preference. Compose resolves
 # ${…} inside the values it reads — including those in .env, where no quoting and
-# no $$-doubling stops it. Measured: "$2a$12$KDvI…/qxuoa" reaches the container as
-# "a2/qxuoa", the login then rejects the right password, and nothing anywhere says
-# why. Base64 has no dollar signs; web/auth.rb refuses to start on anything else.
+# no $$-doubling stops it — and dotenv does the same when the app runs without
+# Docker. A raw bcrypt hash arrives mangled, the login then rejects the right
+# password, and nothing anywhere says why. Base64 has no dollar signs; web/boot.rb
+# refuses to start on anything else. Measurements: recherche/entscheidungen-webanwendung.md.
 x-anmeldung: &anmeldung
   ATLAS_KONTO: "${ATLAS_KONTO:?fehlt — der Kontoname für die Anmeldung}"
   ATLAS_PASSWORT_HASH: "${ATLAS_PASSWORT_HASH:?fehlt — base64! ruby -rbcrypt -e 'print [BCrypt::Password.create(\"…\")].pack(\"m0\")'}"

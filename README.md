@@ -44,9 +44,19 @@ Puma serves it, the same server the container runs, and it reads `config.ru` by
 itself. Not `rackup`: since Rack 3 that executable lives in a separate gem, which
 this project does not carry.
 
-`config.ru` reads `.env` on the way up — docker compose does that by itself, puma
-does not, and the application refuses to start without the three values. A
-variable already in the environment wins over the file.
+The application reads `.env` on the way up — docker compose does that by itself,
+puma does not, and it refuses to start without the three values. `dry-system`'s
+settings provider does the reading, so the chain is the one dotenv defines; the
+first file that sets a name wins:
+
+```
+.env.<RACK_ENV>.local · .env.local (never in test) · .env.<RACK_ENV> · .env
+```
+
+A variable already in the environment wins over all of them. Nothing gets a
+default, and a value that is present but wrong — a `.env` with the bcrypt hash
+raw instead of base64 — stops the start just as loudly as a missing one, with all
+the faults named at once rather than one restart at a time.
 
 `bin/vendor.rb` is the **only** step that needs a network. Everything after it works
 offline. It verifies the two SRI hashes on the way and aborts if a file is not
@@ -68,10 +78,11 @@ docker compose --profile local up dev       # → http://localhost:9292/
 `.env.development` are Node and Rails conventions and are ignored here. Git ignores
 `.env`; `.env.example` is the template and is versioned.
 
-The hash is **base64**, and that is not a style choice: Compose resolves `${…}`
-inside every value it reads, `.env` included, and a bcrypt hash is made of
-`$`-fields. Raw, it arrives mangled and the correct password stops working with
-nothing to explain it. `web/auth.rb` refuses to start on a raw one.
+The hash is **base64**, and that is not a style choice: a bcrypt hash is made of
+`$`-fields, and both readers of a `.env` resolve those. Compose does it to every
+value it reads; dotenv does it to the same file when the application runs without
+Docker. Raw, the hash arrives mangled or empty and the correct password stops
+working with nothing to explain it. `web/boot.rb` refuses to start on a raw one.
 
 `dev` mounts the working tree read-only: a change to a file is there on the next
 request, without a restart and without a build step. To check what would actually ship:
@@ -166,7 +177,8 @@ bin/                  tools — sync-report.rb compares the clone against the ZI
 web/                  the web application (Roda, dry-rb) and its design
   app.rb              routes
   auth.rb             the login: Rodauth as a middleware in front of everything
-  boot.rb             container (dry-system), root path, vendor directory
+  boot.rb             container (dry-system), root path, vendor directory,
+                      and the three required settings with their checks
   lib/atlas/          readers, transforms, middleware
   templates/          ERB templates — they mirror the class names of Muster.dc.html
   site.css            design — owned by the design UI
