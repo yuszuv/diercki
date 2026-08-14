@@ -139,6 +139,43 @@ dieselbe veraltete Datei also schon vorher doppelt. Das bleibt so und ist gewoll
 rechnen aus denselben Bytes denselben Wert, und ein Lock über den Lesevorgang wäre die
 eine Stelle, an der eine langsame Platte alle übrigen Anfragen anhielte.
 
+### Der Stempel trägt ctime, und das ist der ganze Punkt
+
+Zuerst war es `[mtime, size]`. Das ist kein Identitätsnachweis, sondern eine
+Vermutung: `File.utime` dreht die mtime zurück, eine gleich lange Neufassung hält
+die Größe — und genau das tun `rsync -a`, `cp -p`, `tar -x` und jedes
+Backup-Zurückspielen. Kehrt das Paar mit anderem Inhalt wieder, passt der
+gespeicherte Eintrag **für immer**, und eine korrigierte Datei erscheint nicht
+mehr. Das ist der eine Ausfall, den dieses Projekt nicht haben darf.
+
+Gemessen: mtime und Größe Byte für Byte wiederhergestellt — `ctime` unterscheidet
+sich trotzdem. Der Kernel setzt ihn bei jeder Inode-Änderung, auch bei dem
+`utime`-Aufruf, der die mtime fälscht; aus Userspace ist er nicht zu setzen. Er
+kommt aus demselben `stat` und kostet nichts.
+
+**Was dabei auffiel, und ehrlicher ist als der erste Anlauf:** Die Nachprüfung
+„nur speichern, wenn ein zweiter `stat` denselben Stempel liefert" taugt für sich
+allein wenig. Sie fängt die Verschränkung, die sich beim nächsten Zugriff ohnehin
+selbst heilt, und verpasste genau den Fall, der bleibt. Der Test dazu fiel auch
+*mit* dieser Prüfung durch, solange ctime fehlte. Sie bleibt als billiger zweiter
+Gurt drin — tragend ist ctime.
+
+### Nicht genommen: dry-effects
+
+Der Gedanke lag nahe und war offenbar schon einmal da (die Leseerlaubnis auf die
+Gem-Quellen steht in `.claude/settings.local.json`, sonst ist nichts davon
+festgehalten). `Dry::Effects.Cache` würde die Instanzvariable loswerden: `Tree`
+gäbe nur bekannt, dass hier etwas zu merken wäre, und ein Handler weiter außen
+entschiede, wer merkt und wie lange.
+
+Dagegen sprechen drei Dinge. Der Handler bestimmt die Lebensdauer, und die
+richtige ist hier prozessweit, nicht anfrageweit — anfrageweit installiert parst
+jede neue Anfrage `README.md` wieder von vorn. Der Schlüssel von `fetch_or_store`
+kennt keine mtime, die Frische-Zusage müsste also weiterhin von Hand hinein; und
+genau das Invalidieren ist hier der ganze Inhalt, nicht das Merken. Und es wäre
+ein weiteres Gem für genau eine Stelle — dasselbe Muster wie bei
+`dry-transformer`, nur eine Sitzung später.
+
 Nicht genommen: `Dry::Core::Cache`. Es liegt zwar dieselbe `Concurrent::Map` darunter,
 aber der Cache hängt an der Klasse statt an der Instanz — zwei `Tree` mit verschiedenem
 `root` teilten sich eine Ablage — und er kennt kein Löschen. Um die Frische zu halten,

@@ -118,6 +118,60 @@ class AtlasTest < Minitest::Test
     end
   end
 
+  def test_spellings_of_one_path_share_one_entry
+    # The key is the resolved path, not the way it was written. /werkstatt/<path>
+    # takes user input, so a key made of spellings would grow without bound — and
+    # each entry holds its own copy of the rendered output.
+    Dir.mktmpdir do |dir|
+      File.write(File.join(dir, 'probe.md'), "eins\n")
+      tree = Atlas::Container['sources.tree'].class.new(root: dir)
+
+      parses = 0
+      counted = ->(text) { parses += 1; text }
+
+      ['probe.md', './probe.md', './././probe.md', 'x/../probe.md'].each do |spelling|
+        assert_equal "eins\n", tree.parse(spelling, :t, &counted).value!
+      end
+
+      assert_equal 1, parses, 'vier Schreibweisen, eine Datei, ein Eintrag'
+    end
+  end
+
+  def test_a_stamp_that_recurs_does_not_resurrect_a_stale_value
+    # The dangerous interleaving is not "the file changed" — that heals by
+    # itself, because the next stat misses. It is a stored entry labelled with a
+    # stamp that does not describe the bytes it holds. That entry lies forever as
+    # soon as [mtime, size] recurs with different contents, which is what an
+    # mtime-preserving restore does: rsync -a, cp -p, tar -x, a backup rollback.
+    #
+    # Reproduced here deterministically: same length, mtime put back.
+    Dir.mktmpdir do |dir|
+      file = File.join(dir, 'probe.md')
+      File.write(file, "alt\n")
+      stat = File.stat(file)
+      tree = Atlas::Container['sources.tree'].class.new(root: dir)
+
+      # The file is rewritten while the parse is in flight, then restored to its
+      # original identity — same size, same mtime, different contents.
+      swapped = false
+      tree.parse('probe.md', :t) do |text|
+        unless swapped
+          swapped = true
+          File.write(file, "neu\n")
+          File.utime(stat.atime, stat.mtime, file)
+        end
+        text
+      end
+
+      assert_equal [stat.mtime, stat.size], [File.stat(file).mtime, File.stat(file).size],
+                   'die Probe muss die Identität wirklich wiederherstellen'
+
+      assert_equal "neu\n", tree.parse('probe.md', :t) { |t| t }.value!,
+                   'ein Eintrag unter einem Stempel, der seine Bytes nicht beschreibt, ' \
+                   'würde hier für immer die alte Fassung ausliefern'
+    end
+  end
+
   def test_a_missing_file_is_still_a_failure_after_caching
     Dir.mktmpdir do |dir|
       tree = Atlas::Container['sources.tree'].class.new(root: dir)

@@ -126,8 +126,13 @@ flowchart TB
   classDef g fill:#e5ddce,stroke:#4a4139
 ```
 
-Four things the picture is meant to show:
+Five things the picture is meant to show:
 
+0. **`Sources::Tree#parse` keys on the resolved path and a three-part stamp** —
+   mtime, size and **ctime**. The first two can be made to recur with different
+   contents (`cp -p`, `rsync -a`, a backup rollback), and a stamp that recurs
+   would match forever, so a corrected file would stop appearing. ctime cannot be
+   forged from userspace and comes out of the same `stat`.
 1. **The gate comes before the file serving.** Two of the guarded paths are static files;
    a check inside the routing tree would never see them.
 2. **`Sources::Tree` is the only disk access.** Everything else gets its data from
