@@ -44,16 +44,47 @@ clc5_2018.utm32s.shape/
 /neumaier_kurzhaar.jpg
 
 # QA-Screenshots aus der Design-Session — unreferenziert, kein Deliverable.
-# Ausgenommen sind die Vorschauen, die „Kleiner Gruß aus der Küche“ einbindet:
-# sie sind Bestandteil eines Blattes und keine Arbeitsablage.
+# Ausgenommen ist, was ein Blatt wirklich einbindet; das ist Bestandteil eines
+# Blattes und keine Arbeitsablage. Nachgeprüft, wer wen einbindet:
+#   vorschau-verkehr.png, vorschau-baer.png → Kleiner-Gruss-aus-der-Kueche.dc.html
+#   katzundgoldt-crop.png                   → Gruss-an-Stefan-Waldmann.dc.html
+# (Kein Kommentar hinter einem Muster: .gitignore liest ihn als Teil des Musters.)
 /screenshots/*
 !/screenshots/vorschau-verkehr.png
 !/screenshots/vorschau-baer.png
 !/screenshots/katzundgoldt-crop.png
+# Vorschaubilder der Blätter. Vorgezogen: das Inhalt.dc.html der Design-Oberfläche
+# bindet acht davon ein, der Klon hier hat diesen Stand noch nicht übernommen —
+# solange fehlen die Dateien und diese Zeile greift ins Leere. Siehe TWO-PLACES.md.
+!/screenshots/thumb-*.png
 
 # Arbeitsdateien — vom Redesign wird nur das PDF versioniert
 /Diercke-Atlas_Redesign.pptx
 .~lock.*#
+
+# Zugangsdaten der Anmeldung. .env ist der einzige Name, den docker compose von
+# selbst liest — .env.local und .env.development stammen aus der Node- und
+# Rails-Welt und werden hier ignoriert. Auf dem Server legt Ansible dieselbe Datei
+# aus dockerapp_env an. Im Repo hat sie nichts zu suchen; .env.example schon.
+/.env
+/.env.*
+!/.env.example
+
+# Ruby-Anwendung: installierte Gems und die eingebackenen Fremdbibliotheken.
+# .bundle/gems liegt bewusst nicht unter vendor/ — den Pfad /vendor/ belegen die
+# neun CDN-Dateien, auf die die Blätter umgeschrieben werden, und der Baum wird
+# jetzt von Ruby ausgeliefert. Zwei Dinge unter einer Adresse wären eine Falle.
+# .vendor/ holt bin/vendor.rb wieder; im Image liegt dasselbe unter /opt/vendor.
+/.bundle/gems/
+/.vendor/
+
+# Arbeitsablage: der ZIP-Export der Design-Oberfläche und die Referenz-Scans des
+# gedruckten Diercke, zusammen rund 60 MB Verlagsmaterial. Das stand bisher nur in
+# der globalen Ignore-Datei (~/.config/git/ignore) — die kommt beim Klonen nicht
+# mit, und ein `git add -A` auf einer anderen Maschine hätte alles eingesammelt.
+# In einem öffentlichen Repo ist das der teuerste denkbare Fehlgriff, also steht
+# es jetzt hier, wo es zum Repo gehört.
+/wip/
 
 # Betriebssystem
 .DS_Store

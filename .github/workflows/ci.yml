@@ -1,0 +1,161 @@
+# What has to hold before main moves.
+#
+# The deploy (bmeise, `make webhost LIMIT=paketzentrum`) checks out `main` and
+# brings the stack up. Nothing here deploys — but everything here runs before a
+# merge can put something into main that the deploy would then choke on.
+#
+# The reason this exists at all: the image stopped being pure content. It compiles
+# nio4r and pulls platform-specific sqlite3 binaries, and a Gemfile.lock without
+# x86_64-linux-musl fails the build. That failure used to be discoverable only on
+# the server.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Two pushes to the same branch: the older run is pointless, stop it.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Reads .ruby-version, and caches the bundle keyed on Gemfile.lock.
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      # The only step that needs a network. test_vendored_libraries_are_served
+      # asks for /vendor/…, so the nine files have to be there — and the SRI check
+      # inside this script is itself worth running: it fails if unpkg ever serves
+      # something other than what the Blätter carry hashes for.
+      - name: Vendor the nine libraries and verify their hashes
+        run: ruby bin/vendor.rb
+
+      # ATLAS_KONTO and friends are defaulted by the test file itself, so no
+      # secrets are needed to run the suite.
+      - name: Run the test suite
+        run: bundle exec ruby -Itest test/web_test.rb
+
+      # The suite drives the app through Rack::Test and never boots it. So the
+      # documented way to start it locally was wrong for a while and nothing
+      # noticed: README said `bundle exec rackup`, but Rack 3 moved that
+      # executable into a separate gem this project does not carry. Run what the
+      # README tells a newcomer to run.
+      # Through a .env and with nothing exported, because that is what the README
+      # tells you to do — `cp .env.example .env`. It also exercises the loader in
+      # config.ru: compose reads .env by itself, puma does not, so the app reads
+      # it. Exporting the values here instead would test a path nobody walks.
+      - name: Start it the way the README says
+        run: |
+          {
+            echo 'ATLAS_KONTO=ci'
+            echo 'ATLAS_PASSWORT_HASH=JDJhJDEyJHZ3VDhOMFE4WEl3T1dWbDNVUXhCYU9Id2QvQlFYbGp6dXdMcG5kQjVxQ1BZTHQ2dHouYTFt'
+            echo "ATLAS_SESSION_SECRET=$(openssl rand -hex 64)"
+          } > .env
+          bundle exec puma &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:9292/health >/dev/null && break
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:9292/health
+          curl -sf http://127.0.0.1:9292/ >/dev/null
+          kill %1
+          rm -f .env
+
+      # Reports, not gates — they exit 0 either way. Running them catches the case
+      # where a script nobody invokes daily has quietly stopped working.
+      - name: Smoke-run the report scripts
+        run: |
+          ruby bin/pruefe-blaetter.rb
+          ruby -c bin/sync-report.rb
+
+  image:
+    name: Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      # Only for a push to main. A pull request builds and throws the result
+      # away — a PR from a fork could not push anyway, and a registry full of
+      # branch tags is noise.
+      - name: Log in to ghcr.io
+        if: github.event_name == 'push'
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build, and publish on main
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: ${{ github.event_name == 'push' }}
+          # :latest is what the deploy pulls; the sha tag is what you pin to when
+          # you want a named state rather than "whatever main was".
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+          # The only labels in this project that do anything. Docker labels used
+          # to be Traefik's service-discovery mechanism, and that whole layer was
+          # retired across bmeise in July 2026 — Caddy is configured from a
+          # templated Caddyfile driven by web_apps, not from container metadata.
+          #
+          # image.source is the exception: it is what links a package on ghcr to
+          # its repository. Without it the package floats unattached, does not
+          # appear on the repo page, and its visibility has to be managed by hand.
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.description=Sternprodukt-Atlas — Roda application serving the Blätter
+          # linux/amd64 only. The server is amd64, and a second architecture would
+          # mean QEMU and a build several times as long for nobody.
+          platforms: linux/amd64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # The image is only useful if it actually answers. Pull it back and ask.
+      - name: Start the published image and ask it something
+        if: github.event_name == 'push'
+        env:
+          IMAGE: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+        run: |
+          # A throwaway credential, and deliberately in plain sight: it belongs to
+          # a container that publishes no port, is unreachable from outside this
+          # runner, and is destroyed four commands later. bcrypt of "ci",
+          # base64-encoded — see web/auth.rb for why base64.
+          docker run -d --name probe \
+            -e ATLAS_KONTO=ci \
+            -e ATLAS_PASSWORT_HASH=JDJhJDEyJHZ3VDhOMFE4WEl3T1dWbDNVUXhCYU9Id2QvQlFYbGp6dXdMcG5kQjVxQ1BZTHQ2dHouYTFt \
+            -e ATLAS_SESSION_SECRET="$(openssl rand -hex 64)" \
+            "$IMAGE"
+          for i in $(seq 1 30); do
+            docker exec probe wget -qO- http://127.0.0.1/health >/dev/null 2>&1 && break
+            sleep 1
+          done
+          docker exec probe wget -qO- http://127.0.0.1/health
+          # A Blatt, and the CDN rewriting on it — the one thing that would break
+          # silently if the vendored files or the middleware ever came apart.
+          docker exec probe wget -qO- http://127.0.0.1/Rumaenien-Physisch.html \
+            | grep -q '/vendor/unpkg/d3@7.9.0' \
+            || { echo 'the rewrite did not take'; exit 1; }
+          docker rm -f probe

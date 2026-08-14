@@ -1,0 +1,23 @@
+<%# Rodauth's own template ships Bootstrap classes, English labels and
+    type="email" on the login field — which a browser refuses for an account not
+    named like an address. Roda's render finds this file first, so the login page
+    is set in the atlas's own hand.
+    Everything that matters here comes from rodauth: the field names, the CSRF
+    token and the error handling. Only the clothes are ours. %>
+<%== heading('Anmelden',
+             'Ein kleiner Teil des Atlas ist nicht öffentlich — was eine nicht öffentliche ' \
+             'Person zeigt oder über sie geschrieben ist. Der Rest braucht keine Anmeldung.') %>
+
+<form method="post" action="<%= rodauth.login_path %>" class="anmeldung" id="login-form">
+  <%== rodauth.csrf_tag(rodauth.login_path) %>
+
+  <label for="login">Konto</label>
+  <input type="text" name="login" id="login" value="<%= rodauth.param(rodauth.login_param) %>"
+         autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus>
+
+  <label for="password">Passwort</label>
+  <input type="password" name="password" id="password"
+         autocomplete="current-password" required>
+
+  <button class="knopf" type="submit">Anmelden</button>
+</form>

@@ -4,9 +4,47 @@ Einstieg für Coding-Agents (Claude Code u. a.) im Repo `yuszuv/diercki`.
 Die verbindlichen Projekt-Regeln stehen in `CLAUDE.md` — dieses Blatt doppelt sie nicht.
 
 ## Rollen
-- Agents schreiben: `atlas/`, Kartenblätter (`*.html`, `*.dc.html`), Doku, `praesentationen/`, `recherche/`, `web/`, `bin/`
+- Agents schreiben: `atlas/`, Kartenblätter (`*.html`, `*.dc.html`), Doku, `praesentationen/`, `recherche/`, `web/`, `bin/`, `test/`
 - Nur der Mensch schreibt: `handarbeit/` (QGIS-Projekte, Erfassungs-GeoPackages)
 - `_ds/` ist das gebundene Design-System — nie anfassen
+- `web/site.css` und `web/Muster.dc.html` gehören der Design-Oberfläche: hier nur
+  ändern, wenn es eine Klasse betrifft, die die Vorlagen neu erzeugen — und dann
+  beides zusammen. Die ERB-Vorlagen unter `web/templates/` spiegeln die
+  Klassennamen des Musterblatts
+
+## Sprache
+- **Commit-Messages englisch.** Kartographisches Fachvokabular bleibt darin deutsch
+  und unübersetzt: *Blatt*, *Signatur*, *Schummerung*, *Quellenregister*,
+  *belegt / abgeleitet / unbelegt*
+- **Doku dieses Repos:** englische Prosa, deutsches Fachvokabular. Die Regel greift
+  nur bei Begriffen, die Bedeutung verlieren — *Zeichenerklärung* und *Kartensatz*
+  sind technische Allerweltswörter und dürfen *legend* und *map set* heißen
+- **Code unter `web/`:** Bezeichner und Kommentare englisch; sichtbare Zeichenketten,
+  CSS-Klassen, Routen und CSV-Spaltennamen deutsch
+- **Doku des Design-Systems (`_ds/**`) ist deutsch — Vorgabe, kein Altbestand.**
+  Nicht mitübersetzen, wenn dieses Repo seine eigene Doku auf Englisch führt: sie ist
+  Marken- und CI-Material, geschrieben in genau der Stimme, die sie vorschreibt. Und
+  `_ds/` wird ohnehin nie angefasst — eine Änderung dort wäre beim nächsten Abgleich
+  Drift
+- **Dateinamen der Blätter bleiben, wie sie sind** (`Zeichenerklaerung.dc.html`,
+  `QGIS-Kartensatz.dc.html`), ebenso die drei vom Programm gelesenen Überschriften in
+  der `README.md`
+
+## Die Webanwendung
+Roda + dry-system + dry-monads, ein Puma-Prozess, kein nginx.
+Start: `bundle exec puma` (9292), Tests: `bundle exec ruby -Itest test/web_test.rb`.
+
+- **Jeder Reader gibt ein `Result` zurück.** Ein `Failure` wird zum sichtbaren
+  `.fehlfall`-Kasten mit Pfad und Grund. Das ist die Projektregel „fehlt ein
+  Eintrag, wird nicht geraten" im Typ der Rückgabe, nicht in der Sorgfalt des
+  Aufrufers. Kein `rescue`, das einen fehlenden Eintrag zu einem leeren macht.
+- **Die neun CDN-Adressen stehen nur in `web/lib/atlas/vendor.rb`.** Von dort
+  lesen die Rack-Middleware und `bin/vendor.rb`. Nie eine zehnte Stelle aufmachen.
+- **Kartenblätter werden nie umgeschrieben, nur gerahmt.** Die Umschrift geschieht
+  im Ausgang; auf der Platte muss ein Blatt byte-gleich zum Export bleiben.
+- **`web/geschuetzt.csv` ist die eine Liste des Wächters.**
+  Wer eine neue Route baut, die den Inhalt einer Datei unter einer zweiten Adresse
+  ausgibt, prüft diese Liste — und vergleicht Pfade kanonisch, nie als Zeichenkette.
 
 ## Eiserne Regeln (Kurzform, Details in CLAUDE.md)
 - Farben ausschließlich aus `atlas/farben.js` bzw. den `.gpl`-Paletten — keine neuen Hex-Literale
@@ -56,6 +94,8 @@ Geodaten-Beschaffung hat bewusst keinen eigenen Skill — der vorhandene
 
 ## Orientierung
 - `README.md` — Struktur und Blattliste
+- `WEB-APPLICATION.md` — die Webanwendung: Auslieferung, Aufbau, Wächter
+- `TWO-PLACES.md` — der Abgleich mit der Design-Oberfläche
 - `IDEEN.md` — Backlog
 - `DATENBEDARF.md` — was an Daten von Jan noch fehlt
 - `atlas/geodaten/LIESMICH.md` — welches Skript welche Geodatei erzeugt

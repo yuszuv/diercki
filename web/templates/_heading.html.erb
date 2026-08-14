@@ -1,0 +1,6 @@
+<%# Page heading inside the Kartenfeld: title, rule, lead.
+    The lead may carry markup (an emphasis, a link), so it goes out unescaped —
+    it comes from this application, never from a file that was read. %>
+<h1><%= title %></h1>
+<div class="regel"></div>
+<% if lead %><p class="vorspann"><%== lead %></p><% end %>

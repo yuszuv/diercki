@@ -6,27 +6,41 @@
 # of tracked map data — get this wrong and the build context alone is 24 GB.
 #
 # Careful when trimming: recherche/ is rendered by the site's Werkstatt view, and
-# three files under screenshots/ are embedded by "Kleiner Gruß aus der Küche".
-# Both are part of what is served, even though they look like storage.
+# three files under screenshots/ are embedded by two of the sheets. Both are part
+# of what is served, even though they look like storage.
 
 .git
 .gitignore
 .claude
+.github
 .ruby-lsp
 Dockerfile
-Dockerfile.probe
 docker-compose.yml
 
 # Working stores
 wip/
 handarbeit/
 skills/
+test/
 
-# QA screenshots — except the three a sheet embeds
+# Local Ruby state. The gems are installed in the build stage into /gems, and
+# .vendor/ is fetched there too — copying the host's copies in would shadow both
+# and could carry the wrong platform's native extensions.
+.bundle/
+.vendor/
+.env
+.env.*
+
+# QA screenshots — except what a sheet actually embeds. Checked, not assumed:
+#   vorschau-verkehr.png, vorschau-baer.png → Kleiner-Gruss-aus-der-Kueche.dc.html
+#   katzundgoldt-crop.png                   → Gruss-an-Stefan-Waldmann.dc.html
+# thumb-*.png is ahead of the clone: the design UI's Inhalt.dc.html embeds eight,
+# this tree has not adopted that state yet, so the files are not here (TWO-PLACES.md).
 screenshots/*
 !screenshots/vorschau-verkehr.png
 !screenshots/vorschau-baer.png
 !screenshots/katzundgoldt-crop.png
+!screenshots/thumb-*.png
 
 # Raw deliveries and intermediate stages of the geodata pipelines.
 # Everything tracked under atlas/geodaten is .js, .geojson, .geojsonl, .rb, .sh or
@@ -46,14 +60,18 @@ atlas/geodaten/brandenburg/landnutzung.geojson
 atlas/qgis/themen/rumaenien-baer/daten/*.gpkg
 ne_10m_*
 
-# Reference scans, templates, personal material — no sheet links any of these
+# Reference scans and templates — no sheet links any of these.
+#
+# uploads/Diplomarbeit.pdf used to stand here and must not come back: the Waldmann
+# deck links it as "↪ ganze Diplomarbeit als PDF", and excluding it made that link
+# a 404 in production while it worked in the dev preview, which bind-mounts the
+# tree. Measured against the build context, not reasoned about. 1.4 MB.
 diercke-*.pdf
 druck-exempel.pdf
 s48_nachscan.pdf
 nikolai-*.pdf
 nikolai-*.png
 *.pptx
-uploads/Diplomarbeit.pdf
 
 # Operating system
 .DS_Store

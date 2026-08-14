@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muster · Webfassung</title>
+<meta name="description" content="Jeder Baustein der Webfassung einmal, auf einem Blatt — die Naht zwischen Design-Oberfläche und Anwendung.">
+
+<link rel="stylesheet" href="/_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/styles.css">
+<link rel="stylesheet" href="/web/site.css">
+<link rel="icon" href="/atlas/marke/logo-stern.png">
+</head>
+<body>
+
+<!--
+  MUSTERBLATT DER WEBFASSUNG
+
+  Hier steht jeder Baustein der Anwendung genau einmal, mit erfundenem Inhalt.
+  Das Blatt lädt web/site.css und sonst nichts — es lässt sich in der
+  Design-Oberfläche öffnen, ansehen und zeichnen.
+
+  Die Arbeitsteilung dahinter:
+
+    · Dieses Blatt und web/site.css gehören der OBERFLÄCHE. Was hier an Form,
+      Farbe, Maß und Rhythmus entschieden wird, gilt.
+    · Die ERB-Vorlagen unter web/templates/ gehören dem KLON. Sie erzeugen
+      dieselben Klassennamen, die hier stehen, und sonst nichts.
+
+  Damit hat jede Datei einen Besitzer und keine zwei. bin/sync-report.rb kennt
+  die Regel und meldet beim nächsten Abgleich die richtige Seite als führend.
+
+  Wer hier eine Klasse ergänzt, ergänzt sie auch in der zugehörigen Vorlage —
+  und umgekehrt. Was nur hier steht, sieht gut aus und erscheint nie; was nur
+  dort steht, erscheint ungestaltet.
+-->
+
+<div class="oberkante"></div>
+<div class="haarlinie"></div>
+
+<header class="kopf">
+  <a class="marke" href="/">
+    <img src="/atlas/marke/logo-stern.png" alt="" width="26" height="26">
+    <span>Sternprodukt&#8202;·&#8202;Atlas</span>
+  </a>
+  <nav class="nav">
+    <a href="/blaetter">Blätter</a>
+    <a href="/register" class="aktiv">Register</a>
+    <a href="/werkstatt">Werkstatt</a>
+  </nav>
+</header>
+
+<main id="inhalt" class="inhalt">
+
+  <h1>Muster</h1>
+  <div class="regel"></div>
+  <p class="vorspann">Jeder Baustein der Webfassung einmal. Der Inhalt ist erfunden,
+  die Klassennamen sind es nicht — sie sind der Vertrag zwischen diesem Blatt und
+  <code>web/templates/</code>.</p>
+
+  <!-- ============================================================ Startseite -->
+  <h2>Stränge · <span class="mono">start.html.erb</span></h2>
+
+  <div class="straenge">
+    <a class="strang" href="#">
+      <span class="strang-nr">I</span>
+      <span class="strang-titel">Blätter</span>
+      <span class="strang-text">Der Schaukasten. <span class="zahl">16</span> Blätter,
+        jedes eine eigenständige Datei, jedes mit der Signatur, die für sein Thema steht.</span>
+    </a>
+    <a class="strang" href="#">
+      <span class="strang-nr">II</span>
+      <span class="strang-titel">Register</span>
+      <span class="strang-text">Das Nachschlagewerk. <span class="zahl">272</span> Namen —
+        Orte, Gipfel, Flüsse, Strecken, Kreise — jeder mit seinem Blatt und seinem Belegstatus.</span>
+    </a>
+    <a class="strang" href="#">
+      <span class="strang-nr">III</span>
+      <span class="strang-titel">Werkstatt</span>
+      <span class="strang-text">Das Gerüst darunter: Quellenregister, Recherche-Notizen,
+        Glossar, die Regeln, nach denen gezeichnet wird.</span>
+    </a>
+  </div>
+
+  <div class="hinweis">
+    <p><b>Was dieser Atlas anders macht:</b> Jede Zahl auf einer Karte hat eine Zeile im
+    Quellenregister, mit einem von drei Status — <em>belegt</em>, <em>abgeleitet</em>,
+    <em>unbelegt</em>. Unbelegtes wird auf dem Blatt als solches gekennzeichnet, statt
+    still mitzulaufen.</p>
+  </div>
+
+  <!-- ============================================================ Schaukasten -->
+  <h2>Blattkarten · <span class="mono">_sheet_card.html.erb</span></h2>
+
+  <div class="kasten">
+    <a class="blatt" href="#">
+      <!-- Die Signatur setzt der Browser aus atlas/signaturen.js ein. Hier steht
+           eine stellvertretende Zeichnung in derselben Größe: 104 × 26. -->
+      <span class="blatt-sig">
+        <svg viewBox="0 0 104 26" width="104" height="26" aria-hidden="true">
+          <path d="M6 20 L34 20" stroke="currentColor" stroke-width="1.2" fill="none"/>
+          <path d="M40 20 L68 8" stroke="currentColor" stroke-width="1.2" fill="none"/>
+          <circle cx="74" cy="14" r="3.4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          <rect x="86" y="9" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+      </span>
+      <span class="blatt-text">
+        <span class="blatt-kopf">
+          <span class="blatt-titel">Rumaenien Physisch</span>
+          <span class="blatt-datei">Rumaenien-Physisch.html</span>
+        </span>
+        <span class="blatt-beschreibung">Physische Übersicht — Relief, Hypsometrie</span>
+      </span>
+    </a>
+    <a class="blatt" href="#">
+      <span class="blatt-sig"></span>
+      <span class="blatt-text">
+        <span class="blatt-kopf">
+          <span class="blatt-titel">Gruss an Stefan Waldmann
+            <span class="verschlossen">nicht öffentlich</span></span>
+          <span class="blatt-datei">Gruss-an-Stefan-Waldmann.dc.html</span>
+        </span>
+        <span class="blatt-beschreibung">Persönliche Präsentation, kein Atlas-Bestandteil</span>
+      </span>
+    </a>
+  </div>
+
+  <!-- ============================================================= Blattschau -->
+  <h2>Blattschau · <span class="mono">sheet.html.erb</span></h2>
+
+  <div class="blattschau">
+    <div class="blattschau-kopf">
+      <h1>Rumaenien Braunbaer</h1>
+      <span class="blatt-datei mono">Rumaenien-Braunbaer.html</span>
+      <a class="knopf" href="#">Blatt allein öffnen&#8202;↗</a>
+    </div>
+    <div class="regel"></div>
+    <p class="vorspann">Braunbär — Verbreitung, Streusignatur nach GBIF-Nachweisen</p>
+
+    <div class="blattrahmen">
+      <!-- In der Anwendung steht hier ein <iframe> mit dem Blatt selbst.
+           Für dieses Muster genügt eine Fläche in denselben Maßen. -->
+      <div style="block-size:min(78vh,calc(var(--rahmen)*.72));display:grid;place-items:center">
+        <span class="mono" style="color:var(--text-muted);font-size:12px;letter-spacing:.08em">
+          hier steht das Blatt
+        </span>
+      </div>
+    </div>
+
+    <div class="beiblatt">
+      <section class="beiblatt-teil">
+        <h2>Ort im Band</h2>
+        <p class="blattnummer">Blatt <span class="zahl">9</span>
+          <span class="status status-abgeleitet">abgeleitet</span></p>
+        <p class="abschnitt-text">Die Blattnummer ist aus dem Inhalt der Registereinträge
+        erschlossen, nicht belegt. Der Rechenweg steht in <a href="#">BLAETTER.md</a>.</p>
+      </section>
+
+      <section class="beiblatt-teil">
+        <h2>Quellenregister</h2>
+        <article class="prosa prosa-schmal">
+          <h2>Braunbär</h2>
+          <p>Für jede Zahl auf dem Blatt eine Zeile.</p>
+          <div class="tabelle-rahmen"><table>
+            <thead><tr><th>Angabe</th><th>Quelle</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>109 Bären, Kreis Alba</td><td>Ministerul Mediului 2024</td><td>belegt</td></tr>
+              <tr><td>Verbreitungsgrenze</td><td>aus GBIF-Nachweisen gehüllt</td><td>abgeleitet</td></tr>
+            </tbody>
+          </table></div>
+        </article>
+      </section>
+
+      <section class="beiblatt-teil">
+        <h2>Namen auf diesem Blatt</h2>
+        <p class="abschnitt-text"><span class="zahl">56</span> Einträge,
+          <a href="#">im Register nachschlagen</a>.</p>
+      </section>
+
+      <section class="beiblatt-teil">
+        <h2>Weiterlesen</h2>
+        <div class="doks">
+          <a class="dok" href="#">
+            <span class="dok-titel">Zeichenerklärung</span>
+            <span class="dok-pfad">Was die Signaturen dieses Blattes bedeuten</span></a>
+          <a class="dok" href="#">
+            <span class="dok-titel">Glossar</span>
+            <span class="dok-pfad">Fachbegriffe der Blätter, alphabetisch</span></a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- =============================================================== Register -->
+  <h2>Register · <span class="mono">register.html.erb</span></h2>
+
+  <form class="filterleiste" method="get" action="#">
+    <input type="search" id="suche" placeholder="Namen suchen …" autocomplete="off" value="">
+    <select id="art">
+      <option>alle Arten</option><option>Stadt</option><option>Gipfel</option>
+    </select>
+    <select id="status">
+      <option>alle Belegstatus</option><option>belegt</option>
+    </select>
+    <button class="knopf" type="submit">Filtern</button>
+    <span class="treffer">272 von 272</span>
+  </form>
+
+  <div class="tabelle-rahmen"><table class="register">
+    <thead><tr><th>Name</th><th>Art</th><th>Blätter</th><th>Feld</th><th>Wert</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="z-name"><b>Alba Iulia</b> <span class="variante">Karlsburg</span></td>
+        <td class="z-art">Stadt</td>
+        <td class="z-blatt mono"><a href="#">4</a> <a href="#">7</a></td>
+        <td class="z-feld mono">E4</td>
+        <td class="z-wert"></td>
+        <td class="z-status"><span class="status status-belegt">belegt</span></td>
+      </tr>
+      <tr class="anmerkung"><td colspan="6">Feld ausgemessen</td></tr>
+      <tr>
+        <td class="z-name"><b>Alt Madlitz</b></td>
+        <td class="z-art">Klimastation</td>
+        <td class="z-blatt mono"><span class="offen" title="ohne Datei">2</span></td>
+        <td class="z-feld mono"></td>
+        <td class="z-wert">58 m</td>
+        <td class="z-status"><span class="status status-unbelegt">unbelegt</span></td>
+      </tr>
+      <tr>
+        <td class="z-name"><b>Cernavodă</b></td>
+        <td class="z-art">Energie</td>
+        <td class="z-blatt mono"><a href="#">6</a></td>
+        <td class="z-feld mono"><span class="offen">Feld offen</span></td>
+        <td class="z-wert">1410 MW</td>
+        <td class="z-status"><span class="status status-abgeleitet">abgeleitet</span></td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <!-- ============================================================== Werkstatt -->
+  <h2>Werkstatt · <span class="mono">workshop.html.erb</span></h2>
+
+  <p class="abschnitt-text">Für jedes Blatt eine Datei. Jede Zahl, die auf einer Karte steht,
+  hat hier eine Zeile mit Status.</p>
+
+  <div class="doks">
+    <a class="dok" href="#">
+      <span class="dok-titel">Braunbaer</span>
+      <span class="dok-pfad">atlas/quellen/Braunbaer.md</span></a>
+    <a class="dok" href="#">
+      <span class="dok-titel">achter stock freiburg
+        <span class="verschlossen">nicht öffentlich</span></span>
+      <span class="dok-pfad">Recherche zu Personen am Institut</span></a>
+  </div>
+
+  <!-- ============================================================== Fehlfall -->
+  <h2>Offene Fälle · <span class="mono">_open_case.html.erb</span></h2>
+
+  <p class="abschnitt-text">Wo eine Zuordnung fehlt, wird sie nicht geraten — der Fall
+  bekommt eine eigene, sichtbare Klasse. Das ist diese Klasse.</p>
+
+  <div class="fehlfall">
+    <b>Ohne Eintrag in der README:</b> <a href="#">Neues-Blatt.html</a>
+    <br><span class="fehlfall-grund">Diese Dateien liegen im Wurzelverzeichnis, stehen aber in
+    keiner Tabelle. Sie verschwinden hier nicht — sie stehen als offener Fall.</span>
+  </div>
+
+  <div class="fehlfall">
+    <b>Kein Quellenregister</b> <code>Rumaenien-Physisch.html</code>
+    <br><span class="fehlfall-grund">Für dieses Blatt gibt es noch kein Quellenregister
+    unter atlas/quellen/.</span>
+  </div>
+
+  <!-- =============================================================== Dokument -->
+  <h2>Dokument · <span class="mono">document.html.erb</span></h2>
+
+  <div class="dokument-kopf">
+    <a class="zurueck" href="#">← Werkstatt</a>
+    <span class="dok-pfad mono">atlas/BLAETTER.md</span>
+  </div>
+
+  <nav class="gliederung">
+    <div class="gliederung-titel">Auf dieser Seite</div>
+    <a href="#" class="ebene-2">Warum es die Tabelle gibt</a>
+    <a href="#" class="ebene-2">Woher die Nummern kommen</a>
+    <a href="#" class="ebene-3">Die Spalte quellen</a>
+  </nav>
+
+  <article class="prosa">
+    <h2>Woher die Nummern kommen: abgeleitet, nicht belegt</h2>
+    <p>Erschlossen aus dem Inhalt der Einträge, die die jeweilige Nummer tragen. Der
+    Rechenweg, damit er nachprüfbar bleibt und nicht als Beleg durchgeht.</p>
+    <blockquote><p>Fehlt ein Eintrag, wird nicht geraten.</p></blockquote>
+    <ul><li>Ein Listenpunkt</li><li>Und noch einer</li></ul>
+    <pre><code>ruby bin/sync-report.rb --diff</code></pre>
+    <hr>
+    <p>Ein Absatz nach der Trennlinie, mit <a href="#">Verweis</a>, <em>kursiv</em>
+    und <code>Code im Fließtext</code>.</p>
+  </article>
+
+</main>
+
+<footer class="fuss">
+  <span>Diercke-Atlas&#8202;·&#8202;Sternprodukt&#8202;·&#8202;Wittstock/Dosse</span>
+  <span class="mono">Zimmer <span class="sp-137-zimmer-inline">137</span></span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<%# The framed Blatt.
+    The sheet itself is not touched — it comes out of the root directory
+    unchanged and into the frame. Beside it stands what used to sit in three
+    other places: its Quellenregister, its register entries, its place in the
+    bound volume. %>
+<div class="blattschau">
+
+  <div class="blattschau-kopf">
+    <h1><%= sheet.title %></h1>
+    <span class="blatt-datei mono"><%= sheet.file %></span>
+    <a class="knopf" href="/<%= sheet.file %>" target="_blank" rel="noopener">Blatt allein öffnen&#8202;↗</a>
+  </div>
+  <div class="regel"></div>
+  <p class="vorspann"><%= sheet.text %></p>
+
+  <div class="blattrahmen">
+    <iframe src="/<%= sheet.file %>" title="<%= sheet.title %>" loading="lazy"></iframe>
+  </div>
+
+  <div class="beiblatt">
+
+    <section class="beiblatt-teil">
+      <h2>Ort im Band</h2>
+      <% if plate.failure? %>
+        <%== open_case(plate, title: 'Keine Zeile im Blattschlüssel') %>
+      <% else %>
+        <% p = plate.value! %>
+        <% if p.numbered? %>
+          <p class="blattnummer">Blatt <span class="zahl"><%= p.nr %></span>
+            <% if p.derived? %><span class="status status-abgeleitet">abgeleitet</span><% end %>
+          </p>
+          <% if p.derived? %>
+            <p class="abschnitt-text">Die Blattnummer ist aus dem Inhalt der Registereinträge
+            erschlossen, nicht belegt. Der Rechenweg steht in
+            <a href="/werkstatt/atlas/BLAETTER.md">BLAETTER.md</a>.</p>
+          <% end %>
+          <% if p.note %><p class="abschnitt-text"><%= p.note %></p><% end %>
+        <% else %>
+          <p class="abschnitt-text">Kein Blatt des gebundenen Bandes<% if p.note %> —
+            <%= p.note %><% end %>.</p>
+        <% end %>
+      <% end %>
+    </section>
+
+    <section class="beiblatt-teil">
+      <h2>Quellenregister</h2>
+      <% if sources.failure? %>
+        <%== open_case(sources, title: 'Kein Quellenregister') %>
+      <% else %>
+        <article class="prosa prosa-schmal"><%== sources.value! %></article>
+      <% end %>
+    </section>
+
+    <section class="beiblatt-teil">
+      <h2>Namen auf diesem Blatt</h2>
+      <% if entries.failure? %>
+        <%== open_case(entries, title: 'Das Namensregister ließ sich nicht lesen') %>
+      <% elsif entries.value!.empty? %>
+        <p class="abschnitt-text">Das Namensregister führt zu diesem Blatt keine Einträge.</p>
+      <% else %>
+        <p class="abschnitt-text"><span class="zahl"><%= entries.value!.size %></span> Einträge,
+          <a href="/register">im Register nachschlagen</a>.</p>
+        <div class="tabelle-rahmen">
+          <table class="register">
+            <thead><tr><th>Name</th><th>Art</th><th>Feld</th><th>Wert</th><th>Status</th></tr></thead>
+            <tbody>
+              <% entries.value!.each do |entry| %>
+                <%== render('_register_row', locals: { entry: entry, sheet_column: false, key: {} }) %>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </section>
+
+    <section class="beiblatt-teil">
+      <h2>Weiterlesen</h2>
+      <div class="doks">
+        <a class="dok" href="/blatt/Zeichenerklaerung.dc.html">
+          <span class="dok-titel">Zeichenerklärung</span>
+          <span class="dok-pfad">Was die Signaturen dieses Blattes bedeuten</span></a>
+        <a class="dok" href="/werkstatt/atlas/GLOSSAR.md">
+          <span class="dok-titel">Glossar</span>
+          <span class="dok-pfad">Fachbegriffe der Blätter, alphabetisch</span></a>
+      </div>
+    </section>
+
+  </div>
+</div>

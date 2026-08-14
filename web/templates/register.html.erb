@@ -1,0 +1,50 @@
+<%
+  all = register.all
+  hits = register.filter(query: query, kind: kind, status: status)
+  key = plates.by_number
+%>
+<%== heading('Namensregister',
+             'Wie im gebundenen Band: jeder Name mit dem Blatt, auf dem er steht. Die Spalte ' \
+             '<em>Status</em> gilt dem Eintrag, nicht dem Blatt — sie sagt, ob die Angabe belegt ist.') %>
+
+<% if all.failure? %>
+  <%== open_case(all, title: 'Das Register ließ sich nicht lesen') %>
+<% else %>
+
+<%# A GET form: every filtering is a real, shareable address and works without
+    JavaScript. site.js additionally filters the already-delivered table on the
+    spot — an enhancement, not a prerequisite.
+    The query parameter names stay German: they are part of the address, like
+    the routes themselves. %>
+<form class="filterleiste" method="get" action="/register" data-register-filter>
+  <input type="search" name="q" id="suche" placeholder="Namen suchen …" autocomplete="off" value="<%= query %>">
+  <select name="art" id="art">
+    <option value="">alle Arten</option>
+    <% register.kinds.each do |k| %>
+      <option value="<%= k %>"<%= ' selected' if k == kind %>><%= Atlas::Sources::Register::KIND_LABEL.fetch(k, k) %></option>
+    <% end %>
+  </select>
+  <select name="status" id="status">
+    <option value="">alle Belegstatus</option>
+    <% Atlas::Sources::Register::STATUSES.each do |s| %>
+      <option value="<%= s %>"<%= ' selected' if s == status %>><%= s %></option>
+    <% end %>
+  </select>
+  <button class="knopf" type="submit">Filtern</button>
+  <span class="treffer" id="treffer"><%= hits.value!.size %> von <%= all.value!.size %></span>
+</form>
+
+<div class="tabelle-rahmen"><table class="register" id="registertabelle">
+  <thead><tr><th>Name</th><th>Art</th><th>Blätter</th><th>Feld</th><th>Wert</th><th>Status</th></tr></thead>
+  <tbody>
+    <% hits.value!.each do |entry| %>
+      <%== render('_register_row', locals: { entry: entry, sheet_column: true, key: key }) %>
+    <% end %>
+  </tbody>
+</table></div>
+
+<% if hits.value!.empty? %>
+  <p class="abschnitt-text">Kein Eintrag passt auf diese Filter.</p>
+<% end %>
+
+<% end %>

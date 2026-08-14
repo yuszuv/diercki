@@ -1,8 +1,8 @@
 # One image, three ways to run it.
 #
-#   docker compose up -d                          production — what the server runs
-#   docker compose --profile local up preview     http://localhost:8137/  (image)
-#   docker compose --profile local up dev         http://localhost:8138/  (working tree)
+#   docker compose up -d                          production — pulls from ghcr.io
+#   docker compose --profile local up dev         http://localhost:9292/  (working tree)
+#   docker compose --profile local up preview     http://localhost:9293/  (image)
 #
 # The bare `up` starts only `diercki`: it publishes no port and is reached by the
 # host's Caddy over the shared external `web` network. That matters — Docker's
@@ -12,31 +12,80 @@
 # The two preview services sit behind the `local` profile and therefore never start
 # on the server: the deploy runs a plain `up`, and Compose skips profiled services.
 #
+# On the ports: 9292 is Rack's default and Puma's, so `bundle exec puma` without
+# any flag and `docker compose up dev` land on the same address. Only `preview`
+# needs a second one, and only because two containers cannot share a host port.
+#
+# The container itself listens on ATLAS_PORT, default 80 — that is what bmeise's
+# Caddy names as `upstream: diercki:80` (inventory/host_vars/paketzentrum.yml).
+# Moving it means moving it there too, in the same breath.
+#
 # File name: docker-compose.yml, not compose.yaml. The bmeise `dockerapp` role injects
 # its web-network attachment as docker-compose.override.yml, and Compose only merges
 # an override whose name matches the base file's family.
 
+# The login refuses to start without these three, and Compose refuses to start
+# without them being set — `:?` fails at `up`, with the message, instead of
+# leaving a container that exits a second later for a reason nobody sees.
+#
+# On the server they arrive as a root-only .env next to this file, written by
+# bmeise's dockerapp role from `dockerapp_env`; Compose reads that file for ${VAR}
+# interpolation without anything here changing. Locally: export them, or put the
+# same three lines in an .env of your own (git ignores it).
+#
+# ATLAS_PASSWORT_HASH is base64, and that is not a preference. Compose resolves
+# ${…} inside the values it reads — including those in .env, where no quoting and
+# no $$-doubling stops it. Measured: "$2a$12$KDvI…/qxuoa" reaches the container as
+# "a2/qxuoa", the login then rejects the right password, and nothing anywhere says
+# why. Base64 has no dollar signs; web/auth.rb refuses to start on anything else.
+x-anmeldung: &anmeldung
+  ATLAS_KONTO: "${ATLAS_KONTO:?fehlt — der Kontoname für die Anmeldung}"
+  ATLAS_PASSWORT_HASH: "${ATLAS_PASSWORT_HASH:?fehlt — base64! ruby -rbcrypt -e 'print [BCrypt::Password.create(\"…\")].pack(\"m0\")'}"
+  ATLAS_SESSION_SECRET: "${ATLAS_SESSION_SECRET:?fehlt — ruby -rsecurerandom -e 'print SecureRandom.hex(64)'}"
+
 services:
+  # Production. No `build:` on purpose — this one pulls.
+  #
+  # The image is built and published by .github/workflows/ci.yml on every
+  # push to main, after the tests have run. That moves the build off the server:
+  # since the atlas grew a Ruby application it compiles nio4r and pulls
+  # platform-specific sqlite3 binaries, so a bad Gemfile.lock used to be
+  # discoverable only at deploy time. It also puts diercki back in line with what
+  # bmeise's dockerapp role asks for — "prefer pre-built images"; it was the only
+  # `build: true` entry across every host.
+  #
+  # ATLAS_IMAGE defaults to :latest, which is what "deploy main" means. Set it in
+  # bmeise's dockerapp_env to pin a named state instead:
+  #   ATLAS_IMAGE: ghcr.io/yuszuv/diercki:sha-<commit>
   diercki:
-    build: .
-    image: sternprodukt/diercke-atlas:latest
+    image: "${ATLAS_IMAGE:-ghcr.io/yuszuv/diercki:latest}"
     restart: unless-stopped
+    environment: *anmeldung
+
+  # The two local profiles keep building from this working tree — that is the
+  # point of a preview. Their own tag, so nothing collides with the pulled one.
+  dev:
+    profiles: ["local"]
+    build: .
+    image: diercki-lokal:latest
+    ports:
+      - "9292:80"
+    environment: *anmeldung
+    volumes:
+      # Read-only: the preview shows the working tree, it does not write to it.
+      # The application reads on every request, so an edit on disk is live — no
+      # restart, no build step.
+      #
+      # /gems and /opt/vendor stay in the image, outside this mount: the gems are
+      # built for Alpine and the nine vendored libraries must be there even
+      # without a network. BUNDLE_APP_CONFIG in the Dockerfile keeps the host's
+      # .bundle/config from redirecting the gem path into the mount.
+      - .:/srv:ro
 
   preview:
     profiles: ["local"]
     build: .
-    image: sternprodukt/diercke-atlas:latest
+    image: diercki-lokal:latest
     ports:
-      - "8137:80"
-
-  dev:
-    profiles: ["local"]
-    build: .
-    image: sternprodukt/diercke-atlas:latest
-    ports:
-      - "8138:80"
-    volumes:
-      # Read-only: the preview shows the working tree, it does not write to it.
-      # /opt/vendor and the nginx config stay in the image, outside this mount, so
-      # the preview keeps working without a network.
-      - .:/srv:ro
+      - "9293:80"
+    environment: *anmeldung

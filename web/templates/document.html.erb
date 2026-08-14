@@ -1,0 +1,18 @@
+<div class="dokument-kopf">
+  <a class="zurueck" href="/werkstatt">← Werkstatt</a>
+  <span class="dok-pfad mono"><%= path %></span>
+</div>
+
+<% if outline.length > 2 %>
+  <nav class="gliederung">
+    <div class="gliederung-titel">Auf dieser Seite</div>
+    <% outline.each do |h| %>
+      <a href="#<%= h.id %>" class="ebene-<%= h.level %>"><%= h.text %></a>
+    <% end %>
+  </nav>
+<% end %>
+
+<%# The markdown body comes rendered from kramdown and goes out unescaped. Only
+    files inside this repo are ever read, and Sources::Tree confines the path to
+    .md files within the tree. %>
+<article class="prosa"><%== html %></article>

@@ -1,0 +1,25 @@
+<%# One row of the Namensregister. The same row serves the register itself and
+    the Beiblatt of a sheet — there without the Blätter column, because you are
+    looking at the sheet already. The data- attributes feed the instant filter in
+    site.js; they cost nothing where it does not run. %>
+<tr data-name="<%= entry.name.downcase %> <%= entry.variant.to_s.downcase %>"
+    data-art="<%= entry.kind %>" data-status="<%= entry.status %>">
+  <td class="z-name"><b><%= entry.name %></b><% if entry.variant %> <span class="variante"><%= entry.variant %></span><% end %></td>
+  <td class="z-art"><%= entry.kind_label %></td>
+  <% if sheet_column %>
+    <td class="z-blatt mono"><%
+      %><% if entry.numbers.empty? %>—<% end %><%
+      %><% entry.numbers.each_with_index do |nr, i| %><%
+        %><% plate = key[nr] %><%
+        %><% if i.positive? %> <% end %><%
+        %><% if plate %><a href="/blatt/<%= plate.file %>" title="<%= plate.file %>"><%= nr %></a><%
+        %><% else %><span class="offen" title="atlas/blaetter.csv ordnet dieser Nummer keine Datei zu"><%= nr %></span><% end %><%
+      %><% end %></td>
+  <% end %>
+  <td class="z-feld mono"><% if entry.field %><%= entry.field %><% elsif entry.field_open? %><span class="offen">Feld offen</span><% end %></td>
+  <td class="z-wert"><%= entry.value %></td>
+  <td class="z-status"><span class="status status-<%= entry.status %>"><%= entry.status %></span></td>
+</tr>
+<% if entry.note %>
+  <tr class="anmerkung"><td colspan="<%= sheet_column ? 6 : 5 %>"><%= entry.note %></td></tr>
+<% end %>

@@ -1,0 +1,76 @@
+# frozen_string_literal: true
+
+require 'rack'
+
+module Atlas
+  module Middleware
+    # Rewrites the nine CDN addresses to /vendor on the way out.
+    #
+    # On the way OUT, not on disk. The Blätter belong to the design project and
+    # must stay byte-comparable for bin/sync-report.rb — editing them here would
+    # make every future export look like a conflict. It also means the same code
+    # works for the tree baked into the image and for the read-only bind mount of
+    # the working tree in the dev preview.
+    #
+    # The integrity="sha384-…" attributes next to those scripts keep validating,
+    # because the vendored files are byte-identical; bin/vendor.rb checks that at
+    # download time.
+    class VendorRewrite
+      # Measured across the tree: nine .html files and two .js files carry these
+      # addresses. .md and .css carry none — nginx rewrote them too, which was a
+      # rule doing nothing.
+      TYPES = %r{\A(text/html|text/javascript|application/javascript)}
+
+      # Above this, do not even read the body.
+      #
+      # The largest file that actually carries a rewritable address is support.js
+      # at 69 KB; the biggest Blatt is 68 KB. Above the limit sit exactly two
+      # files, and neither can ever match: atlas/geodaten/verkehr-daten.js (4.7 MB)
+      # holds map data, and _ds/_ds_bundle.js (2.3 MB) cites jsDelivr for
+      # speech-rule-engine and wicked-good-xpath — none of our nine.
+      #
+      # This replaces a memo table with a mutex that existed for exactly those two
+      # files. If a Blatt ever grows past half a megabyte AND carries a CDN
+      # address, it degrades the documented way: the address stays, and the
+      # library loads from the CDN as it did before any of this existed.
+      MAX_BYTES = 512 * 1024
+
+      def initialize(app, rewrites: Vendor::REWRITES)
+        @app = app
+        @rewrites = rewrites
+        @pattern = Regexp.union(rewrites.keys)
+      end
+
+      def call(env)
+        status, headers, body = @app.call(env)
+        return [status, headers, body] unless rewritable?(status, headers)
+
+        original = read(body)
+        rewritten = original.gsub(@pattern) { |url| @rewrites.fetch(url) }
+        return [status, headers, [original]] if rewritten.equal?(original) ||
+                                                rewritten == original
+
+        [status, headers.merge('content-length' => rewritten.bytesize.to_s), [rewritten]]
+      end
+
+      private
+
+      def rewritable?(status, headers)
+        return false unless status == 200
+        return false unless headers['content-type'].to_s.match?(TYPES)
+
+        size = headers['content-length']
+        size.nil? || size.to_i <= MAX_BYTES
+      end
+
+      def read(body)
+        return body.join if body.respond_to?(:join)
+
+        buffer = +''
+        body.each { |chunk| buffer << chunk }
+        body.close if body.respond_to?(:close)
+        buffer
+      end
+    end
+  end
+end

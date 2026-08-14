@@ -1,17 +1,101 @@
-# DIERCKI - sternprodukt-Atlas
+# DIERCKI — sternprodukt atlas
 
-Ein Weltatlas im Stil des Diercke-Klassikers, aber Typ Sternprodukt. Mit 
-Blättern zu Rumänien und Brandenburg, einer Zeichenerklärung nach Atlas-Vorbild
-und einem QGIS-Kartensatz.
+A world atlas in the manner of the Diercke classic, but of the Sternprodukt kind.
+Blätter on Romania and Brandenburg, a legend after the atlas model, and a QGIS map
+set.
 
-`Inhalt.dc.html` ist dasselbe Verzeichnis im Sternprodukt-Look — gruppiert, verlinkt,
-mit den Hinweisen, die man beim Nachschlagen braucht. Diese Datei bleibt die
-maschinenlesbare Fassung.
+`Inhalt.dc.html` is the same table of contents in the Sternprodukt look — grouped,
+linked, with the notes you need while looking something up. This file stays the
+machine-readable version.
+
+> **A note on language.** Prose here is English; the cartographic and project
+> vocabulary stays German and untranslated — *Blatt*, *Signatur*, *Schummerung*,
+> *Quellenregister*, *belegt / abgeleitet / unbelegt*. That is the rule in `CLAUDE.md`,
+> and a *Signatur* is not a "symbol". It covers terms that carry cartographic meaning,
+> not every German word in reach: *legend* and *map set* are plain technical vocabulary
+> and get translated. Filenames never do.
+>
+> Two things in this file are **read by the application** and must not be translated:
+> the three headings `## Blätter`, `## Weitere Blätter` and `## Präsentationen`
+> (`Sources::Sheets::HEADINGS` matches them literally), and the description cells of
+> those tables (they appear on the Schaukasten cards). Change a heading and the sheet
+> list goes empty.
+
+## Getting it running
+
+A single Blatt needs nothing: open `Rumaenien-Physisch.html` in a browser and there it
+is. It will pull d3 and topojson from a CDN, though.
+
+For the whole application — home page, Schaukasten, Blattschau, Namensregister,
+Werkstatt — there are two ways.
+
+### With Ruby, without Docker
+
+Needs Ruby 3.4 (rbenv: `rbenv install 3.4.2`, `.ruby-version` sits next to this file).
+
+```sh
+bundle install                 # gems into .bundle/gems, not into the system
+ruby bin/vendor.rb             # once: the nine vendored libraries into .vendor/
+cp .env.example .env           # then fill in the two blanks it explains
+bundle exec puma               # → http://localhost:9292/
+```
+
+Puma serves it, the same server the container runs, and it reads `config.ru` by
+itself. Not `rackup`: since Rack 3 that executable lives in a separate gem, which
+this project does not carry.
+
+`config.ru` reads `.env` on the way up — docker compose does that by itself, puma
+does not, and the application refuses to start without the three values. A
+variable already in the environment wins over the file.
+
+`bin/vendor.rb` is the **only** step that needs a network. Everything after it works
+offline. It verifies the two SRI hashes on the way and aborts if a file is not
+byte-identical — otherwise the browser would refuse the script later without a word.
+
+Tests: `bundle exec ruby -Itest test/web_test.rb`
+
+### With Docker
+
+Needs no Ruby on the machine.
+
+Same `.env` as above:
+
+```sh
+docker compose --profile local up dev       # → http://localhost:9292/
+```
+
+`.env` is the only file compose reads by itself — `.env.local` and
+`.env.development` are Node and Rails conventions and are ignored here. Git ignores
+`.env`; `.env.example` is the template and is versioned.
+
+The hash is **base64**, and that is not a style choice: Compose resolves `${…}`
+inside every value it reads, `.env` included, and a bcrypt hash is made of
+`$`-fields. Raw, it arrives mangled and the correct password stops working with
+nothing to explain it. `web/auth.rb` refuses to start on a raw one.
+
+`dev` mounts the working tree read-only: a change to a file is there on the next
+request, without a restart and without a build step. To check what would actually ship:
+
+```sh
+docker compose --profile local up preview   # → http://localhost:9293/, tree from the image
+```
+
+Both sit behind the `local` profile and never start on the server.
+
+### When it does not work
+
+| Symptom | Cause |
+|---|---|
+| `/vendor/…` returns 404, Blätter stay blank | `ruby bin/vendor.rb` never ran |
+| `bundle install` wants Ruby 3.4.2, you have 3.4.9 | The `Gemfile` only asks for `~> 3.4.0`; `.ruby-version` is the rbenv pin. Install that version or adjust the file |
+| Gems missing inside the container | The host's `.bundle/config` points into the repo; the image sets `BUNDLE_APP_CONFIG` for that reason — do not override it |
+| A page shows a box saying "offener Fall" | Not a bug but the design: a file or an assignment is missing, and the page says which |
+| A page redirects to `/anmelden` | It is listed in `web/geschuetzt.csv`. Log in with the `ATLAS_KONTO` and the password whose hash you put in `.env` |
 
 ## Blätter
 
-Jedes Blatt ist eine eigenständige HTML-Datei im Wurzelverzeichnis, D3-basiert, mit
-Legende und Quellenangabe im Fuß.
+Each Blatt is a standalone HTML file in the root, D3-based, with a Zeichenerklärung
+and its sources in the footer.
 
 | Datei | Inhalt |
 |---|---|
@@ -31,8 +115,7 @@ Legende und Quellenangabe im Fuß.
 
 ## Weitere Blätter
 
-Liegen im Wurzelverzeichnis, folgen denselben Regeln, gehören aber nicht zum
-Kartenwerk.
+In the root, following the same rules, but not part of the Kartenwerk.
 
 | Datei | Inhalt |
 |---|---|
@@ -56,252 +139,143 @@ Kartenwerk.
 | `praesentationen/Wireframe-C-Split.dc.html` | Wireframe C · Karte oben, Trefferliste unten |
 | `Gruss-an-Stefan-Waldmann.dc.html` | Persönliche Präsentation, kein Atlas-Bestandteil |
 
-## Struktur
+## Layout
 
 ```
 atlas/
-  signaturen.js       Signaturenkatalog (SVG-Zeichen je Kartenobjekt)
-  SIGNATUREN.md       Aufbau des Katalogs, Regeln fürs Ergänzen
-  typenscale.js       Schriftstaffel — sieben Stufen, Untergrenze 5,5 pt
-  farben.js           Farbsystem — einzige Quelle für Hex-Werte im Atlas
-  farben-paletten.rb  erzeugt die .gpl-Paletten aus farben.js
-  register.csv        Namensregister des Bandes, von Hand gepflegt
-  marke/              Logo und handschriftliche Wortmarke
-  GLOSSAR.md          Fachbegriffe der Blätter, alphabetisch
-  paletten/           .gpl-Paletten für QGIS/GIMP, aus farben.js abgeleitet
-  quellen/            Quellenregister je Blatt (belegt / abgeleitet / unbelegt)
-  geodaten/           Skripte, die Rohdaten zu Kartendaten machen
-  qgis/               QGIS-Kartensatz: basis/ (themenneutral) + themen/ (ein Ordner je Blatt)
-                      themen/brandenburg-hanf/ ist zugleich das QField-Projektpaket
-                      für die Feldbegehung (Anleitung im dortigen README)
+  signaturen.js       Signaturenkatalog (SVG per map object)
+  SIGNATUREN.md       how the catalogue is built, rules for adding to it
+  typenscale.js       type scale — seven steps, lower bound 5.5 pt
+  farben.js           colour system — the single source of hex values in the atlas
+  farben-paletten.rb  generates the .gpl palettes from farben.js
+  register.csv        Namensregister of the volume, maintained by hand
+  blaetter.csv        Blattschlüssel — which Blattnummer means which file
+  BLAETTER.md         the reasoning; the numbers are abgeleitet, not belegt
+  marke/              logo and handwritten wordmark
+  GLOSSAR.md          the Blätter's technical terms, alphabetically
+  paletten/           .gpl palettes for QGIS/GIMP, derived from farben.js
+  quellen/            Quellenregister per Blatt (belegt / abgeleitet / unbelegt)
+  geodaten/           scripts that turn raw deliveries into map data
+  qgis/               QGIS-Kartensatz: basis/ (theme-neutral) + themen/ (one folder per Blatt)
+                      themen/brandenburg-hanf/ doubles as the QField package for
+                      fieldwork (instructions in the README there)
 
-bin/                  Werkzeuge — sync-report.rb vergleicht den Klon mit dem ZIP-Export
-web/                  Webseiten-Fassung; wird vom Docker-Image unter / ausgeliefert
-handarbeit/           nur der Mensch schreibt hier — QGIS-Projekte, Erfassungs-GeoPackages
-praesentationen/      Präsentationen (Pitch-Deck, QField-How-to) und Wireframes
-recherche/            Recherche-Notizen und festgehaltene Entscheidungen
-skills/               projekteigene Skills (belegstatus, atlas-kartenblatt, …)
-uploads/              Daten und Bilder, die Blätter zur Laufzeit laden
-screenshots/          QA-Aufnahmen; drei davon bindet „Kleiner Gruß aus der Küche" ein
-wip/                  Arbeitsablage, u. a. der ZIP-Export — global ignoriert
-_ds/                  gebundenes Sternprodukt-Design-System (nicht anfassen)
+bin/                  tools — sync-report.rb compares the clone against the ZIP export,
+                      vendor.rb fetches the nine vendored libraries,
+                      pruefe-blaetter.rb checks the Blattschlüssel against sheet content
+web/                  the web application (Roda, dry-rb) and its design
+  app.rb              routes
+  auth.rb             the login: Rodauth as a middleware in front of everything
+  boot.rb             container (dry-system), root path, vendor directory
+  lib/atlas/          readers, transforms, middleware
+  templates/          ERB templates — they mirror the class names of Muster.dc.html
+  site.css            design — owned by the design UI
+  Muster.dc.html      every building block once — owned by the design UI
+  site.js             enhancement: place the Signaturen, filter the Register
+  geschuetzt.csv      paths that require a login
+test/                 minitest + rack-test
+handarbeit/           only the human writes here — QGIS projects, survey GeoPackages
+praesentationen/      decks (pitch, QField how-to) and wireframes
+recherche/            research notes and recorded decisions
+skills/               project-owned skills (belegstatus, atlas-kartenblatt, …)
+uploads/              data and images the Blätter load at runtime
+screenshots/          QA captures; three are embedded by "Kleiner Gruß aus der Küche"
+wip/                  working store, including the ZIP export and the reference
+                      scans of the printed Diercke — ignored by `.gitignore`
+_ds/                  the bound Sternprodukt design system (do not touch)
+
+config.ru             the Rack stack, outside in: auth, guard, rewrite, files, app
+Dockerfile            the image — built by .github/workflows/ci.yml, published to ghcr
+docker-compose.yml    the dev and preview profiles, and the production service
+.env.example          template for the three required values; .env itself is ignored
+github.md             repo binding and the log of syncs with the design UI
 ```
 
-Nicht im Klon, aber im Design-Projekt: `scans/` — die Referenzscans des gedruckten
-Diercke (rund 60 MB). Sie sind Vergleichsmaterial, kein Blatt bindet sie ein; wer
-sie braucht, holt sie aus dem Export.
+Not in the clone but in the design project: `scans/` — the reference scans of the
+printed Diercke, around 60 MB. They are comparison material, no Blatt embeds them;
+whoever needs them takes them out of the export.
 
-Backlog und lose Enden: `IDEEN.md`. Was an Daten von außen fehlt:
-`DATENBEDARF.md`. Agent-Einstieg: `AGENTS.md`; verbindliche Regeln: `CLAUDE.md`.
+### Where the rest is written down
 
-Farben und Signaturen laufen ausschließlich über `atlas/farben.js` und
-`atlas/signaturen.js` — keine neuen Hex-Werte oder Ad-hoc-Symbole in einzelnen Blättern.
-Die `.gpl`-Paletten sind daraus abgeleitet (`atlas/farben-paletten.rb`) und
-werden nicht von Hand gepflegt.
+| File | What |
+|---|---|
+| `WEB-APPLICATION.md` | how the atlas is served, the path of a request, what the application is built from, the Wächter, CI and the image |
+| `TWO-PLACES.md` | the sync between this clone and the Claude design UI, and where the two deliberately differ |
+| `AGENTS.md` | entry point for coding agents |
+| `CLAUDE.md` | the binding rules |
+| `IDEEN.md` | backlog and loose ends |
+| `DATENBEDARF.md` | what data is still missing from outside |
+| `atlas/BLAETTER.md` | how the Blattnummern were derived |
+| `atlas/GLOSSAR.md` | the Blätter's technical terms |
+| `atlas/geodaten/LIESMICH.md` | which script produces which geodata file |
+| `github.md` | repo binding and the log of syncs with the design UI |
 
-## Erzeugte Geodaten werden versioniert
+Colours and Signaturen go through `atlas/farben.js` and `atlas/signaturen.js` and
+nowhere else — no new hex values, no ad-hoc symbols in individual Blätter. The `.gpl`
+palettes are derived from them (`atlas/farben-paletten.rb`) and are not maintained by
+hand.
 
-Die Skripte unter `atlas/geodaten/` erzeugen Kartendaten aus fremden Lieferungen.
-Ihre **Ergebnisse liegen im Repo**, nicht nur die Skripte — auch wenn das der
-üblichen Regel widerspricht, Erzeugtes nicht zu versionieren.
+## Generated geodata is versioned
 
-Der Grund ist die Eingangsseite: CLC2018 kommt als mehrere Gigabyte über ein
-Portal, verschachtelt als `Results/…geoPackage.zip/DATA/…gpkg`; die GBIF- und
-Overpass-Abfragen liefern je nach Tag ein anderes Ergebnis. Ein Erzeugnis, dessen
-Eingang sich nicht verlässlich wiederbeschaffen lässt, ist praktisch eine Quelle
-und wird wie eine behandelt. Sonst zahlt den Preis, wer klont: ein Blatt, das
-stumm leer bleibt, und ein halber Tag Suche nach dem Grund.
+The scripts under `atlas/geodaten/` build map data out of third-party deliveries.
+**Their results live in the repo**, not just the scripts — even though that
+contradicts the usual rule of not versioning what is generated.
 
-Betroffen sind `nutzung-*.geojson` (neun Flächenklassen, 12 MB, gelesen von
-`Rumaenien-Wirtschaft.html`), `friedhof-freiburg.geojson` und die Datensätze
-unter `atlas/qgis/themen/rumaenien-baer/daten/`.
+The reason is the input side: CLC2018 arrives as several gigabytes through a portal,
+nested as `Results/…geoPackage.zip/DATA/…gpkg`; the GBIF and Overpass queries return
+something different depending on the day. A product whose input cannot be reliably
+obtained again is effectively a source, and is treated as one. Otherwise whoever
+clones pays the price: a Blatt that stays silently empty, and half a day spent looking
+for the reason.
 
-Draußen bleiben nur die **Zwischenstufen** — Rohlieferungen, entpackte Archive,
-Arbeitskopien. Was `.gitignore` ausschließt, steht dort begründet.
+This covers `nutzung-*.geojson` (nine area classes, 12 MB, read by
+`Rumaenien-Wirtschaft.html`), `friedhof-freiburg.geojson` and the datasets under
+`atlas/qgis/themen/rumaenien-baer/daten/`.
 
-## Zuordnungstabellen ohne Build-Schritt
+Only the **intermediate stages** stay out — raw deliveries, unpacked archives, working
+copies. What `.gitignore` excludes is justified there.
 
-Tabellen, die ein Mensch pflegt, werden **zur Laufzeit** gelesen — vom Blatt beim
-Laden, von QGIS als Attributverknüpfung, von QField als Wertliste. Keine abgeleitete
-Zwischendatei, die still veraltet, wenn ein Exportskript nicht lief:
+## Lookup tables without a build step
 
-| Tabelle | gelesen von | Anleitung |
+Tables a human maintains are read **at runtime** — by the Blatt as it loads, by QGIS as
+an attribute join, by QField as a value list. No derived intermediate file that goes
+quietly stale when an export script did not run:
+
+| Table | read by | instructions |
 |---|---|---|
-| `atlas/geodaten/brandenburg/sorten.csv` | Landwirtschaftsblatt, QGIS-Thema `brandenburg-hanf` | `SORTEN.md` |
+| `atlas/geodaten/brandenburg/sorten.csv` | Landwirtschaftsblatt, QGIS theme `brandenburg-hanf` | `SORTEN.md` |
 | `atlas/geodaten/brandenburg/klima-stationen.csv` | Klimablatt | `KLIMA.md` |
+| `atlas/register.csv` | Namensregister of the web edition | header comment in the file |
+| `atlas/blaetter.csv` | Blattschau and Register of the web edition | `BLAETTER.md` |
 
-Fehlt ein Eintrag, wird nicht geraten: der Fall bekommt eine eigene, sichtbare
-Klasse (»ungeklärt«, »Ort nicht verifiziert«). Prüfskripte wie
-`brandenburg/pruefe-hanf.rb` **berichten** nur — sie erzeugen nichts.
+Where an entry is missing, nothing is guessed: the case gets a visible class of its own
+("ungeklärt", "Ort nicht verifiziert"). Check scripts such as
+`brandenburg/pruefe-hanf.rb` and `bin/pruefe-blaetter.rb` only **report** — they
+generate nothing.
 
-## Quellen und Belege
+## Sources and evidence
 
-Jede Zahl auf einer Karte hat eine Zeile im Quellenregister (`atlas/quellen/`), mit
-Status *belegt*, *abgeleitet* oder *unbelegt*. Geometrie aus benannten Datensätzen
-(Eurostat GISCO, OSM, GBIF) steht stattdessen in der Fußzeile des jeweiligen Blatts.
+Every number on a map has a row in the Quellenregister (`atlas/quellen/`), with the
+status *belegt*, *abgeleitet* or *unbelegt*. Geometry from named datasets (Eurostat
+GISCO, OSM, GBIF) goes into the footer of the Blatt instead.
 
 ## QGIS
 
-Der Kartensatz unter `atlas/qgis/` ist themenneutral (`basis/`) und pro Blatt
-(`themen/<name>/`) getrennt. Einrichtung und Rezepte stehen in
-`QGIS-Kartensatz.dc.html`; Arbeits-CRS ist EPSG:3844 (Stereo 70).
+The Kartensatz under `atlas/qgis/` is split into theme-neutral (`basis/`) and per-Blatt
+(`themen/<name>/`). Setup and recipes are in `QGIS-Kartensatz.dc.html`; the working CRS
+is EPSG:3844 (Stereo 70).
 
-Die Stile wissen seit 08/2026 vom Maßstab: **Bezugsmaßstab** 1:2 500 000 in allen
-Stilen (mm-Maße hängen am Ausgabemaßstab), **Auswahl nach Maßstab** in
-`punkt_ort.qml` (regelbasiert, fünf Ortsgrößen mit eigenen Grenzen), und ein
-**Beschriftungsrang** als Leiter von 10 bis 3 statt willkürlicher Werte. Schriftgrade
-aus `atlas/typenscale.js`, Untergrenze 5,5 pt.
+Since 08/2026 the styles know about scale: a **Bezugsmaßstab** of 1:2 500 000 in every
+style (mm dimensions follow the output scale), **selection by scale** in `punkt_ort.qml`
+(rule-based, five settlement sizes with their own bounds), and a **Beschriftungsrang**
+laid out as a ladder from 10 down to 3 instead of arbitrary values. Type sizes come from
+`atlas/typenscale.js`, lower bound 5.5 pt.
 
-## Umgebung
+## Environment
 
-- **QFieldCloud läuft selbst gehostet.** Kein 100-MB-Limit, kein fremder Speicher.
-  Der Objektspeicher darunter ist S3-kompatibel und liegt in eigener Hand; die
-  WebDAV-Ablage nur für Anhänge ist damit ohne Weiteres verfügbar. Empfehlungen zu
-  Speicher und Abgleich immer von dieser Voraussetzung aus denken, nicht von
-  app.qfield.cloud.
-- Arbeits-CRS: EPSG:3844 (Stereo 70) für Rumänien, EPSG:25833 für Brandenburg.
-- QGIS 4.2, QField „Coral Sea".
-
-## Auslieferung und Vorschau
-
-Der Atlas ist statisch — kein Build-Schritt, kein Server-Code. Zum Anschauen genügt
-ein Webserver; das Image bringt ihn mit:
-
-    docker compose up atlas    # http://localhost:8137/  — Baum aus dem Image
-    docker compose up dev      # http://localhost:8138/  — Arbeitsverzeichnis gemountet
-
-Beides **läuft ohne Netz.** Die Blätter laden d3, topojson, React und Babel sonst von
-unpkg und die Weltgeometrie von jsDelivr; das Image legt diese neun Dateien unter
-`/vendor` und nginx schreibt die Verweise im Ausgang um (`sub_filter`). Die Blätter
-selbst bleiben unangetastet — sie gehören dem Design-Projekt und müssen byte-genau
-vergleichbar bleiben. Die `integrity`-Hashes gelten weiter, weil die eingebackenen
-Dateien byte-gleich sind; der Bau prüft das und bricht sonst ab.
-
-Selbst auszuliefern hat außer der Vorschau ohne Netz zwei Gründe, die auch öffentlich
-gelten: die IP-Adressen der Besucher gehen nicht an Dritte, und
-`deutschlandGeoJSON@main` ist ein bewegliches Ziel — was ein fertiges Blatt lädt, soll
-sich nicht unter ihm ändern. Dieselbe Begründung wie dafür, dass die erzeugten
-Geodaten im Repo liegen.
-
-Umgeschrieben werden **genau die neun eingebackenen Adressen**, nicht der Host. Eine
-Präfixregel würde jede unpkg-URL treffen: eine Versionsanhebung upstream ergäbe einen
-`/vendor`-Pfad, den es nicht gibt, und das Blatt liefe auf 404. So fällt eine nicht
-eingebackene Version auf das CDN zurück — sie verschlechtert sich auf den Ist-Zustand,
-statt zu brechen. Eine Quellenangabe, die per `href` ein CDN zitiert, bleibt aus
-demselben Grund ein funktionierender Verweis.
-
-Einzige echte Netz-Abhängigkeit bleibt der Overpass-Aufruf in `Nikolais-Ort.dc.html`
-— eine Live-Abfrage, die sich nicht einbacken lässt. Ohne Netz zeichnet das Blatt aus
-`atlas/geodaten/friedhof-freiburg.geojson`.
-
-`web/` trägt die Webseiten-Fassung: Startseite, Schaukasten der Blätter, das
-Namensregister aus `atlas/register.csv` und eine Werkstatt-Ansicht, die die
-Markdown-Dateien des Repos rendert. Alles wird **zur Laufzeit** gelesen — auch die
-Blattliste, die aus den Tabellen dieser README kommt. Ein Blatt im Wurzelverzeichnis,
-das hier fehlt, verschwindet auf der Seite nicht, sondern erscheint als offener Fall.
-Gestaltung und Struktur sind ein erster Aufschlag; der Feinschliff läuft über die
-Oberfläche.
-
-## Arbeiten an zwei Orten
-
-Dieses Projekt wird an zwei Stellen weitergebaut — in der Claude-Design-Oberfläche
-und hier im Terminal — und liegt an einer dritten: `yuszuv/diercki` auf GitHub. Das
-geht gut, solange klar ist, was wo entsteht.
-
-**Im Zweifel führt der Klon.** Er hat die Historie, er hat die Skripte, er ist das,
-was ein Fremder klonen und bauen kann. Die Oberfläche ist die Werkstatt zum
-Zeichnen, nicht das Archiv.
-
-### Die eine Asymmetrie, aus der alles folgt
-
-Das Atlas-Projekt in der Oberfläche ist ein gewöhnliches Claude-Projekt, kein
-Design-System. Es lässt sich **programmatisch nicht beschreiben** — es gibt keinen
-Weg, eine hier geänderte Datei automatisch dorthin zu bringen. Umgekehrt geht alles:
-Projekt exportieren, ZIP entpacken, fertig.
-
-Daraus folgt die Arbeitsteilung. Nicht „mal hier, mal dort", sondern **je Artefakt
-festgelegt**, damit möglichst wenige Dateien an beiden Orten angefasst werden:
-
-| Was | Wo | Warum |
-|---|---|---|
-| Kartenblätter, Zeichenerklärung, Decks (`*.html`, `*.dc.html`, `praesentationen/`) | **Oberfläche** | dort ist die Vorschau, die Tweaks-Leiste und das gebundene Design-System |
-| Signaturenkatalog, Farben, Typenscale (`atlas/signaturen.js`, `farben.js`, `typenscale.js`) | **Oberfläche** | die Blätter importieren sie; derselbe Zeichenvorgang |
-| Geodaten-Pipelines (`atlas/geodaten/`) | **lokal** | brauchen GDAL, osmium und mehrere Gigabyte Rohdaten |
-| QGIS-Kartensatz (`atlas/qgis/`) | **lokal** | QGIS liest und schreibt die Dateien, XML-Validität zählt |
-| Doku, Quellenregister, Recherche | **lokal** | sie beschreiben den Klon, und der Klon führt |
-| `web/`, `Dockerfile`, `compose.yaml`, `bin/` | **lokal** | kennt die Oberfläche nicht und braucht sie nicht |
-| `handarbeit/` | **lokal, nur der Mensch** | Binärdateien von QGIS und QField |
-| `_ds/` | **keins von beidem** | kommt aus dem Sternprodukt-Design-System und wandert im Export mit |
-
-### Die Runde
-
-1. **Vor der Oberflächen-Runde:** lokal committen und pushen. Damit gibt es einen
-   benannten Stand, gegen den sich hinterher vergleichen lässt.
-2. **In der Oberfläche:** Blätter zeichnen. Nichts aus der lokalen Spalte anfassen.
-3. **Danach:** Projekt als ZIP exportieren, nach `wip/` legen (dort global ignoriert),
-   dann
-
-       ruby bin/sync-report.rb          # Bericht: GLEICH · ANDERS · NUR LOKAL · NUR IM EXPORT
-       ruby bin/sync-report.rb --diff   # zusätzlich Textdiffs
-
-   Das Skript **schreibt nichts** — es berichtet und markiert je Datei, welche Seite
-   nach der Tabelle oben gilt. Übernommen wird von Hand, in Blöcken, mit Commit.
-4. **Lokal weiterarbeiten:** committen, pushen. Solange nur die lokale Spalte
-   betroffen ist, braucht es keinen Rückweg.
-5. **Wenn doch ein Blatt lokal geändert wurde:** unten unter „Wo der Klon abweicht"
-   vermerken **und** die Datei beim nächsten Besuch in der Oberfläche hochladen —
-   sonst überschreibt der nächste Export sie stillschweigend.
-
-### Warum nicht Datei für Datei über das Werkzeug
-
-Der Vollabgleich über `DesignSync get_file` ist der teure Irrweg: 256 KiB Deckel,
-stilles Abschneiden bei größeren Dateien, und der Umweg durch einen Modellkontext
-normalisiert unsichtbare Zeichen — so sind schon Ein-Byte-Abweichungen in
-`support.js` und ein verlorenes schmales Leerzeichen in `_ds/readme.md` entstanden.
-Über dem Deckel liegen ohnehin `_ds/_ds_bundle.js` (2,3 MB), die dreizehn
-woff2-Schriften und `atlas/geodaten/verkehr-daten.js` (4,7 MB). Das ZIP ist
-byte-treu, vollständig und meist der jüngere Stand.
-
-Das Werkzeug taugt für **das Design-System** (`_ds/`) — das *ist* ein
-Design-System-Projekt und lässt sich in beide Richtungen ansprechen. Der Weg dorthin
-ist verlustfrei, weil `write_files` mit `localPath` von der Platte liest.
-
-### GitHub
-
-`origin` ist der dritte Ort und der einzige, der beide überlebt. Push nach jeder
-abgeschlossenen Runde — der Klon ist die Quelle der Wahrheit nur so lange, wie er
-auch woanders liegt.
-
-## Wo der Klon vom Design-Projekt abweicht
-
-Das Design-Projekt ist die Quelle der Wahrheit — aber nicht in jedem Punkt der
-jüngere Stand. Was hier bewusst anders ist, steht hier, damit es beim nächsten
-Abgleich nicht als Drift durchgeht und still zurückgedreht wird.
-
-**Der Klon ist voraus, weil er einen Fehler behoben hat:**
-
-- `atlas/qgis/themen/brandenburg-hanf/qfield/hanf_kontrolle.qml` — drüben schließt
-  ein gerades Anführungszeichen in „unklar" das `desc`-Attribut vorzeitig; die Datei
-  ist dort kein wohlgeformtes XML und QGIS liest sie nicht.
-- `atlas/qgis/basis/layout/layout_a4_quer_thema.qpt` — drüben trägt der
-  Rahmen-Eintrag fünf doppelte Attribute mit widersprüchlichen Werten
-  (Papierton/0,6 mm gegen Tinte/0,3 mm). Hier steht die Papier-Fassung.
-- `atlas/geodaten/brandenburg/README.md` und `SORTEN.md` benennen die
-  InVeKoS-Antragsdaten als Hanf-Geometrie. Drüben steht noch der ältere Stand
-  („Hanf hat keine offene Geometrie"), der dem eigenen Kartenblatt widerspricht:
-  das liest `hanf-2026.geojsonl` und `sorten.csv` zur Laufzeit.
-
-**Bilder liegen kleiner als drüben.** `screenshots/katzundgoldt-crop.png` (472 KB
-statt 1,2 MB) und `uploads/neumaier-frueher.png` (67 KB statt 1,5 MB) sind
-absichtlich verkleinert — für die Bildschirmgröße, in der die Grüße sie einbinden,
-reicht das. Wer sie in Druckgröße braucht, holt sie aus dem Design-Projekt.
-
-**Draußen bleiben Dateien, die kein Blatt braucht:** die Vorlagenscans unter
-`scans/` sind reines Vergleichsmaterial. Was `.gitignore` ausschließt, steht dort
-begründet.
-
-## git-Repo
-
-`yuszuv/diercki`, siehe `github.md` für Rollen und letzten Sync-Stand. Das
-Design-Projekt ist die Quelle der Wahrheit; Änderungen an `handarbeit/` kommen
-ausschließlich vom Menschen.
+- **QFieldCloud is self-hosted.** No 100 MB limit, no third-party storage. The object
+  store underneath is S3-compatible and in our own hands; the WebDAV drop for
+  attachments alone is therefore readily available. Reason about storage and syncing
+  from that premise, not from app.qfield.cloud.
+- Working CRS: EPSG:3844 (Stereo 70) for Romania, EPSG:25833 for Brandenburg.
+- QGIS 4.2, QField "Coral Sea".

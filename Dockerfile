@@ -1,80 +1,99 @@
 # Sternprodukt atlas — delivery and local preview from one image.
 #
-#   docker compose up atlas   → http://localhost:8137/  (tree baked into the image)
-#   docker compose up dev     → http://localhost:8138/  (working tree bind-mounted)
+#   docker compose --profile local up preview   → http://localhost:9293/  (tree from the image)
+#   docker compose --profile local up dev       → http://localhost:9292/  (working tree)
 #
-# The atlas is static: no build step, no runtime beyond nginx. The only build work is
-# vendoring the libraries the sheets would otherwise pull from unpkg and jsDelivr.
-# The sheets themselves are left untouched — they belong to the design project and
-# must stay byte-comparable for the sync; nginx rewrites the URLs on the way out
-# (see web/nginx.conf).
+# One process: Puma serves the Roda application AND the repository tree. There is
+# no nginx anymore — the CDN rewriting that lived in its sub_filter blocks is a
+# Rack middleware now, reading the same list of nine URLs that bin/vendor.rb
+# downloads from. It used to exist three times.
+#
+# The map sheets themselves are left untouched: they belong to the design project
+# and must stay byte-comparable for bin/sync-report.rb. Their CDN references are
+# rewritten on the way out, never on disk.
 
 # ---------------------------------------------------------------------------
-# 1 · Vendor the libraries. Versions pinned exactly as the sheets reference them —
-#     changing one here breaks the integrity hashes that sit next to them.
+# 1 · Build: gems and the vendored libraries.
 # ---------------------------------------------------------------------------
-FROM alpine:3.20 AS vendor
-RUN apk add --no-cache curl openssl
+FROM ruby:3.4-alpine AS build
 
-WORKDIR /vendor
-RUN set -eux; \
-    dl() { mkdir -p "$(dirname "$2")"; curl -fsSL --retry 3 -o "$2" "$1"; }; \
-    \
-    dl https://unpkg.com/d3@7.9.0/dist/d3.min.js \
-       unpkg/d3@7.9.0/dist/d3.min.js; \
-    dl https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js \
-       unpkg/topojson-client@3.1.0/dist/topojson-client.min.js; \
-    dl https://unpkg.com/react@18.3.1/umd/react.production.min.js \
-       unpkg/react@18.3.1/umd/react.production.min.js; \
-    dl https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js \
-       unpkg/react-dom@18.3.1/umd/react-dom.production.min.js; \
-    dl https://unpkg.com/@babel/standalone@7.24.7/babel.min.js \
-       'unpkg/@babel/standalone@7.24.7/babel.min.js'; \
-    dl https://unpkg.com/@babel/standalone@7.29.0/babel.min.js \
-       'unpkg/@babel/standalone@7.29.0/babel.min.js'; \
-    \
-    dl https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json \
-       jsdelivr/npm/world-atlas@2.0.2/countries-50m.json; \
-    dl https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/3_mittel.geo.json \
-       jsdelivr/gh/isellsoap/deutschlandGeoJSON@main/2_bundeslaender/3_mittel.geo.json; \
-    dl https://cdn.jsdelivr.net/gh/isellsoap/deutschlandGeoJSON@main/4_kreise/4_niedrig.geo.json \
-       jsdelivr/gh/isellsoap/deutschlandGeoJSON@main/4_kreise/4_niedrig.geo.json
+# build-base for puma's nio4r extension; the rest of the stack is pure Ruby.
+# sqlite-dev for the sqlite3 gem, build-base for puma's nio4r extension.
+RUN apk add --no-cache build-base sqlite-dev
 
-# Two sheets carry integrity attributes. Verify rather than hope: a mismatch would
-# make the browser refuse the script later, without a useful message.
-RUN set -eux; \
-    check() { \
-      actual="sha384-$(openssl dgst -sha384 -binary "$1" | openssl base64 -A)"; \
-      [ "$actual" = "$2" ] || { echo "SRI mismatch for $1"; echo "  expected: $2"; echo "  got:      $actual"; exit 1; }; \
-      echo "SRI ok: $1"; \
-    }; \
-    check unpkg/d3@7.9.0/dist/d3.min.js \
-      'sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i'; \
-    check unpkg/topojson-client@3.1.0/dist/topojson-client.min.js \
-      'sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67'
+WORKDIR /build
+# BUNDLE_APP_CONFIG points away from the app root on purpose: the dev preview
+# bind-mounts the working tree, and the host's .bundle/config there names a
+# BUNDLE_PATH inside the repo. Without this, that file would win over the
+# variables below and the container would look for its gems in /srv/.bundle.
+ENV BUNDLE_PATH=/gems \
+    BUNDLE_APP_CONFIG=/gems/.bundle \
+    BUNDLE_WITHOUT=test \
+    BUNDLE_DEPLOYMENT=1
+
+# .ruby-version comes along: the Gemfile reads it, so bundler needs it here.
+COPY Gemfile Gemfile.lock .ruby-version ./
+RUN bundle install && rm -rf /gems/ruby/*/cache
+
+# The URL list lives in one Ruby file; this reads it. Versions pinned exactly as
+# the sheets reference them, and the two SRI hashes are verified here — a
+# mismatch would make the browser refuse the script later, without a useful
+# message.
+COPY web/lib/atlas/vendor.rb web/lib/atlas/vendor.rb
+COPY bin/vendor.rb bin/vendor.rb
+RUN ruby bin/vendor.rb /opt/vendor
 
 # ---------------------------------------------------------------------------
 # 2 · Serve.
 # ---------------------------------------------------------------------------
-FROM nginx:1.27-alpine
+FROM ruby:3.4-alpine
 
-# Extend the MIME table rather than replacing it. A `types` block in the server
-# config would override the whole default map — .html would become octet-stream,
-# and sub_filter (which keys on text/html) would silently stop rewriting the CDN
-# URLs. Appending before the closing brace keeps the defaults and adds ours.
-RUN sed -i '$ s|^}|    application/geo+json              geojson;\n    text/csv                          csv;\n    text/plain                        geojsonl dat gpl qml qpt md;\n}|' /etc/nginx/mime.types \
- && grep -q 'geo+json' /etc/nginx/mime.types
+RUN apk add --no-cache tzdata wget sqlite-libs
 
-COPY web/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=vendor /vendor /opt/vendor
+# The login needs three values and refuses to start without them — a default
+# secret is worse than none, because nothing looks broken while it is in place.
+# They come from the deploy (bmeise), not from here:
+#
+#   ATLAS_KONTO           the login name
+#   ATLAS_PASSWORT_HASH   ruby -rbcrypt -e 'print [BCrypt::Password.create("…")].pack("m0")'
+#                         base64 — docker compose resolves ${…} in every value it
+#                         reads, and a bcrypt hash is made of $-fields. Measured:
+#                         raw, it arrives mangled and the password silently stops
+#                         matching. web/auth.rb refuses to start on a raw one.
+#   ATLAS_SESSION_SECRET  ruby -rsecurerandom -e 'print SecureRandom.hex(64)'
+#
+# There is no database file and no volume: with only :login and :logout enabled
+# Rodauth never writes, so the single account lives in an in-memory SQLite seeded
+# at boot. See web/auth.rb.
+ENV BUNDLE_PATH=/gems \
+    BUNDLE_APP_CONFIG=/gems/.bundle \
+    BUNDLE_WITHOUT=test \
+    BUNDLE_DEPLOYMENT=1 \
+    RACK_ENV=production \
+    ATLAS_VENDOR_DIR=/opt/vendor \
+    LANG=C.UTF-8
+
+COPY --from=build /gems /gems
+COPY --from=build /opt/vendor /opt/vendor
+
+WORKDIR /srv
 # .dockerignore keeps working material out; what lands here is the tree git knows.
 COPY . /srv
 
-WORKDIR /srv
+# One knob for the port, so there is one number to change rather than four.
+# Default 80: the host's Caddy reaches this container as `diercki:80` over the
+# shared external web network (bmeise, host_vars for paketzentrum). Moving it
+# here means moving it there in the same breath.
+#
+# Locally nobody meets this number — docker-compose.yml publishes 9292, Rack's
+# own default, which is also what `bundle exec puma` binds without a flag.
+ENV ATLAS_PORT=80
 EXPOSE 80
 
 # 127.0.0.1, not localhost: /etc/hosts maps localhost to ::1 as well, and busybox
-# wget tries IPv6 first. The server listens on both now, but the check should not
-# depend on resolver order to say whether the site is up.
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s \
-  CMD wget -qO- http://127.0.0.1/ >/dev/null || exit 1
+# wget tries IPv6 first. The check should not depend on resolver order to say
+# whether the site is up.
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
+  CMD wget -qO- "http://127.0.0.1:${ATLAS_PORT}/health" >/dev/null || exit 1
+
+CMD ["sh", "-c", "exec bundle exec puma --bind tcp://0.0.0.0:${ATLAS_PORT} --environment production"]

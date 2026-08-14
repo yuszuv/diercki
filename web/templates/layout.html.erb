@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= [@title, 'Sternprodukt-Atlas'].compact.join(' · ') %></title>
+<meta name="description" content="Ein Weltatlas nach dem Vorbild des Diercke-Klassikers, im Sternprodukt-Look gebaut — Blätter, Namensregister und die Werkstatt dahinter.">
+
+<!-- Das gebundene Design-System liefert Schrift, Farbe und Maße. Keine eigenen
+     Hex-Werte auf dieser Seite: was hier gestaltet wird, greift auf die Tokens zu. -->
+<link rel="stylesheet" href="/_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/styles.css">
+<link rel="stylesheet" href="/web/site.css">
+<link rel="icon" href="/atlas/marke/logo-stern.png">
+</head>
+<body>
+
+<div class="oberkante"></div>
+<div class="haarlinie"></div>
+
+<header class="kopf">
+  <a class="marke" href="/">
+    <img src="/atlas/marke/logo-stern.png" alt="" width="26" height="26">
+    <span>Sternprodukt&#8202;·&#8202;Atlas</span>
+  </a>
+  <nav class="nav">
+    <%# The routes stay German: they are addresses people read and share. %>
+    <% [['/blaetter', 'Blätter'], ['/register', 'Register'], ['/werkstatt', 'Werkstatt']].each do |path, name| %>
+      <a href="<%= path %>"<%= ' class="aktiv"' if request.path.start_with?(path) %>><%= name %></a>
+    <% end %>
+    <%# Only shown once somebody is logged in. An anonymous visitor has no
+        business being offered a login — the guarded pages ask by themselves. %>
+    <% if logged_in? %>
+      <a href="/abmelden" class="nav-abmelden">Abmelden</a>
+    <% end %>
+  </nav>
+</header>
+
+<main id="inhalt" class="inhalt">
+<%== yield %>
+</main>
+
+<footer class="fuss">
+  <span>Diercke-Atlas&#8202;·&#8202;Sternprodukt&#8202;·&#8202;Wittstock/Dosse</span>
+  <span class="mono">Zimmer <span class="sp-137-zimmer-inline">137</span></span>
+</footer>
+
+<!-- Nachrüstung, keine Voraussetzung: die Seite steht ohne dieses Skript
+     vollständig. Es setzt die Signaturen aus dem Katalog ein und filtert die
+     Registertabelle, die der Server schon vollständig geliefert hat. -->
+<script type="module" src="/web/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<%# An open case, made visible.
+    The project rule: where an assignment is missing it is not guessed — the case
+    gets a class of its own. This is that class. Every Failure from the readers
+    lands here, with its reason and path spelled out.
+    The CSS class stays German: it is shared vocabulary with site.css and
+    Muster.dc.html. %>
+<div class="fehlfall">
+  <b><%= title %></b>
+  <% if path %> <code><%= path %></code><% end %>
+  <br><span class="fehlfall-grund"><%= reason %></span>
+</div>

@@ -18,7 +18,7 @@
 # Why this route exists: a full comparison through DesignSync get_file is the expensive
 # dead end — 256 KiB cap, silent truncation, and the detour through a model context
 # normalises invisible characters. The ZIP is byte-exact and complete. The procedure is
-# documented in README under "Arbeiten an zwei Orten".
+# documented in TWO-PLACES.md.
 #
 
 require 'tmpdir'
@@ -36,7 +36,23 @@ Dir.chdir(ROOT)
 OWNERSHIP = [
   # [pattern, owner, reason in half a sentence]
   [%r{\A_ds/},                          :design_system, 'comes from the design-system project'],
-  [%r{\A(web/|Dockerfile|compose\.yaml|\.dockerignore|bin/)}, :local, 'the UI does not know it'],
+
+  # The design seam of the web application. Both are ordinary files the UI can
+  # open and draw: the stylesheet, and the pattern sheet that shows every
+  # building block once. The ERB templates below stay local and mirror their
+  # class names — one file, one owner, no argument.
+  [%r{\Aweb/(site\.css|Muster\.dc\.html)\z}, :ui, 'the design seam of the web edition'],
+
+  # docker-compose.yml, not compose.yaml: the file is called the former, and the
+  # pattern used to name the latter — so it never matched and fell through to
+  # the default. Same outcome, but for no reason anyone could see.
+  [%r{\A(web/|Dockerfile|docker-compose\.yml|config\.ru|Gemfile|\.ruby-version|\.dockerignore|bin/|test/)},
+   :local, 'the UI does not know it'],
+
+  # Written in the design UI, imported wholesale in d5666a4. Without a rule of
+  # its own it fell through to "when in doubt the clone leads", which is the
+  # wrong side for a file nothing here writes.
+  [%r{\Aatlas/register\.csv\z},         :ui,    'the name register is maintained in the design UI'],
   [%r{\Ahandarbeit/},                   :local, 'only the human writes here'],
   [%r{\Aatlas/geodaten/},               :local, 'needs GDAL and raw data'],
   [%r{\Aatlas/qgis/},                   :local, 'QGIS reads and writes these'],
@@ -46,7 +62,7 @@ OWNERSHIP = [
   [%r{\.dc\.html\z},                    :ui,    'drawn in the design UI'],
   [%r{\A[^/]+\.html\z},                 :ui,    'map sheet, drawn in the design UI'],
   [%r{\Apraesentationen/},              :ui,    'decks are built in the design UI'],
-  [%r{\A(README|CLAUDE|AGENTS|IDEEN|DATENBEDARF|github)\.md\z}, :local, 'describes the clone'],
+  [%r{\A(README|CLAUDE|AGENTS|IDEEN|DATENBEDARF|WEB-APPLICATION|TWO-PLACES|github)\.md\z}, :local, 'describes the clone'],
 ].freeze
 
 def ownership(path)
@@ -58,10 +74,19 @@ end
 # Working stores and raw deliveries. Neither side has a claim on them.
 SKIP = [
   %r{\A\.git/}, %r{\A\.claude/}, %r{\A\.ruby-lsp/}, %r{\Awip/},
+  # Local Ruby state. .bundle/gems alone is 4136 files — without this the report
+  # drowns: "ONLY LOCAL 4208", of which four thousand are installed gems.
+  # .vendor/ holds the nine libraries bin/vendor.rb fetches.
+  %r{\A\.bundle/}, %r{\A\.vendor/},
   %r{\.(gpkg|zip|inhalt|osm\.pbf|dat)\z},
   %r{\Aatlas/geodaten/brandenburg/(clc5_2018|landnutzung\.geojson)},
   %r{ne_10m_},                        # Natural Earth raw delivery, the script refetches it
-  %r{\A(screenshots)/(?!vorschau-|katzundgoldt-)},
+  # screenshots/ is a QA scratchpad — except for the files a Blatt embeds. Those
+  # must show up, or the report hides exactly what an adoption would need:
+  # Inhalt.dc.html gained eight thumb-*.png upstream, and without this exception
+  # they stayed invisible here while the sheet that needs them was flagged for
+  # adoption.
+  %r{\A(screenshots)/(?!vorschau-|katzundgoldt-|thumb-)},
   %r{\A\.DS_Store\z}, %r{Thumbs\.db\z},
 ].freeze
 
@@ -163,7 +188,7 @@ Dir.mktmpdir('sync-report') do |tmp|
   puts '-' * 70
   puts "SAME #{same.size} · DIFFERENT #{different.size} · ONLY LOCAL #{only_here.size} · ONLY IN EXPORT #{only_there.size}"
   puts
-  puts 'Nothing was changed. What gets adopted is your call — the rule is in README,'
-  puts 'section "Arbeiten an zwei Orten": when in doubt the clone leads, except for the'
-  puts 'files that are drawn in the design UI.'
+  puts 'Nothing was changed. What gets adopted is your call — the rule is in'
+  puts 'TWO-PLACES.md: when in doubt the clone leads, except for the files that are'
+  puts 'drawn in the design UI.'
 end
