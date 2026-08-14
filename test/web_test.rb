@@ -142,6 +142,21 @@ class AtlasTest < Minitest::Test
     assert_includes original, 'https://unpkg.com/d3@7.9.0/dist/d3.min.js'
   end
 
+  def test_a_large_file_is_passed_through_untouched
+    # Above MAX_BYTES the middleware does not even read the body. The two files
+    # that size are map data and the design-system bundle; neither carries one of
+    # the nine addresses, which is what makes the limit safe rather than lossy.
+    get '/_ds/sternprodukt-design-system-760a3f03-bdcc-480e-bb81-66fc2988f194/_ds_bundle.js'
+    assert_equal 200, last_response.status
+    assert_operator last_response.body.bytesize, :>, Atlas::Middleware::VendorRewrite::MAX_BYTES
+  end
+
+  def test_the_two_javascript_files_that_carry_addresses_are_rewritten
+    get '/support.js'
+    refute_includes last_response.body, 'https://unpkg.com'
+    assert_includes last_response.body, '/vendor/unpkg/react@18.3.1'
+  end
+
   def test_vendored_libraries_are_served
     get '/vendor/unpkg/d3@7.9.0/dist/d3.min.js'
     assert_equal 200, last_response.status
