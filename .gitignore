@@ -57,11 +57,13 @@ clc5_2018.utm32s.shape/
 /Diercke-Atlas_Redesign.pptx
 .~lock.*#
 
-# Zugangsdaten der Anmeldung. docker compose liest .env von selbst; Ansible legt
-# auf dem Server dieselbe Datei aus dockerapp_env an. Hier hat sie nichts zu suchen.
+# Zugangsdaten der Anmeldung. .env ist der einzige Name, den docker compose von
+# selbst liest — .env.local und .env.development stammen aus der Node- und
+# Rails-Welt und werden hier ignoriert. Auf dem Server legt Ansible dieselbe Datei
+# aus dockerapp_env an. Im Repo hat sie nichts zu suchen; .env.example schon.
 /.env
 /.env.*
-!/.env.beispiel
+!/.env.example
 
 # Ruby-Anwendung: installierte Gems und die eingebackenen Fremdbibliotheken.
 # .bundle/gems liegt bewusst nicht unter vendor/ — den Pfad /vendor/ belegen die

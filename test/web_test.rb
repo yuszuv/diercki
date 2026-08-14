@@ -242,6 +242,35 @@ class AtlasTest < Minitest::Test
     assert_equal 200, last_response.status
   end
 
+  def test_no_spelling_of_a_guarded_path_gets_through
+    # A guard that compares strings guards nothing. Sources::Tree canonicalises
+    # before it reads, so "/recherche/./x.md" and "/recherche/x.md" are one file
+    # to the reader — and were two strings to the guard. Eight spellings served
+    # guarded content without a login before this was closed.
+    #
+    # Checked on CONTENT, not on the status code: some spellings are rewritten by
+    # Roda before the guard sees them and end up on the home page, which is a 200
+    # and perfectly harmless. Only the bytes tell the two apart.
+    deck = File.read(File.join(ROOT, 'Gruss-an-Stefan-Waldmann.dc.html'))
+    note = File.read(File.join(ROOT, 'recherche/sternprodukt-notizen.md'))
+    png  = File.read(File.join(ROOT, 'uploads/neumaier-frueher.png'), mode: 'rb')
+
+    {
+      '/werkstatt/recherche/./sternprodukt-notizen.md'          => note[200, 60],
+      '/werkstatt/./recherche/sternprodukt-notizen.md'          => note[200, 60],
+      '/werkstatt/recherche//sternprodukt-notizen.md'           => note[200, 60],
+      '/werkstatt/atlas/../recherche/sternprodukt-notizen.md'   => note[200, 60],
+      '/werkstatt/recherche/%2e/sternprodukt-notizen.md'        => note[200, 60],
+      '/./Gruss-an-Stefan-Waldmann.dc.html'                     => deck[3000, 60],
+      '/atlas/../Gruss-an-Stefan-Waldmann.dc.html'              => deck[3000, 60],
+      '/uploads/./neumaier-frueher.png'                         => png[100, 40]
+    }.each do |path, needle|
+      get path
+      refute_includes last_response.body.b, needle.b,
+                      "#{path} liefert geschützten Inhalt ohne Anmeldung"
+    end
+  end
+
   def test_guarded_documents_stay_visible_in_the_workshop
     # Hiding them would be a different answer than locking them.
     get '/werkstatt'

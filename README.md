@@ -49,18 +49,16 @@ Tests: `bundle exec ruby -Itest test/web_test.rb`
 
 Needs no Ruby on the machine.
 
-The login needs three values and refuses to start without them. Put them in a
-`.env` next to `docker-compose.yml` (git ignores it):
+The login needs three values and refuses to start without them:
 
 ```sh
-{
-  echo "ATLAS_KONTO=jan"
-  echo "ATLAS_PASSWORT_HASH=$(bundle exec ruby -rbcrypt -e 'print [BCrypt::Password.create("dein-passwort")].pack("m0")')"
-  echo "ATLAS_SESSION_SECRET=$(ruby -rsecurerandom -e 'print SecureRandom.hex(64)')"
-} > .env
-
+cp .env.example .env        # then fill in the two blanks it explains
 docker compose --profile local up dev       # → http://localhost:9292/
 ```
+
+`.env` is the only file compose reads by itself — `.env.local` and
+`.env.development` are Node and Rails conventions and are ignored here. Git ignores
+`.env`; `.env.example` is the template and is versioned.
 
 The hash is **base64**, and that is not a style choice: Compose resolves `${…}`
 inside every value it reads, `.env` included, and a bcrypt hash is made of

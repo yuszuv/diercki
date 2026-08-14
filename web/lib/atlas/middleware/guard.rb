@@ -45,10 +45,21 @@ module Atlas
       # show the content of X, so they inherit its guard — otherwise the
       # application would hand out at a second address what it locks at the
       # first.
+      #
+      # Canonicalise BEFORE stripping the prefixes, and both times. A guard that
+      # compares spellings guards nothing: "/./werkstatt/x" survives a plain
+      # delete_prefix('/werkstatt'), and "/uploads/./x.png" never matched at all
+      # while Rack::Files below happily served it.
       def guarded?(path)
-        restricted.restricted?(path) ||
-          restricted.restricted?(path.delete_prefix('/blatt')) ||
-          restricted.restricted?(path.delete_prefix('/werkstatt'))
+        clean = canonical(path)
+
+        restricted.restricted?(clean) ||
+          restricted.restricted?(canonical(clean.delete_prefix('/blatt'))) ||
+          restricted.restricted?(canonical(clean.delete_prefix('/werkstatt')))
+      end
+
+      def canonical(path)
+        Pathname("/#{path.to_s.delete_prefix('/')}").cleanpath.to_s
       end
 
       def restricted = @restricted || Container['sources.restricted']

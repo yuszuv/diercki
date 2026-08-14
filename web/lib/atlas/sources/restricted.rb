@@ -46,7 +46,16 @@ module Atlas
 
       private
 
-      def normalise(path) = "/#{path.to_s.strip.delete_prefix('/')}"
+      # The identity of a path, not the way it was spelled.
+      #
+      # This used to be strip + delete_prefix, and that was a hole: Sources::Tree
+      # canonicalises before it reads, so "/recherche/./x.md" and "/recherche/x.md"
+      # are the same file to the reader and were two different strings to the
+      # guard. Nine spellings of the four guarded paths answered 200 without a
+      # login — measured, not feared.
+      def normalise(path)
+        Pathname("/#{path.to_s.strip.delete_prefix('/')}").cleanpath.to_s
+      end
     end
   end
 end
