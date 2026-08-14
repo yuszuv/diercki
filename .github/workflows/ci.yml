@@ -89,6 +89,18 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:latest
             ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+          # The only labels in this project that do anything. Docker labels used
+          # to be Traefik's service-discovery mechanism, and that whole layer was
+          # retired across bmeise in July 2026 — Caddy is configured from a
+          # templated Caddyfile driven by web_apps, not from container metadata.
+          #
+          # image.source is the exception: it is what links a package on ghcr to
+          # its repository. Without it the package floats unattached, does not
+          # appear on the repo page, and its visibility has to be managed by hand.
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.description=Sternprodukt-Atlas — Roda application serving the Blätter
           # linux/amd64 only. The server is amd64, and a second architecture would
           # mean QEMU and a build several times as long for nobody.
           platforms: linux/amd64

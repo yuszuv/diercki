@@ -198,6 +198,13 @@ across every host, and the role already handles both modes — `pull: always` wh
 `ATLAS_IMAGE` overrides the tag, so a deploy can pin `sha-<commit>` instead of
 following `latest`.
 
+The image carries three OCI labels and no others. Docker labels were Traefik's
+service-discovery mechanism, and that layer was retired across bmeise in July
+2026 — Caddy is configured from a templated Caddyfile driven by `web_apps`, not
+from container metadata. The exception is
+`org.opencontainers.image.source`: it is what links a package on ghcr to its
+repository, without which the package floats unattached.
+
 ## The gate
 
 A small part of the atlas is not public: what shows a non-public person, or is written
