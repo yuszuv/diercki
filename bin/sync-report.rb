@@ -18,7 +18,7 @@
 # Why this route exists: a full comparison through DesignSync get_file is the expensive
 # dead end — 256 KiB cap, silent truncation, and the detour through a model context
 # normalises invisible characters. The ZIP is byte-exact and complete. The procedure is
-# documented in README under "Arbeiten an zwei Orten".
+# documented in ZWEI-ORTE.md.
 #
 
 require 'tmpdir'
@@ -62,7 +62,7 @@ OWNERSHIP = [
   [%r{\.dc\.html\z},                    :ui,    'drawn in the design UI'],
   [%r{\A[^/]+\.html\z},                 :ui,    'map sheet, drawn in the design UI'],
   [%r{\Apraesentationen/},              :ui,    'decks are built in the design UI'],
-  [%r{\A(README|CLAUDE|AGENTS|IDEEN|DATENBEDARF|github)\.md\z}, :local, 'describes the clone'],
+  [%r{\A(README|CLAUDE|AGENTS|IDEEN|DATENBEDARF|WEBANWENDUNG|ZWEI-ORTE|github)\.md\z}, :local, 'describes the clone'],
 ].freeze
 
 def ownership(path)

@@ -76,6 +76,8 @@ Geodaten-Beschaffung hat bewusst keinen eigenen Skill — der vorhandene
 
 ## Orientierung
 - `README.md` — Struktur und Blattliste
+- `WEBANWENDUNG.md` — die Webanwendung: Auslieferung, Aufbau, Wächter
+- `ZWEI-ORTE.md` — der Abgleich mit der Design-Oberfläche
 - `IDEEN.md` — Backlog
 - `DATENBEDARF.md` — was an Daten von Jan noch fehlt
 - `atlas/geodaten/LIESMICH.md` — welches Skript welche Geodatei erzeugt
