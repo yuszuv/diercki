@@ -21,9 +21,10 @@ date: 2026-08-14T21:11Z
 - screenshots/thumb-*.png (acht Stück) mitgenommen — ohne sie zeigt das Blatt acht
   kaputte Bilder und sagt nichts dazu; .gitignore und .dockerignore trugen die
   Ausnahme dafür schon
-- Übrig aus diesem Durchgang: web/site.css und web/Muster.dc.html sind hier
-  entstanden und gehören der Oberfläche — sie müssen von Hand hinauf, den Weg gibt
-  es nur so (sync-report meldet sie als einzige CHECK-Fälle)
+- Der Weg hinauf ist gegangen: web/site.css und web/Muster.dc.html sind hier
+  entstanden, gehören aber der Oberfläche — am 15.08.2026 von Hand hinterlegt, den
+  Weg gibt es nur so. sync-report meldet sie bis zum nächsten Export weiter als
+  CHECK, weil er gegen das ZIP vom 13.08. vergleicht; das ist keine Abweichung
 
 ## Sync history
 - 2026-08-13 — Vollabgleich gegen den ZIP-Export; Abweichungen in README unter „Wo der Klon vom Design-Projekt abweicht" festgehalten; README.md am Projekt-Root angelegt; Kleiner-Gruss-aus-der-Kueche.dc.html und Gruss-an-Stefan-Waldmann.dc.html dazu
