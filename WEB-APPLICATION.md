@@ -247,13 +247,11 @@ than none, because nothing looks broken while it is in place:
 
 **Declared, not read by hand.** They are settings on the container, registered in
 `web/boot.rb` through `dry-system`'s settings provider; the shape of each one lives in a
-constructor next to its name. Two things follow that are worth the provider on their
-own. The checks all run before any of them is reported, so three wrong values produce
-one message naming three faults instead of three restarts. And the `.env` reading comes
-with it — dotenv's chain, `.env.<RACK_ENV>.local · .env.local` (never in test) ·
-`.env.<RACK_ENV>` · `.env`, with the environment winning over every file. Before this
-there were two readers of the environment in the repository, one of them hand-written in
-`config.ru`.
+constructor next to its name. Every check runs before any of them is reported, so three
+wrong values produce one message naming three faults. The `.env` reading comes with it —
+dotenv's chain, `.env.<RACK_ENV>.local · .env.local` (never in test) · `.env.<RACK_ENV>`
+· `.env`, with the environment winning over every file. Why this rather than reading
+`ENV` by hand: `recherche/entscheidungen-webanwendung.md`.
 
 `AuthApp` takes the secret while its class body runs, which is before
 `Container.finalize!` in `config.ru`. That is not an oversight and needs no deferring: an
@@ -263,23 +261,19 @@ String inside its own configure step and refuses a callable outright.
 
 ### Why the hash is base64
 
-A bcrypt hash is `$2a$12$…`, three fields separated by dollar signs, and two readers on
-the way in resolve `${…}` in what they read. Docker Compose does it to every value,
-`.env` files included, and no quoting and no `$$`-doubling stops it there. dotenv does it
-to the same file when the application reads it without Docker; only single quotes stop
-that one, and they do not help against compose.
+A bcrypt hash is `$2a$12$…`, three fields separated by dollar signs, and both readers of
+a `.env` resolve those — Compose on the way into the container, dotenv when the
+application reads the file without Docker. A raw hash arrives mangled or empty, the
+application starts, and the correct password is simply rejected with nothing in any log
+to say why.
 
-Measured, not feared, on both paths: `$2a$12$KDvI6RuYis…/qxuoa` reaches the container as
-`a2/qxuoa`, and the same line read by dotenv arrives as an empty string. In the first
-case the application starts and the correct password is simply rejected, and nothing in
-any log says why.
+Base64 has no dollar signs. The constructor in `web/boot.rb` decodes it and checks the
+result against the bcrypt shape, so a raw one is a loud failure at start instead of a
+quiet one at the login screen. The same applies to `dockerapp_env` in bmeise — it writes
+exactly such a `.env`.
 
-Base64 has no dollar signs, so nothing on the way in can chew on it. The constructor in
-`web/boot.rb` decodes it and checks the result against the bcrypt shape; a raw hash
-aborts the boot with the command that produces the right value. A loud failure at start
-instead of a quiet one at the login screen.
-
-The same applies to `dockerapp_env` in bmeise — it writes exactly such a `.env`.
+The measurements behind this, both paths with the mangled values, are recorded once in
+`recherche/entscheidungen-webanwendung.md`.
 
 `Sources::Restricted` **fails closed**: if the list cannot be read, every path counts as
 guarded and the whole derived layer shuts rather than opens. Every other reader in this

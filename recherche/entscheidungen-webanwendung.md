@@ -153,6 +153,25 @@ der Hash reist base64, hat also keine `$`, und ein roh übergebener scheitert we
 laut — jetzt mit zwei auflösenden Lesern als Begründung statt einem. Wer den Tausch
 zurücknehmen will, nimmt Bauform B aus der Übergabe und lebt mit zwei Lesern.
 
+### Die Belege zur base64-Regel, an einem Ort
+
+Hierher verweisen `web/boot.rb`, `.env.example`, `docker-compose.yml` und
+`WEB-APPLICATION.md`, statt die Messung je noch einmal abzuschreiben. Ein bcrypt-Hash
+besteht aus `$`-Feldern, und beide Leser einer `.env` lösen die auf:
+
+| Leser | Eingabe | kommt an als |
+|---|---|---|
+| docker compose | `$2a$12$KDvI6RuYis…/qxuoa` | `a2/qxuoa` |
+| dotenv 3.2.0 | dieselbe Zeile | `""` |
+| dotenv, `"…"` | dieselbe Zeile doppelt gequotet | `""` |
+| dotenv, `'…'` | dieselbe Zeile einfach gequotet | unverändert — hilft aber nicht gegen compose |
+| beide | base64 (`JDJhJDEy…`) | unverändert |
+
+Bei compose halten weder Anführungszeichen noch `$$`-Verdopplung noch `env_file:`
+dagegen. Der Fehler ist still: die Anwendung startet, und das richtige Passwort wird
+abgelehnt, ohne dass irgendwo etwas dazu steht. Deshalb prüft der Konstruktor in
+`web/boot.rb` das Dekodierte gegen die bcrypt-Form und bricht laut ab.
+
 Nicht genommen: `dry-types` für die Konstruktoren. Ein Lambda tut es, und ein Gem für
 drei Prüfungen wäre dieselbe Rechnung wie bei `dry-transformer` oben.
 
