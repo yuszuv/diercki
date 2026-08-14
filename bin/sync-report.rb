@@ -36,7 +36,23 @@ Dir.chdir(ROOT)
 OWNERSHIP = [
   # [pattern, owner, reason in half a sentence]
   [%r{\A_ds/},                          :design_system, 'comes from the design-system project'],
-  [%r{\A(web/|Dockerfile|compose\.yaml|\.dockerignore|bin/)}, :local, 'the UI does not know it'],
+
+  # The design seam of the web application. Both are ordinary files the UI can
+  # open and draw: the stylesheet, and the pattern sheet that shows every
+  # building block once. The ERB templates below stay local and mirror their
+  # class names — one file, one owner, no argument.
+  [%r{\Aweb/(site\.css|Muster\.dc\.html)\z}, :ui, 'the design seam of the web edition'],
+
+  # docker-compose.yml, not compose.yaml: the file is called the former, and the
+  # pattern used to name the latter — so it never matched and fell through to
+  # the default. Same outcome, but for no reason anyone could see.
+  [%r{\A(web/|Dockerfile|docker-compose\.yml|config\.ru|Gemfile|\.ruby-version|\.dockerignore|bin/|test/)},
+   :local, 'the UI does not know it'],
+
+  # Written in the design UI, imported wholesale in d5666a4. Without a rule of
+  # its own it fell through to "when in doubt the clone leads", which is the
+  # wrong side for a file nothing here writes.
+  [%r{\Aatlas/register\.csv\z},         :ui,    'the name register is maintained in the design UI'],
   [%r{\Ahandarbeit/},                   :local, 'only the human writes here'],
   [%r{\Aatlas/geodaten/},               :local, 'needs GDAL and raw data'],
   [%r{\Aatlas/qgis/},                   :local, 'QGIS reads and writes these'],
