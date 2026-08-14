@@ -17,8 +17,8 @@ module Atlas
 
       FIXED = [
         ['Aufbau des Repos', 'README.md'],
-        ['Die Webanwendung', 'WEBANWENDUNG.md'],
-        ['Arbeiten an zwei Orten', 'ZWEI-ORTE.md'],
+        ['Die Webanwendung', 'WEB-APPLICATION.md'],
+        ['Arbeiten an zwei Orten', 'TWO-PLACES.md'],
         ['Verbindliche Regeln', 'CLAUDE.md'],
         ['Einstieg für Agents', 'AGENTS.md'],
         ['Glossar der Fachbegriffe', 'atlas/GLOSSAR.md'],

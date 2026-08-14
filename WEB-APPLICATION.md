@@ -1,16 +1,16 @@
 # The web application
 
-Roda, dry-rb, one Puma process. This file describes how the atlas is served and
-what it is built from. Orientation and the Blätter tables are in `README.md`;
-the sync between the clone and the design UI is in `ZWEI-ORTE.md`.
+Roda, dry-rb, one Puma process. How the atlas is served and what it is built
+from. Orientation, the commands to start it and the Blätter tables are in
+`README.md`; the sync between the clone and the design UI is in `TWO-PLACES.md`.
 
 ## Delivery and preview
 
 The Blätter are static; the application around them is not. A Roda app serves the tree
 and builds the home page, Schaukasten, Blattschau, Namensregister and Werkstatt out of
-it. One process, no nginx. See "Getting it running" above for the commands.
+it. One process, no nginx. The commands are under "Getting it running" in `README.md`.
 
-**Everything is read at runtime.** The sheet list comes from the tables in this README,
+**Everything is read at runtime.** The sheet list comes from the tables in `README.md`,
 the register from `atlas/register.csv`, the Blattschlüssel from `atlas/blaetter.csv`,
 the prose from the `.md` files. A correction to a file is there on the next request;
 there is no derived copy that can go quietly stale. Where something is missing, nothing
@@ -44,23 +44,35 @@ does not exist, and the Blatt would break on a 404. This way an unvendored versi
 loading from the CDN — it degrades to the status quo instead of failing. A source note
 citing a CDN URL in an `href` stays a working citation for the same reason.
 
+Bodies over 512 KB are not even read on the way out. The largest file that carries one
+of the nine is `support.js` at 69 KB; above the limit sit exactly two files, and neither
+can match — `atlas/geodaten/verkehr-daten.js` is map data, and `_ds/_ds_bundle.js` cites
+jsDelivr only for `speech-rule-engine` and `wicked-good-xpath`.
+
 The only real network dependency left is the Overpass call in `Nikolais-Ort.dc.html` — a
 live query that cannot be baked in. Without a network the Blatt draws from
 `atlas/geodaten/friedhof-freiburg.geojson`.
 
-### The path of a request
+## The path of a request
 
-Top to bottom: the hand-maintained files, the one disk access, the readers, the views.
-None of it is generated in advance — every edge is walked while the request runs.
+Top to bottom: the gate, the hand-maintained files, the one disk access, the readers,
+the views. None of it is generated in advance — every edge is walked while the request
+runs.
 
 ```mermaid
 flowchart TB
+  subgraph tor["the gate · before everything"]
+    direction LR
+    AUTH["AuthApp<br/><small>Rodauth · /anmelden /abmelden</small>"]:::g
+    GUARD["Middleware::Guard<br/><small>reads geschuetzt.csv</small>"]:::g
+  end
+
   subgraph quelle["maintained by hand"]
     direction LR
     README[("README.md")]
     REG[("register.csv")]
     BL[("blaetter.csv")]
-    NOE[("nicht-oeffentlich.csv")]
+    GES[("geschuetzt.csv")]
     MD[("quellen/*.md<br/>recherche/*.md")]
   end
 
@@ -87,16 +99,21 @@ flowchart TB
 
   FF{{"offener Fall<br/><small>every Failure, made visible</small>"}}:::f
 
+  AUTH --> GUARD
+  GUARD -->|"not logged in"| AUTH
+  GUARD --> sicht
+  GUARD --> FILES
+
   quelle --> TREE
   TREE --> TR
   TR --> leser
   TREE -.->|"kramdown"| V5
+  X -.->|"which paths"| GUARD
 
   S --> V1 & V2 & V3
   R --> V1 & V3 & V4
   P --> V3 & V4
   W --> V5
-  X -->|"no second address"| V3 & V5
   leser -.->|"Failure"| FF
 
   BLATT[("Kartenblatt<br/><small>unchanged</small>")]
@@ -106,18 +123,21 @@ flowchart TB
 
   classDef r fill:#f7f4ee,stroke:#8b8173
   classDef f fill:#f1e9d8,stroke:#cb5a2a,stroke-width:2px
+  classDef g fill:#e5ddce,stroke:#4a4139
 ```
 
-Three things the picture is meant to show:
+Four things the picture is meant to show:
 
-1. **`Sources::Tree` is the only disk access.** Everything else gets its data from
+1. **The gate comes before the file serving.** Two of the guarded paths are static files;
+   a check inside the routing tree would never see them.
+2. **`Sources::Tree` is the only disk access.** Everything else gets its data from
    there. That is why the remembering sits there too, and not five times beside it.
-2. **Every reader empties into the same outlet for what is missing.** A `Failure` is not
+3. **Every reader empties into the same outlet for what is missing.** A `Failure` is not
    caught and smoothed over; it is drawn.
-3. **The Kartenblatt sits outside.** It passes through the static layer unchanged and is
+4. **The Kartenblatt sits outside.** It passes through the static layer unchanged and is
    only framed by the Blattschau — it hangs off no reader.
 
-### What the application is built from
+## What the application is built from
 
 Roda routes, `dry-system` wires the readers, `dry-monads` brings the `Result`.
 
@@ -129,7 +149,8 @@ value.
 
 The parsers (`web/lib/atlas/transforms.rb`) are plain module functions. `dry-transformer`
 sat there for a while; the reasoning for taking it out is in
-`recherche/entscheidungen-webanwendung.md`.
+`recherche/entscheidungen-webanwendung.md`, together with why `dry-monads` and
+`dry-system` stay.
 
 `web_pipe` was not taken, although its shape fits well: last release November 2021, last
 commit November 2023, and the gemspec pins `rack ~> 2.0`.
@@ -141,23 +162,48 @@ and a second parser in Ruby would be a second place with its own opinion — and
 the already-delivered table without a round trip. Without JavaScript the form filters by
 GET, and every filtering is a shareable address.
 
-### One guard, two lists
+## The gate
 
-The host's Caddy locks four paths behind a password prompt (bmeise,
-`host_vars/paketzentrum.yml`, `basicauth.paths`). It guards **addresses** — and this
-application invents new ones for the same content: `/blatt/<file>` and
-`/werkstatt/<path>`. Without a counter-measure `/werkstatt/recherche/….md` would be the
-full text at an address the Caddy has never heard of.
+A small part of the atlas is not public: what shows a non-public person, or is written
+about one. `web/geschuetzt.csv` lists those paths with a reason each, and is read at
+runtime like every other table here.
 
-Hence `web/nicht-oeffentlich.csv`: what is listed there gets no second address but a
-redirect to the original path, where the prompt lives. The entry stays visible in
-Schaukasten and Werkstatt, marked *nicht öffentlich* — hiding it would be a different
-answer than locking it.
+**Rodauth, mounted as a Roda middleware in front of everything.** Not a branch of the
+routing tree — two of the guarded paths are static files, a deck and a photograph, and
+`Middleware::Files` answers those before Roda ever sees the request. `Atlas::AuthApp`
+owns `/anmelden` and `/abmelden` and puts `rodauth` into the Rack env;
+`Middleware::Guard` reads the list and decides what needs it. Rodauth knows how to
+authenticate and nothing about this atlas; the list is an editorial decision.
+
+A derived address inherits the guard of its content: `/blatt/X` and `/werkstatt/X` are
+locked when `X` is. The entry still appears in Schaukasten and Werkstatt, marked
+*nicht öffentlich* — hiding it would be a different answer than locking it.
+
+**No database file and no volume.** Rodauth needs Sequel and a database, but not a file:
+with only `:login` and `:logout` enabled it never writes. Measured, not assumed — a full
+login and logout cycle issues zero `INSERT`, `UPDATE` or `DELETE`. So the single account
+lives in an in-memory SQLite seeded at boot, the application stays stateless, the image
+immutable and the dev bind mount read-only. The session is a signed cookie, so several
+Puma workers need share nothing.
+
+Three environment values, all required and none defaulted — a fallback secret is worse
+than none, because nothing looks broken while it is in place:
+
+| Variable | What |
+|---|---|
+| `ATLAS_KONTO` | the login name |
+| `ATLAS_PASSWORT_HASH` | `ruby -rbcrypt -e 'print BCrypt::Password.create("…")'` |
+| `ATLAS_SESSION_SECRET` | `ruby -rsecurerandom -e 'print SecureRandom.hex(64)'` |
 
 `Sources::Restricted` **fails closed**: if the list cannot be read, every path counts as
-guarded and the derived layer shuts rather than opens. Every other reader may fall back
-to an empty list; this one may not.
+guarded and the whole derived layer shuts rather than opens. Every other reader in this
+application may fall back to an empty list; this one may not.
 
-**The two lists have to be maintained together.** Error direction as in bmeise: what is
-missing is public, and nothing reports it. `test/web_test.rb` checks that every entry in
-this list really is redirected — not that the list is complete; it cannot check that.
+`test/web_test.rb` checks that every entry in the list really is guarded, that a guarded
+*static* file is guarded too, and that logging in opens them — not that the list is
+complete. It cannot check that, and neither can anything else: what is missing from the
+list is public, and nothing reports it.
+
+The host's Caddy still terminates TLS and routes the domain. Its `basicauth` block for
+this service became redundant with the gate above; removing it is a change in `bmeise`
+and belongs after a deploy that proves the gate works, not before.

@@ -2,9 +2,7 @@
 
 How the clone, the Claude design UI and GitHub stay in step. The rules for who
 owns which artefact live here; `README.md` has the orientation and
-`WEBANWENDUNG.md` the web application.
-
-## Working in two places
+`WEB-APPLICATION.md` the web application.
 
 This project is developed in two places — in the Claude design UI and here in the
 terminal — and lives in a third: `yuszuv/diercki` on GitHub. That works as long as it is
@@ -13,7 +11,7 @@ clear what comes into being where.
 **When in doubt the clone leads.** It has the history, it has the scripts, it is what a
 stranger can clone and build. The UI is the workshop for drawing, not the archive.
 
-### The one asymmetry everything follows from
+## The one asymmetry everything follows from
 
 The atlas project in the UI is an ordinary Claude project, not a design system. It
 **cannot be written to programmatically** — there is no way to move a file changed here
@@ -36,7 +34,7 @@ The division of labour follows from that. Not "sometimes here, sometimes there" 
 | `handarbeit/` | **local, human only** | binary files from QGIS and QField |
 | `_ds/` | **neither** | comes from the Sternprodukt design system and travels along in the export |
 
-### The round trip
+## The round trip
 
 1. **Before a UI session:** commit and push locally. That gives a named state to compare
    against afterwards.
@@ -55,7 +53,7 @@ The division of labour follows from that. Not "sometimes here, sometimes there" 
    below **and** upload the file on the next visit to the UI — otherwise the next export
    silently overwrites it.
 
-### Why not file by file through the tool
+## Why not file by file through the tool
 
 A full comparison through `DesignSync get_file` is the expensive dead end: a 256 KiB cap,
 silent truncation above it, and the detour through a model context normalises invisible
@@ -68,7 +66,7 @@ The tool is right for **the design system** (`_ds/`) — that *is* a design-syst
 and can be addressed in both directions. The path there is lossless because `write_files`
 with `localPath` reads from disk.
 
-### GitHub
+## GitHub
 
 `origin` is the third place and the only one that outlives both. Push after every
 completed round — the clone is the source of truth only for as long as it also lies

@@ -1,8 +1,8 @@
 # DIERCKI — sternprodukt atlas
 
 A world atlas in the manner of the Diercke classic, but of the Sternprodukt kind.
-Blätter on Romania and Brandenburg, a Zeichenerklärung after the atlas model, and a
-QGIS-Kartensatz.
+Blätter on Romania and Brandenburg, a legend after the atlas model, and a QGIS map
+set.
 
 `Inhalt.dc.html` is the same table of contents in the Sternprodukt look — grouped,
 linked, with the notes you need while looking something up. This file stays the
@@ -10,8 +10,10 @@ machine-readable version.
 
 > **A note on language.** Prose here is English; the cartographic and project
 > vocabulary stays German and untranslated — *Blatt*, *Signatur*, *Schummerung*,
-> *Zeichenerklärung*, *Quellenregister*, *belegt / abgeleitet / unbelegt*. That is the
-> rule in `CLAUDE.md`, and a *Signatur* is not a "symbol".
+> *Quellenregister*, *belegt / abgeleitet / unbelegt*. That is the rule in `CLAUDE.md`,
+> and a *Signatur* is not a "symbol". It covers terms that carry cartographic meaning,
+> not every German word in reach: *legend* and *map set* are plain technical vocabulary
+> and get translated. Filenames never do.
 >
 > Two things in this file are **read by the application** and must not be translated:
 > the three headings `## Blätter`, `## Weitere Blätter` and `## Präsentationen`
@@ -142,13 +144,14 @@ bin/                  tools — sync-report.rb compares the clone against the ZI
                       pruefe-blaetter.rb checks the Blattschlüssel against sheet content
 web/                  the web application (Roda, dry-rb) and its design
   app.rb              routes
+  auth.rb             the login: Rodauth as a middleware in front of everything
   boot.rb             container (dry-system), root path, vendor directory
   lib/atlas/          readers, transforms, middleware
   templates/          ERB templates — they mirror the class names of Muster.dc.html
   site.css            design — owned by the design UI
   Muster.dc.html      every building block once — owned by the design UI
   site.js             enhancement: place the Signaturen, filter the Register
-  nicht-oeffentlich.csv  paths that get no second address
+  geschuetzt.csv      paths that require a login
 test/                 minitest + rack-test
 handarbeit/           only the human writes here — QGIS projects, survey GeoPackages
 praesentationen/      decks (pitch, QField how-to) and wireframes
@@ -168,8 +171,8 @@ whoever needs them takes them out of the export.
 
 | File | What |
 |---|---|
-| `WEBANWENDUNG.md` | how the atlas is served, the path of a request, what the application is built from, the Wächter |
-| `ZWEI-ORTE.md` | the sync between this clone and the Claude design UI, and where the two deliberately differ |
+| `WEB-APPLICATION.md` | how the atlas is served, the path of a request, what the application is built from, the Wächter |
+| `TWO-PLACES.md` | the sync between this clone and the Claude design UI, and where the two deliberately differ |
 | `AGENTS.md` | entry point for coding agents |
 | `CLAUDE.md` | the binding rules |
 | `IDEEN.md` | backlog and loose ends |
