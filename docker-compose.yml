@@ -37,6 +37,11 @@ services:
       - "8138:80"
     volumes:
       # Read-only: the preview shows the working tree, it does not write to it.
-      # /opt/vendor and the nginx config stay in the image, outside this mount, so
-      # the preview keeps working without a network.
+      # The application reads on every request, so an edit on disk is live — no
+      # restart, no build step.
+      #
+      # /gems and /opt/vendor stay in the image, outside this mount: the gems are
+      # built for Alpine and the nine vendored libraries must be there even
+      # without a network. BUNDLE_APP_CONFIG in the Dockerfile keeps the host's
+      # .bundle/config from redirecting the gem path into the mount.
       - .:/srv:ro

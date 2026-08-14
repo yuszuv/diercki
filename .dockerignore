@@ -21,6 +21,13 @@ docker-compose.yml
 wip/
 handarbeit/
 skills/
+test/
+
+# Local Ruby state. The gems are installed in the build stage into /gems, and
+# .vendor/ is fetched there too — copying the host's copies in would shadow both
+# and could carry the wrong platform's native extensions.
+.bundle/
+.vendor/
 
 # QA screenshots — except the three a sheet embeds
 screenshots/*
