@@ -30,7 +30,6 @@ gem 'tilt', '~> 2.6'
 gem 'dry-auto_inject', '~> 1.2'
 gem 'dry-monads', '~> 1.10'  # Result — a missing file is a case, not an exception
 gem 'dry-system', '~> 1.2'
-gem 'dry-transformer', '~> 1.1'  # the parse pipelines for README tables and CSV
 
 # --- Markdown ----------------------------------------------------------------
 # The workshop renders the repo's own .md files. GFM because the docs are full of

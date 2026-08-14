@@ -25,7 +25,7 @@ module Atlas
 
       def all
         tree.parse(PATH, :plates) do |csv|
-          Transforms::REGISTER.call(csv).map do |row|
+          Transforms.rows(csv).map do |row|
             Plate.new(nr: Transforms.presence(row[:nr])&.to_i,
                       file: row[:datei].to_s,
                       sources: Transforms.presence(row[:quellen]),

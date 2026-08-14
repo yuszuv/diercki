@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'dry/monads'
-
 module Atlas
   module Sources
     # The workshop: not a sheet, but the scaffolding underneath — source
@@ -12,7 +10,6 @@ module Atlas
     # fixed list, because "Verbindliche Regeln" is a better label for CLAUDE.md
     # than "claude", and that mapping has to live somewhere.
     class Workshop
-      include Dry::Monads[:result]
       include Atlas::Import['sources.tree']
 
       SOURCES_DIR = 'atlas/quellen'
