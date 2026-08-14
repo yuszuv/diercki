@@ -285,13 +285,13 @@ complete. It cannot check that, and neither can anything else: what is missing f
 list is public, and nothing reports it.
 
 The host's Caddy still terminates TLS and routes the domain. Its `basicauth` block for
-this service became redundant with the gate above, and `bmeise` has already dropped it
-(commit `d632fd4`, committed and pushed, **not yet applied**).
+this service became redundant with the gate above and is gone — applied on 14.08.2026,
+checked against the live site: the four guarded paths answer `302 → /anmelden` and carry
+no `WWW-Authenticate`, so it is this application's guard that holds them, and an
+unguarded Blatt still answers 200.
 
-That inverts the old warning. The danger is no longer removing the block too early but
-**deploying too early**: on the host the block is still in place, so nothing is open
-right now — but the moment `make webhost LIMIT=paketzentrum` runs, Caddy is rewritten
-without it. If `ghcr.io/yuszuv/diercki:latest` does not yet carry the gate at that
-point, the old container keeps serving the old tree with no guard at all. The order is
-therefore: merge, wait for the `Image` job to publish, deploy, then the two `curl`
-checks recorded in `inventory/host_vars/paketzentrum.yml`.
+The sequence that got there mattered and is worth keeping in mind for the next such
+swap: merge first, wait for the `Image` job to publish, deploy only then. Deploying
+before the published image carries the gate would have rewritten Caddy without the
+block while the old container kept serving the old tree — a window with no guard at
+all. `recherche/bmeise-nachzuziehen.md` records how it ran.
