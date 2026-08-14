@@ -80,6 +80,15 @@ WORKDIR /srv
 # .dockerignore keeps working material out; what lands here is the tree git knows.
 COPY . /srv
 
+# Which commit this image was built from, answerable at /version.
+#
+# Handed in, because .dockerignore excludes .git. Not derivable from the OCI
+# label either: a label cannot be read from inside a running container, which is
+# where the question gets asked. Last in the file so a new revision invalidates
+# only this layer and not the COPY above it.
+ARG ATLAS_REVISION=""
+ENV ATLAS_REVISION=$ATLAS_REVISION
+
 # One knob for the port, so there is one number to change rather than four.
 # Default 80: the host's Caddy reaches this container as `diercki:80` over the
 # shared external web network (bmeise, host_vars for paketzentrum). Moving it

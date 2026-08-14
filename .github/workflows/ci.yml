@@ -17,10 +17,13 @@ on:
   pull_request:
   workflow_dispatch:
 
-# Two pushes to the same branch: the older run is pointless, stop it.
+# Two pushes to the same branch: the older run is pointless, stop it — but never
+# on main, where a cancelled run leaves that commit without an image and
+# `ATLAS_IMAGE: …:sha-<commit>` then silently cannot be pinned to it. Measured:
+# 55e1128 was cancelled by the merge after it, and no sha-55e1128 exists on ghcr.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
@@ -111,6 +114,9 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name == 'push' }}
+          # What /version answers, and what the deploy compares against.
+          build-args: |
+            ATLAS_REVISION=${{ github.sha }}
           # :latest is what the deploy pulls; the sha tag is what you pin to when
           # you want a named state rather than "whatever main was".
           tags: |
@@ -154,6 +160,11 @@ jobs:
             sleep 1
           done
           docker exec probe wget -qO- http://127.0.0.1/health
+          # Asserted here so broken build-arg wiring fails at the build, not as a
+          # red deploy whose reason is nowhere near the cause.
+          served=$(docker exec probe wget -qO- http://127.0.0.1/version)
+          [ "$served" = "${{ github.sha }}" ] \
+            || { echo "/version says '$served', expected '${{ github.sha }}'"; exit 1; }
           # A Blatt, and the CDN rewriting on it — the one thing that would break
           # silently if the vendored files or the middleware ever came apart.
           docker exec probe wget -qO- http://127.0.0.1/Rumaenien-Physisch.html \

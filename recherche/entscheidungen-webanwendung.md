@@ -175,6 +175,35 @@ abgelehnt, ohne dass irgendwo etwas dazu steht. Deshalb prüft der Konstruktor i
 Nicht genommen: `dry-types` für die Konstruktoren. Ein Lambda tut es, und ein Gem für
 drei Prüfungen wäre dieselbe Rechnung wie bei `dry-transformer` oben.
 
+## `/version`, weil ein Deploy Erfolg melden konnte, ohne etwas zu tun
+
+Nachgetragen am 15.08.2026.
+
+Ein Deploy kann Erfolg melden, ohne etwas auszuliefern — gemessen, nicht befürchtet.
+Die Ursache dafür lag in bmeise und ist dort behoben (Ansibles `omit` ist eine
+Zeichenkette und liest sich als *definiert*, weshalb ein `default('always')` nie griff
+und das Image nie geholt wurde). Hier interessiert die zweite Hälfte: **nichts prüfte,
+welcher Stand ausliefert.**
+
+Die Nachkontrollen, die es gab, konnten das nicht fangen. Sie fragen, ob der Wächter
+hält — und das bleibt wahr, während ein alter Container weiterantwortet. Bemerkt wurde
+es nur, weil eine der Änderungen zufällig auf einer Seite sichtbar war; darauf lässt
+sich nichts bauen. Eine Zusage, die niemand prüft, ist keine Zusage — dieselbe
+Begründung wie beim CI-Schritt, der das veröffentlichte Image zurückzieht und befragt.
+
+`/version` nennt den Commit, aus dem das Image gebaut wurde. Drei Entscheidungen dazu:
+
+- **Als Build-Argument hereingereicht**, nicht hergeleitet. `.dockerignore` schließt
+  `.git` aus, also *kann* das Image es nicht selbst wissen. Das OCI-Label
+  `image.revision` trägt denselben Wert, ist aber aus dem laufenden Container nicht
+  lesbar — und dort wird gefragt.
+- **Ohne Argument antwortet die Route `arbeitsbaum`**, nicht leer und nicht geraten.
+  Ein Wort, das nie eine SHA sein kann, hält den Vergleich ehrlich. Das ist dieselbe
+  Regel wie beim Rest: fehlt etwas, bekommt der Fall eine eigene sichtbare Klasse.
+- **Öffentlich wie `/health`.** Der Commit ist ohnehin öffentlich, Repo und Image auch.
+  Hinter dem Wächter bräuchte der Prüfschritt eine Anmeldung und hätte damit mehr
+  bewegliche Teile als das, was er bewacht.
+
 ## Kein web_pipe
 
 0.16.0 vom 07.11.2021, letzter Commit 15.11.2023, Gemspec auf `main` nagelt

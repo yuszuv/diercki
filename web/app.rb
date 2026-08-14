@@ -56,6 +56,16 @@ module Atlas
         "ok\n"
       end
 
+      # Which commit is serving. bmeise's deploy asks this and fails if it is not
+      # the commit it just checked out. Unset outside a built image, and then it
+      # says so rather than inventing a value — "arbeitsbaum" can never equal a
+      # SHA, which is what keeps the comparison honest.
+      r.get('version') do
+        response['content-type'] = 'text/plain; charset=utf-8'
+        revision = ENV.fetch('ATLAS_REVISION', '')
+        "#{revision.empty? ? 'arbeitsbaum' : revision}\n"
+      end
+
       r.root { page :start }
 
       r.on('blaetter') { r.get(true) { page :sheets, title: 'Blätter' } }
