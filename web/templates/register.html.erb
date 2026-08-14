@@ -1,0 +1,48 @@
+<%
+  alle = register.all
+  treffer = register.filter(query: query, kind: art, status: status)
+  schluessel = plates.by_number
+%>
+<%== kopf('Namensregister',
+          'Wie im gebundenen Band: jeder Name mit dem Blatt, auf dem er steht. Die Spalte ' \
+          '<em>Status</em> gilt dem Eintrag, nicht dem Blatt — sie sagt, ob die Angabe belegt ist.') %>
+
+<% if alle.failure? %>
+  <%== fehlfall(alle, titel: 'Das Register ließ sich nicht lesen') %>
+<% else %>
+
+<%# Ein GET-Formular: jede Filterung ist eine echte, teilbare Adresse und
+    funktioniert ohne JavaScript. site.js filtert die schon gelieferte Tabelle
+    zusätzlich sofort mit — Nachrüstung, keine Voraussetzung. %>
+<form class="filterleiste" method="get" action="/register" data-register-filter>
+  <input type="search" name="q" id="suche" placeholder="Namen suchen …" autocomplete="off" value="<%= query %>">
+  <select name="art" id="art">
+    <option value="">alle Arten</option>
+    <% register.kinds.each do |k| %>
+      <option value="<%= k %>"<%= ' selected' if k == art %>><%= Atlas::Sources::Register::KIND_LABEL.fetch(k, k) %></option>
+    <% end %>
+  </select>
+  <select name="status" id="status">
+    <option value="">alle Belegstatus</option>
+    <% Atlas::Sources::Register::STATUSES.each do |s| %>
+      <option value="<%= s %>"<%= ' selected' if s == status %>><%= s %></option>
+    <% end %>
+  </select>
+  <button class="knopf" type="submit">Filtern</button>
+  <span class="treffer" id="treffer"><%= treffer.value_or([]).size %> von <%= alle.value!.size %></span>
+</form>
+
+<div class="tabelle-rahmen"><table class="register" id="registertabelle">
+  <thead><tr><th>Name</th><th>Art</th><th>Blätter</th><th>Feld</th><th>Wert</th><th>Status</th></tr></thead>
+  <tbody>
+    <% treffer.value_or([]).each do |e| %>
+      <%== render('_registerzeile', locals: { e: e, blattspalte: true, schluessel: schluessel }) %>
+    <% end %>
+  </tbody>
+</table></div>
+
+<% if treffer.value_or([]).empty? %>
+  <p class="abschnitt-text">Kein Eintrag passt auf diese Filter.</p>
+<% end %>
+
+<% end %>

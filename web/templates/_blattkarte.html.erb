@@ -1,0 +1,17 @@
+<%# Eine Karte im Schaukasten.
+    Die Signatur bleibt leer und wird vom Browser gesetzt: der Signaturenkatalog
+    ist ein JavaScript-Modul, das in der Design-Oberfläche gezeichnet wird, und
+    der Browser ist sein natürlicher Leser. Ein zweiter Parser in Ruby wäre eine
+    zweite Stelle, die anderer Meinung sein kann. %>
+<% regel = restricted.rule_for("/#{blatt.file}") %>
+<a class="blatt" href="<%= regel ? "/#{blatt.file}" : "/blatt/#{blatt.file}" %>">
+  <span class="blatt-sig" data-signatur="<%= blatt.slug %>"></span>
+  <span class="blatt-text">
+    <span class="blatt-kopf">
+      <span class="blatt-titel"><%= blatt.title %><% if regel %>
+        <span class="verschlossen">nicht öffentlich</span><% end %></span>
+      <span class="blatt-datei"><%= blatt.file %></span>
+    </span>
+    <span class="blatt-beschreibung"><%= blatt.text %></span>
+  </span>
+</a>

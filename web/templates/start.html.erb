@@ -1,0 +1,42 @@
+<%
+  blaetter = sheets.cartographic.value_or([])
+  eintraege = register.all.value_or([])
+%>
+<%== kopf('Sternprodukt-Atlas',
+          'Ein Weltatlas nach dem Vorbild des Diercke-Klassikers, gezeichnet mit D3 im Browser. ' \
+          'Blätter zu Rumänien und Brandenburg, eine Zeichenerklärung nach Atlas-Vorbild und der ' \
+          'QGIS-Kartensatz dahinter.') %>
+
+<div class="straenge">
+  <a class="strang" href="/blaetter">
+    <span class="strang-nr">I</span>
+    <span class="strang-titel">Blätter</span>
+    <span class="strang-text">Der Schaukasten. <span class="zahl"><%= blaetter.size %></span> Blätter,
+      jedes eine eigenständige Datei, jedes mit der Signatur, die für sein Thema steht.</span>
+  </a>
+  <a class="strang" href="/register">
+    <span class="strang-nr">II</span>
+    <span class="strang-titel">Register</span>
+    <span class="strang-text">Das Nachschlagewerk. <span class="zahl"><%= eintraege.size %></span> Namen —
+      Orte, Gipfel, Flüsse, Strecken, Kreise — jeder mit seinem Blatt und seinem Belegstatus.</span>
+  </a>
+  <a class="strang" href="/werkstatt">
+    <span class="strang-nr">III</span>
+    <span class="strang-titel">Werkstatt</span>
+    <span class="strang-text">Das Gerüst darunter: Quellenregister, Recherche-Notizen, Glossar,
+      die Regeln, nach denen gezeichnet wird.</span>
+  </a>
+</div>
+
+<div class="zufall-block">
+  <p>Wer nichts Bestimmtes sucht, fängt irgendwo an.</p>
+  <a class="knopf" href="/zufall">Zufälliger Einstieg</a>
+</div>
+
+<div class="hinweis">
+  <p><b>Was dieser Atlas anders macht:</b> Jede Zahl auf einer Karte hat eine Zeile im
+  Quellenregister, mit einem von drei Status — <em>belegt</em>, <em>abgeleitet</em>,
+  <em>unbelegt</em>. Unbelegtes wird auf dem Blatt als solches gekennzeichnet, statt
+  still mitzulaufen. Wo eine Zuordnung fehlt, wird sie nicht geraten: der Fall bekommt
+  eine eigene, sichtbare Klasse.</p>
+</div>

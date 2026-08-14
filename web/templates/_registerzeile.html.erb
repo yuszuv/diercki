@@ -1,0 +1,25 @@
+<%# Eine Zeile des Namensregisters. Dieselbe Zeile im Register und im Beiblatt
+    eines Blattes — dort ohne die Spalte "Blätter", weil man das Blatt gerade
+    ansieht. Die data-Attribute trägt der Sofortfilter in site.js; sie kosten
+    nichts, wo er nicht greift. %>
+<tr data-name="<%= e.name.downcase %> <%= e.variant.to_s.downcase %>"
+    data-art="<%= e.kind %>" data-status="<%= e.status %>">
+  <td class="z-name"><b><%= e.name %></b><% if e.variant %> <span class="variante"><%= e.variant %></span><% end %></td>
+  <td class="z-art"><%= e.kind_label %></td>
+  <% if blattspalte %>
+    <td class="z-blatt mono"><%
+      %><% if e.numbers.empty? %>—<% end %><%
+      %><% e.numbers.each_with_index do |nr, i| %><%
+        %><% blatt = schluessel[nr] %><%
+        %><% if i.positive? %> <% end %><%
+        %><% if blatt %><a href="/blatt/<%= blatt.file %>" title="<%= blatt.file %>"><%= nr %></a><%
+        %><% else %><span class="offen" title="atlas/blaetter.csv ordnet dieser Nummer keine Datei zu"><%= nr %></span><% end %><%
+      %><% end %></td>
+  <% end %>
+  <td class="z-feld mono"><% if e.field %><%= e.field %><% elsif e.field_open? %><span class="offen">Feld offen</span><% end %></td>
+  <td class="z-wert"><%= e.value %></td>
+  <td class="z-status"><span class="status status-<%= e.status %>"><%= e.status %></span></td>
+</tr>
+<% if e.note %>
+  <tr class="anmerkung"><td colspan="<%= blattspalte ? 6 : 5 %>"><%= e.note %></td></tr>
+<% end %>

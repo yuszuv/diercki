@@ -1,0 +1,52 @@
+<%
+  alle = sheets.all
+  offen = sheets.open_cases
+%>
+<%== kopf('Blätter',
+          'Jedes Blatt ist eine eigenständige Datei und öffnet für sich. Die Liste kommt aus den ' \
+          'Blätter-Tabellen der README — sie ist die eine Stelle, an der sie gepflegt wird.') %>
+
+<% if alle.failure? %>
+  <%== fehlfall(alle, titel: 'Die Blattliste ließ sich nicht lesen') %>
+<% else %>
+  <div class="kasten">
+    <% alle.value!.reject(&:deck?).each do |blatt| %>
+      <%== render('_blattkarte', locals: { blatt: blatt }) %>
+    <% end %>
+  </div>
+
+  <h2>Präsentationen und Vorlagen</h2>
+  <div class="kasten schmal">
+    <% alle.value!.select(&:deck?).each do |blatt| %>
+      <%== render('_blattkarte', locals: { blatt: blatt }) %>
+    <% end %>
+  </div>
+<% end %>
+
+<%# Beide Richtungen sind Doku-Fehler und beide bleiben sichtbar. %>
+<% unless offen[:without_entry].empty? %>
+  <div class="fehlfall">
+    <b>Ohne Eintrag in der README:</b>
+    <%== offen[:without_entry].map { |n| %(<a href="/#{h n}">#{h n}</a>) }.join(' · ') %>
+    <br><span class="fehlfall-grund">Diese Dateien liegen im Wurzelverzeichnis, stehen aber in
+    keiner Tabelle. Sie verschwinden hier nicht — sie stehen als offener Fall.</span>
+  </div>
+<% end %>
+
+<% unless offen[:without_file].empty? %>
+  <div class="fehlfall">
+    <b>In der README, aber nicht vorhanden:</b>
+    <%= offen[:without_file].map(&:file).join(' · ') %>
+    <br><span class="fehlfall-grund">Die Tabelle nennt Dateien, die es nicht gibt.</span>
+  </div>
+<% end %>
+
+<% unless offen[:without_number].empty? %>
+  <div class="fehlfall">
+    <b>Blattnummern ohne Datei:</b>
+    <%= offen[:without_number].join(' · ') %>
+    <br><span class="fehlfall-grund">Das Namensregister verweist auf diese Nummern des gebundenen
+    Bandes, <code>atlas/blaetter.csv</code> ordnet ihnen keine Datei zu. Bis dahin bleibt der
+    Verweis eine bloße Zahl — geraten wird nicht.</span>
+  </div>
+<% end %>

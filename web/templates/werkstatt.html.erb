@@ -1,0 +1,50 @@
+<%
+  quellen = workshop.source_registers
+  notizen = workshop.notes
+  kataloge = workshop.catalogues
+
+  # Wo ein Dokument nicht öffentlich ist, führt der Verweis auf den Originalpfad
+  # und nicht auf die gerenderte Fassung: dort sitzt die Passwortabfrage. Der
+  # Eintrag verschwindet nicht — verschweigen wäre eine andere Auskunft als
+  # verschließen.
+  liste = ->(dokumente) do
+    dokumente.map do |d|
+      regel = restricted.rule_for("/#{d.path}")
+      ziel = regel ? "/#{d.path}" : "/werkstatt/#{d.path}"
+      %(<a class="dok" href="#{h ziel}">) +
+        %(<span class="dok-titel">#{h d.title}#{regel ? ' <span class="verschlossen">nicht öffentlich</span>' : ''}</span>) +
+        %(<span class="dok-pfad">#{h(regel ? regel.reason : d.path)}</span></a>)
+    end.join
+  end
+%>
+<%== kopf('Werkstatt',
+          'Kein Blatt, sondern das Gerüst darunter — Register, Notizen, Regeln. Alles wird aus den ' \
+          'Dateien im Repo gelesen; was hier steht, ist der aktuelle Stand und keine Kopie.') %>
+
+<h2>Quellenregister</h2>
+<p class="abschnitt-text">Für jedes Blatt eine Datei. Jede Zahl, die auf einer Karte steht,
+hat hier eine Zeile mit Status.</p>
+<% if quellen.failure? %>
+  <%== fehlfall(quellen, titel: 'Das Quellenregister ließ sich nicht auflisten') %>
+<% else %>
+  <div class="doks"><%== liste.call(quellen.value!) %></div>
+<% end %>
+
+<h2>Recherche und Entscheidungen</h2>
+<p class="abschnitt-text">Festgehaltenes aus dem Bauen — warum etwas so ist, wie es ist.</p>
+<% if notizen.failure? %>
+  <%== fehlfall(notizen, titel: 'Die Notizen ließen sich nicht auflisten') %>
+<% else %>
+  <div class="doks"><%== liste.call(notizen.value!) %></div>
+<% end %>
+
+<h2>Kataloge, Regeln, Nachschlagen</h2>
+<div class="doks"><%== liste.call(kataloge[:present]) %></div>
+<% unless kataloge[:absent].empty? %>
+  <div class="fehlfall">
+    <b>Verzeichnet, aber nicht vorhanden:</b>
+    <%= kataloge[:absent].join(' · ') %>
+    <br><span class="fehlfall-grund">Diese Werkstatt-Einträge zeigen auf Dateien, die es nicht
+    gibt — umbenannt oder gelöscht, ohne den Verweis nachzuziehen.</span>
+  </div>
+<% end %>

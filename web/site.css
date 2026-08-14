@@ -142,6 +142,9 @@
     text-wrap: pretty;
   }
 
+  /* Trägt sowohl <button> als auch <a> — der Zufallseinstieg ist ein Verweis
+     geworden, damit er ohne JavaScript funktioniert und ein Ziel hat, das man
+     weitergeben kann. */
   .knopf {
     font: 500 13px/1 var(--font-mono);
     letter-spacing: .06em;
@@ -151,6 +154,8 @@
     border-radius: var(--radius-none);
     padding: 9px 16px;
     cursor: pointer;
+    display: inline-block;
+    text-decoration: none;
 
     &:hover { background: var(--surface-muted); }
     &:focus-visible { outline: 2px solid var(--border-emphasis); outline-offset: 2px; }
@@ -291,6 +296,96 @@
 
     .fehlfall-grund { color: var(--text-muted); font-size: 14px; }
   }
+
+  /* Nicht öffentlich: der Eintrag bleibt sichtbar, der Verweis führt auf den
+     Originalpfad, wo die Passwortabfrage sitzt. Verschweigen wäre eine andere
+     Auskunft als verschließen. */
+  .verschlossen {
+    font: 500 10px/1 var(--font-mono);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border-hairline);
+    padding: 3px 6px;
+    white-space: nowrap;
+    vertical-align: 1px;
+  }
+
+  /* ---- Blattschau: das gerahmte Blatt ----------------------------------- */
+  /* Das Blatt selbst bleibt unangetastet und kommt im Rahmen aus dem
+     Wurzelverzeichnis. Drumherum steht, was bisher an drei Stellen lag: der Ort
+     im Band, das Quellenregister, die Namen. */
+
+  .blattschau-kopf {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-quarter) var(--spacing-half);
+    margin-block-start: var(--spacing-unit);
+
+    & h1 { margin: 0; flex: 1 1 auto; }
+    & .knopf { flex: 0 0 auto; align-self: center; }
+  }
+
+  /* Ein Kartenblatt ist breiter als eine Lesespalte. Der Rahmen bricht deshalb
+     aus der Spalte aus — zentriert über negative Ränder, nicht über eine zweite
+     Spaltenbreite, damit Kopf und Beiblatt in der Leseachse bleiben. */
+  .blattrahmen {
+    --rahmen: min(1180px, 100cqi - 2 * var(--page-gutter));
+    inline-size: var(--rahmen);
+    margin-inline: calc((100% - var(--rahmen)) / 2);
+    margin-block: var(--spacing-unit);
+    border: var(--border-frame);
+    background: var(--paper);
+
+    & iframe {
+      display: block;
+      inline-size: 100%;
+      block-size: min(78vh, calc(var(--rahmen) * 0.72));
+      border: 0;
+    }
+  }
+
+  .beiblatt {
+    display: grid;
+    gap: var(--spacing-unit);
+
+    & h2 {
+      font-size: 19px;
+      margin-block: 0 var(--spacing-quarter);
+      padding-block-end: var(--spacing-quarter);
+      border-block-end: 1px solid var(--border-hairline);
+    }
+  }
+
+  .blattnummer {
+    font: 500 15px/1.4 var(--font-mono);
+    letter-spacing: .04em;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-quarter);
+    margin-block: 0;
+  }
+
+  /* Das Quellenregister eines Blattes ist ein Beitext, kein Hauptsatz: eine
+     Stufe kleiner, und seine Überschriften tragen keine eigene Linie mehr —
+     die trägt schon das Beiblatt. */
+  .prosa-schmal {
+    font-size: 15px;
+    margin-block-start: 0;
+
+    & :is(h1, h2) {
+      font-size: 17px;
+      border-block-start: 0;
+      padding-block-start: 0;
+      margin-block-start: var(--spacing-half);
+    }
+    & h3 { font-size: 15px; }
+  }
+
+  /* Bewusst einspaltig, auch wenn Platz wäre: die vier Teile bauen aufeinander
+     auf — wo im Band, woher die Zahlen, welche Namen, wo weiterlesen. Zwei
+     Spalten würden diese Reihenfolge zu einer Anordnung machen. */
 
   /* ---- Register -------------------------------------------------------- */
 

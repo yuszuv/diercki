@@ -1,0 +1,9 @@
+<%# Ein offener Fall, sichtbar gemacht.
+    Die Regel des Projekts: wo eine Zuordnung fehlt, wird sie nicht geraten —
+    der Fall bekommt eine eigene Klasse. Das hier ist diese Klasse. Jeder
+    Failure aus den Readern landet hier, mit Grund und Pfad im Klartext. %>
+<div class="fehlfall">
+  <b><%= titel %></b>
+  <% if pfad %> <code><%= pfad %></code><% end %>
+  <br><span class="fehlfall-grund"><%= grund %></span>
+</div>

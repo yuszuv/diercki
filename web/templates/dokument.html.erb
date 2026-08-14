@@ -1,0 +1,18 @@
+<div class="dokument-kopf">
+  <a class="zurueck" href="/werkstatt">← Werkstatt</a>
+  <span class="dok-pfad mono"><%= pfad %></span>
+</div>
+
+<% if gliederung.length > 2 %>
+  <nav class="gliederung">
+    <div class="gliederung-titel">Auf dieser Seite</div>
+    <% gliederung.each do |h| %>
+      <a href="#<%= h.id %>" class="ebene-<%= h.level %>"><%= h.text %></a>
+    <% end %>
+  </nav>
+<% end %>
+
+<%# Der Markdown-Körper kommt gerendert aus kramdown und geht ungeschützt
+    hinaus. Gelesen wird nur aus dem eigenen Repo, und der Pfad ist auf
+    .md-Dateien innerhalb des Baums eingegrenzt (Sources::Tree). %>
+<article class="prosa"><%== html %></article>
