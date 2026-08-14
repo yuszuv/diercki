@@ -32,66 +32,23 @@ module Atlas
   # Several Puma workers each get their own copy — identical, and never written
   # to. The session lives in a signed cookie, so nothing needs sharing.
   module Auth
-    # Required, never defaulted. A fallback secret is worse than none, because
-    # nothing looks broken while it is in place.
-    def self.env!(name)
-      ENV.fetch(name) do
-        abort "#{name} fehlt. Ohne diese Angabe startet der Atlas nicht — " \
-              'siehe README, Abschnitt „Getting it running".'
-      end
-    end
-
-    # The password hash travels base64-encoded, and this is not decoration.
-    #
-    # A bcrypt hash is "$2a$12$…" — three fields separated by dollar signs. Docker
-    # Compose interpolates ${…} in every value it reads, including the ones in a
-    # .env file, and no quoting or $$-doubling stops it there. Measured: the hash
-    # "$2a$12$KDvI6RuYis…/qxuoa" arrives inside the container as "a2/qxuoa".
-    #
-    # That failure is silent. The application would start, and the correct
-    # password would simply be rejected. Base64 has no dollar signs, so nothing
-    # on the way in can chew on it — and the check below turns a wrong value into
-    # a refusal to start instead of a login that never works.
-    # %r{} rather than //: the character class holds a slash, which would end a
-    # slash-delimited literal right there.
-    BCRYPT = %r{\A\$2[aby]\$\d\d\$[./A-Za-z0-9]{53}\z}
-
-    def self.password_hash
-      raw = env!('ATLAS_PASSWORT_HASH')
-      # unpack1('m0') is strict base64 and comes with core Ruby — base64 stopped
-      # being a default gem in 3.4, and this needs no gem at all.
-      hash = begin
-        raw.unpack1('m0')
-      rescue ArgumentError
-        abort_hash('ist kein gültiges Base64')
-      end
-
-      abort_hash('ergibt dekodiert keinen bcrypt-Hash') unless hash.match?(BCRYPT)
-      hash
-    end
-
-    def self.abort_hash(what)
-      abort <<~TEXT
-        ATLAS_PASSWORT_HASH #{what}.
-
-        Erwartet wird der bcrypt-Hash, base64-kodiert. Erzeugen mit:
-
-          ruby -rbcrypt -e 'print [BCrypt::Password.create("DEIN PASSWORT")].pack("m0")'
-
-        Base64, weil docker compose in jedem Wert ${…} auflöst — auch in der
-        .env — und ein bcrypt-Hash aus $-Feldern besteht. Roh übergeben käme er
-        verstümmelt an, und das Passwort würde stillschweigend nicht mehr passen.
-      TEXT
-    end
-
+    # The three values come from the container's settings provider, declared and
+    # checked in web/boot.rb — including why the hash travels base64 and what
+    # happens to it if it does not. They are read here, at class load time, which
+    # is earlier than Container.finalize! and works on purpose: an unfinalized
+    # dry-system container resolves lazily and starts the provider on the way.
     def self.database
+      settings = Atlas.settings
+
       db = Sequel.sqlite
       db.create_table(:accounts) do
         primary_key :id
         String :email, null: false, unique: true
         String :password_hash, null: false
       end
-      db[:accounts].insert(email: env!('ATLAS_KONTO'), password_hash: password_hash)
+      # Already decoded and checked against the bcrypt shape by the constructor.
+      db[:accounts].insert(email: settings.atlas_konto,
+                           password_hash: settings.atlas_passwort_hash)
       db
     end
   end
@@ -102,8 +59,11 @@ module Atlas
     DB = Auth.database
 
     plugin :middleware
+    # A String, and it has to be one here: Roda checks the type and the length in
+    # the plugin's own configure step, so a callable that would defer the read is
+    # refused outright. Nothing needs deferring — see Auth.database above.
     plugin :sessions,
-           secret: Auth.env!('ATLAS_SESSION_SECRET'),
+           secret: Atlas.settings.atlas_session_secret,
            key: 'atlas.sitzung'
     plugin :render,
            views: File.join(__dir__, 'templates'),
