@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><%= [@titel, 'Sternprodukt-Atlas'].compact.join(' · ') %></title>
+<title><%= [@title, 'Sternprodukt-Atlas'].compact.join(' · ') %></title>
 <meta name="description" content="Ein Weltatlas nach dem Vorbild des Diercke-Klassikers, im Sternprodukt-Look gebaut — Blätter, Namensregister und die Werkstatt dahinter.">
 
 <!-- Das gebundene Design-System liefert Schrift, Farbe und Maße. Keine eigenen
@@ -23,8 +23,9 @@
     <span>Sternprodukt&#8202;·&#8202;Atlas</span>
   </a>
   <nav class="nav">
-    <% [['/blaetter', 'Blätter'], ['/register', 'Register'], ['/werkstatt', 'Werkstatt']].each do |pfad, name| %>
-      <a href="<%= pfad %>"<%= ' class="aktiv"' if request.path.start_with?(pfad) %>><%= name %></a>
+    <%# The routes stay German: they are addresses people read and share. %>
+    <% [['/blaetter', 'Blätter'], ['/register', 'Register'], ['/werkstatt', 'Werkstatt']].each do |path, name| %>
+      <a href="<%= path %>"<%= ' class="aktiv"' if request.path.start_with?(path) %>><%= name %></a>
     <% end %>
   </nav>
 </header>

@@ -1,23 +1,33 @@
 <%
-  blaetter = sheets.cartographic.value_or([])
-  eintraege = register.all.value_or([])
+  sheet_list = sheets.cartographic
+  register_entries = register.all
 %>
-<%== kopf('Sternprodukt-Atlas',
-          'Ein Weltatlas nach dem Vorbild des Diercke-Klassikers, gezeichnet mit D3 im Browser. ' \
-          'Blätter zu Rumänien und Brandenburg, eine Zeichenerklärung nach Atlas-Vorbild und der ' \
-          'QGIS-Kartensatz dahinter.') %>
+<%== heading('Sternprodukt-Atlas',
+             'Ein Weltatlas nach dem Vorbild des Diercke-Klassikers, gezeichnet mit D3 im Browser. ' \
+             'Blätter zu Rumänien und Brandenburg, eine Zeichenerklärung nach Atlas-Vorbild und der ' \
+             'QGIS-Kartensatz dahinter.') %>
+
+<%# Kein value_or hier. Stünde bei einem Lesefehler still eine 0 in der Kachel,
+    wäre das eine glatte Auskunft über die Datenlage — genau das, was die Regel
+    verbietet. Also entweder die Zahl oder der sichtbare Fall. %>
+<% if sheet_list.failure? || register_entries.failure? %>
+  <%== open_case(sheet_list.failure? ? sheet_list : register_entries,
+                 title: 'Die Übersicht ließ sich nicht zusammenstellen') %>
+<% end %>
 
 <div class="straenge">
   <a class="strang" href="/blaetter">
     <span class="strang-nr">I</span>
     <span class="strang-titel">Blätter</span>
-    <span class="strang-text">Der Schaukasten. <span class="zahl"><%= blaetter.size %></span> Blätter,
+    <span class="strang-text">Der Schaukasten.
+      <% if sheet_list.success? %><span class="zahl"><%= sheet_list.value!.size %></span> Blätter,<% end %>
       jedes eine eigenständige Datei, jedes mit der Signatur, die für sein Thema steht.</span>
   </a>
   <a class="strang" href="/register">
     <span class="strang-nr">II</span>
     <span class="strang-titel">Register</span>
-    <span class="strang-text">Das Nachschlagewerk. <span class="zahl"><%= eintraege.size %></span> Namen —
+    <span class="strang-text">Das Nachschlagewerk.
+      <% if register_entries.success? %><span class="zahl"><%= register_entries.value!.size %></span> Namen —<% end %>
       Orte, Gipfel, Flüsse, Strecken, Kreise — jeder mit seinem Blatt und seinem Belegstatus.</span>
   </a>
   <a class="strang" href="/werkstatt">
@@ -26,11 +36,6 @@
     <span class="strang-text">Das Gerüst darunter: Quellenregister, Recherche-Notizen, Glossar,
       die Regeln, nach denen gezeichnet wird.</span>
   </a>
-</div>
-
-<div class="zufall-block">
-  <p>Wer nichts Bestimmtes sucht, fängt irgendwo an.</p>
-  <a class="knopf" href="/zufall">Zufälliger Einstieg</a>
 </div>
 
 <div class="hinweis">

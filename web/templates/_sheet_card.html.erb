@@ -1,0 +1,17 @@
+<%# One card in the Schaukasten.
+    The Signatur slot stays empty and is filled by the browser: the
+    Signaturenkatalog is a JavaScript module drawn in the design UI, and the
+    browser is its natural reader. A second parser in Ruby would be a second
+    place that can disagree with the first. %>
+<% rule = restricted.rule_for("/#{sheet.file}") %>
+<a class="blatt" href="<%= rule ? "/#{sheet.file}" : "/blatt/#{sheet.file}" %>">
+  <span class="blatt-sig" data-signatur="<%= sheet.slug %>"></span>
+  <span class="blatt-text">
+    <span class="blatt-kopf">
+      <span class="blatt-titel"><%= sheet.title %><% if rule %>
+        <span class="verschlossen">nicht öffentlich</span><% end %></span>
+      <span class="blatt-datei"><%= sheet.file %></span>
+    </span>
+    <span class="blatt-beschreibung"><%= sheet.text %></span>
+  </span>
+</a>

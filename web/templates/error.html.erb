@@ -1,0 +1,9 @@
+<%# Only a bug in the code lands here. A missing file travels as a Failure and
+    never reaches this point — it has a visible class of its own. %>
+<%== heading('Etwas ist schiefgegangen',
+             'Das ist kein offener Fall in den Daten, sondern ein Fehler in dieser Anwendung.') %>
+<div class="fehlfall">
+  <b><%= error.class %></b>
+  <br><span class="fehlfall-grund"><%= error.message %></span>
+</div>
+<p><a href="/">zurück zur Startseite</a></p>

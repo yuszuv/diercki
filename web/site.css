@@ -218,16 +218,6 @@
     }
   }
 
-  .zufall-block {
-    margin-block-start: var(--spacing-unit);
-    display: flex;
-    align-items: baseline;
-    gap: var(--spacing-half);
-    flex-wrap: wrap;
-
-    & p { margin: 0; color: var(--text-muted); font-style: italic; }
-  }
-
   .hinweis {
     margin-block-start: var(--spacing-unit);
     border-inline-start: 2px solid var(--border-hairline);

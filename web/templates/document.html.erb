@@ -1,18 +1,18 @@
 <div class="dokument-kopf">
   <a class="zurueck" href="/werkstatt">← Werkstatt</a>
-  <span class="dok-pfad mono"><%= pfad %></span>
+  <span class="dok-pfad mono"><%= path %></span>
 </div>
 
-<% if gliederung.length > 2 %>
+<% if outline.length > 2 %>
   <nav class="gliederung">
     <div class="gliederung-titel">Auf dieser Seite</div>
-    <% gliederung.each do |h| %>
+    <% outline.each do |h| %>
       <a href="#<%= h.id %>" class="ebene-<%= h.level %>"><%= h.text %></a>
     <% end %>
   </nav>
 <% end %>
 
-<%# Der Markdown-Körper kommt gerendert aus kramdown und geht ungeschützt
-    hinaus. Gelesen wird nur aus dem eigenen Repo, und der Pfad ist auf
-    .md-Dateien innerhalb des Baums eingegrenzt (Sources::Tree). %>
+<%# The markdown body comes rendered from kramdown and goes out unescaped. Only
+    files inside this repo are ever read, and Sources::Tree confines the path to
+    .md files within the tree. %>
 <article class="prosa"><%== html %></article>

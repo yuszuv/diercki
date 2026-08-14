@@ -1,9 +1,0 @@
-<%# Hier landet nur, was ein Fehler im Code ist. Eine fehlende Datei reist als
-    Failure und kommt nie hier an — sie hat ihre eigene, sichtbare Klasse. %>
-<%== kopf('Etwas ist schiefgegangen',
-          'Das ist kein offener Fall in den Daten, sondern ein Fehler in dieser Anwendung.') %>
-<div class="fehlfall">
-  <b><%= fehler.class %></b>
-  <br><span class="fehlfall-grund"><%= fehler.message %></span>
-</div>
-<p><a href="/">zurück zur Startseite</a></p>

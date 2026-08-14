@@ -1,0 +1,49 @@
+<%
+  source_registers = workshop.source_registers
+  notes = workshop.notes
+  catalogues = workshop.catalogues
+
+  # Where a document is not public the link goes to the original path rather
+  # than the rendered view: that is where the password prompt sits. The entry
+  # does not disappear — hiding it would be a different answer than locking it.
+  list = ->(documents) do
+    documents.map do |doc|
+      rule = restricted.rule_for("/#{doc.path}")
+      target = rule ? "/#{doc.path}" : "/werkstatt/#{doc.path}"
+      %(<a class="dok" href="#{h target}">) +
+        %(<span class="dok-titel">#{h doc.title}#{rule ? ' <span class="verschlossen">nicht öffentlich</span>' : ''}</span>) +
+        %(<span class="dok-pfad">#{h(rule ? rule.reason : doc.path)}</span></a>)
+    end.join
+  end
+%>
+<%== heading('Werkstatt',
+             'Kein Blatt, sondern das Gerüst darunter — Register, Notizen, Regeln. Alles wird aus den ' \
+             'Dateien im Repo gelesen; was hier steht, ist der aktuelle Stand und keine Kopie.') %>
+
+<h2>Quellenregister</h2>
+<p class="abschnitt-text">Für jedes Blatt eine Datei. Jede Zahl, die auf einer Karte steht,
+hat hier eine Zeile mit Status.</p>
+<% if source_registers.failure? %>
+  <%== open_case(source_registers, title: 'Das Quellenregister ließ sich nicht auflisten') %>
+<% else %>
+  <div class="doks"><%== list.call(source_registers.value!) %></div>
+<% end %>
+
+<h2>Recherche und Entscheidungen</h2>
+<p class="abschnitt-text">Festgehaltenes aus dem Bauen — warum etwas so ist, wie es ist.</p>
+<% if notes.failure? %>
+  <%== open_case(notes, title: 'Die Notizen ließen sich nicht auflisten') %>
+<% else %>
+  <div class="doks"><%== list.call(notes.value!) %></div>
+<% end %>
+
+<h2>Kataloge, Regeln, Nachschlagen</h2>
+<div class="doks"><%== list.call(catalogues[:present]) %></div>
+<% unless catalogues[:absent].empty? %>
+  <div class="fehlfall">
+    <b>Verzeichnet, aber nicht vorhanden:</b>
+    <%= catalogues[:absent].join(' · ') %>
+    <br><span class="fehlfall-grund">Diese Werkstatt-Einträge zeigen auf Dateien, die es nicht
+    gibt — umbenannt oder gelöscht, ohne den Verweis nachzuziehen.</span>
+  </div>
+<% end %>
