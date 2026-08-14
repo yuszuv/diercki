@@ -12,6 +12,24 @@ Die verbindlichen Projekt-Regeln stehen in `CLAUDE.md` — dieses Blatt doppelt 
   beides zusammen. Die ERB-Vorlagen unter `web/templates/` spiegeln die
   Klassennamen des Musterblatts
 
+## Sprache
+- **Commit-Messages englisch.** Kartographisches Fachvokabular bleibt darin deutsch
+  und unübersetzt: *Blatt*, *Signatur*, *Schummerung*, *Quellenregister*,
+  *belegt / abgeleitet / unbelegt*
+- **Doku dieses Repos:** englische Prosa, deutsches Fachvokabular. Die Regel greift
+  nur bei Begriffen, die Bedeutung verlieren — *Zeichenerklärung* und *Kartensatz*
+  sind technische Allerweltswörter und dürfen *legend* und *map set* heißen
+- **Code unter `web/`:** Bezeichner und Kommentare englisch; sichtbare Zeichenketten,
+  CSS-Klassen, Routen und CSV-Spaltennamen deutsch
+- **Doku des Design-Systems (`_ds/**`) ist deutsch — Vorgabe, kein Altbestand.**
+  Nicht mitübersetzen, wenn dieses Repo seine eigene Doku auf Englisch führt: sie ist
+  Marken- und CI-Material, geschrieben in genau der Stimme, die sie vorschreibt. Und
+  `_ds/` wird ohnehin nie angefasst — eine Änderung dort wäre beim nächsten Abgleich
+  Drift
+- **Dateinamen der Blätter bleiben, wie sie sind** (`Zeichenerklaerung.dc.html`,
+  `QGIS-Kartensatz.dc.html`), ebenso die drei vom Programm gelesenen Überschriften in
+  der `README.md`
+
 ## Die Webanwendung
 Roda + dry-system + dry-monads, ein Puma-Prozess, kein nginx.
 Start: `bundle exec rackup` (9292), Tests: `bundle exec ruby -Itest test/web_test.rb`.
