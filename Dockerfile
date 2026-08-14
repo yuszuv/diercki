@@ -18,7 +18,8 @@
 FROM ruby:3.4-alpine AS build
 
 # build-base for puma's nio4r extension; the rest of the stack is pure Ruby.
-RUN apk add --no-cache build-base
+# sqlite-dev for the sqlite3 gem, build-base for puma's nio4r extension.
+RUN apk add --no-cache build-base sqlite-dev
 
 WORKDIR /build
 # BUNDLE_APP_CONFIG points away from the app root on purpose: the dev preview
@@ -47,8 +48,19 @@ RUN ruby bin/vendor.rb /opt/vendor
 # ---------------------------------------------------------------------------
 FROM ruby:3.4-alpine
 
-RUN apk add --no-cache tzdata wget
+RUN apk add --no-cache tzdata wget sqlite-libs
 
+# The login needs three values and refuses to start without them — a default
+# secret is worse than none, because nothing looks broken while it is in place.
+# They come from the deploy (bmeise), not from here:
+#
+#   ATLAS_KONTO           the login name
+#   ATLAS_PASSWORT_HASH   ruby -rbcrypt -e 'print BCrypt::Password.create("…")'
+#   ATLAS_SESSION_SECRET  ruby -rsecurerandom -e 'print SecureRandom.hex(64)'
+#
+# There is no database file and no volume: with only :login and :logout enabled
+# Rodauth never writes, so the single account lives in an in-memory SQLite seeded
+# at boot. See web/auth.rb.
 ENV BUNDLE_PATH=/gems \
     BUNDLE_APP_CONFIG=/gems/.bundle \
     BUNDLE_WITHOUT=test \

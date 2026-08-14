@@ -301,6 +301,51 @@
     vertical-align: 1px;
   }
 
+  /* ---- Anmeldung -------------------------------------------------------- */
+  /* Ein Konto, ein Passwort. Das Formular soll aussehen wie der Rest des
+     Bandes und nicht wie ein Fremdkörper aus einem Framework. */
+
+  .anmeldung {
+    margin-block-start: var(--spacing-unit);
+    display: grid;
+    gap: var(--spacing-quarter);
+    max-inline-size: 22rem;
+
+    & label {
+      font: 500 12px/1.6 var(--font-mono);
+      letter-spacing: .06em;
+      color: var(--text-muted);
+      margin-block-start: var(--spacing-quarter);
+    }
+
+    & :is(input[type="text"], input[type="password"]) {
+      font: var(--base-font-size) / 1.4 var(--font-serif);
+      color: var(--text-body);
+      background: var(--surface-card);
+      border: 1px solid var(--border-hairline);
+      border-radius: var(--radius-none);
+      padding: 8px 10px;
+
+      &:focus-visible {
+        outline: 2px solid var(--border-emphasis);
+        outline-offset: 1px;
+      }
+    }
+
+    & .knopf { justify-self: start; margin-block-start: var(--spacing-half); }
+    & p { margin-block: 0; }
+  }
+
+  /* Rodauth setzt seine Meldungen in einen Absatz mit dieser Rolle. */
+  [role="alert"], .flash-error {
+    margin-block-start: var(--spacing-half);
+    border-inline-start: 2px solid var(--error);
+    padding-inline-start: 14px;
+    color: var(--text-body);
+  }
+
+  .nav-abmelden { margin-inline-start: auto; color: var(--text-muted); }
+
   /* ---- Blattschau: das gerahmte Blatt ----------------------------------- */
   /* Das Blatt selbst bleibt unangetastet und kommt im Rahmen aus dem
      Wurzelverzeichnis. Drumherum steht, was bisher an drei Stellen lag: der Ort

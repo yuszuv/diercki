@@ -31,6 +31,11 @@ gem 'dry-auto_inject', '~> 1.2'
 gem 'dry-monads', '~> 1.10'  # Result — a missing file is a case, not an exception
 gem 'dry-system', '~> 1.2'
 
+# Arrives with dry-core either way. Named here because Sources::Tree requires it
+# directly for Concurrent::Map, and a require on a gem nobody declared breaks the
+# day dry-core stops needing it.
+gem 'concurrent-ruby', '~> 1.3'
+
 # --- Markdown ----------------------------------------------------------------
 # The workshop renders the repo's own .md files. GFM because the docs are full of
 # tables, which plain kramdown does not read.

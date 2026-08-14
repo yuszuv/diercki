@@ -1,0 +1,24 @@
+# Pfade, die eine Anmeldung verlangen.
+#
+# Eine Liste, ein Ort. Der Wächter (web/lib/atlas/middleware/guard.rb) liest sie
+# zur Laufzeit und sitzt vor der Statik-Auslieferung — er greift deshalb für
+# Kartenblätter, Bilder, gerenderte Werkstatt-Dokumente und jede Route, die
+# später dazukommt. Eine abgeleitete Adresse erbt den Schutz ihres Inhalts:
+# /blatt/X und /werkstatt/X sind gesperrt, wenn X gesperrt ist.
+#
+# Vorher stand dasselbe zweimal: als basicauth.paths im Caddy des Hosts (bmeise,
+# inventory/host_vars/paketzentrum.yml) und hier als Liste, für die diese
+# Anwendung keine zweite Adresse aufmachen durfte. Zwei Listen, die
+# auseinanderlaufen konnten, mit dem Fehler in Richtung „öffentlich".
+#
+# Fehlerrichtung jetzt umgekehrt: lässt sich diese Datei nicht lesen, gilt ALLES
+# als gesperrt (Sources::Restricted#restricted?). Lieber eine Seite, die nach
+# einem Passwort fragt, als eine, die es nicht tut.
+#
+# Bewusst NICHT gesperrt: Nikolais-Ort.dc.html (Jans Entscheidung) und damit auch
+# neumaier_kurzhaar.jpg, das dieses Blatt zeigt.
+pfad;grund
+/Gruss-an-Stefan-Waldmann.dc.html;namentlich adressiert, nicht für die Öffentlichkeit
+/uploads/neumaier-frueher.png;Foto, nur dieses Deck bindet es ein
+/recherche/achter-stock-freiburg.md;Recherche zu Personen am Institut
+/recherche/sternprodukt-notizen.md;Notizen zur eigenen Person fürs Pitch-Deck

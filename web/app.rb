@@ -29,6 +29,7 @@ module Atlas
   # lookup.
   class App < Roda
     include Dry::Monads[:result]
+    include Views
 
     plugin :render,
            views: File.join(__dir__, 'templates'),
@@ -88,12 +89,6 @@ module Atlas
       view('error', locals: { error: e })
     end
 
-    # --- view helpers --------------------------------------------------------
-
-    def heading(title, lead = nil)
-      render('_heading', locals: { title: title, lead: lead })
-    end
-
     # Every Failure becomes one of these. The wording per reason lives in one
     # place so the same missing file reads the same way wherever it turns up.
     REASONS = {
@@ -142,25 +137,10 @@ module Atlas
       page :not_found, title: 'Nichts unter dieser Adresse'
     end
 
-    # A guarded path keeps exactly one address, the one the Caddy knows. Sending
-    # the visitor there means the password prompt happens where it always has.
-    #
-    # If the list itself could not be read, Sources::Restricted answers "yes" for
-    # everything, and the whole derived layer shuts instead of opening. Say so
-    # rather than redirecting: a blanket redirect would look like the sheet moved.
-    def refuse_second_address(original)
-      unreadable = restricted.unreadable
-      return request.redirect(original) unless unreadable
-
-      response.status = 503
-      page :list_unreadable, title: 'Vorübergehend geschlossen', cause: unreadable
-    end
-
     # --- the Blattschau ------------------------------------------------------
 
     def sheet_page(file)
       return not_found if file.empty?
-      return refuse_second_address("/#{file}") if restricted.restricted?("/#{file}")
 
       sheet = sheets.find(File.basename(file))
       return not_found if sheet.failure?
@@ -192,10 +172,6 @@ module Atlas
 
     def document_page(path)
       return not_found unless path.end_with?('.md')
-
-      # Not a second gate — a refusal to open a second door. The password prompt
-      # lives at the original address; this route must not walk around it.
-      return refuse_second_address("/#{path}") if restricted.restricted?("/#{path}")
 
       rendered = tree.parse(path, :html) { |md| markdown.render(md) }
       if rendered.failure?

@@ -1,0 +1,8 @@
+<%== heading('Abmelden') %>
+
+<form method="post" action="<%= rodauth.logout_path %>" class="anmeldung" id="logout-form">
+  <%== rodauth.csrf_tag(rodauth.logout_path) %>
+  <p class="abschnitt-text">Die Sitzung endet, und die nicht öffentlichen Blätter
+  verlangen wieder ein Passwort.</p>
+  <button class="knopf" type="submit">Abmelden</button>
+</form>

@@ -49,6 +49,8 @@ end
 
 # Not components, so dry-system never reaches them on its own.
 require_relative 'lib/atlas/transforms'
+require_relative 'lib/atlas/views'
 require_relative 'lib/atlas/vendor'
 require_relative 'lib/atlas/middleware/files'
+require_relative 'lib/atlas/middleware/guard'
 require_relative 'lib/atlas/middleware/vendor_rewrite'

@@ -36,6 +36,12 @@ services:
     image: sternprodukt/diercke-atlas:latest
     ports:
       - "9292:80"
+    environment:
+      # Ohne diese drei startet die Anwendung nicht — Absicht. Für die lokale
+      # Vorschau reichen Wegwerfwerte; auf dem Server kommen sie aus bmeise.
+      ATLAS_KONTO: "${ATLAS_KONTO:-jan}"
+      ATLAS_PASSWORT_HASH: "${ATLAS_PASSWORT_HASH:?bitte setzen — ruby -rbcrypt -e 'print BCrypt::Password.create(\"…\")'}"
+      ATLAS_SESSION_SECRET: "${ATLAS_SESSION_SECRET:?bitte setzen — ruby -rsecurerandom -e 'print SecureRandom.hex(64)'}"
     volumes:
       # Read-only: the preview shows the working tree, it does not write to it.
       # The application reads on every request, so an edit on disk is live — no
@@ -53,3 +59,9 @@ services:
     image: sternprodukt/diercke-atlas:latest
     ports:
       - "9293:80"
+    environment:
+      # Ohne diese drei startet die Anwendung nicht — Absicht. Für die lokale
+      # Vorschau reichen Wegwerfwerte; auf dem Server kommen sie aus bmeise.
+      ATLAS_KONTO: "${ATLAS_KONTO:-jan}"
+      ATLAS_PASSWORT_HASH: "${ATLAS_PASSWORT_HASH:?bitte setzen — ruby -rbcrypt -e 'print BCrypt::Password.create(\"…\")'}"
+      ATLAS_SESSION_SECRET: "${ATLAS_SESSION_SECRET:?bitte setzen — ruby -rsecurerandom -e 'print SecureRandom.hex(64)'}"

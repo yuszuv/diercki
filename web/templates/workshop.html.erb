@@ -3,14 +3,13 @@
   notes = workshop.notes
   catalogues = workshop.catalogues
 
-  # Where a document is not public the link goes to the original path rather
-  # than the rendered view: that is where the password prompt sits. The entry
-  # does not disappear — hiding it would be a different answer than locking it.
+  # A guarded document keeps its normal address; the Wächter asks for a password
+  # on the way. It is still marked, because hiding it would be a different answer
+  # than locking it.
   list = ->(documents) do
     documents.map do |doc|
       rule = restricted.rule_for("/#{doc.path}")
-      target = rule ? "/#{doc.path}" : "/werkstatt/#{doc.path}"
-      %(<a class="dok" href="#{h target}">) +
+      %(<a class="dok" href="/werkstatt/#{h doc.path}">) +
         %(<span class="dok-titel">#{h doc.title}#{rule ? ' <span class="verschlossen">nicht öffentlich</span>' : ''}</span>) +
         %(<span class="dok-pfad">#{h(rule ? rule.reason : doc.path)}</span></a>)
     end.join

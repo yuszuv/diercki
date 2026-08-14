@@ -15,6 +15,13 @@
 
 ENV['RACK_ENV'] = 'test'
 
+# The login refuses to start without these, on purpose. A fixed password here so
+# the suite can log in; nothing else in the repo knows it.
+require 'bcrypt'
+ENV['ATLAS_KONTO'] ||= 'pruefer'
+ENV['ATLAS_PASSWORT_HASH'] ||= BCrypt::Password.create('probelauf')
+ENV['ATLAS_SESSION_SECRET'] ||= 'p' * 64
+
 require 'minitest/autorun'
 require 'rack/test'
 require 'rack/builder'
@@ -182,25 +189,63 @@ class AtlasTest < Minitest::Test
   # same content. Without these checks the guard would be walked around, and
   # nothing would look broken while it happened.
 
-  def test_restricted_paths_get_no_second_address
+  def test_guarded_paths_ask_for_a_login
     Atlas::Container['sources.restricted'].all.value!.each do |rule|
-      next unless rule.path.end_with?('.md')
-
-      get "/werkstatt#{rule.path}"
-      assert_equal 302, last_response.status, "#{rule.path} must not be rendered"
-      assert_equal rule.path, last_response.headers['location']
+      get rule.path
+      assert_equal 302, last_response.status, "#{rule.path} darf ohne Anmeldung nicht heraus"
+      assert_equal '/anmelden', last_response.headers['location']
     end
-
-    get '/blatt/Gruss-an-Stefan-Waldmann.dc.html'
-    assert_equal 302, last_response.status
-    assert_equal '/Gruss-an-Stefan-Waldmann.dc.html', last_response.headers['location']
   end
 
-  def test_restricted_documents_stay_visible_in_the_workshop
+  def test_a_guarded_static_file_is_guarded_too
+    # The reason the guard is a middleware and not a branch of the routing tree:
+    # this is a PNG served by Middleware::Files, which answers before Roda ever
+    # sees the request.
+    get '/uploads/neumaier-frueher.png'
+    assert_equal 302, last_response.status
+    assert_equal '/anmelden', last_response.headers['location']
+  end
+
+  def test_a_guarded_file_keeps_its_derived_addresses_guarded
+    ['/blatt/Gruss-an-Stefan-Waldmann.dc.html',
+     '/werkstatt/recherche/achter-stock-freiburg.md'].each do |path|
+      get path
+      assert_equal 302, last_response.status, "#{path} zeigt denselben Inhalt und erbt den Schutz"
+    end
+  end
+
+  def test_logging_in_opens_the_guarded_paths
+    get '/anmelden'
+    assert_equal 200, last_response.status
+    token = last_response.body[/name="_csrf"\s+value="([^"]+)"/, 1]
+    refute_nil token, 'das Formular muss ein CSRF-Token tragen'
+
+    post '/anmelden', login: ENV['ATLAS_KONTO'], password: 'falsch', _csrf: token
+    refute_equal 302, last_response.status, 'ein falsches Passwort meldet nicht an'
+    get '/uploads/neumaier-frueher.png'
+    assert_equal 302, last_response.status
+
+    post '/anmelden', login: ENV['ATLAS_KONTO'], password: 'probelauf', _csrf: token
+    assert_equal 302, last_response.status
+
+    get '/uploads/neumaier-frueher.png'
+    assert_equal 200, last_response.status
+    assert_equal 'PNG', last_response.body.byteslice(1, 3)
+
+    get '/werkstatt/recherche/achter-stock-freiburg.md'
+    assert_equal 200, last_response.status
+  end
+
+  def test_an_unguarded_sheet_needs_no_login
+    get '/Rumaenien-Physisch.html'
+    assert_equal 200, last_response.status
+  end
+
+  def test_guarded_documents_stay_visible_in_the_workshop
     # Hiding them would be a different answer than locking them.
     get '/werkstatt'
     assert_includes last_response.body, 'nicht öffentlich'
-    assert_includes last_response.body, 'href="/recherche/achter-stock-freiburg.md"'
+    assert_includes last_response.body, 'href="/werkstatt/recherche/achter-stock-freiburg.md"'
   end
 
   # --- missing things become visible cases ---------------------------------

@@ -27,6 +27,11 @@
     <% [['/blaetter', 'Blätter'], ['/register', 'Register'], ['/werkstatt', 'Werkstatt']].each do |path, name| %>
       <a href="<%= path %>"<%= ' class="aktiv"' if request.path.start_with?(path) %>><%= name %></a>
     <% end %>
+    <%# Only shown once somebody is logged in. An anonymous visitor has no
+        business being offered a login — the guarded pages ask by themselves. %>
+    <% if logged_in? %>
+      <a href="/abmelden" class="nav-abmelden">Abmelden</a>
+    <% end %>
   </nav>
 </header>
 
