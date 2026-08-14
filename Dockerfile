@@ -80,6 +80,20 @@ WORKDIR /srv
 # .dockerignore keeps working material out; what lands here is the tree git knows.
 COPY . /srv
 
+# Which commit this image was built from, answerable at /version.
+#
+# It has to be handed in: .dockerignore excludes .git, so the image cannot work
+# this out for itself. The OCI label below carries the same value but is not
+# readable from inside a running container, which is where the question gets
+# asked — bmeise's deploy compares this against the commit it checked out, and
+# that check is the reason a deploy can no longer report success while serving
+# last week's tree.
+#
+# Last, and deliberately: a new revision then invalidates only this layer instead
+# of the COPY above it.
+ARG ATLAS_REVISION=""
+ENV ATLAS_REVISION=$ATLAS_REVISION
+
 # One knob for the port, so there is one number to change rather than four.
 # Default 80: the host's Caddy reaches this container as `diercki:80` over the
 # shared external web network (bmeise, host_vars for paketzentrum). Moving it

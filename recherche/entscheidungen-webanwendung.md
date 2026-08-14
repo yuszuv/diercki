@@ -175,6 +175,38 @@ abgelehnt, ohne dass irgendwo etwas dazu steht. Deshalb prüft der Konstruktor i
 Nicht genommen: `dry-types` für die Konstruktoren. Ein Lambda tut es, und ein Gem für
 drei Prüfungen wäre dieselbe Rechnung wie bei `dry-transformer` oben.
 
+## `/version`, weil ein Deploy Erfolg melden konnte, ohne etwas zu tun
+
+Nachgetragen am 15.08.2026.
+
+Am 14.08. lief `make webhost LIMIT=paketzentrum` durch, meldete Erfolg und lieferte
+weiter den Stand von `07a96b1` aus — drei gemergte PRs später. Gemessen: der Container
+war Stunden alt, und die laufende Seite trug in `WEB-APPLICATION.md` noch „not yet
+applied". Aufgefallen ist es nur, weil PR #4 zufällig ein **sichtbares** Merkmal
+mitbrachte (die Rubrik *Abgeschlossen* in der Werkstatt). Ohne dieses Merkmal wäre es
+nicht aufgefallen, und das ist der eigentliche Befund.
+
+Die Ursache lag in bmeise und ist dort behoben (Ansibles `omit` ist eine Zeichenkette
+und liest sich als *definiert*, weshalb ein `default('always')` nie griff und das Image
+nie geholt wurde). Hier interessiert die zweite Hälfte: **nichts prüfte, welcher Stand
+ausliefert.** Die vier `curl`-Nachkontrollen in `paketzentrum.yml` gingen alle durch —
+sie fragen, ob der Wächter hält, und der hielt ja. Eine Zusage, die niemand prüft, ist
+keine Zusage; genau deshalb gibt es in der CI schon den Schritt, der das
+veröffentlichte Image zurückzieht und befragt.
+
+`/version` nennt den Commit, aus dem das Image gebaut wurde. Drei Entscheidungen dazu:
+
+- **Als Build-Argument hereingereicht**, nicht hergeleitet. `.dockerignore` schließt
+  `.git` aus, also *kann* das Image es nicht selbst wissen. Das OCI-Label
+  `image.revision` trägt denselben Wert, ist aber aus dem laufenden Container nicht
+  lesbar — und dort wird gefragt.
+- **Ohne Argument antwortet die Route `arbeitsbaum`**, nicht leer und nicht geraten.
+  Ein Wort, das nie eine SHA sein kann, hält den Vergleich ehrlich. Das ist dieselbe
+  Regel wie beim Rest: fehlt etwas, bekommt der Fall eine eigene sichtbare Klasse.
+- **Öffentlich wie `/health`.** Der Commit ist ohnehin öffentlich, Repo und Image auch.
+  Hinter dem Wächter bräuchte der Prüfschritt eine Anmeldung und hätte damit mehr
+  bewegliche Teile als das, was er bewacht.
+
 ## Kein web_pipe
 
 0.16.0 vom 07.11.2021, letzter Commit 15.11.2023, Gemspec auf `main` nagelt

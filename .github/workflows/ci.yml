@@ -111,6 +111,11 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name == 'push' }}
+          # What /version answers, and what the deploy compares against. The label
+          # below says the same thing, but a label cannot be read from inside a
+          # running container.
+          build-args: |
+            ATLAS_REVISION=${{ github.sha }}
           # :latest is what the deploy pulls; the sha tag is what you pin to when
           # you want a named state rather than "whatever main was".
           tags: |
@@ -154,6 +159,12 @@ jobs:
             sleep 1
           done
           docker exec probe wget -qO- http://127.0.0.1/health
+          # The image has to know which commit it is, or the deploy's check
+          # against it is worthless. Asserted here so a broken build-arg fails at
+          # the build rather than as a confusing red deploy later.
+          served=$(docker exec probe wget -qO- http://127.0.0.1/version)
+          [ "$served" = "${{ github.sha }}" ] \
+            || { echo "/version says '$served', expected '${{ github.sha }}'"; exit 1; }
           # A Blatt, and the CDN rewriting on it — the one thing that would break
           # silently if the vendored files or the middleware ever came apart.
           docker exec probe wget -qO- http://127.0.0.1/Rumaenien-Physisch.html \

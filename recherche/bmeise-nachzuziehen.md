@@ -141,3 +141,38 @@ nichts ist offen. Andersherum wäre es ein Fenster.
 Der Container lauscht auf `ATLAS_PORT`, Vorgabe 80. Lokal ist alles 9292, aber
 innen bleibt es 80, damit hier nichts nachzuziehen ist. Wer das ändern will,
 ändert beides in einem Zug.
+
+## Nachtrag 15.08.2026 · der zweite Deploy griff nicht
+
+Kein Nachführen der Punkte oben — sie beschreiben, was am 14.08. galt. Hier steht,
+was danach passierte.
+
+Nach dem Merge der drei PRs (`55e1128`, `9baf841`, `4ab4f79`) lief `make webhost
+LIMIT=paketzentrum` erneut, meldete Erfolg — und **lieferte weiter `07a96b1` aus**.
+Der Container war unverändert, das Image nie geholt.
+
+Ursache in bmeise, nicht hier: `playbooks/webhost.yml` reicht `dockerapp_pull` als
+`default(omit)` durch, und `roles/dockerapp/tasks/deploy.yml` liest es mit
+`default('always')`. Ansibles `omit` ist aber die Zeichenkette
+`__omit_place_holder__…` und damit **definiert**, also greift der Rückfall nie; beim
+Modulaufruf wird der Platzhalter entfernt, und `docker_compose_v2` nimmt seine eigene
+Vorgabe `pull: policy` — bei der es `--pull` gar nicht anhängt. Die Rolle warnt in
+`tasks/main.yml` wörtlich vor genau dieser Falle und benutzt dort eine Längenprüfung;
+bei `pull` war sie vergessen.
+
+Betroffen war jede App mit **beweglichem** Tag: `diercki:latest` und `orbit:latest`
+hier, `brvz-staging` auf nebenstelle. Bei festen Tags (`beszel:0.18.7`,
+`matomo:5.2.1`) ist „nur wenn fehlt" zufällig richtig.
+
+Was daraus folgte:
+
+- bmeise korrigiert die Durchreichung und prüft den errechneten Wert mit einem
+  `assert` gegen die vier erlaubten Literale, damit ein Platzhalter künftig laut
+  scheitert statt still auf die Modulvorgabe zurückzufallen.
+- `orbit` und `brvz-staging` bekommen ausdrücklich `pull: missing` — eingefroren als
+  Entscheidung, nicht als Nebeneffekt.
+- Der Deploy prüft nach dem Hochfahren `https://diercki.sternprodukt.de/version`
+  gegen den ausgecheckten Commit und scheitert bei Abweichung.
+
+Die vier `curl`-Kontrollen aus Punkt 4 hätten das **nicht** gefangen: sie fragen, ob
+der Wächter hält, und er hielt. Sie bleiben trotzdem — sie prüfen etwas anderes.

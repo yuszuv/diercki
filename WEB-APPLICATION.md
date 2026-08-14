@@ -179,14 +179,29 @@ GET, and every filtering is a shareable address.
 `main`:
 
 - **Tests** — `bin/vendor.rb` (the only step needing a network; its SRI check runs
-  too), the 25-case suite, and a smoke run of the report scripts.
+  too), `test/web_test.rb`, and a smoke run of the report scripts.
 - **Image** — `docker build`. On `main` it also pushes to
   `ghcr.io/yuszuv/diercki`, tagged `latest` and `sha-<commit>`, then pulls that
-  image back, starts it and asks `/health` plus one Blatt — the CDN rewriting is
-  the thing that would break quietly.
+  image back, starts it and asks `/health`, `/version` and one Blatt — the CDN
+  rewriting is the thing that would break quietly.
 
 Nothing here deploys. The deploy stays `make webhost LIMIT=paketzentrum` in
 bmeise, by hand.
+
+**`/version` answers which commit is serving.** The build takes it as
+`--build-arg ATLAS_REVISION`, because `.dockerignore` excludes `.git` and the
+image cannot work it out for itself; CI passes the pushed SHA. Outside a built
+image the route answers `arbeitsbaum` rather than inventing a value — a word that
+can never be mistaken for a SHA.
+
+It exists because a deploy could report success while changing nothing. On
+14.08.2026 one did: the image was never pulled, the container never recreated,
+and the site served a week-old tree for hours. The `curl` checks that ran
+afterwards all passed — they asked whether the gate worked, and it did. Nothing
+asked *which version* was answering. bmeise's deploy now compares this route
+against the commit it checked out and fails if they differ. `/version` is public
+and unguarded like `/health`: the commit is public anyway, and a check that needs
+a login is a check with more ways to fail than the thing it watches.
 
 **Why the build moved off the server.** It used to happen there, on the argument
 that the image is content rather than a compiled artefact. That was true while the

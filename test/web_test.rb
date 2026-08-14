@@ -48,12 +48,28 @@ class AtlasTest < Minitest::Test
       '/blaetter' => 200,
       '/register' => 200,
       '/werkstatt' => 200,
+      '/version' => 200,
       '/blatt/Rumaenien-Braunbaer.html' => 200,
       '/werkstatt/atlas/BLAETTER.md' => 200,
       '/gibtsnicht' => 404 }.each do |path, status|
       get path
       assert_equal status, last_response.status, "#{path} should answer #{status}"
     end
+  end
+
+  def test_version_names_the_commit_or_says_it_has_none
+    # The deploy compares this against the commit it checked out, so the one
+    # thing it must never do is invent a plausible answer. Outside a built image
+    # the variable is unset, and "arbeitsbaum" cannot be mistaken for a SHA.
+    get '/version'
+    assert_equal "arbeitsbaum\n", last_response.body
+    assert_includes last_response.headers['content-type'], 'text/plain'
+
+    ENV['ATLAS_REVISION'] = 'abc1234'
+    get '/version'
+    assert_equal "abc1234\n", last_response.body
+  ensure
+    ENV.delete('ATLAS_REVISION')
   end
 
   def test_a_sheet_is_still_reachable_at_its_own_address
