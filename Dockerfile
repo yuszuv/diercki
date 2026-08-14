@@ -1,7 +1,7 @@
 # Sternprodukt atlas — delivery and local preview from one image.
 #
-#   docker compose --profile local up preview   → http://localhost:8137/  (tree from the image)
-#   docker compose --profile local up dev       → http://localhost:8138/  (working tree)
+#   docker compose --profile local up preview   → http://localhost:9293/  (tree from the image)
+#   docker compose --profile local up dev       → http://localhost:9292/  (working tree)
 #
 # One process: Puma serves the Roda application AND the repository tree. There is
 # no nginx anymore — the CDN rewriting that lived in its sub_filter blocks is a
@@ -64,15 +64,20 @@ WORKDIR /srv
 # .dockerignore keeps working material out; what lands here is the tree git knows.
 COPY . /srv
 
-# Port 80, not something higher: the host's Caddy reaches this container as
-# `diercki:80` over the shared external web network (bmeise, host_vars for
-# paketzentrum). Moving it here would mean moving it there too.
+# One knob for the port, so there is one number to change rather than four.
+# Default 80: the host's Caddy reaches this container as `diercki:80` over the
+# shared external web network (bmeise, host_vars for paketzentrum). Moving it
+# here means moving it there in the same breath.
+#
+# Locally nobody meets this number — docker-compose.yml publishes 9292, Rack's
+# own default, which is also what `bundle exec rackup` binds without a flag.
+ENV ATLAS_PORT=80
 EXPOSE 80
 
 # 127.0.0.1, not localhost: /etc/hosts maps localhost to ::1 as well, and busybox
 # wget tries IPv6 first. The check should not depend on resolver order to say
 # whether the site is up.
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
-  CMD wget -qO- http://127.0.0.1/health >/dev/null || exit 1
+  CMD wget -qO- "http://127.0.0.1:${ATLAS_PORT}/health" >/dev/null || exit 1
 
-CMD ["bundle", "exec", "puma", "--bind", "tcp://0.0.0.0:80", "--environment", "production"]
+CMD ["sh", "-c", "exec bundle exec puma --bind tcp://0.0.0.0:${ATLAS_PORT} --environment production"]

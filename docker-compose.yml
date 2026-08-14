@@ -1,8 +1,8 @@
 # One image, three ways to run it.
 #
 #   docker compose up -d                          production — what the server runs
-#   docker compose --profile local up preview     http://localhost:8137/  (image)
-#   docker compose --profile local up dev         http://localhost:8138/  (working tree)
+#   docker compose --profile local up dev         http://localhost:9292/  (working tree)
+#   docker compose --profile local up preview     http://localhost:9293/  (image)
 #
 # The bare `up` starts only `diercki`: it publishes no port and is reached by the
 # host's Caddy over the shared external `web` network. That matters — Docker's
@@ -11,6 +11,14 @@
 #
 # The two preview services sit behind the `local` profile and therefore never start
 # on the server: the deploy runs a plain `up`, and Compose skips profiled services.
+#
+# On the ports: 9292 is Rack's own default, so `bundle exec rackup` without any
+# flag and `docker compose up dev` land on the same address. Only `preview` needs
+# a second one, and only because two containers cannot share a host port.
+#
+# The container itself listens on ATLAS_PORT, default 80 — that is what bmeise's
+# Caddy names as `upstream: diercki:80` (inventory/host_vars/paketzentrum.yml).
+# Moving it means moving it there too, in the same breath.
 #
 # File name: docker-compose.yml, not compose.yaml. The bmeise `dockerapp` role injects
 # its web-network attachment as docker-compose.override.yml, and Compose only merges
@@ -22,19 +30,12 @@ services:
     image: sternprodukt/diercke-atlas:latest
     restart: unless-stopped
 
-  preview:
-    profiles: ["local"]
-    build: .
-    image: sternprodukt/diercke-atlas:latest
-    ports:
-      - "8137:80"
-
   dev:
     profiles: ["local"]
     build: .
     image: sternprodukt/diercke-atlas:latest
     ports:
-      - "8138:80"
+      - "9292:80"
     volumes:
       # Read-only: the preview shows the working tree, it does not write to it.
       # The application reads on every request, so an edit on disk is live — no
@@ -45,3 +46,10 @@ services:
       # without a network. BUNDLE_APP_CONFIG in the Dockerfile keeps the host's
       # .bundle/config from redirecting the gem path into the mount.
       - .:/srv:ro
+
+  preview:
+    profiles: ["local"]
+    build: .
+    image: sternprodukt/diercke-atlas:latest
+    ports:
+      - "9293:80"
