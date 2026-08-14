@@ -82,15 +82,10 @@ COPY . /srv
 
 # Which commit this image was built from, answerable at /version.
 #
-# It has to be handed in: .dockerignore excludes .git, so the image cannot work
-# this out for itself. The OCI label below carries the same value but is not
-# readable from inside a running container, which is where the question gets
-# asked — bmeise's deploy compares this against the commit it checked out, and
-# that check is the reason a deploy can no longer report success while serving
-# last week's tree.
-#
-# Last, and deliberately: a new revision then invalidates only this layer instead
-# of the COPY above it.
+# Handed in, because .dockerignore excludes .git. Not derivable from the OCI
+# label either: a label cannot be read from inside a running container, which is
+# where the question gets asked. Last in the file so a new revision invalidates
+# only this layer and not the COPY above it.
 ARG ATLAS_REVISION=""
 ENV ATLAS_REVISION=$ATLAS_REVISION
 

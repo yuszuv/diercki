@@ -56,13 +56,10 @@ module Atlas
         "ok\n"
       end
 
-      # Which commit is serving. bmeise's deploy asks this and fails if the answer
-      # is not the commit it just checked out — without it a deploy can pull
-      # nothing, recreate nothing and still report success, which is what happened
-      # on 14.08.2026.
-      #
-      # Unset outside a built image, and then it says so rather than inventing a
-      # value: "arbeitsbaum" can never equal a SHA, so the check stays honest.
+      # Which commit is serving. bmeise's deploy asks this and fails if it is not
+      # the commit it just checked out. Unset outside a built image, and then it
+      # says so rather than inventing a value — "arbeitsbaum" can never equal a
+      # SHA, which is what keeps the comparison honest.
       r.get('version') do
         response['content-type'] = 'text/plain; charset=utf-8'
         revision = ENV.fetch('ATLAS_REVISION', '')
