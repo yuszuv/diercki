@@ -34,6 +34,7 @@ screenshots/*
 !screenshots/vorschau-verkehr.png
 !screenshots/vorschau-baer.png
 !screenshots/katzundgoldt-crop.png
+!screenshots/thumb-*.png
 
 # Raw deliveries and intermediate stages of the geodata pipelines.
 # Everything tracked under atlas/geodaten is .js, .geojson, .geojsonl, .rb, .sh or

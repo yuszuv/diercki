@@ -52,6 +52,23 @@ The division of labour follows from that. Not "sometimes here, sometimes there" 
 5. **If a Blatt was changed locally after all:** note it under "Where the clone differs"
    below **and** upload the file on the next visit to the UI — otherwise the next export
    silently overwrites it.
+6. **If a file the UI owns was created locally:** upload it, and expect nothing back
+   until you do. `sync-report.rb` flags these as *ONLY LOCAL — CHECK: should this be in
+   the UI?*, which is the only warning there is. They are not a conflict yet; they
+   become one the moment somebody draws the same thing over there from scratch.
+
+### Two ways a file can be missing
+
+The report separates them, and they need different answers:
+
+- **ONLY IN EXPORT** — the UI has something the clone does not. Usually to be adopted:
+  copy it in, commit it. Watch for files a newly adopted Blatt *needs*: adopting
+  `Inhalt.dc.html` without its eight `screenshots/thumb-*.png` gives eight broken
+  images, and nothing in the sheet says so.
+- **ONLY LOCAL with a CHECK note** — the clone has something the UI should own. Upload
+  it. Currently `web/site.css` and `web/Muster.dc.html`: the design seam of the web
+  edition, built here because the web edition was built here, but drawn over there from
+  now on.
 
 ## Why not file by file through the tool
 

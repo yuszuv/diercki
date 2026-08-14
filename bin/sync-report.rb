@@ -74,10 +74,19 @@ end
 # Working stores and raw deliveries. Neither side has a claim on them.
 SKIP = [
   %r{\A\.git/}, %r{\A\.claude/}, %r{\A\.ruby-lsp/}, %r{\Awip/},
+  # Local Ruby state. .bundle/gems alone is 4136 files — without this the report
+  # drowns: "ONLY LOCAL 4208", of which four thousand are installed gems.
+  # .vendor/ holds the nine libraries bin/vendor.rb fetches.
+  %r{\A\.bundle/}, %r{\A\.vendor/},
   %r{\.(gpkg|zip|inhalt|osm\.pbf|dat)\z},
   %r{\Aatlas/geodaten/brandenburg/(clc5_2018|landnutzung\.geojson)},
   %r{ne_10m_},                        # Natural Earth raw delivery, the script refetches it
-  %r{\A(screenshots)/(?!vorschau-|katzundgoldt-)},
+  # screenshots/ is a QA scratchpad — except for the files a Blatt embeds. Those
+  # must show up, or the report hides exactly what an adoption would need:
+  # Inhalt.dc.html gained eight thumb-*.png upstream, and without this exception
+  # they stayed invisible here while the sheet that needs them was flagged for
+  # adoption.
+  %r{\A(screenshots)/(?!vorschau-|katzundgoldt-|thumb-)},
   %r{\A\.DS_Store\z}, %r{Thumbs\.db\z},
 ].freeze
 
@@ -179,7 +188,7 @@ Dir.mktmpdir('sync-report') do |tmp|
   puts '-' * 70
   puts "SAME #{same.size} · DIFFERENT #{different.size} · ONLY LOCAL #{only_here.size} · ONLY IN EXPORT #{only_there.size}"
   puts
-  puts 'Nothing was changed. What gets adopted is your call — the rule is in README,'
-  puts 'section "Arbeiten an zwei Orten": when in doubt the clone leads, except for the'
-  puts 'files that are drawn in the design UI.'
+  puts 'Nothing was changed. What gets adopted is your call — the rule is in'
+  puts 'TWO-PLACES.md: when in doubt the clone leads, except for the files that are'
+  puts 'drawn in the design UI.'
 end
