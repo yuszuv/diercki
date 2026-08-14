@@ -5,10 +5,10 @@ module Atlas
     # The workshop: not a sheet, but the scaffolding underneath — source
     # registers, research notes, rules, catalogues.
     #
-    # Two of the three sections are read from the directory, so a note added
-    # under recherche/ appears without anyone editing a list. The third is a
-    # fixed list, because "Verbindliche Regeln" is a better label for CLAUDE.md
-    # than "claude", and that mapping has to live somewhere.
+    # The registers and the notes are read from their directories, so a file
+    # added there appears without anyone editing a list. FIXED names what lies
+    # outside them and nothing else — it exists for the title ("Verbindliche
+    # Regeln" beats "claude"), and that mapping has to live somewhere.
     class Workshop
       include Atlas::Import['sources.tree']
 
@@ -24,8 +24,6 @@ module Atlas
         ['Aufbau des Repos', 'README.md'],
         ['Die Webanwendung', 'WEB-APPLICATION.md'],
         ['Arbeiten an zwei Orten', 'TWO-PLACES.md'],
-        ['Was in bmeise nachzuziehen ist', 'recherche/bmeise-nachzuziehen.md'],
-        ['Umbau: Konfiguration über dry-system', 'recherche/settings-umbau.md'],
         ['Verbindliche Regeln', 'CLAUDE.md'],
         ['Einstieg für Agents', 'AGENTS.md'],
         ['Glossar der Fachbegriffe', 'atlas/GLOSSAR.md'],
