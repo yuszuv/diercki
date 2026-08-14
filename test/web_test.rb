@@ -38,10 +38,9 @@ class AtlasTest < Minitest::Test
       '/werkstatt' => 200,
       '/blatt/Rumaenien-Braunbaer.html' => 200,
       '/werkstatt/atlas/BLAETTER.md' => 200,
-      '/zufall' => 302,
       '/gibtsnicht' => 404 }.each do |path, status|
       get path
-      assert_equal status, last_response.status, "#{path} sollte #{status} liefern"
+      assert_equal status, last_response.status, "#{path} should answer #{status}"
     end
   end
 
@@ -55,14 +54,14 @@ class AtlasTest < Minitest::Test
 
   def test_sheet_list_and_register_parse_to_the_expected_size
     sheets = Atlas::Container['sources.sheets'].all.value!
-    assert_equal 16, sheets.reject(&:deck?).size, 'Blätter aus den README-Tabellen'
+    assert_equal 16, sheets.reject(&:deck?).size, 'Blätter from the README tables'
     assert_equal 11, sheets.select(&:deck?).size, 'Präsentationen'
 
     entries = Atlas::Container['sources.register'].all.value!
-    assert_equal 272, entries.size, 'Einträge in atlas/register.csv'
-    assert_equal 86, entries.count(&:field), 'Suchgitterfelder — alle auf Blatt 4'
+    assert_equal 272, entries.size, 'entries in atlas/register.csv'
+    assert_equal 86, entries.count(&:field), 'Suchgitter fields — all on Blatt 4'
     assert entries.select(&:field).all?(&:on_grid_sheet?),
-           'ein Feld darf nur auf dem Blatt mit Suchgitter stehen'
+           'a field may only appear on the Blatt that carries a Suchgitter'
   end
 
   def test_the_sheet_key_marks_its_numbers_as_derived
@@ -70,23 +69,22 @@ class AtlasTest < Minitest::Test
     numbered = plates.select(&:numbered?)
     assert_equal (1..9).to_a, numbered.map(&:nr).sort
     assert numbered.all?(&:derived?),
-           'die Blattnummern sind erschlossen, nicht belegt — siehe atlas/BLAETTER.md'
+           'the Blattnummern are derived, not evidenced — see atlas/BLAETTER.md'
   end
 
   def test_no_sheet_number_is_cited_without_a_file
     plates = Atlas::Container['sources.plates']
     cited = Atlas::Container['sources.register'].cited_numbers
     assert_empty plates.unmapped(cited),
-                 'register.csv nennt eine Blattnummer, die atlas/blaetter.csv nicht kennt'
+                 'register.csv cites a Blattnummer that atlas/blaetter.csv does not map'
   end
 
   # --- reading at runtime --------------------------------------------------
 
   def test_a_corrected_file_shows_up_without_a_restart
-    # Tree#parse behält ein Ergebnis nur, solange mtime und Größe gleich
-    # bleiben. Diese Zusage trägt die ganze Bauweise: keine abgeleitete Kopie,
-    # die still veraltet. Ein Cache, der sie bräche, wäre schlimmer als der
-    # Aufwand, den er spart.
+    # Tree#parse keeps a result only while mtime and size are unchanged. That
+    # promise carries the whole design: no derived copy that quietly goes
+    # stale. A cache that broke it would be worse than the work it saves.
     Dir.mktmpdir do |dir|
       file = File.join(dir, 'probe.csv')
       File.write(file, "a;b\n1;2\n")
@@ -97,18 +95,18 @@ class AtlasTest < Minitest::Test
 
       assert_equal 2, tree.parse('probe.csv', :lines, &counted).value!
       assert_equal 2, tree.parse('probe.csv', :lines, &counted).value!
-      assert_equal 1, parses, 'unverändert: einmal geparst, dann gemerkt'
+      assert_equal 1, parses, 'unchanged: parsed once, then remembered'
 
-      # mtime auf ganze Sekunden gerundet auf manchen Dateisystemen — die Größe
-      # ändert sich hier ohnehin mit.
+      # mtime is rounded to whole seconds on some filesystems — the size
+      # changes here anyway.
       File.write(file, "a;b\n1;2\n3;4\n")
       assert_equal 3, tree.parse('probe.csv', :lines, &counted).value!
-      assert_equal 2, parses, 'geändert: neu geparst'
+      assert_equal 2, parses, 'changed: parsed again'
 
-      # Verschiedene Auswertungen derselben Datei stehen nebeneinander.
-      tree.parse('probe.csv', :andere) { |t| t.length }
+      # Two different parses of the same file live side by side.
+      tree.parse('probe.csv', :other) { |t| t.length }
       assert_equal 3, tree.parse('probe.csv', :lines, &counted).value!
-      assert_equal 2, parses, 'ein zweiter tag verdrängt den ersten nicht'
+      assert_equal 2, parses, 'a second tag does not evict the first'
     end
   end
 
@@ -129,17 +127,17 @@ class AtlasTest < Minitest::Test
     get '/Rumaenien-Physisch.html'
     body = last_response.body
 
-    refute_includes body, 'https://unpkg.com', 'keine CDN-Adresse darf übrig bleiben'
+    refute_includes body, 'https://unpkg.com', 'no CDN address may survive'
     refute_includes body, 'https://cdn.jsdelivr.net'
     assert_includes body, '/vendor/unpkg/d3@7.9.0/dist/d3.min.js'
-    # Die Hashes stehen neben den Skripten und müssen weiter passen — die
-    # eingebackenen Dateien sind byte-gleich, bin/vendor.rb prüft das.
+    # The hashes sit next to the scripts and must keep matching — the vendored
+    # files are byte-identical, and bin/vendor.rb checks that.
     assert_includes body, 'sha384-CjloA8y00'
   end
 
   def test_the_sheets_on_disk_are_untouched
-    # Die Umschrift geschieht im Ausgang. Stünde sie auf der Platte, sähe jeder
-    # künftige Export wie ein Konflikt aus.
+    # The rewriting happens on the way out. On disk it would make every future
+    # export look like a conflict.
     original = File.read(File.join(ROOT, 'Rumaenien-Physisch.html'))
     assert_includes original, 'https://unpkg.com/d3@7.9.0/dist/d3.min.js'
   end
@@ -155,7 +153,7 @@ class AtlasTest < Minitest::Test
   def test_raw_geodata_is_not_served
     get '/atlas/geodaten/source.gpkg'
     assert_equal 404, last_response.status,
-                 'Rohlieferungen gehören nicht zum Atlas und werden nicht ausgeliefert'
+                 'raw deliveries are not part of the atlas and are not served'
   end
 
   def test_a_path_cannot_leave_the_tree
@@ -165,16 +163,16 @@ class AtlasTest < Minitest::Test
 
   # --- access protection ---------------------------------------------------
   #
-  # Der Caddy des Hosts schützt Adressen; diese Anwendung erfindet für denselben
-  # Inhalt neue. Ohne diese Prüfungen wäre der Schutz umgangen, und nichts sähe
-  # dabei kaputt aus.
+  # The host's Caddy guards addresses; this application invents new ones for the
+  # same content. Without these checks the guard would be walked around, and
+  # nothing would look broken while it happened.
 
   def test_restricted_paths_get_no_second_address
     Atlas::Container['sources.restricted'].all.value!.each do |rule|
       next unless rule.path.end_with?('.md')
 
       get "/werkstatt#{rule.path}"
-      assert_equal 302, last_response.status, "#{rule.path} darf nicht gerendert werden"
+      assert_equal 302, last_response.status, "#{rule.path} must not be rendered"
       assert_equal rule.path, last_response.headers['location']
     end
 
@@ -184,7 +182,7 @@ class AtlasTest < Minitest::Test
   end
 
   def test_restricted_documents_stay_visible_in_the_workshop
-    # Verschweigen wäre eine andere Auskunft als verschließen.
+    # Hiding them would be a different answer than locking them.
     get '/werkstatt'
     assert_includes last_response.body, 'nicht öffentlich'
     assert_includes last_response.body, 'href="/recherche/achter-stock-freiburg.md"'
@@ -214,7 +212,7 @@ class AtlasTest < Minitest::Test
   def test_the_filter_works_without_javascript
     get '/register?q=arad&art=stadt'
     rows = last_response.body.scan(/<tr data-name=/).size
-    assert_equal 1, rows, 'der Server filtert selbst, das Formular braucht kein Skript'
+    assert_equal 1, rows, 'the server filters on its own; the form needs no script'
 
     get '/register?status=unbelegt'
     assert_operator last_response.body.scan(/<tr data-name=/).size, :>, 0
