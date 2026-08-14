@@ -123,7 +123,7 @@ Operations — passt gut zum Geschmack des Projekts; das Gem passt nicht mehr zu
 `Sources::Tree#parse` merkt sich ein geparstes Ergebnis, solange `mtime` und Größe der
 Datei gleich bleiben. Eine `stat` je Anfrage statt `read` + `parse`.
 
-Der Anlass war gemessen, nicht vermutet: der Schaukasten las `nicht-oeffentlich.csv`
+Der Anlass war gemessen, nicht vermutet: der Schaukasten las `geschuetzt.csv`
 **27-mal je Anfrage** — einmal je Karte. Nach der Änderung: `/blaetter` 12,2 → 5,6 ms,
 `/register` 9,8 → 3,1 ms, `/blatt/…` 11,0 → 0,9 ms.
 
@@ -131,3 +131,17 @@ Der Cache sitzt in `Tree` und nicht in den fünf Readern, weil das sonst fünf C
 fünf Gelegenheiten wären, unterschiedlich ungültig zu werden. `test/web_test.rb` prüft,
 dass eine geänderte Datei trotzdem sofort erscheint — das ist die Zusage, die der Cache
 nicht kosten darf.
+
+Die Ablage ist eine `Concurrent::Map`, kein `Mutex` um eine gewöhnliche Hash. Puma
+bedient in Threads, aber gebraucht wird keine Sperre, sondern eine threadsichere Ablage:
+das Lock lag ohnehin nur um den Zugriff, nicht um `read` + `parse`, zwei Threads parsten
+dieselbe veraltete Datei also schon vorher doppelt. Das bleibt so und ist gewollt — beide
+rechnen aus denselben Bytes denselben Wert, und ein Lock über den Lesevorgang wäre die
+eine Stelle, an der eine langsame Platte alle übrigen Anfragen anhielte.
+
+Nicht genommen: `Dry::Core::Cache`. Es liegt zwar dieselbe `Concurrent::Map` darunter,
+aber der Cache hängt an der Klasse statt an der Instanz — zwei `Tree` mit verschiedenem
+`root` teilten sich eine Ablage — und er kennt kein Löschen. Um die Frische zu halten,
+müsste der Stempel in den Schlüssel, und dann hinterließe jedes Speichern einer Datei
+einen Eintrag für immer. Gerade in der Vorschau des Arbeitsverzeichnisses, also im Fall,
+für den das Ganze gebaut ist.

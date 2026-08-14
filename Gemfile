@@ -26,6 +26,15 @@ gem 'roda', '~> 3.107'
 gem 'erubi', '~> 1.13'
 gem 'tilt', '~> 2.6'
 
+# --- Login -------------------------------------------------------------------
+# One person, one password. Rodauth needs Sequel and a database, but not a file:
+# with only :login and :logout enabled it never writes, so the account lives in an
+# in-memory SQLite seeded from the environment at boot. See web/auth.rb.
+gem 'bcrypt', '~> 3.1'
+gem 'rodauth', '~> 2.45'
+gem 'sequel', '~> 5.107'
+gem 'sqlite3', '~> 2.9'
+
 # --- dry-rb ------------------------------------------------------------------
 gem 'dry-auto_inject', '~> 1.2'
 gem 'dry-monads', '~> 1.10'  # Result — a missing file is a case, not an exception

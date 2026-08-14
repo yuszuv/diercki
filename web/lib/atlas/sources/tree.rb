@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'concurrent/map'
 require 'dry/monads'
 
 module Atlas
@@ -18,7 +19,7 @@ module Atlas
     # of a read plus a parse. The promise is kept literally; the waste is not.
     #
     # It needs to be here and not in the four readers above it. Measured before
-    # the change: the sheet showcase read web/nicht-oeffentlich.csv 27 times per
+    # the change: the sheet showcase read web/geschuetzt.csv 27 times per
     # request — once per card — and README.md three times. Fixing that in each
     # reader would be four caches with four chances to invalidate differently.
     class Tree
@@ -28,14 +29,19 @@ module Atlas
 
       def initialize(root: Atlas::ROOT)
         @root = Pathname(root)
-        @parsed = {}
-        @lock = Mutex.new # Puma serves in threads
+        @parsed = Concurrent::Map.new # Puma serves in threads
       end
 
       attr_reader :root
 
       # Read and transform a file, remembering the result until the file
       # changes. `tag` separates two parses of the same file.
+      #
+      # Two threads asking for the same stale file both parse it, and the second
+      # store wins. That is deliberate: the map is a memo, not a work queue, and
+      # both threads compute the same value from the same bytes. Single-flight
+      # would mean holding a lock across a read and a parse — the one place where
+      # a slow disk could stall every other request.
       #
       # @yieldparam [String] the file's contents
       # @return [Dry::Monads::Result]
@@ -44,13 +50,11 @@ module Atlas
         return read(path) if stamp.nil? # missing, unreadable, outside — let read say which
 
         key = [path.to_s, tag]
-        @lock.synchronize do
-          remembered = @parsed[key]
-          return remembered.last if remembered && remembered.first == stamp
-        end
+        remembered = @parsed[key]
+        return remembered.last if remembered && remembered.first == stamp
 
         value = read(path).fmap { |text| yield(text) }
-        @lock.synchronize { @parsed[key] = [stamp, value] }
+        @parsed[key] = [stamp, value]
         value
       end
 
