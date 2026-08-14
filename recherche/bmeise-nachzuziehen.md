@@ -1,31 +1,41 @@
-# Was in bmeise nachzuziehen ist
+# Was in bmeise nachzuziehen war
 
-Stand 14.08.2026. Diese Datei beschreibt Änderungen an einem **anderen Repo**
-(`~/137/bmeise`) und ändert dort nichts — sie hält fest, was fällig ist und in
-welcher Reihenfolge. Alles betrifft `inventory/host_vars/paketzentrum.yml`,
-Dienst `diercki`.
+> **Erledigt am 14.08.2026, angewendet und nachgeprüft.** Diese Datei bleibt als
+> Protokoll stehen — die Punkte unten beschreiben den Zustand *vor* dem Deploy und
+> werden nicht nachgeführt. Was heute gilt, steht im Abschnitt gleich darunter.
 
-## Erledigt — und was daraus folgt
+Diese Datei beschreibt Änderungen an einem **anderen Repo** (`~/137/bmeise`) und
+ändert dort nichts. Alles betrifft `inventory/host_vars/paketzentrum.yml`, Dienst
+`diercki`.
 
-**Die Punkte 1 bis 4 sind in bmeise umgesetzt**, Commit `d632fd4` („diercki zieht
-das Image aus der CI und meldet sich selbst an"), committet und gepusht, Baum
-sauber. Nachgeprüft am 14.08.2026: beide Geheimnisse liegen `!vault`-verschlüsselt
-vor, `ATLAS_KONTO: admin` steht im Klartext daneben, `build:` ist weg (die Rolle
-nimmt damit von selbst `pull: always`), und der `basicauth`-Block für diercki
-existiert nicht mehr.
+## Stand nach dem Deploy
 
-**Angewendet ist davon noch nichts.** Genau das dreht die Reihenfolge unten um.
+Punkte 1 bis 5 sind umgesetzt (bmeise-Commit `d632fd4`, „diercki zieht das Image
+aus der CI und meldet sich selbst an") **und angewendet**. Die Reihenfolge unten
+ist so durchlaufen worden: PR gemergt (`07a96b1`), der CI-Job „Image" hat
+`ghcr.io/yuszuv/diercki:latest` veröffentlicht, danach `make webhost`.
 
-## Reihenfolge — jetzt andersherum
+Gegen die laufende Seite nachgeprüft am 14.08.2026:
 
-Sie war: erst deployen, dann den Caddy entschärfen. Da der Block im Repo schon weg
-ist, lautet die Gefahr nun umgekehrt: **zu früh deployen**. Gemessen am
-14.08.2026 — `origin/main` trägt weder `web/auth.rb` noch `web/geschuetzt.csv`,
-und auf ghcr existiert noch gar kein Paket (`Package not found`).
+| Adresse | Antwort |
+|---|---|
+| `/uploads/neumaier-frueher.png` | 302 → `/anmelden` |
+| `/Gruss-an-Stefan-Waldmann.dc.html` | 302 → `/anmelden` |
+| `/werkstatt/recherche/sternprodukt-notizen.md` | 302 → `/anmelden` |
+| `/Rumaenien-Physisch.html` | 200 |
+| `/health` | 200 |
 
-Ein `make webhost LIMIT=paketzentrum` in diesem Zustand schreibt einen Caddyfile
-ohne `basicauth` und scheitert danach am Pull. Der alte Container läuft weiter —
-alter Inhalt, kein Schutz. Also:
+Kein `WWW-Authenticate` in den Antworten: es ist der Wächter der Anwendung, der
+schützt, nicht mehr der `basicauth`-Block des Caddy. Die doppelte Abfrage ist
+damit weg, ohne dass zwischendurch etwas offen stand.
+
+## Reihenfolge — so ist sie gelaufen
+
+Sie war ursprünglich: erst deployen, dann den Caddy entschärfen. Da der Block im
+bmeise-Repo schon entfernt war, drehte sich die Gefahr um auf **zu früh
+deployen** — ein `make webhost` vor dem veröffentlichten Image hätte einen
+Caddyfile ohne `basicauth` geschrieben und wäre danach am Pull gescheitert: alter
+Container, alter Inhalt, kein Schutz. Deshalb in dieser Reihenfolge:
 
 1. PR mergen
 2. den CI-Job „Image" abwarten, bis `ghcr.io/yuszuv/diercki:latest` existiert
