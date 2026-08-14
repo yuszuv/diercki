@@ -1,8 +1,15 @@
 # Umbau: Konfiguration über dry-system settings
 
-Vorbereitet am 14.08.2026 auf `feat/ruby-web-app`, **noch nicht umgesetzt**. Gedacht
-als eigener PR nach dem Merge des Webanwendungs-PRs. Diese Datei ist die Übergabe:
-Befund, Bauformen, Hindernis, und was nicht kaputtgehen darf.
+> **Erledigt am 14.08.2026, Bauform C.** Diese Datei bleibt als Befund von vorher
+> stehen; was dabei herauskam, steht in `entscheidungen-webanwendung.md` unter
+> „Und dann kauft dry-system doch noch etwas". Zwei Stellen hier sind durch die
+> Messung überholt und im Text unten markiert: das „Hindernis" gab es nicht — ein
+> nicht finalisierter Container löst faul auf —, und `plugin :sessions` nimmt kein
+> Callable. Wer den Stand sucht, liest die Entscheidungsdatei, nicht diese.
+
+Vorbereitet am 14.08.2026 auf `feat/ruby-web-app`. Gedacht als eigener PR nach dem
+Merge des Webanwendungs-PRs. Diese Datei ist die Übergabe: Befund, Bauformen,
+Hindernis, und was nicht kaputtgehen darf.
 
 Kein brennender Fehler — funktionierender, getesteter Code wird abgelöst, weil die
 handgeschriebene Fassung drei Dinge schlechter macht als die vorhandene Bibliothek.
@@ -68,6 +75,12 @@ der Doku übernommen — die Doku schweigt zu den zwei interessanten Punkten.
 `dry-configurable` liegt bereits im Lock (1.4.0, transitiv über dry-system).
 
 ## Das Hindernis, und es ist das eigentliche Stück Arbeit
+
+> **Überholt.** Es gab beides nicht. `plugin :sessions` weist ein Callable ab
+> (`sessions.rb:169` prüft auf `String`, in `self.configure`), und es braucht auch
+> keines: ein nicht finalisierter dry-system-Container löst faul auf und startet den
+> Provider dabei, `Container['settings']` liefert also **vor** `finalize!`. Die
+> Startreihenfolge von `AuthApp` blieb unangetastet.
 
 `web/auth.rb` liest **beim Laden der Klasse**:
 

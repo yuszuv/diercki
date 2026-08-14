@@ -45,6 +45,17 @@ gem 'dry-system', '~> 1.2'
 # day dry-core stops needing it.
 gem 'concurrent-ruby', '~> 1.3'
 
+# Same reason: dry-system brings it, and web/boot.rb requires it directly. Not
+# optional there — dry/system/provider_sources references Dry::Configurable at
+# load time without requiring it, so the settings provider dies with an
+# "uninitialized constant" unless this is loaded first.
+gem 'dry-configurable', '~> 1.4'
+
+# The .env chain behind the settings provider: .env.<env>.local, .env.local
+# (never in test), .env.<env>, .env. Without this gem dry-system's loader does
+# nothing at all — it rescues the LoadError and moves on silently.
+gem 'dotenv', '~> 3.1'
+
 # --- Markdown ----------------------------------------------------------------
 # The workshop renders the repo's own .md files. GFM because the docs are full of
 # tables, which plain kramdown does not read.

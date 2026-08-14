@@ -59,7 +59,7 @@ RUN apk add --no-cache tzdata wget sqlite-libs
 #                         base64 — docker compose resolves ${…} in every value it
 #                         reads, and a bcrypt hash is made of $-fields. Measured:
 #                         raw, it arrives mangled and the password silently stops
-#                         matching. web/auth.rb refuses to start on a raw one.
+#                         matching. web/boot.rb refuses to start on a raw one.
 #   ATLAS_SESSION_SECRET  ruby -rsecurerandom -e 'print SecureRandom.hex(64)'
 #
 # There is no database file and no volume: with only :login and :logout enabled

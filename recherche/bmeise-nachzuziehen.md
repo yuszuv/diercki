@@ -105,7 +105,10 @@ Erzeugen:
     ruby -rbcrypt -e 'print [BCrypt::Password.create("…")].pack("m0")'
     ruby -rsecurerandom -e 'print SecureRandom.hex(64)'
 
-`web/auth.rb` verweigert den Start, wenn dekodiert kein bcrypt-Hash herauskommt.
+`web/boot.rb` verweigert den Start, wenn dekodiert kein bcrypt-Hash herauskommt —
+seit dem settings-Umbau in einem Konstruktor des settings-Providers, und zusammen
+mit allem anderen, was gleichzeitig fehlt. An Namen und Form der drei Variablen
+ändert das nichts, `dockerapp_env` bleibt also, wie es hier steht.
 
 ## 4 · Erst nach bewiesenem Deploy: `basicauth` entfernen
 
