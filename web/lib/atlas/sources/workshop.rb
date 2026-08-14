@@ -20,6 +20,7 @@ module Atlas
         ['Die Webanwendung', 'WEB-APPLICATION.md'],
         ['Arbeiten an zwei Orten', 'TWO-PLACES.md'],
         ['Was in bmeise nachzuziehen ist', 'recherche/bmeise-nachzuziehen.md'],
+        ['Umbau: Konfiguration über dry-system', 'recherche/settings-umbau.md'],
         ['Verbindliche Regeln', 'CLAUDE.md'],
         ['Einstieg für Agents', 'AGENTS.md'],
         ['Glossar der Fachbegriffe', 'atlas/GLOSSAR.md'],
