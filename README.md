@@ -36,12 +36,17 @@ Needs Ruby 3.4 (rbenv: `rbenv install 3.4.2`, `.ruby-version` sits next to this 
 ```sh
 bundle install                 # gems into .bundle/gems, not into the system
 ruby bin/vendor.rb             # once: the nine vendored libraries into .vendor/
+cp .env.example .env           # then fill in the two blanks it explains
 bundle exec puma               # → http://localhost:9292/
 ```
 
 Puma serves it, the same server the container runs, and it reads `config.ru` by
 itself. Not `rackup`: since Rack 3 that executable lives in a separate gem, which
 this project does not carry.
+
+`config.ru` reads `.env` on the way up — docker compose does that by itself, puma
+does not, and the application refuses to start without the three values. A
+variable already in the environment wins over the file.
 
 `bin/vendor.rb` is the **only** step that needs a network. Everything after it works
 offline. It verifies the two SRI hashes on the way and aborts if a file is not
@@ -53,10 +58,9 @@ Tests: `bundle exec ruby -Itest test/web_test.rb`
 
 Needs no Ruby on the machine.
 
-The login needs three values and refuses to start without them:
+Same `.env` as above:
 
 ```sh
-cp .env.example .env        # then fill in the two blanks it explains
 docker compose --profile local up dev       # → http://localhost:9292/
 ```
 

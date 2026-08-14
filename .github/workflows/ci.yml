@@ -55,12 +55,17 @@ jobs:
       # noticed: README said `bundle exec rackup`, but Rack 3 moved that
       # executable into a separate gem this project does not carry. Run what the
       # README tells a newcomer to run.
+      # Through a .env and with nothing exported, because that is what the README
+      # tells you to do — `cp .env.example .env`. It also exercises the loader in
+      # config.ru: compose reads .env by itself, puma does not, so the app reads
+      # it. Exporting the values here instead would test a path nobody walks.
       - name: Start it the way the README says
-        env:
-          ATLAS_KONTO: ci
-          ATLAS_PASSWORT_HASH: JDJhJDEyJHZ3VDhOMFE4WEl3T1dWbDNVUXhCYU9Id2QvQlFYbGp6dXdMcG5kQjVxQ1BZTHQ2dHouYTFt
         run: |
-          export ATLAS_SESSION_SECRET="$(openssl rand -hex 64)"
+          {
+            echo 'ATLAS_KONTO=ci'
+            echo 'ATLAS_PASSWORT_HASH=JDJhJDEyJHZ3VDhOMFE4WEl3T1dWbDNVUXhCYU9Id2QvQlFYbGp6dXdMcG5kQjVxQ1BZTHQ2dHouYTFt'
+            echo "ATLAS_SESSION_SECRET=$(openssl rand -hex 64)"
+          } > .env
           bundle exec puma &
           for i in $(seq 1 30); do
             curl -sf http://127.0.0.1:9292/health >/dev/null && break
@@ -69,6 +74,7 @@ jobs:
           curl -sf http://127.0.0.1:9292/health
           curl -sf http://127.0.0.1:9292/ >/dev/null
           kill %1
+          rm -f .env
 
       # Reports, not gates — they exit 0 either way. Running them catches the case
       # where a script nobody invokes daily has quietly stopped working.
