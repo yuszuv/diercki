@@ -72,6 +72,20 @@ class AtlasTest < Minitest::Test
     ENV.delete('ATLAS_REVISION')
   end
 
+  def test_the_footer_names_the_running_build
+    # Same source as /version, so the page and the deploy's check can never
+    # disagree about which commit is answering.
+    get '/'
+    assert_includes last_response.body, 'Arbeitsbaum'
+
+    ENV['ATLAS_REVISION'] = 'abc1234def5678'
+    get '/'
+    assert_includes last_response.body, '>abc1234'
+    assert_includes last_response.body, 'title="abc1234def5678"'
+  ensure
+    ENV.delete('ATLAS_REVISION')
+  end
+
   def test_a_sheet_is_still_reachable_at_its_own_address
     get '/Rumaenien-Physisch.html'
     assert_equal 200, last_response.status
