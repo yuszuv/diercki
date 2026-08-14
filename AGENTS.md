@@ -13,8 +13,8 @@ Die verbindlichen Projekt-Regeln stehen in `CLAUDE.md` — dieses Blatt doppelt 
   Klassennamen des Musterblatts
 
 ## Die Webanwendung
-Roda + dry-system + dry-monads + dry-transformer, ein Puma-Prozess, kein nginx.
-Start: `bundle exec rackup -p 8139`, Tests: `bundle exec ruby -Itest test/web_test.rb`.
+Roda + dry-system + dry-monads, ein Puma-Prozess, kein nginx.
+Start: `bundle exec rackup` (9292), Tests: `bundle exec ruby -Itest test/web_test.rb`.
 
 - **Jeder Reader gibt ein `Result` zurück.** Ein `Failure` wird zum sichtbaren
   `.fehlfall`-Kasten mit Pfad und Grund. Das ist die Projektregel „fehlt ein
