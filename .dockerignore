@@ -15,7 +15,7 @@
 .ruby-lsp
 Dockerfile
 Dockerfile.probe
-compose.yaml
+docker-compose.yml
 
 # Working stores
 wip/
