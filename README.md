@@ -66,6 +66,8 @@ atlas/
   farben.js           Farbsystem — einzige Quelle für Hex-Werte im Atlas
   farben-paletten.rb  erzeugt die .gpl-Paletten aus farben.js
   register.csv        Namensregister des Bandes, von Hand gepflegt
+  blaetter.csv        Blattschlüssel — welche Blattnummer welche Datei meint
+  BLAETTER.md         Rechenweg dazu; die Nummern sind abgeleitet, nicht belegt
   marke/              Logo und handschriftliche Wortmarke
   GLOSSAR.md          Fachbegriffe der Blätter, alphabetisch
   paletten/           .gpl-Paletten für QGIS/GIMP, aus farben.js abgeleitet
@@ -75,8 +77,18 @@ atlas/
                       themen/brandenburg-hanf/ ist zugleich das QField-Projektpaket
                       für die Feldbegehung (Anleitung im dortigen README)
 
-bin/                  Werkzeuge — sync-report.rb vergleicht den Klon mit dem ZIP-Export
-web/                  Webseiten-Fassung; wird vom Docker-Image unter / ausgeliefert
+bin/                  Werkzeuge — sync-report.rb vergleicht den Klon mit dem ZIP-Export,
+                      vendor.rb holt die neun eingebackenen Fremdbibliotheken
+web/                  die Webanwendung (Roda, dry-rb) und ihre Gestaltung
+  app.rb              Routen
+  boot.rb             Container (dry-system), Wurzelpfad, Vendor-Verzeichnis
+  lib/atlas/          Reader, Umformungen, Middleware
+  templates/          ERB-Vorlagen — spiegeln die Klassennamen von Muster.dc.html
+  site.css            Gestaltung — gehört der Design-Oberfläche
+  Muster.dc.html      jeder Baustein einmal — gehört der Design-Oberfläche
+  site.js             Nachrüstung: Signaturen einsetzen, Register filtern
+  nicht-oeffentlich.csv  Pfade, die keine zweite Adresse bekommen
+test/                 minitest + rack-test
 handarbeit/           nur der Mensch schreibt hier — QGIS-Projekte, Erfassungs-GeoPackages
 praesentationen/      Präsentationen (Pitch-Deck, QField-How-to) und Wireframes
 recherche/            Recherche-Notizen und festgehaltene Entscheidungen
@@ -164,18 +176,39 @@ aus `atlas/typenscale.js`, Untergrenze 5,5 pt.
 
 ## Auslieferung und Vorschau
 
-Der Atlas ist statisch — kein Build-Schritt, kein Server-Code. Zum Anschauen genügt
-ein Webserver; das Image bringt ihn mit:
+Die Blätter sind statisch, die Anwendung um sie herum ist es nicht: eine Roda-App
+serviert den Baum und baut Startseite, Schaukasten, Blattschau, Namensregister und
+Werkstatt daraus. Ein Prozess, kein nginx.
 
-    docker compose up atlas    # http://localhost:8137/  — Baum aus dem Image
-    docker compose up dev      # http://localhost:8138/  — Arbeitsverzeichnis gemountet
+    bundle install
+    ruby bin/vendor.rb               # einmalig: die neun Fremdbibliotheken holen
+    bundle exec rackup -p 8139       # http://localhost:8139/
+
+    docker compose --profile local up preview   # 8137 — Baum aus dem Image
+    docker compose --profile local up dev       # 8138 — Arbeitsverzeichnis gemountet
+
+**Alles wird zur Laufzeit gelesen.** Die Blattliste kommt aus den Tabellen dieser
+README, das Register aus `atlas/register.csv`, der Blattschlüssel aus
+`atlas/blaetter.csv`, die Prosa aus den `.md`-Dateien. Eine Korrektur an einer Datei
+steht beim nächsten Aufruf da; es gibt keine abgeleitete Kopie, die still veraltet.
+Fehlt etwas, wird nicht geraten: der Fall erscheint als sichtbarer Kasten mit Pfad und
+Grund — ein Blatt ohne README-Zeile, eine Blattnummer ohne Datei, ein Verweis ins
+Leere.
+
+Ein Blatt bleibt unter seiner eigenen Adresse erreichbar
+(`/Rumaenien-Physisch.html`), damit jeder Verweis in jedem Blatt weiter funktioniert;
+`/blatt/Rumaenien-Physisch.html` ist die gerahmte Fassung mit Quellenregister daneben.
 
 Beides **läuft ohne Netz.** Die Blätter laden d3, topojson, React und Babel sonst von
-unpkg und die Weltgeometrie von jsDelivr; das Image legt diese neun Dateien unter
-`/vendor` und nginx schreibt die Verweise im Ausgang um (`sub_filter`). Die Blätter
-selbst bleiben unangetastet — sie gehören dem Design-Projekt und müssen byte-genau
-vergleichbar bleiben. Die `integrity`-Hashes gelten weiter, weil die eingebackenen
-Dateien byte-gleich sind; der Bau prüft das und bricht sonst ab.
+unpkg und die Weltgeometrie von jsDelivr; `bin/vendor.rb` legt diese neun Dateien
+unter `/vendor` und eine Rack-Middleware schreibt die Verweise im Ausgang um. Die
+Blätter selbst bleiben unangetastet — sie gehören dem Design-Projekt und müssen
+byte-genau vergleichbar bleiben. Die `integrity`-Hashes gelten weiter, weil die
+eingebackenen Dateien byte-gleich sind; `bin/vendor.rb` prüft das und bricht sonst ab.
+
+Die neun Adressen stehen an **einer** Stelle, `web/lib/atlas/vendor.rb`. Vorher waren
+es drei: zweimal als `sub_filter`-Block in `web/nginx.conf`, einmal als Shell-Liste im
+`Dockerfile` — also zwei Gelegenheiten, acht von neun zu ändern.
 
 Selbst auszuliefern hat außer der Vorschau ohne Netz zwei Gründe, die auch öffentlich
 gelten: die IP-Adressen der Besucher gehen nicht an Dritte, und
@@ -194,13 +227,43 @@ Einzige echte Netz-Abhängigkeit bleibt der Overpass-Aufruf in `Nikolais-Ort.dc.
 — eine Live-Abfrage, die sich nicht einbacken lässt. Ohne Netz zeichnet das Blatt aus
 `atlas/geodaten/friedhof-freiburg.geojson`.
 
-`web/` trägt die Webseiten-Fassung: Startseite, Schaukasten der Blätter, das
-Namensregister aus `atlas/register.csv` und eine Werkstatt-Ansicht, die die
-Markdown-Dateien des Repos rendert. Alles wird **zur Laufzeit** gelesen — auch die
-Blattliste, die aus den Tabellen dieser README kommt. Ein Blatt im Wurzelverzeichnis,
-das hier fehlt, verschwindet auf der Seite nicht, sondern erscheint als offener Fall.
-Gestaltung und Struktur sind ein erster Aufschlag; der Feinschliff läuft über die
-Oberfläche.
+### Wovon die Anwendung gebaut ist
+
+Roda routet, dry-rb trägt die Daten: `dry-system` verdrahtet die Reader,
+`dry-transformer` macht die Parse-Ketten für README-Tabellen und Semikolon-CSV,
+`dry-monads` bringt das `Result`. Letzteres ist keine Verzierung — jeder Reader gibt
+`Success` oder `Failure` zurück, und ein `Failure` wird zum sichtbaren Kasten. Damit
+ist die Projektregel „fehlt ein Eintrag, wird nicht geraten" im Typ der Rückgabe
+verankert und nicht in der Sorgfalt des Aufrufers.
+
+Nicht genommen wurde `web_pipe`, obwohl seine Form gut passt: letzte Fassung
+November 2021, letzter Commit November 2023, und die Gemspec nagelt `rack ~> 2.0`
+fest.
+
+`web/site.js` ist **Nachrüstung, keine Voraussetzung.** Der Server liefert jede Seite
+vollständig, auch alle 272 Registerzeilen. Das Skript setzt die Signaturen aus
+`atlas/signaturen.js` ein — der Katalog ist ein JS-Modul, der Browser ist sein
+natürlicher Leser, ein zweiter Parser in Ruby wäre eine zweite Stelle mit eigener
+Meinung — und filtert die schon gelieferte Tabelle ohne Rückfrage. Ohne JavaScript
+filtert das Formular per GET, und jede Filterung ist eine teilbare Adresse.
+
+### Ein Schutz, zwei Listen
+
+Der Caddy des Hosts sperrt vier Pfade hinter eine Passwortabfrage (bmeise,
+`host_vars/paketzentrum.yml`, `basicauth.paths`). Er schützt **Adressen** — und diese
+Anwendung erfindet für denselben Inhalt neue: `/blatt/<datei>` und
+`/werkstatt/<pfad>`. Ohne Gegenmaßnahme wäre `/werkstatt/recherche/…​.md` der volle
+Text an einer Adresse, die der Caddy nicht kennt.
+
+Deshalb `web/nicht-oeffentlich.csv`: was dort steht, bekommt keine zweite Adresse,
+sondern eine Umleitung auf den Originalpfad, wo die Abfrage sitzt. Der Eintrag bleibt
+in Schaukasten und Werkstatt sichtbar und als *nicht öffentlich* gekennzeichnet —
+verschweigen wäre eine andere Auskunft als verschließen.
+
+**Die beiden Listen müssen zusammen gepflegt werden.** Fehlerrichtung wie drüben: was
+fehlt, ist öffentlich, und nichts meldet das. `test/web_test.rb` prüft, dass jeder
+Eintrag der Liste hier wirklich umgeleitet wird — nicht, dass die Liste vollständig
+ist; das kann sie nicht.
 
 ## Arbeiten an zwei Orten
 
@@ -229,7 +292,9 @@ festgelegt**, damit möglichst wenige Dateien an beiden Orten angefasst werden:
 | Geodaten-Pipelines (`atlas/geodaten/`) | **lokal** | brauchen GDAL, osmium und mehrere Gigabyte Rohdaten |
 | QGIS-Kartensatz (`atlas/qgis/`) | **lokal** | QGIS liest und schreibt die Dateien, XML-Validität zählt |
 | Doku, Quellenregister, Recherche | **lokal** | sie beschreiben den Klon, und der Klon führt |
-| `web/`, `Dockerfile`, `compose.yaml`, `bin/` | **lokal** | kennt die Oberfläche nicht und braucht sie nicht |
+| Namensregister (`atlas/register.csv`) | **Oberfläche** | dort entstanden und dort gepflegt; hier schreibt nichts hinein |
+| Gestaltung der Webfassung (`web/site.css`, `web/Muster.dc.html`) | **Oberfläche** | das Musterblatt zeigt jeden Baustein einmal und lässt sich dort zeichnen |
+| Rest der Webanwendung (`web/`, `config.ru`, `Gemfile`, `Dockerfile`, `docker-compose.yml`, `bin/`, `test/`) | **lokal** | kennt die Oberfläche nicht und braucht sie nicht |
 | `handarbeit/` | **lokal, nur der Mensch** | Binärdateien von QGIS und QField |
 | `_ds/` | **keins von beidem** | kommt aus dem Sternprodukt-Design-System und wandert im Export mit |
 

@@ -4,9 +4,29 @@ Einstieg für Coding-Agents (Claude Code u. a.) im Repo `yuszuv/diercki`.
 Die verbindlichen Projekt-Regeln stehen in `CLAUDE.md` — dieses Blatt doppelt sie nicht.
 
 ## Rollen
-- Agents schreiben: `atlas/`, Kartenblätter (`*.html`, `*.dc.html`), Doku, `praesentationen/`, `recherche/`, `web/`, `bin/`
+- Agents schreiben: `atlas/`, Kartenblätter (`*.html`, `*.dc.html`), Doku, `praesentationen/`, `recherche/`, `web/`, `bin/`, `test/`
 - Nur der Mensch schreibt: `handarbeit/` (QGIS-Projekte, Erfassungs-GeoPackages)
 - `_ds/` ist das gebundene Design-System — nie anfassen
+- `web/site.css` und `web/Muster.dc.html` gehören der Design-Oberfläche: hier nur
+  ändern, wenn es eine Klasse betrifft, die die Vorlagen neu erzeugen — und dann
+  beides zusammen. Die ERB-Vorlagen unter `web/templates/` spiegeln die
+  Klassennamen des Musterblatts
+
+## Die Webanwendung
+Roda + dry-system + dry-monads + dry-transformer, ein Puma-Prozess, kein nginx.
+Start: `bundle exec rackup -p 8139`, Tests: `bundle exec ruby -Itest test/web_test.rb`.
+
+- **Jeder Reader gibt ein `Result` zurück.** Ein `Failure` wird zum sichtbaren
+  `.fehlfall`-Kasten mit Pfad und Grund. Das ist die Projektregel „fehlt ein
+  Eintrag, wird nicht geraten" im Typ der Rückgabe, nicht in der Sorgfalt des
+  Aufrufers. Kein `rescue`, das einen fehlenden Eintrag zu einem leeren macht.
+- **Die neun CDN-Adressen stehen nur in `web/lib/atlas/vendor.rb`.** Von dort
+  lesen die Rack-Middleware und `bin/vendor.rb`. Nie eine zehnte Stelle aufmachen.
+- **Kartenblätter werden nie umgeschrieben, nur gerahmt.** Die Umschrift geschieht
+  im Ausgang; auf der Platte muss ein Blatt byte-gleich zum Export bleiben.
+- **`web/nicht-oeffentlich.csv` und `basicauth.paths` in bmeise gehören zusammen.**
+  Wer eine neue Route baut, die den Inhalt einer Datei unter einer zweiten Adresse
+  ausgibt, prüft diese Liste — sonst geht die Passwortabfrage des Hosts ins Leere.
 
 ## Eiserne Regeln (Kurzform, Details in CLAUDE.md)
 - Farben ausschließlich aus `atlas/farben.js` bzw. den `.gpl`-Paletten — keine neuen Hex-Literale
