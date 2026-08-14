@@ -52,7 +52,7 @@ module Atlas
 
       def all
         tree.parse(PATH, :entries) do |csv|
-          Transforms::REGISTER.call(csv).filter_map do |row|
+          Transforms.rows(csv).filter_map do |row|
             name = Transforms.presence(row[:name])
             next unless name
 
@@ -83,10 +83,16 @@ module Atlas
       def kinds = all.value_or([]).map(&:kind).reject(&:empty?).uniq.sort
 
       # Entries appearing on one sheet, for the sheet view's side column.
+      #
+      # Stays a Result. An unreadable register would otherwise render as "Das
+      # Namensregister führt zu diesem Blatt keine Einträge" — a statement about
+      # the data made out of a read error, which is exactly the smooth answer the
+      # project rule forbids. No sheet number is a different thing again, and
+      # says so.
       def for_plate(nr)
-        return [] if nr.nil?
+        return Failure([:no_sheet_number, nil]) if nr.nil?
 
-        all.value_or([]).select { |e| e.numbers.include?(nr) }
+        all.fmap { |entries| entries.select { |e| e.numbers.include?(nr) } }
       end
 
       def cited_numbers = all.value_or([]).flat_map(&:numbers).uniq.sort

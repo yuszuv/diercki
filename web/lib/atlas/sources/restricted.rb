@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'dry/monads'
-
 module Atlas
   module Sources
     # Paths that must not get a second address.
@@ -20,7 +18,6 @@ module Atlas
     # The list is web/nicht-oeffentlich.csv and has to match basicauth.paths in
     # bmeise. Its own header says why, and says which way the error falls.
     class Restricted
-      include Dry::Monads[:result]
       include Atlas::Import['sources.tree']
 
       PATH = 'web/nicht-oeffentlich.csv'
@@ -29,21 +26,35 @@ module Atlas
 
       def all
         tree.parse(PATH, :rules) do |csv|
-          Transforms::REGISTER.call(csv).filter_map do |row|
-            pfad = Transforms.presence(row[:pfad])
-            next unless pfad
+          Transforms.rows(csv).filter_map do |row|
+            path = Transforms.presence(row[:pfad])
+            next unless path
 
-            Rule.new(path: normalise(pfad), reason: row[:grund].to_s.strip)
+            Rule.new(path: normalise(path), reason: row[:grund].to_s.strip)
           end
         end
       end
 
-      def restricted?(path) = !rule_for(path).nil?
+      # Fails closed. Every other reader in this application may fall back to an
+      # empty list — a missing source register is a visible case, and the page
+      # still stands. Not this one: if the list cannot be read, "no rule found"
+      # would mean "nothing is guarded", and the guarded research notes would go
+      # out in full at an address the Caddy has never heard of.
+      #
+      # The header of nicht-oeffentlich.csv states which way the error must
+      # fall. This is where the code obeys it.
+      def restricted?(path) = all.failure? || !rule_for(path).nil?
 
+      # nil for "no rule", but only when the list was actually read. Callers that
+      # want to display a reason ask this; callers that decide access ask
+      # #restricted? above.
       def rule_for(path)
         wanted = normalise(path)
         all.value_or([]).find { |r| r.path == wanted }
       end
+
+      # Why the list would not read, for the page that has to say so.
+      def unreadable = all.failure? ? all : nil
 
       private
 
