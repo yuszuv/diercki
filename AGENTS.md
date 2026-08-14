@@ -32,7 +32,7 @@ Die verbindlichen Projekt-Regeln stehen in `CLAUDE.md` — dieses Blatt doppelt 
 
 ## Die Webanwendung
 Roda + dry-system + dry-monads, ein Puma-Prozess, kein nginx.
-Start: `bundle exec rackup` (9292), Tests: `bundle exec ruby -Itest test/web_test.rb`.
+Start: `bundle exec puma` (9292), Tests: `bundle exec ruby -Itest test/web_test.rb`.
 
 - **Jeder Reader gibt ein `Result` zurück.** Ein `Failure` wird zum sichtbaren
   `.fehlfall`-Kasten mit Pfad und Grund. Das ist die Projektregel „fehlt ein
@@ -42,9 +42,9 @@ Start: `bundle exec rackup` (9292), Tests: `bundle exec ruby -Itest test/web_tes
   lesen die Rack-Middleware und `bin/vendor.rb`. Nie eine zehnte Stelle aufmachen.
 - **Kartenblätter werden nie umgeschrieben, nur gerahmt.** Die Umschrift geschieht
   im Ausgang; auf der Platte muss ein Blatt byte-gleich zum Export bleiben.
-- **`web/nicht-oeffentlich.csv` und `basicauth.paths` in bmeise gehören zusammen.**
+- **`web/geschuetzt.csv` ist die eine Liste des Wächters.**
   Wer eine neue Route baut, die den Inhalt einer Datei unter einer zweiten Adresse
-  ausgibt, prüft diese Liste — sonst geht die Passwortabfrage des Hosts ins Leere.
+  ausgibt, prüft diese Liste — und vergleicht Pfade kanonisch, nie als Zeichenkette.
 
 ## Eiserne Regeln (Kurzform, Details in CLAUDE.md)
 - Farben ausschließlich aus `atlas/farben.js` bzw. den `.gpl`-Paletten — keine neuen Hex-Literale

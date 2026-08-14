@@ -12,9 +12,9 @@
 # The two preview services sit behind the `local` profile and therefore never start
 # on the server: the deploy runs a plain `up`, and Compose skips profiled services.
 #
-# On the ports: 9292 is Rack's own default, so `bundle exec rackup` without any
-# flag and `docker compose up dev` land on the same address. Only `preview` needs
-# a second one, and only because two containers cannot share a host port.
+# On the ports: 9292 is Rack's default and Puma's, so `bundle exec puma` without
+# any flag and `docker compose up dev` land on the same address. Only `preview`
+# needs a second one, and only because two containers cannot share a host port.
 #
 # The container itself listens on ATLAS_PORT, default 80 — that is what bmeise's
 # Caddy names as `upstream: diercki:80` (inventory/host_vars/paketzentrum.yml).

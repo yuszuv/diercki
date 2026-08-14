@@ -2,7 +2,7 @@
 
 # The atlas, served.
 #
-#   bundle exec rackup                       local, without Docker
+#   bundle exec puma                         local, without Docker
 #   docker compose --profile local up dev
 #
 # The order matters and reads outside in:

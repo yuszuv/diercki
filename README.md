@@ -36,8 +36,12 @@ Needs Ruby 3.4 (rbenv: `rbenv install 3.4.2`, `.ruby-version` sits next to this 
 ```sh
 bundle install                 # gems into .bundle/gems, not into the system
 ruby bin/vendor.rb             # once: the nine vendored libraries into .vendor/
-bundle exec rackup             # → http://localhost:9292/  (Rack's own default)
+bundle exec puma               # → http://localhost:9292/
 ```
+
+Puma serves it, the same server the container runs, and it reads `config.ru` by
+itself. Not `rackup`: since Rack 3 that executable lives in a separate gem, which
+this project does not carry.
 
 `bin/vendor.rb` is the **only** step that needs a network. Everything after it works
 offline. It verifies the two SRI hashes on the way and aborts if a file is not

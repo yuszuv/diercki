@@ -86,7 +86,7 @@ COPY . /srv
 # here means moving it there in the same breath.
 #
 # Locally nobody meets this number — docker-compose.yml publishes 9292, Rack's
-# own default, which is also what `bundle exec rackup` binds without a flag.
+# own default, which is also what `bundle exec puma` binds without a flag.
 ENV ATLAS_PORT=80
 EXPOSE 80
 
