@@ -9,7 +9,7 @@
 # x86_64-linux-musl fails the build. That failure used to be discoverable only on
 # the server.
 
-name: Prüfung
+name: CI
 
 on:
   push:
@@ -42,17 +42,17 @@ jobs:
       # asks for /vendor/…, so the nine files have to be there — and the SRI check
       # inside this script is itself worth running: it fails if unpkg ever serves
       # something other than what the Blätter carry hashes for.
-      - name: Fremdbibliotheken holen und Hashes prüfen
+      - name: Vendor the nine libraries and verify their hashes
         run: ruby bin/vendor.rb
 
       # ATLAS_KONTO and friends are defaulted by the test file itself, so no
       # secrets are needed to run the suite.
-      - name: Tests
+      - name: Run the test suite
         run: bundle exec ruby -Itest test/web_test.rb
 
       # Reports, not gates — they exit 0 either way. Running them catches the case
       # where a script nobody invokes daily has quietly stopped working.
-      - name: Berichtsskripte laufen lassen
+      - name: Smoke-run the report scripts
         run: |
           ruby bin/pruefe-blaetter.rb
           ruby -c bin/sync-report.rb
@@ -71,7 +71,7 @@ jobs:
       # Only for a push to main. A pull request builds and throws the result
       # away — a PR from a fork could not push anyway, and a registry full of
       # branch tags is noise.
-      - name: An ghcr.io anmelden
+      - name: Log in to ghcr.io
         if: github.event_name == 'push'
         uses: docker/login-action@v4
         with:
@@ -79,7 +79,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Bauen, und auf main auch veröffentlichen
+      - name: Build, and publish on main
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -96,7 +96,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       # The image is only useful if it actually answers. Pull it back and ask.
-      - name: Gestartetes Image antworten lassen
+      - name: Start the published image and ask it something
         if: github.event_name == 'push'
         env:
           IMAGE: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
@@ -119,5 +119,5 @@ jobs:
           # silently if the vendored files or the middleware ever came apart.
           docker exec probe wget -qO- http://127.0.0.1/Rumaenien-Physisch.html \
             | grep -q '/vendor/unpkg/d3@7.9.0' \
-            || { echo 'Umschrift greift nicht'; exit 1; }
+            || { echo 'the rewrite did not take'; exit 1; }
           docker rm -f probe

@@ -164,7 +164,7 @@ GET, and every filtering is a shareable address.
 
 ## Build and publish
 
-`.github/workflows/pruefung.yml` runs on every pull request and on every push to
+`.github/workflows/ci.yml` runs on every pull request and on every push to
 `main`:
 
 - **Tests** — `bin/vendor.rb` (the only step needing a network; its SRI check runs

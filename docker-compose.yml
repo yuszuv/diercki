@@ -46,7 +46,7 @@ x-anmeldung: &anmeldung
 services:
   # Production. No `build:` on purpose — this one pulls.
   #
-  # The image is built and published by .github/workflows/pruefung.yml on every
+  # The image is built and published by .github/workflows/ci.yml on every
   # push to main, after the tests have run. That moves the build off the server:
   # since the atlas grew a Ruby application it compiles nio4r and pulls
   # platform-specific sqlite3 binaries, so a bad Gemfile.lock used to be
