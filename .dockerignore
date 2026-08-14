@@ -6,8 +6,8 @@
 # of tracked map data — get this wrong and the build context alone is 24 GB.
 #
 # Careful when trimming: recherche/ is rendered by the site's Werkstatt view, and
-# three files under screenshots/ are embedded by "Kleiner Gruß aus der Küche".
-# Both are part of what is served, even though they look like storage.
+# three files under screenshots/ are embedded by two of the sheets. Both are part
+# of what is served, even though they look like storage.
 
 .git
 .gitignore
@@ -15,7 +15,6 @@
 .github
 .ruby-lsp
 Dockerfile
-Dockerfile.probe
 docker-compose.yml
 
 # Working stores
@@ -32,7 +31,11 @@ test/
 .env
 .env.*
 
-# QA screenshots — except the three a sheet embeds
+# QA screenshots — except what a sheet actually embeds. Checked, not assumed:
+#   vorschau-verkehr.png, vorschau-baer.png → Kleiner-Gruss-aus-der-Kueche.dc.html
+#   katzundgoldt-crop.png                   → Gruss-an-Stefan-Waldmann.dc.html
+# thumb-*.png is ahead of the clone: the design UI's Inhalt.dc.html embeds eight,
+# this tree has not adopted that state yet, so the files are not here (TWO-PLACES.md).
 screenshots/*
 !screenshots/vorschau-verkehr.png
 !screenshots/vorschau-baer.png

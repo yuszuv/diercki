@@ -90,6 +90,7 @@ Both sit behind the `local` profile and never start on the server.
 | `bundle install` wants Ruby 3.4.2, you have 3.4.9 | The `Gemfile` only asks for `~> 3.4.0`; `.ruby-version` is the rbenv pin. Install that version or adjust the file |
 | Gems missing inside the container | The host's `.bundle/config` points into the repo; the image sets `BUNDLE_APP_CONFIG` for that reason — do not override it |
 | A page shows a box saying "offener Fall" | Not a bug but the design: a file or an assignment is missing, and the page says which |
+| A page redirects to `/anmelden` | It is listed in `web/geschuetzt.csv`. Log in with the `ATLAS_KONTO` and the password whose hash you put in `.env` |
 
 ## Blätter
 
@@ -179,8 +180,15 @@ recherche/            research notes and recorded decisions
 skills/               project-owned skills (belegstatus, atlas-kartenblatt, …)
 uploads/              data and images the Blätter load at runtime
 screenshots/          QA captures; three are embedded by "Kleiner Gruß aus der Küche"
-wip/                  working store, including the ZIP export — globally ignored
+wip/                  working store, including the ZIP export and the reference
+                      scans of the printed Diercke — ignored by `.gitignore`
 _ds/                  the bound Sternprodukt design system (do not touch)
+
+config.ru             the Rack stack, outside in: auth, guard, rewrite, files, app
+Dockerfile            the image — built by .github/workflows/ci.yml, published to ghcr
+docker-compose.yml    the dev and preview profiles, and the production service
+.env.example          template for the three required values; .env itself is ignored
+github.md             repo binding and the log of syncs with the design UI
 ```
 
 Not in the clone but in the design project: `scans/` — the reference scans of the
@@ -199,6 +207,8 @@ whoever needs them takes them out of the export.
 | `DATENBEDARF.md` | what data is still missing from outside |
 | `atlas/BLAETTER.md` | how the Blattnummern were derived |
 | `atlas/GLOSSAR.md` | the Blätter's technical terms |
+| `atlas/geodaten/LIESMICH.md` | which script produces which geodata file |
+| `github.md` | repo binding and the log of syncs with the design UI |
 
 Colours and Signaturen go through `atlas/farben.js` and `atlas/signaturen.js` and
 nowhere else — no new hex values, no ad-hoc symbols in individual Blätter. The `.gpl`

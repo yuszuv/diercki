@@ -5,13 +5,33 @@ Stand 14.08.2026. Diese Datei beschreibt Änderungen an einem **anderen Repo**
 welcher Reihenfolge. Alles betrifft `inventory/host_vars/paketzentrum.yml`,
 Dienst `diercki`.
 
-## Reihenfolge
+## Erledigt — und was daraus folgt
 
-Sie ist nicht beliebig. Punkt 2 nimmt dem Caddy den Schutz weg; wenn die
-Anmeldung der Anwendung dann noch nicht bewiesen ist, stehen die vier Pfade offen.
+**Die Punkte 1 bis 4 sind in bmeise umgesetzt**, Commit `d632fd4` („diercki zieht
+das Image aus der CI und meldet sich selbst an"), committet und gepusht, Baum
+sauber. Nachgeprüft am 14.08.2026: beide Geheimnisse liegen `!vault`-verschlüsselt
+vor, `ATLAS_KONTO: admin` steht im Klartext daneben, `build:` ist weg (die Rolle
+nimmt damit von selbst `pull: always`), und der `basicauth`-Block für diercki
+existiert nicht mehr.
 
-1. Deploy mit Anmeldung, prüfen, dass sie greift
-2. **erst danach** den `basicauth`-Block entfernen
+**Angewendet ist davon noch nichts.** Genau das dreht die Reihenfolge unten um.
+
+## Reihenfolge — jetzt andersherum
+
+Sie war: erst deployen, dann den Caddy entschärfen. Da der Block im Repo schon weg
+ist, lautet die Gefahr nun umgekehrt: **zu früh deployen**. Gemessen am
+14.08.2026 — `origin/main` trägt weder `web/auth.rb` noch `web/geschuetzt.csv`,
+und auf ghcr existiert noch gar kein Paket (`Package not found`).
+
+Ein `make webhost LIMIT=paketzentrum` in diesem Zustand schreibt einen Caddyfile
+ohne `basicauth` und scheitert danach am Pull. Der alte Container läuft weiter —
+alter Inhalt, kein Schutz. Also:
+
+1. PR mergen
+2. den CI-Job „Image" abwarten, bis `ghcr.io/yuszuv/diercki:latest` existiert
+3. **erst dann** `make webhost LIMIT=paketzentrum`
+4. die zwei `curl`-Nachkontrollen aus `paketzentrum.yml` (302 auf das Foto,
+   200 auf ein offenes Blatt)
 
 ## 1 · Der Kommentar beschreibt einen Zustand, den es nicht mehr gibt
 
