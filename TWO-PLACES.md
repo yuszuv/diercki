@@ -64,11 +64,17 @@ The report separates them, and they need different answers:
 - **ONLY IN EXPORT** — the UI has something the clone does not. Usually to be adopted:
   copy it in, commit it. Watch for files a newly adopted Blatt *needs*: adopting
   `Inhalt.dc.html` without its eight `screenshots/thumb-*.png` gives eight broken
-  images, and nothing in the sheet says so.
+  images, and nothing in the sheet says so. That is not hypothetical — it is the case
+  this warning was written from, and on 14.08.2026 all nine went in together.
 - **ONLY LOCAL with a CHECK note** — the clone has something the UI should own. Upload
-  it. Currently `web/site.css` and `web/Muster.dc.html`: the design seam of the web
-  edition, built here because the web edition was built here, but drawn over there from
-  now on.
+  it. That was `web/site.css` and `web/Muster.dc.html`, the design seam of the web
+  edition: built here because the web edition was built here, uploaded 15.08.2026,
+  drawn over there from now on.
+
+  **The marker outlives the upload.** The report compares against the ZIP in `wip/`, not
+  against the UI, so both keep showing as CHECK until the next export brings them back
+  down. That is not drift and needs no second upload — the note clears itself once a
+  newer export is in place.
 
 ## Why not file by file through the tool
 

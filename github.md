@@ -12,16 +12,22 @@ ist der ZIP-Export nach `wip/`, verglichen mit `ruby bin/sync-report.rb`; einen
 programmatischen Weg hinauf gibt es nicht.
 
 ## Last sync
-date: 2026-08-13T21:00Z
+date: 2026-08-14T21:11Z
 
 ### Updated in this project
-- Vollabgleich gegen den ZIP-Export gelaufen; Abweichungen in README unter
-  „Wo der Klon vom Design-Projekt abweicht" festgehalten
-- README.md am Projekt-Root neu angelegt (Repo folgt über den üblichen Sync-Weg)
-- Kleiner-Gruss-aus-der-Kueche.dc.html: Vorschau-Seite mit Ausschnitten aus Verkehr und Braunbär
-- Gruss-an-Stefan-Waldmann.dc.html: persönliche Präsentation, kein Atlas-Bestandteil
+- Inhalt.dc.html aus dem Export übernommen: das Inhaltsverzeichnis bebildert jede
+  Blattzeile mit einer Vorschau des Blattes, die Signaturenspalte wächst dafür von
+  104 auf 148 px, und Blatt 8 tauscht die Klimastation gegen die Isotherme
+- screenshots/thumb-*.png (acht Stück) mitgenommen — ohne sie zeigt das Blatt acht
+  kaputte Bilder und sagt nichts dazu; .gitignore und .dockerignore trugen die
+  Ausnahme dafür schon
+- Der Weg hinauf ist gegangen: web/site.css und web/Muster.dc.html sind hier
+  entstanden, gehören aber der Oberfläche — am 15.08.2026 von Hand hinterlegt, den
+  Weg gibt es nur so. sync-report meldet sie bis zum nächsten Export weiter als
+  CHECK, weil er gegen das ZIP vom 13.08. vergleicht; das ist keine Abweichung
 
 ## Sync history
+- 2026-08-13 — Vollabgleich gegen den ZIP-Export; Abweichungen in README unter „Wo der Klon vom Design-Projekt abweicht" festgehalten; README.md am Projekt-Root angelegt; Kleiner-Gruss-aus-der-Kueche.dc.html und Gruss-an-Stefan-Waldmann.dc.html dazu
 - 2026-08-13 — handarbeit/reiseplaner/ nach praesentationen/ verschoben (drei Wireframes, DS-Pfade nachgezogen); Inhalt.dc.html als Übersichtsblatt angelegt
 - 2026-08-07T05:11:20Z — Erstbefüllung verifiziert (69 Dateien), GBIF-Nachweise, Braunbärenblatt: Nachweise-Modus
 - 2026-08-07T04:57:31Z — Repo-Gerüst (.gitignore, arbeit/, github.md) angelegt
