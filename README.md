@@ -49,9 +49,23 @@ Tests: `bundle exec ruby -Itest test/web_test.rb`
 
 Needs no Ruby on the machine.
 
+The login needs three values and refuses to start without them. Put them in a
+`.env` next to `docker-compose.yml` (git ignores it):
+
 ```sh
+{
+  echo "ATLAS_KONTO=jan"
+  echo "ATLAS_PASSWORT_HASH=$(bundle exec ruby -rbcrypt -e 'print [BCrypt::Password.create("dein-passwort")].pack("m0")')"
+  echo "ATLAS_SESSION_SECRET=$(ruby -rsecurerandom -e 'print SecureRandom.hex(64)')"
+} > .env
+
 docker compose --profile local up dev       # → http://localhost:9292/
 ```
+
+The hash is **base64**, and that is not a style choice: Compose resolves `${…}`
+inside every value it reads, `.env` included, and a bcrypt hash is made of
+`$`-fields. Raw, it arrives mangled and the correct password stops working with
+nothing to explain it. `web/auth.rb` refuses to start on a raw one.
 
 `dev` mounts the working tree read-only: a change to a file is there on the next
 request, without a restart and without a build step. To check what would actually ship:

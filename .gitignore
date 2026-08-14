@@ -57,6 +57,12 @@ clc5_2018.utm32s.shape/
 /Diercke-Atlas_Redesign.pptx
 .~lock.*#
 
+# Zugangsdaten der Anmeldung. docker compose liest .env von selbst; Ansible legt
+# auf dem Server dieselbe Datei aus dockerapp_env an. Hier hat sie nichts zu suchen.
+/.env
+/.env.*
+!/.env.beispiel
+
 # Ruby-Anwendung: installierte Gems und die eingebackenen Fremdbibliotheken.
 # .bundle/gems liegt bewusst nicht unter vendor/ — den Pfad /vendor/ belegen die
 # neun CDN-Dateien, auf die die Blätter umgeschrieben werden, und der Baum wird

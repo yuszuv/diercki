@@ -19,7 +19,8 @@ ENV['RACK_ENV'] = 'test'
 # the suite can log in; nothing else in the repo knows it.
 require 'bcrypt'
 ENV['ATLAS_KONTO'] ||= 'pruefer'
-ENV['ATLAS_PASSWORT_HASH'] ||= BCrypt::Password.create('probelauf')
+# base64, like everywhere else — see the comment on Atlas::Auth::BCRYPT.
+ENV['ATLAS_PASSWORT_HASH'] ||= [BCrypt::Password.create('probelauf')].pack('m0')
 ENV['ATLAS_SESSION_SECRET'] ||= 'p' * 64
 
 require 'minitest/autorun'

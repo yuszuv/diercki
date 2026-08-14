@@ -28,6 +28,8 @@ test/
 # and could carry the wrong platform's native extensions.
 .bundle/
 .vendor/
+.env
+.env.*
 
 # QA screenshots — except the three a sheet embeds
 screenshots/*

@@ -192,8 +192,25 @@ than none, because nothing looks broken while it is in place:
 | Variable | What |
 |---|---|
 | `ATLAS_KONTO` | the login name |
-| `ATLAS_PASSWORT_HASH` | `ruby -rbcrypt -e 'print BCrypt::Password.create("…")'` |
+| `ATLAS_PASSWORT_HASH` | `ruby -rbcrypt -e 'print [BCrypt::Password.create("…")].pack("m0")'` — **base64**, see below |
 | `ATLAS_SESSION_SECRET` | `ruby -rsecurerandom -e 'print SecureRandom.hex(64)'` |
+
+### Why the hash is base64
+
+Docker Compose resolves `${…}` inside every value it reads, and that includes the
+values in a `.env` file — no quoting and no `$$`-doubling stops it there. A bcrypt
+hash is `$2a$12$…`, three fields separated by dollar signs.
+
+Measured, not feared: `$2a$12$KDvI6RuYis…/qxuoa` reaches the container as
+`a2/qxuoa`. The application starts, and the correct password is simply rejected.
+Nothing in any log says why.
+
+Base64 has no dollar signs, so nothing on the way in can chew on it. `Atlas::Auth`
+decodes it and checks the result against the bcrypt shape; a raw hash aborts the
+boot with the command that produces the right value. A loud failure at start
+instead of a quiet one at the login screen.
+
+The same applies to `dockerapp_env` in bmeise — it writes exactly such a `.env`.
 
 `Sources::Restricted` **fails closed**: if the list cannot be read, every path counts as
 guarded and the whole derived layer shuts rather than opens. Every other reader in this

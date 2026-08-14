@@ -55,7 +55,11 @@ RUN apk add --no-cache tzdata wget sqlite-libs
 # They come from the deploy (bmeise), not from here:
 #
 #   ATLAS_KONTO           the login name
-#   ATLAS_PASSWORT_HASH   ruby -rbcrypt -e 'print BCrypt::Password.create("…")'
+#   ATLAS_PASSWORT_HASH   ruby -rbcrypt -e 'print [BCrypt::Password.create("…")].pack("m0")'
+#                         base64 — docker compose resolves ${…} in every value it
+#                         reads, and a bcrypt hash is made of $-fields. Measured:
+#                         raw, it arrives mangled and the password silently stops
+#                         matching. web/auth.rb refuses to start on a raw one.
 #   ATLAS_SESSION_SECRET  ruby -rsecurerandom -e 'print SecureRandom.hex(64)'
 #
 # There is no database file and no volume: with only :login and :logout enabled
