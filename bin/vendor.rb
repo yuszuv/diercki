@@ -73,11 +73,11 @@ Atlas::Vendor::LIBRARIES.each do |url, relative|
 end
 
 count = Atlas::Vendor::LIBRARIES.size
-puts "#{count - failures.size - unchanged} geladen, #{unchanged} vorhanden, " \
-     "#{Atlas::Vendor::INTEGRITY.size} Hashes geprüft → #{TARGET}"
+puts "#{count - failures.size - unchanged} fetched, #{unchanged} already there, " \
+     "#{Atlas::Vendor::INTEGRITY.size} hashes verified → #{TARGET}"
 
 unless failures.empty?
-  warn "\nFehlgeschlagen:"
+  warn "\nFailed:"
   failures.each { |f| warn "  #{f}" }
   exit 1
 end
