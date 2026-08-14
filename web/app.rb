@@ -62,8 +62,7 @@ module Atlas
       # SHA, which is what keeps the comparison honest.
       r.get('version') do
         response['content-type'] = 'text/plain; charset=utf-8'
-        revision = ENV.fetch('ATLAS_REVISION', '')
-        "#{revision.empty? ? 'arbeitsbaum' : revision}\n"
+        "#{revision || 'arbeitsbaum'}\n"
       end
 
       r.root { page :start }

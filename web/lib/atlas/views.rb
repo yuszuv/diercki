@@ -35,5 +35,14 @@ module Atlas
     # Whether anybody is logged in, for the navigation. AuthApp puts rodauth into
     # the env for every request, so both apps can ask.
     def logged_in? = request.env['rodauth']&.logged_in? || false
+
+    # The commit this build was made from, or nil outside a built image. Asked by
+    # the footer and by /version, and it has to be one place: the deploy compares
+    # /version against the commit it checked out, so a footer that could disagree
+    # with it would be worse than no footer.
+    def revision
+      value = ENV.fetch('ATLAS_REVISION', '')
+      value.empty? ? nil : value
+    end
   end
 end
