@@ -5,22 +5,25 @@ module Atlas
     # The workshop: not a sheet, but the scaffolding underneath — source
     # registers, research notes, rules, catalogues.
     #
-    # Two of the three sections are read from the directory, so a note added
-    # under recherche/ appears without anyone editing a list. The third is a
-    # fixed list, because "Verbindliche Regeln" is a better label for CLAUDE.md
-    # than "claude", and that mapping has to live somewhere.
+    # The registers and the notes are read from their directories, so a file
+    # added there appears without anyone editing a list. FIXED names what lies
+    # outside them and nothing else — it exists for the title ("Verbindliche
+    # Regeln" beats "claude"), and that mapping has to live somewhere.
     class Workshop
       include Atlas::Import['sources.tree']
 
       SOURCES_DIR = 'atlas/quellen'
       NOTES_DIR = 'recherche'
 
+      # An authoring convention, not a derived flag: a note files itself as
+      # finished by opening with a blockquote whose bold run starts "Erledigt".
+      DONE = /^>\s*\*\*Erledigt\b/
+      DONE_WITHIN = 12
+
       FIXED = [
         ['Aufbau des Repos', 'README.md'],
         ['Die Webanwendung', 'WEB-APPLICATION.md'],
         ['Arbeiten an zwei Orten', 'TWO-PLACES.md'],
-        ['Was in bmeise nachzuziehen ist', 'recherche/bmeise-nachzuziehen.md'],
-        ['Umbau: Konfiguration über dry-system', 'recherche/settings-umbau.md'],
         ['Verbindliche Regeln', 'CLAUDE.md'],
         ['Einstieg für Agents', 'AGENTS.md'],
         ['Glossar der Fachbegriffe', 'atlas/GLOSSAR.md'],
@@ -38,7 +41,13 @@ module Atlas
       Document = Data.define(:title, :path)
 
       def source_registers = documents_in(SOURCES_DIR)
-      def notes            = documents_in(NOTES_DIR)
+
+      def notes
+        documents_in(NOTES_DIR).fmap do |documents|
+          running, finished = documents.partition { |doc| running?(doc) }
+          { running:, finished: }
+        end
+      end
 
       # Kept as a Result even though the list is a constant: a fixed entry can
       # point at a file that has been renamed, and that is a documentation fault
@@ -50,6 +59,15 @@ module Atlas
       end
 
       private
+
+      # Swallows the Failure on purpose, unlike every other reader here: the
+      # document is listed and linked either way, only its heading depends on
+      # this read.
+      def running?(doc)
+        tree.parse(doc.path, :abschluss) { |text|
+          text.lines.first(DONE_WITHIN).none? { |line| line.match?(DONE) }
+        }.value_or(true)
+      end
 
       def documents_in(dir)
         tree.markdown_in(dir).fmap do |entries|

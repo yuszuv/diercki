@@ -17,6 +17,11 @@ there is no derived copy that can go quietly stale. Where something is missing, 
 is guessed: the case appears as a visible box with path and reason — a Blatt without a
 README row, a Blattnummer without a file, a link into nothing.
 
+Same principle one step further in the Werkstatt: a note under `recherche/` moves itself
+into the **Abgeschlossen** rubric by opening with a blockquote whose bold run starts
+`Erledigt` — read while the request runs, so there is no list of finished notes to keep
+in step with the directory. A note that says nothing stays among the running ones.
+
 A Blatt stays reachable at its own address (`/Rumaenien-Physisch.html`), so every
 cross-reference inside every Blatt keeps working; `/blatt/Rumaenien-Physisch.html` is
 the framed view with its Quellenregister beside it.
