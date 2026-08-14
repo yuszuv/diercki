@@ -56,9 +56,10 @@ jobs:
       # executable into a separate gem this project does not carry. Run what the
       # README tells a newcomer to run.
       # Through a .env and with nothing exported, because that is what the README
-      # tells you to do — `cp .env.example .env`. It also exercises the loader in
-      # config.ru: compose reads .env by itself, puma does not, so the app reads
-      # it. Exporting the values here instead would test a path nobody walks.
+      # tells you to do — `cp .env.example .env`. It also exercises the settings
+      # provider's dotenv chain: compose reads .env by itself, puma does not, so
+      # the application reads it. Exporting the values here instead would test a
+      # path nobody walks.
       - name: Start it the way the README says
         run: |
           {

@@ -112,6 +112,50 @@ Klasse zu kommen, und konstruiert dann selbst. Eine handgeschriebene Fabrik wär
 gleich lang. Der Austausch wäre Umbauarbeit ohne Gewinn; deshalb bleibt es. Bei einem
 siebten Reader ist der Container im Plus, bei sechs ist es unentschieden.
 
+## Und dann kauft dry-system doch noch etwas: der settings-Provider
+
+Nachgetragen am 14.08.2026. Der Abschnitt darüber sagt, der Container sei bei sechs
+Readern unentschieden. Der settings-Provider ist der Posten, der ihn ins Plus bringt,
+und er kostete kaum etwas, weil das Gem ohnehin dalag.
+
+Abgelöst wurden zwei handgeschriebene Stellen für dieselben drei Werte: die Pflicht-
+und Formprüfung in `web/auth.rb` und ein eigener `.env`-Leser in `config.ru`. Dafür
+drei Gründe, in dieser Reihenfolge:
+
+1. **Es sammelt.** `Config.load` führt jeden Konstruktor aus und wirft einmal mit
+   allem, was schiefstand. `Auth.env!` brach beim ersten fehlenden Wert ab — man
+   reparierte drei Fehler in drei Anläufen.
+2. **Die Prüfung wird deklarativ**, und `dry-types` braucht es dafür nicht: ein Lambda
+   als `constructor:` genügt. Die base64-Prüfung des Hashs zog unverändert um.
+3. **Eine `.env`-Kette**, die es sonst nirgends gibt, und damit ein Mechanismus statt
+   zwei. Genau die Sorte Dopplung, die dieses Projekt schon zweimal eingesammelt hat
+   (die neun CDN-Adressen, die zwei Wächter-Listen).
+
+Zwei Dinge waren beim Bau gemessen statt vermutet, und beide fielen anders aus als in
+der Übergabe (`settings-umbau.md`) angenommen:
+
+**Die Callable-Vermutung war falsch, und sie war überflüssig.** Die Übergabe hielt es
+für den Hebel, `plugin :sessions` ein Callable für `secret` zu geben, weil `AuthApp`
+das Geheimnis zur Ladezeit der Klasse liest, Settings aber erst nach `finalize!`
+bereitstünden. Roda nimmt kein Callable — es prüft in `self.configure` auf `String`
+und wirft sonst. Es braucht auch keines: ein **nicht finalisierter** dry-system-
+Container löst faul auf und startet den Provider dabei von selbst, also liefert
+`Container['settings']` die Werte vor `finalize!`. Die Startreihenfolge von `AuthApp`
+blieb, wie sie war — der teuerste Posten der Übergabe entfiel ersatzlos.
+
+**Die „wörtlich lesen"-Haltung wurde bewusst eingetauscht.** Der Loader in `config.ru`
+las die `.env` ohne `${…}`-Auflösung, und das stand dort als Absicht: ein Wert ändert
+sich nicht auf dem Weg herein. dotenv löst auf. Gemessen (3.2.0): ein roher bcrypt-Hash
+in einer `.env` wird zu `""`, in doppelten Anführungszeichen ebenso, nur einfache
+halten ihn — und die helfen gegen compose wieder nicht. Getauscht wurde also eine
+Eigenschaft gegen die Kette. Vertretbar, weil die Sicherheitszusage daran nicht hängt:
+der Hash reist base64, hat also keine `$`, und ein roh übergebener scheitert weiterhin
+laut — jetzt mit zwei auflösenden Lesern als Begründung statt einem. Wer den Tausch
+zurücknehmen will, nimmt Bauform B aus der Übergabe und lebt mit zwei Lesern.
+
+Nicht genommen: `dry-types` für die Konstruktoren. Ein Lambda tut es, und ein Gem für
+drei Prüfungen wäre dieselbe Rechnung wie bei `dry-transformer` oben.
+
 ## Kein web_pipe
 
 0.16.0 vom 07.11.2021, letzter Commit 15.11.2023, Gemspec auf `main` nagelt
