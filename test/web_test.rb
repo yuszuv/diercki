@@ -87,6 +87,29 @@ class AtlasTest < Minitest::Test
                  'register.csv cites a Blattnummer that atlas/blaetter.csv does not map'
   end
 
+  def test_a_note_is_filed_as_finished_only_when_it_says_so
+    # The split has no list behind it — each note is asked, and the answer is in
+    # the file. So the thing worth checking is that saying nothing keeps a note
+    # among the running ones: that is the direction a mistake may go.
+    Dir.mktmpdir do |dir|
+      Dir.mkdir(File.join(dir, 'recherche'))
+      {
+        'laeuft.md' => "# Läuft\n\nStand 14.08.2026. Noch offen.\n",
+        'fertig.md' => "# Fertig\n\n> **Erledigt am 14.08.2026.** Bleibt als Protokoll stehen.\n",
+        'spaet.md' => "# Spät\n\n#{"Text\n" * 20}> **Erledigt am 14.08.2026.**\n",
+        'erwaehnt.md' => "# Erwähnt\n\nHier steht **Erledigt** mitten im Fließtext.\n"
+      }.each { |name, body| File.write(File.join(dir, 'recherche', name), body) }
+
+      tree = Atlas::Container['sources.tree'].class.new(root: dir)
+      notes = Atlas::Container['sources.workshop'].class.new(tree:).notes.value!
+      names = ->(key) { notes[key].map { |d| File.basename(d.path) }.sort }
+
+      assert_equal ['fertig.md'], names.call(:finished)
+      assert_equal ['erwaehnt.md', 'laeuft.md', 'spaet.md'], names.call(:running),
+                   'ohne Vermerk in den ersten Zeilen bleibt eine Notiz laufend'
+    end
+  end
+
   # --- reading at runtime --------------------------------------------------
 
   def test_a_corrected_file_shows_up_without_a_restart

@@ -33,7 +33,16 @@ hat hier eine Zeile mit Status.</p>
 <% if notes.failure? %>
   <%== open_case(notes, title: 'Die Notizen ließen sich nicht auflisten') %>
 <% else %>
-  <div class="doks"><%== list.call(notes.value!) %></div>
+  <div class="doks"><%== list.call(notes.value![:running]) %></div>
+
+  <% unless notes.value![:finished].empty? %>
+    <h2>Abgeschlossen</h2>
+    <p class="abschnitt-text">Vorgänge, die durch sind — Übergaben, Umbauten, Deploys. Sie
+    bleiben stehen, weil sie festhalten, wie etwas gelaufen ist; nachgeführt werden sie
+    nicht. Eine Notiz landet hier, sobald sie in ihren ersten Zeilen selbst „Erledigt"
+    sagt.</p>
+    <div class="doks"><%== list.call(notes.value![:finished]) %></div>
+  <% end %>
 <% end %>
 
 <h2>Kataloge, Regeln, Nachschlagen</h2>

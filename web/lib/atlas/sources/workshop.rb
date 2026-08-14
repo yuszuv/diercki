@@ -15,6 +15,17 @@ module Atlas
       SOURCES_DIR = 'atlas/quellen'
       NOTES_DIR = 'recherche'
 
+      # A note says for itself when it is finished: a blockquote among its first
+      # lines whose bold run opens with "Erledigt". The file is the only place
+      # that knows, and it is read while the request runs — a list of finished
+      # notes kept beside the directory would be a second thing to keep in step,
+      # and it would go stale exactly when someone finishes a note in a hurry.
+      #
+      # Saying nothing counts as running, and that is the safe way round: a note
+      # that makes no claim has not claimed the work is done.
+      DONE = /^>\s*\*\*Erledigt\b/
+      DONE_WITHIN = 12
+
       FIXED = [
         ['Aufbau des Repos', 'README.md'],
         ['Die Webanwendung', 'WEB-APPLICATION.md'],
@@ -38,7 +49,15 @@ module Atlas
       Document = Data.define(:title, :path)
 
       def source_registers = documents_in(SOURCES_DIR)
-      def notes            = documents_in(NOTES_DIR)
+
+      # Running and finished from one listing: the split is a property of the
+      # files themselves, so it costs a stat each and not a second walk.
+      def notes
+        documents_in(NOTES_DIR).fmap do |documents|
+          running, finished = documents.partition { |doc| running?(doc) }
+          { running:, finished: }
+        end
+      end
 
       # Kept as a Result even though the list is a constant: a fixed entry can
       # point at a file that has been renamed, and that is a documentation fault
@@ -50,6 +69,16 @@ module Atlas
       end
 
       private
+
+      # The document is listed and linked either way — only the heading it lands
+      # under depends on this read. So an unreadable head leaves it among the
+      # running ones instead of becoming a case of its own: there is nothing
+      # missing to draw, and the note is still right there to open.
+      def running?(doc)
+        tree.parse(doc.path, :abschluss) { |text|
+          text.lines.first(DONE_WITHIN).none? { |line| line.match?(DONE) }
+        }.value_or(true)
+      end
 
       def documents_in(dir)
         tree.markdown_in(dir).fmap do |entries|
