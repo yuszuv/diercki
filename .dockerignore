@@ -12,6 +12,7 @@
 .git
 .gitignore
 .claude
+.github
 .ruby-lsp
 Dockerfile
 Dockerfile.probe

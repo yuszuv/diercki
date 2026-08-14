@@ -162,6 +162,37 @@ and a second parser in Ruby would be a second place with its own opinion — and
 the already-delivered table without a round trip. Without JavaScript the form filters by
 GET, and every filtering is a shareable address.
 
+## Build and publish
+
+`.github/workflows/pruefung.yml` runs on every pull request and on every push to
+`main`:
+
+- **Tests** — `bin/vendor.rb` (the only step needing a network; its SRI check runs
+  too), the 25-case suite, and a smoke run of the report scripts.
+- **Image** — `docker build`. On `main` it also pushes to
+  `ghcr.io/yuszuv/diercki`, tagged `latest` and `sha-<commit>`, then pulls that
+  image back, starts it and asks `/health` plus one Blatt — the CDN rewriting is
+  the thing that would break quietly.
+
+Nothing here deploys. The deploy stays `make webhost LIMIT=paketzentrum` in
+bmeise, by hand.
+
+**Why the build moved off the server.** It used to happen there, on the argument
+that the image is content rather than a compiled artefact. That was true while the
+atlas was static HTML behind nginx. It stopped being true when the atlas grew a
+Ruby application: the image now compiles `nio4r` and pulls platform-specific
+`sqlite3` binaries, and a `Gemfile.lock` missing `x86_64-linux-musl` fails the
+build — a failure that was previously discoverable only at deploy time, on the
+server, in front of a live site.
+
+It also puts this project back in line with what bmeise's own `dockerapp` role
+asks for: *"Prefer pre-built images"*. `diercki` was the only `build: true` entry
+across every host, and the role already handles both modes — `pull: always` when
+`dockerapp_build` is unset. Nothing in the role changes.
+
+`ATLAS_IMAGE` overrides the tag, so a deploy can pin `sha-<commit>` instead of
+following `latest`.
+
 ## The gate
 
 A small part of the atlas is not public: what shows a non-public person, or is written

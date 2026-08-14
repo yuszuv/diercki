@@ -19,6 +19,7 @@ module Atlas
         ['Aufbau des Repos', 'README.md'],
         ['Die Webanwendung', 'WEB-APPLICATION.md'],
         ['Arbeiten an zwei Orten', 'TWO-PLACES.md'],
+        ['Was in bmeise nachzuziehen ist', 'recherche/bmeise-nachzuziehen.md'],
         ['Verbindliche Regeln', 'CLAUDE.md'],
         ['Einstieg für Agents', 'AGENTS.md'],
         ['Glossar der Fachbegriffe', 'atlas/GLOSSAR.md'],

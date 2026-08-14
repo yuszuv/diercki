@@ -185,7 +185,7 @@ whoever needs them takes them out of the export.
 
 | File | What |
 |---|---|
-| `WEB-APPLICATION.md` | how the atlas is served, the path of a request, what the application is built from, the Wächter |
+| `WEB-APPLICATION.md` | how the atlas is served, the path of a request, what the application is built from, the Wächter, CI and the image |
 | `TWO-PLACES.md` | the sync between this clone and the Claude design UI, and where the two deliberately differ |
 | `AGENTS.md` | entry point for coding agents |
 | `CLAUDE.md` | the binding rules |
