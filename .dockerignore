@@ -57,14 +57,18 @@ atlas/geodaten/brandenburg/landnutzung.geojson
 atlas/qgis/themen/rumaenien-baer/daten/*.gpkg
 ne_10m_*
 
-# Reference scans, templates, personal material — no sheet links any of these
+# Reference scans and templates — no sheet links any of these.
+#
+# uploads/Diplomarbeit.pdf used to stand here and must not come back: the Waldmann
+# deck links it as "↪ ganze Diplomarbeit als PDF", and excluding it made that link
+# a 404 in production while it worked in the dev preview, which bind-mounts the
+# tree. Measured against the build context, not reasoned about. 1.4 MB.
 diercke-*.pdf
 druck-exempel.pdf
 s48_nachscan.pdf
 nikolai-*.pdf
 nikolai-*.png
 *.pptx
-uploads/Diplomarbeit.pdf
 
 # Operating system
 .DS_Store

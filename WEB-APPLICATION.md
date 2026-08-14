@@ -207,9 +207,15 @@ repository, without which the package floats unattached.
 
 ## The gate
 
-A small part of the atlas is not public: what shows a non-public person, or is written
+A small part of the atlas is not on show: what shows a non-public person, or is written
 about one. `web/geschuetzt.csv` lists those paths with a reason each, and is read at
 runtime like every other table here.
+
+**What the gate is and is not.** It guards addresses on the served site. The repository
+is public, and the same files lie in it in plain sight — so this is a decision about
+what the atlas *presents*, not a claim that anything here is secret. Taking an entry
+off the list opens a page; taking a file out of the repository is a different act, and
+the only one that would make it unavailable.
 
 **Rodauth, mounted as a Roda middleware in front of everything.** Not a branch of the
 routing tree — two of the guarded paths are static files, a deck and a photograph, and

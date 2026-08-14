@@ -15,8 +15,17 @@
 # als gesperrt (Sources::Restricted#restricted?). Lieber eine Seite, die nach
 # einem Passwort fragt, als eine, die es nicht tut.
 #
+# Reichweite: Diese Liste gilt für die ausgelieferte Website, nicht für das
+# Repository. Dieselben Dateien liegen dort im Klartext, und das Repository ist
+# öffentlich — der Wächter hält eine Adresse zu, keine Datei geheim. Wer etwas
+# wirklich nirgends haben will, nimmt es aus dem Repo; ein Eintrag hier tut das
+# nicht. So entschieden am 14.08.2026, in Kenntnis der Folge.
+#
 # Bewusst NICHT gesperrt: Nikolais-Ort.dc.html (Jans Entscheidung) und damit auch
-# neumaier_kurzhaar.jpg, das dieses Blatt zeigt.
+# neumaier_kurzhaar.jpg, das dieses Blatt zeigt. Ebenso uploads/Diplomarbeit.pdf,
+# die der gesperrte Waldmann-Gruß verlinkt — sie ist Jans eigene Arbeit und darf
+# offen stehen. Das ist kein Loch in der Liste, sondern eine Entscheidung: bitte
+# nicht „nachbessern".
 pfad;grund
 /Gruss-an-Stefan-Waldmann.dc.html;namentlich adressiert, nicht für die Öffentlichkeit
 /uploads/neumaier-frueher.png;Foto, nur dieses Deck bindet es ein
