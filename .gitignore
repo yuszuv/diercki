@@ -55,6 +55,14 @@ clc5_2018.utm32s.shape/
 /Diercke-Atlas_Redesign.pptx
 .~lock.*#
 
+# Ruby-Anwendung: installierte Gems und die eingebackenen Fremdbibliotheken.
+# .bundle/gems liegt bewusst nicht unter vendor/ — den Pfad /vendor/ belegen die
+# neun CDN-Dateien, auf die die Blätter umgeschrieben werden, und der Baum wird
+# jetzt von Ruby ausgeliefert. Zwei Dinge unter einer Adresse wären eine Falle.
+# .vendor/ holt bin/vendor.rb wieder; im Image liegt dasselbe unter /opt/vendor.
+/.bundle/gems/
+/.vendor/
+
 # Betriebssystem
 .DS_Store
 Thumbs.db
