@@ -82,6 +82,17 @@ module Atlas
         end
       end
 
+      # The evidence standing of the whole atlas. /register answers it per entry,
+      # the Blattschau per sheet; this is the only place that answers it for the
+      # atlas as a thing.
+      r.on('belegstand') do
+        r.get(true) do
+          page :belegstand, title: 'Belegstand',
+                            status: r.params['status'].to_s,
+                            sheet: r.params['blatt'].to_s
+        end
+      end
+
       r.on 'werkstatt' do
         r.get(true) { page :workshop, title: 'Werkstatt' }
         document_page(remaining(r))
@@ -106,6 +117,7 @@ module Atlas
 
     def sheets     = Container['sources.sheets']
     def register   = Container['sources.register']
+    def evidence   = Container['sources.evidence']
     def plates     = Container['sources.plates']
     def workshop   = Container['sources.workshop']
     def restricted = Container['sources.restricted']

@@ -424,4 +424,88 @@ class AtlasTest < Minitest::Test
     get '/register'
     assert_includes last_response.body, 'href="/blatt/Rumaenien-Physisch.html"'
   end
+
+  # --- the Belegstand ------------------------------------------------------
+  #
+  # The claims are read from the real Quellenregister, so these numbers move when
+  # a register is edited — that is the point, and a failure here means somebody
+  # changed the evidence standing of the atlas, not that the code broke. What
+  # must not move is the shape: which table counts as a claim table and what
+  # happens to a status word nobody planned for.
+
+  def test_the_evidence_reader_agrees_with_the_registers
+    evidence = Atlas::Container['sources.evidence']
+    totals = evidence.tally_all
+
+    assert_equal totals[:gesamt],
+                 totals[:belegt] + totals[:abgeleitet] + totals[:unbelegt] + totals[:sonstige].values.sum,
+                 'every claim falls into exactly one bucket'
+    assert_equal 8, evidence.tally_by_sheet.size, 'sheets carrying a Quellenregister'
+    assert_operator totals[:belegt], :>, totals[:unbelegt],
+                    'more is evidenced than not — if this flips, say so on the page rather than here'
+  end
+
+  def test_a_table_without_a_status_column_is_skipped_and_said_so
+    # Verkehr.md carries "| Element | Anmerkung |", whose second column is prose.
+    # Read by position it would invent a status word per row; read by header it
+    # is skipped — and the skip is reported, not silent.
+    skipped = Atlas::Container['sources.evidence'].skipped
+    assert_equal 1, skipped.size
+    assert_equal 'Rumaenien-Verkehr.html', skipped.first.file
+    refute_includes skipped.first.columns, 'status'
+
+    claims = Atlas::Container['sources.evidence'].claims
+    refute claims.any? { |c| c.status.start_with?('Trasse von Hand') },
+           'prose from the Anmerkung column must never arrive as a status'
+  end
+
+  def test_an_unplanned_status_word_survives_verbatim
+    # Nikolais-Ort.md marks a memory as a memory. The three-way split does not
+    # cover that and must not be made to: bending it onto "abgeleitet" would
+    # claim a source where a person was quoted.
+    claims = Atlas::Container['sources.evidence'].claims.select { |c| c.file.start_with?('Nikolais') }
+    own = claims.map(&:status).uniq.reject { |s| Atlas::Sources::Evidence::KNOWN.include?(s) }
+
+    assert_includes own, 'Angabe des Nutzers'
+    refute_empty claims.select(&:known?), 'the same file also carries ordinary belegt rows'
+  end
+
+  def test_emphasis_is_taken_off_a_status_but_the_word_is_not_changed
+    # Braunbaer.md writes **unbelegt** in one table and unbelegt in another. One
+    # word, not two — but nothing beyond the markup is touched.
+    statuses = Atlas::Container['sources.evidence'].claims.map(&:status)
+    refute statuses.any? { |s| s.include?('*') }, 'markup does not travel into the data'
+    assert_includes statuses, 'teils belegt', 'and a two-word status stays two words'
+  end
+
+  def test_the_belegstand_names_the_sheets_that_have_no_register
+    open = Atlas::Container['sources.evidence'].open_cases
+    assert_equal %w[Rumaenien-Landschaften.html Rumaenien-Physisch.html], open[:without_register]
+
+    get '/belegstand'
+    assert_equal 200, last_response.status
+    assert_includes last_response.body, 'ohne Quellenregister'
+    assert_includes last_response.body, 'Rumaenien-Physisch.html'
+  end
+
+  def test_the_belegstand_filters_without_javascript
+    get '/belegstand?status=unbelegt'
+    assert_equal 200, last_response.status
+    # The status cells of the claims table, not the whole page: the filter's own
+    # dropdown lists every word by name and would match a looser assertion.
+    shown = last_response.body.scan(%r{<td class="z-status"><span class="status[^"]*">([^<]*)<}).flatten
+    assert_equal ['unbelegt'], shown.uniq
+
+    get '/belegstand?blatt=Brandenburg-Klima.html'
+    assert_includes last_response.body, 'Brandenburg-Klima.html'
+  end
+
+  def test_the_sheet_view_still_renders_its_register_as_prose
+    # The Belegstand reads the same files under its own tag. If it had taken over
+    # the :html one, this page would show a table dump instead of the register.
+    get '/blatt/Rumaenien-Braunbaer.html'
+    assert_equal 200, last_response.status
+    assert_includes last_response.body, 'Quellenregister'
+    refute_includes last_response.body, 'Tabellen ohne Statusspalte'
+  end
 end

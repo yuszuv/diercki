@@ -541,6 +541,27 @@
     &.status-unbelegt { color: var(--error); }
   }
 
+  /* Der Balken auf dem Belegstand. Anteilig, nicht skaliert: die Breite eines
+     Abschnitts ist sein Anteil an den Angaben dieses Blattes, und ein Blatt mit
+     vier Angaben bekommt denselben Balken wie eines mit vierzig. Verglichen
+     werden Verhältnisse, die Zahlen stehen daneben.
+
+     Dieselben drei Farben wie oben, keine neuen — ein Wort, das nicht zu den
+     dreien gehört, bekommt hier gar keinen Anteil und erscheint nur als Zahl.
+     Das ist Absicht: eingefärbt wäre es einsortiert. */
+  .belegbalken {
+    display: flex;
+    gap: 1px;
+    min-width: 120px;
+    height: 8px;
+  }
+
+  .balken {
+    &.balken-belegt { background: var(--olive); }
+    &.balken-abgeleitet { background: var(--akzent); }
+    &.balken-unbelegt { background: var(--error); }
+  }
+
   /* ---- Werkstatt ------------------------------------------------------- */
 
   .doks {
