@@ -50,12 +50,14 @@
 
 <%# A GET form, like /register: every filtered view is a linkable address. %>
 <form class="filterleiste" method="get" action="/belegstand">
+  <label for="status">Status</label>
   <select name="status" id="status">
     <option value="">alle Belegstatus</option>
     <% evidence.statuses.each do |s| %>
       <option value="<%= s %>"<%= ' selected' if s == status %>><%= s %></option>
     <% end %>
   </select>
+  <label for="blatt">Blatt</label>
   <select name="blatt" id="blatt">
     <option value="">alle Blätter</option>
     <% by_sheet.keys.sort.each do |file| %>

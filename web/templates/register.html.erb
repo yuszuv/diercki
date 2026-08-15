@@ -17,13 +17,16 @@
     The query parameter names stay German: they are part of the address, like
     the routes themselves. %>
 <form class="filterleiste" method="get" action="/register" data-register-filter>
+  <label for="suche">Name</label>
   <input type="search" name="q" id="suche" placeholder="Namen suchen …" autocomplete="off" value="<%= query %>">
+  <label for="art">Art</label>
   <select name="art" id="art">
     <option value="">alle Arten</option>
     <% register.kinds.each do |k| %>
       <option value="<%= k %>"<%= ' selected' if k == kind %>><%= Atlas::Sources::Register::KIND_LABEL.fetch(k, k) %></option>
     <% end %>
   </select>
+  <label for="status">Status</label>
   <select name="status" id="status">
     <option value="">alle Belegstatus</option>
     <% Atlas::Sources::Register::STATUSES.each do |s| %>

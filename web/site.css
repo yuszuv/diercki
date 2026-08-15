@@ -64,6 +64,14 @@
     }
   }
 
+  /* Die Zeilenverweise der Startseite, des Schaukastens und der Werkstatt sind
+     ganzflächige <a> ohne Unterstreichung: ohne eigenen Rahmen ist am Tastaturweg
+     nicht zu sehen, wo man steht. */
+  :is(.strang, .blatt, .dok):focus-visible {
+    outline: 2px solid var(--akzent);
+    outline-offset: -2px;
+  }
+
   .mono { font: 500 13px/1.5 var(--font-mono); letter-spacing: .03em; }
   .zahl { font: 500 1em var(--font-mono); color: var(--akzent); }
   .laedt { color: var(--text-muted); font-style: italic; margin-block-start: var(--spacing-unit); }
@@ -172,14 +180,8 @@
     letter-spacing: .04em;
     color: var(--text-muted);
 
-    /* Das eine Zahlen-Gimmick des Dokuments — mehr erlaubt CLAUDE.md nicht. */
-    .sp-137-zimmer-inline {
-      border: 1px solid var(--border-hairline);
-      padding-inline: 7px;
-      padding-block: 1px;
-      letter-spacing: .12em;
-      color: var(--text-body);
-    }
+    /* Das Zahlen-Gimmick trägt .sp-137-zimmer aus tokens/gimmicks.css — hier
+       stand ein Nachbau davon. */
   }
 }
 
@@ -445,6 +447,13 @@
     }
     & input { flex: 1; min-inline-size: 200px; }
 
+    & label {
+      font: 500 11px/1 var(--font-mono);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
     .treffer { font: 500 13px/1 var(--font-mono); color: var(--text-muted); }
   }
 
@@ -468,11 +477,30 @@
     & tbody tr { border-block-end: 1px solid var(--border-hairline); }
   }
 
+  /* 272 Zeilen mit automatischer Breite heißt: der Browser misst die ganze
+     Tabelle, bevor er die erste Zeile setzen kann. Feste Breiten nehmen ihm das
+     ab. Nur hier, nicht auf .register allgemein — die anderen drei Tabellen mit
+     dieser Klasse haben andere Spaltenzahlen. */
+  #registertabelle {
+    table-layout: fixed;
+
+    & :is(th, td):nth-child(1) { inline-size: 30%; }
+    & :is(th, td):nth-child(2) { inline-size: 14%; }
+    & :is(th, td):nth-child(3) { inline-size: 10%; }
+    & :is(th, td):nth-child(4) { inline-size: 10%; }
+    & :is(th, td):nth-child(5) { inline-size: 22%; }
+    & :is(th, td):nth-child(6) { inline-size: 14%; }
+
+    @container inhalt (inline-size < 40rem) { table-layout: auto; }
+  }
+
   .register {
     & tbody tr:hover { background: var(--hover-flaeche); }
 
     .variante { color: var(--text-muted); font-size: 14px; }
-    .offen { color: var(--text-muted); font-style: italic; font-size: 14px; }
+    /* „Feld offen“ sind zwei Wörter und eine Angabe — in einer festen Spalte
+       bräche es sonst mittendrin um. */
+    .offen { color: var(--text-muted); font-style: italic; font-size: 14px; white-space: nowrap; }
 
     .anmerkung td {
       border: 0;

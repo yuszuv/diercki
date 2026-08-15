@@ -4,31 +4,16 @@ require 'dry/monads'
 
 module Atlas
   module Sources
-    # The evidence standing of the whole atlas: the status lines of the
+    # The evidence standing of the whole atlas: the status lines of the eight
     # Quellenregister, read across the sheets instead of one sheet at a time.
+    # App#sheet_sources renders the same files to opaque HTML, where a status is
+    # prose; here they are data, so "what in this atlas is unbelegt" has an
+    # answer.
     #
-    # The project rule is that every factual claim carries its status — belegt,
-    # abgeleitet, unbelegt. Sheet by sheet that rule is kept, in eight registers
-    # under atlas/quellen/. Atlas-wide nothing showed it, and App#sheet_sources
-    # actively throws it away: it renders the register to opaque HTML, where the
-    # status is prose. This class reads the same files as data, so the question
-    # "what in this atlas is unbelegt" has an answer.
-    #
-    # Read at runtime like everything else. No derived intermediate: the
-    # registers are the source, this only counts them.
-    #
-    # Two things it deliberately does not do:
-    #
-    # Status words are not bent onto the three. Nine registers carry six words
-    # (belegt, abgeleitet, unbelegt, teils belegt, zu prüfen, entfernt), and
-    # Nikolais-Ort.md carries its own — "Angabe des Nutzers", "öffentlich, s.
-    # Waldmann-Präse" — because a memory is marked as a memory, not dressed up as
-    # a source. A tenth register would bring a seventh word. Unknown ones are
-    # shown raw and counted apart, the way Register::KIND_LABEL does it.
-    #
-    # And tables are recognised by their header, never by position. Verkehr.md
-    # has one whose columns are Element and Anmerkung, with prose where a status
-    # would be. It is counted as skipped, not read.
+    # Two things it deliberately does not do. Status words are not bent onto the
+    # three — Nikolais-Ort.md marks a memory as a memory, and a tenth register
+    # would bring an eleventh word. And tables are recognised by their header,
+    # never by position; see Transforms.markdown_tables for what that prevents.
     class Evidence
       include Dry::Monads[:result]
       include Atlas::Import['sources.tree', 'sources.plates', 'sources.workshop']
