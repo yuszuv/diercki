@@ -1,10 +1,10 @@
 <%
-  all = sheets.all
-  open = sheets.open_cases
+  all = contents.all
+  open = contents.open_cases
 %>
 <%== heading('Blätter',
-             'Jedes Blatt ist eine eigenständige Datei und öffnet für sich. Die Liste kommt aus den ' \
-             'Blätter-Tabellen der README — sie ist die eine Stelle, an der sie gepflegt wird.') %>
+             'Jedes Blatt ist eine eigenständige Datei und öffnet für sich. Die Liste kommt aus ' \
+             '<code>atlas/INHALT.md</code> — der einen Stelle, an der sie gepflegt wird.') %>
 
 <% if all.failure? %>
   <%== open_case(all, title: 'Die Blattliste ließ sich nicht lesen') %>
@@ -26,7 +26,7 @@
 <%# Both directions are documentation faults and both stay visible. %>
 <% unless open[:without_entry].empty? %>
   <div class="fehlfall">
-    <b>Ohne Eintrag in der README:</b>
+    <b>Ohne Zeile in atlas/INHALT.md:</b>
     <%== open[:without_entry].map { |n| %(<a href="/#{h n}">#{h n}</a>) }.join(' · ') %>
     <br><span class="fehlfall-grund">Diese Dateien liegen im Wurzelverzeichnis, stehen aber in
     keiner Tabelle. Sie verschwinden hier nicht — sie stehen als offener Fall.</span>
@@ -35,18 +35,27 @@
 
 <% unless open[:without_file].empty? %>
   <div class="fehlfall">
-    <b>In der README, aber nicht vorhanden:</b>
-    <%= open[:without_file].map(&:file).join(' · ') %>
-    <br><span class="fehlfall-grund">Die Tabelle nennt Dateien, die es nicht gibt.</span>
+    <b>In atlas/INHALT.md, aber nicht vorhanden:</b>
+    <%= open[:without_file].join(' · ') %>
+    <br><span class="fehlfall-grund">Die Liste nennt Dateien, die es nicht gibt.</span>
   </div>
 <% end %>
 
-<% unless open[:without_number].empty? %>
+<% unless open[:duplicate_kennung].empty? %>
+  <div class="fehlfall">
+    <b>Kennung doppelt vergeben:</b>
+    <%= open[:duplicate_kennung].join(' · ') %>
+    <br><span class="fehlfall-grund">Eine Kennung ist eine Adresse und meint genau ein Blatt.
+    Solange zwei Zeilen dieselbe tragen, ist jeder Verweis darauf mehrdeutig.</span>
+  </div>
+<% end %>
+
+<% unless (ohne_nummer = register_numbers_without_file).empty? %>
   <div class="fehlfall">
     <b>Blattnummern ohne Datei:</b>
-    <%= open[:without_number].join(' · ') %>
+    <%= ohne_nummer.join(' · ') %>
     <br><span class="fehlfall-grund">Das Namensregister verweist auf diese Nummern des gebundenen
-    Bandes, <code>atlas/blaetter.csv</code> ordnet ihnen keine Datei zu. Bis dahin bleibt der
+    Bandes, <code>atlas/INHALT.md</code> ordnet ihnen keine Datei zu. Bis dahin bleibt der
     Verweis eine bloße Zahl — geraten wird nicht.</span>
   </div>
 <% end %>

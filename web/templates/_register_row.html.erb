@@ -13,7 +13,7 @@
         %><% plate = key[nr] %><%
         %><% if i.positive? %> <% end %><%
         %><% if plate %><a href="/blatt/<%= plate.file %>" title="<%= plate.file %>"><%= nr %></a><%
-        %><% else %><span class="offen" title="atlas/blaetter.csv ordnet dieser Nummer keine Datei zu"><%= nr %></span><% end %><%
+        %><% else %><span class="offen" title="atlas/INHALT.md ordnet dieser Nummer keine Datei zu"><%= nr %></span><% end %><%
       %><% end %></td>
   <% end %>
   <td class="z-feld mono"><% if entry.field %><%= entry.field %><% elsif entry.field_open? %><span class="offen">Feld offen</span><% end %></td>

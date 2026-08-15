@@ -5,14 +5,14 @@
 # pruefe-blaetter.rb — does the Blattschlüssel hold up against the sheets?
 #
 # Creates NOTHING and writes NOTHING. It reports; a human decides whether a row
-# in atlas/blaetter.csv moves from "abgeleitet" to "belegt". Same role as
+# in atlas/INHALT.md moves from "abgeleitet" to "belegt". Same role as
 # sync-report.rb and pruefe-hanf.rb, and the same rule from CLAUDE.md: scripts
 # may check and report, they do not generate.
 #
 # The question:
 #
 #   atlas/register.csv cites numbers 1 to 9 in its "blaetter" column.
-#   atlas/blaetter.csv claims which file each number is. That claim is derived,
+#   atlas/INHALT.md claims which file each number is. That claim is derived,
 #   not evidenced (see atlas/BLAETTER.md).
 #
 #   Here it is cross-checked: if Blatt 6 really is Rumaenien-Wirtschaft.html,
@@ -45,7 +45,26 @@ def semicolon(path)
 end
 
 register = semicolon('atlas/register.csv')
-key = semicolon('atlas/blaetter.csv')
+
+# The Blätter table of atlas/INHALT.md. Read here rather than through
+# Sources::Contents on purpose: this script must run without booting the
+# application, and a second reader that disagrees would show up as a wrong
+# report rather than a crash. Keyed by header, like the reader does it.
+def blaetter_table(path)
+  lines = Pathname(path).read.lines.map(&:chomp)
+  start = lines.index { |l| l.strip == '## Blätter' }
+  abort "#{path}: kein Abschnitt \"## Blätter\"" unless start
+
+  rows = lines[(start + 1)..]
+         .take_while { |l| !l.match?(/\A\#{1,6}\s/) }
+         .select { |l| l.include?('|') }
+         .reject { |l| l.match?(/\A\s*\|?[\s:|-]+\z/) }
+         .map { |l| l.sub(/\A\s*\|/, '').sub(/\|\s*\z/, '').split('|').map(&:strip) }
+  head = rows.shift.map(&:downcase)
+  rows.map { |cells| head.zip(cells).to_h }
+end
+
+key = blaetter_table('atlas/INHALT.md')
 
 # --- The catch: sheets spell special characters three ways ---------------------
 # A name like "Baziaș" sits in the markup as text, as an HTML entity, or — when
@@ -76,7 +95,7 @@ puts "Blattschlüssel checked against sheet content — #{SHEETS.size} files sea
 puts 'A high rate supports a number; it does not evidence it.'
 puts
 
-header = format('%-3s %-33s %-5s %-7s  %s', 'Nr', 'per blaetter.csv', 'n', 'found', 'best other sheet')
+header = format('%-3s %-33s %-5s %-7s  %s', 'Nr', 'per INHALT.md', 'n', 'found', 'best other sheet')
 puts header
 puts '-' * header.length
 

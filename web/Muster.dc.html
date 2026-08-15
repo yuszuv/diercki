@@ -45,6 +45,7 @@
   <nav class="nav">
     <a href="/blaetter">Blätter</a>
     <a href="/register" class="aktiv">Register</a>
+    <a href="/belegstand">Belegstand</a>
     <a href="/werkstatt">Werkstatt</a>
   </nav>
 </header>
@@ -140,7 +141,7 @@
       <!-- In der Anwendung steht hier ein <iframe> mit dem Blatt selbst.
            Für dieses Muster genügt eine Fläche in denselben Maßen. -->
       <div style="block-size:min(78vh,calc(var(--rahmen)*.72));display:grid;place-items:center">
-        <span class="mono" style="color:var(--text-muted);font-size:12px;letter-spacing:.08em">
+        <span class="mono" style="color:var(--text-muted);font-size:var(--mono-0);letter-spacing:.08em">
           hier steht das Blatt
         </span>
       </div>
@@ -194,10 +195,13 @@
   <h2>Register · <span class="mono">register.html.erb</span></h2>
 
   <form class="filterleiste" method="get" action="#">
+    <label for="suche">Name</label>
     <input type="search" id="suche" placeholder="Namen suchen …" autocomplete="off" value="">
+    <label for="art">Art</label>
     <select id="art">
       <option>alle Arten</option><option>Stadt</option><option>Gipfel</option>
     </select>
+    <label for="status">Status</label>
     <select id="status">
       <option>alle Belegstatus</option><option>belegt</option>
     </select>
@@ -233,6 +237,59 @@
         <td class="z-wert">1410 MW</td>
         <td class="z-status"><span class="status status-abgeleitet">abgeleitet</span></td>
       </tr>
+    </tbody>
+  </table></div>
+
+  <!-- ============================================================= Belegstand -->
+  <h2>Belegstand · <span class="mono">belegstand.html.erb</span></h2>
+
+  <p class="abschnitt-text">Dieselbe Dreiteilung, quer über alle Blätter gezählt. Der
+  Balken zeigt Anteile, nicht Mengen — ein Blatt mit vier Angaben bekommt denselben
+  Balken wie eines mit vierzig, die Zahlen stehen daneben. Ein Statuswort außerhalb der
+  drei bekommt bewusst keinen Abschnitt: eingefärbt wäre es einsortiert.</p>
+
+  <div class="tabelle-rahmen"><table class="register">
+    <thead><tr><th>Blatt</th><th>belegt</th><th>abgeleitet</th><th>unbelegt</th><th>weitere</th><th></th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="z-name"><a href="#"><b>Rumaenien Braunbaer</b></a></td>
+        <td class="zahl mono">18</td>
+        <td class="zahl mono">6</td>
+        <td class="zahl mono">2</td>
+        <td class="zahl mono">10</td>
+        <td class="belegbalken" title="36 Angaben">
+          <span class="balken balken-belegt" style="flex:18"></span><span class="balken balken-abgeleitet" style="flex:6"></span><span class="balken balken-unbelegt" style="flex:2"></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="z-name"><a href="#"><b>Brandenburg Klima</b></a></td>
+        <td class="zahl mono">3</td>
+        <td class="zahl mono">3</td>
+        <td class="zahl mono">3</td>
+        <td class="zahl mono"></td>
+        <td class="belegbalken" title="9 Angaben">
+          <span class="balken balken-belegt" style="flex:3"></span><span class="balken balken-abgeleitet" style="flex:3"></span><span class="balken balken-unbelegt" style="flex:3"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <div class="tabelle-rahmen"><table class="register">
+    <thead><tr><th>Angabe</th><th>Blatt</th><th>Abschnitt</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="z-name">Bestand 10 419 – 12 770 Tiere</td>
+        <td class="z-blatt"><a href="#">Rumaenien Braunbaer</a></td>
+        <td class="z-art">Bestandszahlen</td>
+        <td class="z-status"><span class="status status-belegt">belegt</span></td>
+      </tr>
+      <tr>
+        <td class="z-name">Nikolai Neumaier liegt auf Feld 35</td>
+        <td class="z-blatt"><a href="#">Nikolais Ort</a></td>
+        <td class="z-art"></td>
+        <td class="z-status"><span class="status">Angabe des Nutzers</span></td>
+      </tr>
+      <tr class="anmerkung"><td colspan="4">Ein Statuswort, das die drei nicht kennen, steht roh da — ohne Farbe und ohne Umdeutung.</td></tr>
     </tbody>
   </table></div>
 

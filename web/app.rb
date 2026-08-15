@@ -10,10 +10,10 @@ module Atlas
   # work), Werkstatt (journal) — plus the Blattschau that frames a sheet with its
   # Quellenregister, which is what turns a file listing into an application.
   #
-  # Everything is read at runtime: the sheet list from README.md, the names from
-  # register.csv, the Blattschlüssel from blaetter.csv, the prose from the .md
-  # files. A correction in a file shows up on the next request, and there is no
-  # derived copy that can quietly go stale.
+  # Everything is read at runtime: the contents from atlas/INHALT.md, the names
+  # from register.csv, the prose from the .md files. A correction in a file shows
+  # up on the next request, and there is no derived copy that can quietly go
+  # stale.
   #
   # Where something is missing, nothing is guessed. Every reader returns a
   # Result, and a Failure is rendered as a visible .fehlfall block — the same
@@ -115,14 +115,18 @@ module Atlas
 
     # --- readers -------------------------------------------------------------
 
-    def sheets     = Container['sources.sheets']
+    def contents   = Container['sources.contents']
     def register   = Container['sources.register']
     def evidence   = Container['sources.evidence']
-    def plates     = Container['sources.plates']
     def workshop   = Container['sources.workshop']
     def restricted = Container['sources.restricted']
     def tree       = Container['sources.tree']
     def markdown   = Container['markdown']
+
+    # The one cross-check that needs two readers: numbers register.csv cites and
+    # atlas/INHALT.md does not map. Contents takes the numbers rather than
+    # reaching for the register — the list should not have to know who reads it.
+    def register_numbers_without_file = contents.unmapped(register.cited_numbers)
 
     private
 
@@ -145,29 +149,25 @@ module Atlas
     def sheet_page(file)
       return not_found if file.empty?
 
-      sheet = sheets.find(File.basename(file))
+      sheet = contents.find(File.basename(file))
       return not_found if sheet.failure?
 
-      plate = plates.for_file(File.basename(file))
-      nr = plate.success? ? plate.value!.nr : nil
+      nr = sheet.value!.nr
 
       page :sheet,
            title: sheet.value!.title,
            sheet: sheet.value!,
-           plate: plate,
-           sources: sheet_sources(plate),
+           sources: sheet_sources(sheet),
            entries: register.for_plate(nr)
     end
 
-    # The Quellenregister of a sheet. Two Failures are possible and they mean
-    # different things: no row in blaetter.csv (the Blattschlüssel is
-    # incomplete), or a row naming a file that is not there (a broken
-    # reference). Both are shown.
-    def sheet_sources(plate)
-      plate.bind do |p|
-        next Failure([:no_source_register, p.file]) unless p.sources_path
+    # The Quellenregister of a sheet: no Quellen column in atlas/INHALT.md, or a
+    # column naming a file that is not there. Both are shown.
+    def sheet_sources(entry)
+      entry.bind do |e|
+        next Failure([:no_source_register, e.file]) unless e.sources_path
 
-        tree.parse(p.sources_path, :html) { |md| markdown.render(md) }
+        tree.parse(e.sources_path, :html) { |md| markdown.render(md) }
       end
     end
 

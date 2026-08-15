@@ -88,7 +88,7 @@ module Atlas
       html_rows(table_rows(section(lines(markdown), heading))).map { |cells| to_sheet(cells) }
     end
 
-    # register.csv, blaetter.csv, geschuetzt.csv → symbol-keyed rows.
+    # register.csv, geschuetzt.csv, sorten.csv → symbol-keyed rows.
     def rows(text)
       semicolon_table(drop_comments(lines(text)))
     end

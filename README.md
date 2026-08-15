@@ -105,50 +105,18 @@ Both sit behind the `local` profile and never start on the server.
 
 ## Blätter
 
-Each Blatt is a standalone HTML file in the root, D3-based, with a Zeichenerklärung
-and its sources in the footer.
+The list lives in **`atlas/INHALT.md`** — one file, read at runtime, with a Kennung per
+entry that survives a rename or a move. It carries the Blätter, the further sheets and
+the decks, plus each entry's Blattnummer, Signatur, Quellenregister and Belegstatus.
 
-| Datei | Inhalt |
-|---|---|
-| `Rumaenien-Physisch.html` | Physische Übersicht — Relief, Hypsometrie |
-| `Rumaenien-Wirtschaft.html` | Wirtschaft — Rohstoffe, Industrie, Energie |
-| `Rumaenien-Verkehr.html` | Hauptverkehrsnetz — Straßen, Bahnen, Donaudelta-Nebenkarte |
-| `Banat-Liniennetz.dc.html` | Banat · Liniennetzplan — oktilinear, topologietreu, nicht lagetreu |
-| `Rumaenien-Braunbaer.html` | Braunbär — Verbreitung, Streusignatur nach GBIF-Nachweisen |
-| `Rumaenien-Landschaften.html` | Historische Landschaften |
-| `Brandenburg-Landwirtschaft.html` | Brandenburg · landwirtschaftliche Nutzung — Hanf 2026 schlaggenau, Kartodiagramm je Kreis, Matrix-Legende, Nebenkarte Kyritz |
-| `Brandenburg-Klima.html` | Brandenburg · Klima — Kartodiagramme, Walter-Lieth-Randspalte, Geländeklima-Nebenkarte. **Alle Werte noch unbelegt** |
-| `Loreley-Relief.html` | Werkstattblatt: ein Gelände in vier Registern — Isohypsen, Hypsometrie, Schummerung, Böschungsschraffen. Geländemodell konstruiert |
-| `Nikolais-Ort.dc.html` | Freiburger Hauptfriedhof, drei Blätter — Grundriss mit DTK10-Hintergrund, Person, Abschied. Kein Atlas-Bestandteil im engeren Sinn, folgt aber seinen Regeln |
-| `Zeichenerklaerung.dc.html` | Zeichenerklärung des ganzen Atlas, Blatt für Blatt (Farbsystem, Relief, Gewässer/Siedlung/Schrift, Grenzen, Verkehr, Rohstoffe, Industrie/Energie, Landwirtschaft, …) |
-| `QGIS-Kartensatz.dc.html` | Anleitung: Blätter in QGIS öffnen, drucken, um eigene Themen erweitern |
-| `Zeichen-Naeherung.dc.html` | Messblatt zur Unicode-Näherung des Sternprodukt-Zeichens — misst Glyphenabdeckung live gegen U+FFFF |
+It is not repeated here. Until 15.08.2026 it was: three tables in this file,
+`atlas/blaetter.csv`, the hard-wired markup of `Inhalt.dc.html` and the `SIGNATUR`
+table in `web/site.js` — four lists of the same sheets, of which exactly two were ever
+checked against each other. `Deckel-Entwuerfe.dc.html` had gone missing from the
+contents sheet, and nothing said so.
 
-## Weitere Blätter
-
-In the root, following the same rules, but not part of the Kartenwerk.
-
-| Datei | Inhalt |
-|---|---|
-| `Inhalt.dc.html` | Übersichtsblatt im Sternprodukt-Look — dieselbe Ordnung wie hier, nur gestaltet und mit Signaturen |
-| `Deckel-Entwuerfe.dc.html` | Entwürfe für den Einband |
-| `Kleiner-Gruss-aus-der-Kueche.dc.html` | Zwischenstand vom 7. August, zwei Blattausschnitte. Kein Atlas-Bestandteil |
-
-## Präsentationen
-
-| Datei | Inhalt |
-|---|---|
-| `praesentationen/Pitch-Hoehle-der-Loewen.dc.html` | Pitch-Deck zum QField-Bahnreiseplaner |
-| `praesentationen/QField-Bahnreiseplaner.dc.html` | Workshop: QField als Bahnreise-Planer, zwölf Folien |
-| `praesentationen/Reiseplaner-Vorschlag.dc.html` | Entscheidungsvorlage Reiseführer Banat & România, 12 Folien |
-| `praesentationen/Reiseplaner-Roadmap.dc.html` | Technische Roadmap dazu, 4 Seiten (Arbeitsdokument) |
-| `praesentationen/Reiseplaner-Reisebegleitung.dc.html` | Reisevorbereitung für die eigene Rumänien-Reise, 10 Folien |
-| `praesentationen/Zeichensystem-Post-its.dc.html` | Das Zeichensystem des Atlas, neun Zettel |
-| `praesentationen/Iteration-2-Konzept.dc.html` | Iteration 2 — Konzept vor Bau, zehn Folien. Offen: Zuschnitt A, B oder C |
-| `praesentationen/Wireframe-A-Chips.dc.html` | Wireframe A · Themenchips über der Karte — absichtlich grau und unfertig |
-| `praesentationen/Wireframe-B-Tabs.dc.html` | Wireframe B · Themenliste mit Tab-Leiste unten |
-| `praesentationen/Wireframe-C-Split.dc.html` | Wireframe C · Karte oben, Trefferliste unten |
-| `Gruss-an-Stefan-Waldmann.dc.html` | Persönliche Präsentation, kein Atlas-Bestandteil |
+The web edition serves the same list at `/blaetter`, and flags both directions of a gap:
+a file with no row, and a row with no file.
 
 ## Layout
 
@@ -160,7 +128,7 @@ atlas/
   farben.js           colour system — the single source of hex values in the atlas
   farben-paletten.rb  generates the .gpl palettes from farben.js
   register.csv        Namensregister of the volume, maintained by hand
-  blaetter.csv        Blattschlüssel — which Blattnummer means which file
+  INHALT.md           the one list: Kennung, file, Blattnummer, Signatur, Quellen, Status
   BLAETTER.md         the reasoning; the numbers are abgeleitet, not belegt
   marke/              logo and handwritten wordmark
   GLOSSAR.md          the Blätter's technical terms, alphabetically
@@ -258,7 +226,7 @@ quietly stale when an export script did not run:
 | `atlas/geodaten/brandenburg/sorten.csv` | Landwirtschaftsblatt, QGIS theme `brandenburg-hanf` | `SORTEN.md` |
 | `atlas/geodaten/brandenburg/klima-stationen.csv` | Klimablatt | `KLIMA.md` |
 | `atlas/register.csv` | Namensregister of the web edition | header comment in the file |
-| `atlas/blaetter.csv` | Blattschau and Register of the web edition | `BLAETTER.md` |
+| `atlas/INHALT.md` | Schaukasten, Blattschau and Register of the web edition | the file's own "Die Spalten" section |
 | `atlas/quellen/*.md` | Quellenregister of a sheet, and `/belegstand` across all of them | `atlas/quellen/README.md` |
 
 Where an entry is missing, nothing is guessed: the case gets a visible class of its own

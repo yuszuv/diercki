@@ -15,24 +15,6 @@
 // every map sheet. The browser is its natural reader: a second parser in Ruby
 // would be a second place that can disagree with the first, over a file this
 // project treats as the single source for what a signature looks like.
-//
-// The sheet → signature mapping is a cartographic decision, not a technical one,
-// which is why it is written out rather than derived from the file name.
-// ---------------------------------------------------------------------------
-
-const SIGNATUR = {
-  'Rumaenien-Physisch.html': ['relief', 'Schummerung'],
-  'Rumaenien-Wirtschaft.html': ['energie', 'Erdölleitung'],
-  'Rumaenien-Verkehr.html': ['bahnen', 'Bahnhof, Haltepunkt'],
-  'Banat-Liniennetz.dc.html': ['bevoelkerung', 'Pendlerverflechtung'],
-  'Rumaenien-Braunbaer.html': ['umwelt', 'Nationalpark'],
-  'Rumaenien-Landschaften.html': ['politisch', 'Staatsfläche: Grenzkolorit'],
-  'Brandenburg-Klima.html': ['klima', 'Klimastation'],
-  'Loreley-Relief.html': ['relief', 'Böschung, Steilstufe'],
-  'Zeichenerklaerung.dc.html': ['chrome', 'Maßstabsbalken'],
-  'QGIS-Kartensatz.dc.html': ['chrome', 'Gradnetz'],
-};
-
 // Original size 104×26: signatures are calibrated in millimetres and not scaled.
 const VIEWBOX = { w: 104, h: 26 };
 
@@ -51,22 +33,25 @@ async function drawSignatures() {
   if (!catalogue.KATALOG) return;
 
   for (const slot of slots) {
-    const raw = signatureFor(catalogue, slot.dataset.signatur);
+    const raw = signatureFor(catalogue, slot.dataset.familie, slot.dataset.signatur);
     if (!raw) continue;
     slot.innerHTML =
       `<svg viewBox="0 0 ${VIEWBOX.w} ${VIEWBOX.h}" width="${VIEWBOX.w}" height="${VIEWBOX.h}" aria-hidden="true">${raw}</svg>`;
   }
 }
 
-function signatureFor(catalogue, file) {
-  // The agriculture sheet draws its own hemp signature rather than picking one
-  // from a family — same call the sheet itself makes.
-  if (file === 'Brandenburg-Landwirtschaft.html') {
-    return catalogue.hanfRaws ? catalogue.hanfRaws('brokkoli').anbau : null;
+function signatureFor(catalogue, familie, name) {
+  // Which sheet wears which signature is a cartographic decision and stands in
+  // atlas/INHALT.md, not here — this used to be a table of file names, and it
+  // was the fourth list of the same sheets.
+  if (!familie || !name) return null;
+
+  // "hanf" is the one family that is drawn rather than looked up: the
+  // agriculture sheet makes the same call for its own map field.
+  if (familie === 'hanf') {
+    return catalogue.hanfRaws ? catalogue.hanfRaws(name).anbau : null;
   }
-  const map = SIGNATUR[file];
-  if (!map) return null;
-  const entry = (catalogue.KATALOG[map[0]] || []).find((x) => x.n === map[1]);
+  const entry = (catalogue.KATALOG[familie] || []).find((x) => x.n === name);
   // Only raw SVG entries can be placed without the legend renderer.
   return entry && entry.k === 'svg' ? entry.raw : null;
 }

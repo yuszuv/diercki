@@ -4,7 +4,6 @@
   by_sheet = evidence.tally_by_sheet
   hits = evidence.filter(status: status, sheet: sheet)
   open = evidence.open_cases
-  key = plates.by_number
 %>
 <%== heading('Belegstand',
              'Worauf der Atlas steht, quer über alle Blätter gelesen. Jede Zeile stammt aus dem ' \
@@ -102,14 +101,14 @@
 <% unless open[:unreadable].empty? %>
   <div class="fehlfall">
     <b>Quellenregister, die es nicht gibt</b>
-    <br><span class="fehlfall-grund">atlas/blaetter.csv nennt <%= open[:unreadable].join(', ') %>, die Datei fehlt.</span>
+    <br><span class="fehlfall-grund">atlas/INHALT.md nennt <%= open[:unreadable].join(', ') %>, die Datei fehlt.</span>
   </div>
 <% end %>
 
 <% unless open[:unclaimed].empty? %>
   <div class="fehlfall">
     <b>Quellenregister, die kein Blatt nennt</b>
-    <br><span class="fehlfall-grund"><%= open[:unclaimed].join(', ') %> — gepflegt, aber von keiner Zeile in atlas/blaetter.csv erreicht.</span>
+    <br><span class="fehlfall-grund"><%= open[:unclaimed].join(', ') %> — gepflegt, aber von keiner Zeile in atlas/INHALT.md erreicht.</span>
   </div>
 <% end %>
 

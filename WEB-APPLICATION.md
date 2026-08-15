@@ -11,7 +11,7 @@ and builds the home page, Schaukasten, Blattschau, Namensregister and Werkstatt 
 it. One process, no nginx. The commands are under "Getting it running" in `README.md`.
 
 **Everything is read at runtime.** The sheet list comes from the tables in `README.md`,
-the register from `atlas/register.csv`, the Blattschlüssel from `atlas/blaetter.csv`,
+the register from `atlas/register.csv`, the contents from `atlas/INHALT.md`,
 the prose from the `.md` files. A correction to a file is there on the next request;
 there is no derived copy that can go quietly stale. Where something is missing, nothing
 is guessed: the case appears as a visible box with path and reason — a Blatt without a
@@ -76,7 +76,7 @@ flowchart TB
     direction LR
     README[("README.md")]
     REG[("register.csv")]
-    BL[("blaetter.csv")]
+    BL[("INHALT.md")]
     GES[("geschuetzt.csv")]
     MD[("quellen/*.md<br/>recherche/*.md")]
   end
