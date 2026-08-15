@@ -12,6 +12,7 @@ module Atlas
     class Register
       include Dry::Monads[:result]
       include Atlas::Import['sources.tree']
+      include Atlas::Table
 
       PATH = 'atlas/register.csv'
 
@@ -50,21 +51,20 @@ module Atlas
         end
       end
 
-      def all
-        tree.parse(PATH, :entries) do |csv|
-          Transforms.rows(csv).filter_map do |row|
-            name = Transforms.presence(row[:name])
-            next unless name
+      # A row without a name is nothing, not an error — the block returns nil and
+      # Table drops it.
+      table(path: PATH, tag: :entries, rows_from: Transforms.method(:rows)) do |row|
+        name = Transforms.presence(row[:name])
 
-            Entry.new(name: name,
-                      variant: Transforms.presence(row[:variante]),
-                      kind: row[:art].to_s.strip,
-                      numbers: row[:blaetter].to_s.split.map(&:to_i),
-                      field: Transforms.presence(row[:feld]),
-                      value: Transforms.presence(row[:wert]),
-                      status: Transforms.presence(row[:status]) || 'unbelegt',
-                      note: Transforms.presence(row[:anmerkung]))
-          end
+        if name
+          Entry.new(name: name,
+                    variant: Transforms.presence(row[:variante]),
+                    kind: row[:art].to_s.strip,
+                    numbers: row[:blaetter].to_s.split.map(&:to_i),
+                    field: Transforms.presence(row[:feld]),
+                    value: Transforms.presence(row[:wert]),
+                    status: Transforms.presence(row[:status]) || 'unbelegt',
+                    note: Transforms.presence(row[:anmerkung]))
         end
       end
 

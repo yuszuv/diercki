@@ -14,6 +14,7 @@ module Atlas
     class Plates
       include Dry::Monads[:result]
       include Atlas::Import['sources.tree']
+      include Atlas::Table
 
       PATH = 'atlas/blaetter.csv'
 
@@ -23,24 +24,15 @@ module Atlas
         def sources_path = sources && "atlas/quellen/#{sources}"
       end
 
-      def all
-        tree.parse(PATH, :plates) do |csv|
-          Transforms.rows(csv).map do |row|
-            Plate.new(nr: Transforms.presence(row[:nr])&.to_i,
-                      file: row[:datei].to_s,
-                      sources: Transforms.presence(row[:quellen]),
-                      status: Transforms.presence(row[:status]),
-                      note: Transforms.presence(row[:anmerkung]))
-          end
-        end
+      table(path: PATH, tag: :plates, rows_from: Transforms.method(:rows)) do |row|
+        Plate.new(nr: Transforms.presence(row[:nr])&.to_i,
+                  file: row[:datei].to_s,
+                  sources: Transforms.presence(row[:quellen]),
+                  status: Transforms.presence(row[:status]),
+                  note: Transforms.presence(row[:anmerkung]))
       end
 
-      def for_file(file)
-        all.bind do |plates|
-          hit = plates.find { |p| p.file == file }
-          hit ? Success(hit) : Failure([:no_plate_row, file])
-        end
-      end
+      def for_file(file) = find_by(file, reason: :no_plate_row) { |p, f| p.file == f }
 
       # nr → Plate, for the register's sheet column.
       def by_number
@@ -52,7 +44,7 @@ module Atlas
       # the cited numbers instead of this class reaching for the register: the
       # key should not have to know who is using it.
       def unmapped(cited_numbers)
-        (cited_numbers - by_number.keys).sort
+        unmatched(cited_numbers, &:nr).sort
       end
     end
   end

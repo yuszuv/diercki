@@ -143,8 +143,11 @@ module Atlas
   end
 end
 
-# Not components, so dry-system never reaches them on its own.
+# Not components, so dry-system never reaches them on its own. Table has to come
+# before the readers that include it: an include runs when the class body is
+# read, which is earlier than the container resolving anything.
 require_relative 'lib/atlas/transforms'
+require_relative 'lib/atlas/table'
 require_relative 'lib/atlas/views'
 require_relative 'lib/atlas/vendor'
 require_relative 'lib/atlas/middleware/files'
