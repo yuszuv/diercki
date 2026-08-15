@@ -202,7 +202,7 @@
 <section data-screen-label="09 Bedingungen" style="width:1280px;height:720px;background:var(--paper);color:var(--ink);position:relative;box-sizing:border-box;padding:58px 84px;border-top:6px solid var(--pri);overflow:hidden">
 <div style="font:500 15px/1 var(--font-mono);letter-spacing:0.2em;text-transform:uppercase;color:var(--pri);margin-bottom:12px">Vor dem Bauen</div>
 <h2 style="font-size:44px;font-weight:600;letter-spacing:-0.02em;margin:0 0 14px">Was zuerst geliefert sein muss</h2>
-<p style="font-size:20px;line-height:1.5;margin:0 0 22px;max-width:84ch;color:var(--grey-dark);text-wrap:pretty">Zwei der vier offenen Stellen im Atlas fallen mit Daten weg, die schon beschafft werden k&ouml;nnen. Sie stehen vor jedem Zoom-Werkzeug &mdash; ein neues Werkzeug auf unbelegtem Inhalt vergr&ouml;&szlig;ert nur die Behauptung.</p>
+<p style="font-size:20px;line-height:1.5;margin:0 0 22px;max-width:84ch;color:var(--grey-dark);text-wrap:pretty">Eine der vier Stellen ist seit dem 08.08.2026 geschlossen. Die &uuml;brigen stehen vor jedem Zoom-Werkzeug &mdash; ein neues Werkzeug auf unbelegtem Inhalt vergr&ouml;&szlig;ert nur die Behauptung.</p>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 44px">
 <sc-for list="{{ bedingungen }}" as="b" hint-placeholder-count="4">
 <div style="border-top:2px solid var(--ink);padding-top:14px">
@@ -222,10 +222,10 @@
 <section data-screen-label="10 Entscheidung" style="width:1280px;height:720px;background:var(--surface-ink);color:var(--text-inverse);position:relative;box-sizing:border-box;padding:70px 84px;display:flex;flex-direction:column;justify-content:center;overflow:hidden">
 <div style="position:absolute;bottom:-40px;right:16px;font-size:260px;line-height:1;color:rgba(255,255,255,0.05);letter-spacing:-0.05em">&#8902;</div>
 <div style="font:500 15px/1 var(--font-mono);letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);margin-bottom:20px;position:relative">Die Entscheidung</div>
-<h2 style="font-size:52px;font-weight:600;line-height:1.1;letter-spacing:-0.02em;margin:0 0 24px;max-width:30ch;position:relative">Zuerst die zwei Datenl&uuml;cken, dann ein Zuschnitt</h2>
+<h2 style="font-size:52px;font-weight:600;line-height:1.1;letter-spacing:-0.02em;margin:0 0 24px;max-width:30ch;position:relative">Zuerst die letzte Datenl&uuml;cke, dann ein Zuschnitt</h2>
 <p style="font-size:23px;line-height:1.5;margin:0 0 34px;max-width:62ch;opacity:0.88;position:relative;text-wrap:pretty">Der Feldweg ist gebaut und wartet auf eine Begehung. Das Zoom-Werkzeug wartet auf eine Antwort &mdash; und die lautet nach dieser Pr&uuml;fung nicht ja oder nein, sondern: welcher der drei Zuschnitte.</p>
 <div style="display:flex;gap:56px;position:relative;border-top:2px solid rgba(255,255,255,0.28);padding-top:24px;max-width:88ch">
-<div style="flex:1"><div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Sofort m&ouml;glich</div><div style="font-size:19px;line-height:1.45;text-wrap:pretty">CLC5 und CLC2018 einspielen; Begehung eines der sechs ungekl&auml;rten Schl&auml;ge mit dem Feldpaket.</div></div>
+<div style="flex:1"><div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Sofort m&ouml;glich</div><div style="font-size:19px;line-height:1.45;text-wrap:pretty">CLC5 Brandenburg einspielen (CLC2018 liegt seit dem 08.08.2026); Begehung eines der sechs ungekl&auml;rten Schl&auml;ge mit dem Feldpaket.</div></div>
 <div style="flex:1"><div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Braucht eine Antwort</div><div style="font-size:19px;line-height:1.45;text-wrap:pretty">Zuschnitt A, B oder C &mdash; und bei C, welche drei Ma&szlig;st&auml;be gestaltet werden.</div></div>
 <div style="flex:1"><div style="font:500 13px var(--font-mono);letter-spacing:0.14em;text-transform:uppercase;opacity:0.6;margin-bottom:8px">Bleibt liegen</div><div style="font-size:19px;line-height:1.45;text-wrap:pretty">DWD-Monatsmittel und die Loreley auf DGM1 &mdash; unabh&auml;ngig von dieser Entscheidung.</div></div>
 </div>
@@ -286,7 +286,7 @@ class Component extends DCLogic {
       ],
       bedingungen: [
         { was: 'CLC5 Brandenburg', status: 'Skript steht', weg: 'atlas/geodaten/brandenburg/nutzung.sh', wirkung: 'ersetzt die von Hand generalisierten Zonen auf dem Landwirtschaftsblatt und gibt der Kyritz-Nebenkarte einen belegten Hintergrund. Holt CLC5 und OSM selbst.', statusFarbe: 'var(--olive)' },
-        { was: 'CLC2018 Rumänien', status: 'braucht Handdownload', weg: 'ruby atlas/geodaten/rumaenien-nutzung.rb', wirkung: 'neun echte Flächenklassen statt nachgezogener Polygone auf dem Wirtschaftsblatt. Braucht clc2018.zip oder .gpkg neben dem Skript.', statusFarbe: 'var(--orange-deep)' },
+        { was: 'CLC2018 Rumänien', status: 'erledigt 08.08.2026', weg: 'ruby atlas/geodaten/rumaenien-nutzung.rb', wirkung: 'neun echte Flächenklassen liegen unter atlas/geodaten/; acht davon trägt das Wirtschaftsblatt als Flächenklassen. Die Handzeichnung ist nur noch Rückfallebene mit Vermerk am Blattfuß.', statusFarbe: 'var(--olive)' },
         { was: 'Eine Begehung', status: 'Paket wartet', weg: 'atlas/qgis/themen/brandenburg-hanf/', wirkung: 'sechs Schläge, 55 ha: aus ungeklärt wird beobachtet. Ein Nachmittag reicht für die Auflösung der größten fachlichen Lücke des Blattes.', statusFarbe: 'var(--olive)' },
         { was: 'Entscheidung Zuschnitt', status: 'offen', weg: 'A, B oder C — Folie 08', wirkung: 'bestimmt, ob überhaupt Kartenmaterial für weitere Maßstäbe entsteht. Ohne diese Antwort ist jeder Bau ein Vorgriff.', statusFarbe: 'var(--orange-deep)' }
       ]
