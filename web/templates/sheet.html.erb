@@ -21,25 +21,23 @@
 
     <section class="beiblatt-teil">
       <h2>Ort im Band</h2>
-      <% if plate.failure? %>
-        <%== open_case(plate, title: 'Keine Zeile im Blattschlüssel') %>
-      <% else %>
-        <% p = plate.value! %>
-        <% if p.numbered? %>
-          <p class="blattnummer">Blatt <span class="zahl"><%= p.nr %></span>
-            <% if p.derived? %><span class="status status-abgeleitet">abgeleitet</span><% end %>
-          </p>
-          <% if p.derived? %>
-            <p class="abschnitt-text">Die Blattnummer ist aus dem Inhalt der Registereinträge
-            erschlossen, nicht belegt. Der Rechenweg steht in
-            <a href="/werkstatt/atlas/BLAETTER.md">BLAETTER.md</a>.</p>
-          <% end %>
-          <% if p.note %><p class="abschnitt-text"><%= p.note %></p><% end %>
-        <% else %>
-          <p class="abschnitt-text">Kein Blatt des gebundenen Bandes<% if p.note %> —
-            <%= p.note %><% end %>.</p>
+      <%# Keine Fehlfall-Verzweigung mehr: wer hier ankommt, steht in
+          atlas/INHALT.md — sonst hätte die Route schon 404 geantwortet. Das ist
+          der Gewinn einer Liste statt vier. %>
+      <% if sheet.numbered? %>
+        <p class="blattnummer">Blatt <span class="zahl"><%= sheet.nr %></span>
+          <% if sheet.derived? %><span class="status status-abgeleitet">abgeleitet</span><% end %>
+        </p>
+        <% if sheet.derived? %>
+          <p class="abschnitt-text">Die Blattnummer ist aus dem Inhalt der Registereinträge
+          erschlossen, nicht belegt. Der Rechenweg steht in
+          <a href="/werkstatt/atlas/BLAETTER.md">BLAETTER.md</a>.</p>
         <% end %>
+      <% else %>
+        <p class="abschnitt-text">Kein Blatt des gebundenen Bandes.</p>
       <% end %>
+      <p class="abschnitt-text">Kennung <span class="mono"><%= sheet.kennung %></span> —
+      sie bleibt, auch wenn die Datei umzieht.</p>
     </section>
 
     <section class="beiblatt-teil">

@@ -5,7 +5,8 @@
     place that can disagree with the first. %>
 <% rule = restricted.rule_for("/#{sheet.file}") %>
 <a class="blatt" href="/blatt/<%= sheet.file %>">
-  <span class="blatt-sig" data-signatur="<%= sheet.slug %>"></span>
+  <% familie, name = sheet.signature_parts %>
+  <span class="blatt-sig" data-familie="<%= familie %>" data-signatur="<%= name %>"></span>
   <span class="blatt-text">
     <span class="blatt-kopf">
       <span class="blatt-titel"><%= sheet.title %><% if rule %>

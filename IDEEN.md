@@ -39,109 +39,25 @@ In Arbeit:
   zu `DATENBEDARF.md` („welche Lieferung hebt wie viele Aussagen"), bewusst zurückgestellt.
   `web/site.css` ist UI-Eigentum und muss zurückreisen — vermerkt in `TWO-PLACES.md`.
 
-- **Eine kuratierte CSV als Inhaltsverzeichnis — und dann der Repo-Zuschnitt**
-  (Idee Jan, 15.08.2026). Gehört mit der Dateinamen-Frage und dem Adressraum für
-  Zuschnitt B zusammen; wird als ein Vorhaben angegangen, nicht als drei.
+- ✓ **Der Adressraum steht** (15.08.2026) — `atlas/INHALT.md` ist die eine Liste.
+  27 Einträge in drei Abschnitten, je mit **Kennung** (kebab-case, überlebt Umbenennen
+  und Umzug), Datei, Nr, Signatur, Quellen, Status, Inhalt. Neu: `Sources::Contents`.
+  Abgelöst: `atlas/blaetter.csv`, `Sources::Plates`, `Sources::Sheets`, die drei
+  README-Tabellen und die `SIGNATUR`-Tabelle in `web/site.js` — vier Listen zu einer.
+  Format Markdown statt CSV, weil eine Liste, die zugleich Doku ist, ehrlich bleibt;
+  gelesen über `Transforms.markdown_tables`, das schon für den Belegstand entstand.
 
-  *Befund vorab:* die Blattliste steht heute an **drei** Stellen. `README.md` führt
-  sie als drei Tabellen (Blätter, Weitere Blätter, Präsentationen) und ist die Quelle
-  für `Sources::Sheets`. `atlas/blaetter.csv` führt 16 Zeilen für `Sources::Plates`.
-  Und `Inhalt.dc.html` — das Inhaltsverzeichnis-Blatt selbst — führt sie ein drittes
-  Mal, **fest verdrahtet im Markup**, Abteilung für Abteilung. Nur die ersten beiden
-  werden gegeneinander geprüft (`Sheets#open_cases` gegen das Wurzelverzeichnis);
-  gegen `Inhalt.dc.html` prüft nichts. Das ist die einzige Liste im Projekt, die
-  still veralten kann — genau der Fall, gegen den die Regel in `CLAUDE.md` steht.
+  Dabei aufgefallen und mit aufgelöst: `Brandenburg-Landwirtschaft.html` hatte scheinbar
+  keine Signatur — in Wahrheit zeichnet es seine eigene über `hanfRaws`, was als
+  Dateinamen-Vergleich im JavaScript stand. Steht jetzt als Familie `hanf` in der Tabelle.
+  `bin/pruefe-blaetter.rb` liest die Blätter-Tabelle direkt (ohne die Anwendung zu booten)
+  und meldet dieselben Werte wie vorher.
 
-  *Zuschnitt:* eine kuratierte `atlas/inhalt.csv`, die `blaetter.csv` aufnimmt und
-  trägt: Kennung, Datei, Titel, Abteilung, Rang, `nr` (als Angabe, nicht als Adresse),
-  Quellen, Status, Anmerkung. `Inhalt.dc.html` und die Werkstatt lesen sie zur
-  Laufzeit; die README-Tabelle wird durch einen Verweis ersetzt, damit es bei *einer*
-  Liste bleibt. Alles Nötige steht schon: `Sources::Tree` liest bei jedem Request neu,
-  `Transforms.rows` parst, Failure → `.fehlfall` macht Fehlendes sichtbar.
-  **Grenze ziehen:** die CSV trägt Identität und Ordnung. Nicht die Halte (die gehören
-  ins Blatt, s. Punkt 6) und nicht die Erklärtexte einer Führung (eigene Tabelle,
-  eigene Lebensdauer). Sonst wird sie der Eimer, in den alles fällt.
-
-  *rom-rb, nochmal überdacht (15.08.2026):* **Der CSV-Adapter ist tot.** `rom-csv`
-  steht bei 0.3.0 vom 22.02.2016 (belegt: RubyGems-API), ROM-Kern bei 5.4.3 — der
-  Adapter ist gegen ROM 0.x gebaut und seit zehn Jahren ohne Release. Damit fällt der
-  direkte Weg weg, und es bleiben zwei:
-
-  1. **rom-sql über die vorhandene In-Memory-SQLite** (Sequel und sqlite3 stehen schon
-     im Gemfile, für Rodauth). Reifer Adapter, echte Joins über register × blaetter ×
-     quellen × sorten. Preis: die DB ist ein abgeleiteter Zwischenstand — genau das,
-     was die Regel in `CLAUDE.md` verbietet, es sei denn sie wird bei jeder Änderung
-     neu befüllt. Dafür bräuchte es wieder eine mtime-Prüfung pro Anfrage, also
-     `Tree#parse` — mit einer Datenbank dazwischen. Zwei weitere Konflikte: ROM gibt
-     bei fehlender Datei eine *leere Relation*, und Stillschweigen ist hier der eine
-     verbotene Ausgang; die `Result`-Grenze müsste also obendrauf ohnehin bleiben.
-  2. **Kein ROM, sondern die gemeinsame Form der Leser herausziehen.** Die fünf unter
-     `web/lib/atlas/sources/` wiederholen dieselben vier Schritte: parsen, Spalten
-     wandeln, nach Schlüssel finden, Unpaariges auflisten. Das sind rund 30 Zeilen,
-     keine Abhängigkeit — und das eigentlich Wertvolle (`Plates#unmapped`,
-     `Sheets#open_cases`, beide Richtungen sichtbar) bekommt man von ROM sowieso nicht.
-
-  **Entschieden 15.08.2026: Variante 2.** Bei 272 Zeilen in sechs Dateien ist die
-  Abfrage nicht das Problem. rom-sql bleibt als Rückfallweg benannt, aber erst bei
-  einem Auslöser: der *dritten* Prüfung über Tabellengrenzen hinweg — heute gibt es
-  zwei (Register↔Blattschlüssel, README↔Verzeichnis); kämen Wegeverzeichnis und
-  Sortenliste als kreuzende Tabellen dazu, ist der Zeitpunkt da. Vorher zahlt man eine
-  Abhängigkeit für Joins über Listen, die in den Speicher passen.
-
-  *Wie die 30 Zeilen zuzuschneiden sind — und wo Markdown hineingehört:* die fünf
-  Leser unterscheiden sich in genau **einem** Schritt, nämlich `Text → Array<Hash>`.
-  Danach ist alles gleich: Struct bauen, nach Schlüssel finden, Unpaariges auflisten.
-  Also wird **die Zeilenquelle der Parameter**, nicht das Dateiformat. Beide Fassungen
-  liegen schon fertig in `Transforms`: `rows` für die Semikolon-CSV, `section` +
-  `table_rows` für Markdown-Tabellen unter einer Überschrift — `Sources::Sheets` liest
-  so bereits heute die README.
-
-  Perspektivisch trägt das mehr, als es kostet: **die kuratierte Liste könnte eine
-  Markdown-Datei sein** — `atlas/INHALT.md`, Prosa und darunter eine Tabelle — statt
-  einer CSV. Das löst den Einwand auf, der oben gegen die CSV steht (der Kommentar in
-  `sheets.rb` verteidigt die README, weil eine Liste, die zugleich Doku ist, ehrlich
-  bleibt): eine Markdown-Tabelle ist beides, wird zur Laufzeit gelesen, und es bleibt
-  trotzdem bei *einer* Liste. Die Wahl CSV oder Markdown wird damit redaktionell — wer
-  pflegt das, mit wieviel Prosa daneben — und nicht mehr technisch. Vor dem Bauen zu
-  entscheiden; die Semikolon-CSV bleibt richtig für Tabellen ohne Prosa (`sorten.csv`,
-  `geschuetzt.csv`).
-
-  **Zwei Dinge dürfen dabei nicht eingeebnet werden:** `Restricted` fällt *geschlossen*
-  (`restricted?` gibt bei Lesefehler `true`), jeder andere Leser fällt offen auf eine
-  leere Liste mit sichtbarem Fall. Diese Asymmetrie ist Absicht und im Kopf von
-  `geschuetzt.csv` begründet — eine gemeinsame Oberklasse, die die Fehlerrichtung
-  vereinheitlicht, macht aus geschützten Dokumenten offene. Und die Suchfunktionen
-  geben teils `Failure([:grund, schlüssel])`, teils `nil` zurück, je nachdem ob der
-  Aufrufer einen Fehlfall anzeigen oder eine Entscheidung treffen will; auch das ist
-  keine Unsauberkeit, die man wegvereinheitlicht.
-
-  *Repo-Zuschnitt, im selben Zug:* das Wurzelverzeichnis trägt 16 Blatt-Dateien flach
-  nebeneinander, dazu vier Laufzeitdateien aus dem Design-System (`support.js`,
-  `deck-stage.js`, `doc-page.js`, `tweaks-panel.jsx`), dazu Doku, Gemfile, Dockerfile
-  und eine PDF. Verschieben ist kein Kosmetikschritt: `datei` ist heute die Adresse,
-  `Sheets#open_cases` liest `.` direkt und siebt Blätter mit `/` im Pfad aus
-  (`sheets.rb:53–57`), und die `.dc.html` erwarten die DS-Dateien auf gleicher Höhe.
-  Deshalb: erst die Kennung, dann der Umzug — in dieser Reihenfolge kostet er nichts,
-  umgekehrt bricht er jeden Verweis.
-
-- **Reiseplaner-Wireframes A/B/C.** Nicht zu verwechseln mit den drei *Zuschnitten*
-  A/B/C der Iteration-2-Präse (eine Zeile weiter oben, andere Entscheidung). Hier geht
-  es um die Bedienung: `praesentationen/Wireframe-A-Chips.dc.html`
-  (Themenchips über der Karte, Hauptscreen), `-B-Tabs` (Themenliste mit Tab-Leiste unten),
-  `-C-Split` (Karte oben, Trefferliste unten). Screenshots liegen als `wf-a.png`,
-  `wf-b.png`, `wf-c.png` daneben. Absichtlich WIP: grau und unfertig, damit die
-  Diskussion um die Anordnung geht.
-  **Entschieden 15.08.2026: C bekommt keine eigene Folie** — weder im Pitch (Folie 04
-  „Zwei Screens") noch im Vorschlag (Folie 05/06). Die Decks bleiben damit, wie sie sind;
-  `-C-Split` bleibt als Wireframe liegen, ohne Auftritt.
-  **Weiter offen:** die Bedienungsvariante selbst — A (Chips) oder B (Tabs).
-
-- **Diercke-Scans Klima (46/47) + Landwirtschaft (48–51)** — extract-rotate-stitch-Pipeline
-  gelaufen: `scans/spread-klima.jpg`, `spread-landwirtschaft-48-49.jpg`, `-50-51.jpg`
-  + Einzelseiten (`klima-seite-46/47.jpg`, `lawi-seite-48–51.jpg`), Schwarzränder
-  bereinigt, Bundsteg als freigelassene Lücke. **Finale Scan-Optimierung ans Ende
-  verschoben** (Feinschliff Beschnitt, ggf. Deskew, Legenden-Rekonstruktion S. 48,
-  Nachscan-Streifen einsetzen — s. DATENBEDARF № 11).
+  **Offen, in dieser Reihenfolge:** (1) `Inhalt.dc.html` liest die Liste zur Laufzeit,
+  statt sie ein drittes Mal im Markup zu führen — gehört der Oberfläche, ist also die
+  nächste Rückreise. (2) Der **Repo-Zuschnitt**: die 16 Blattdateien aus dem
+  Wurzelverzeichnis. Jetzt billig, weil nur noch die Spalte `Datei` wandert —
+  `Contents#open_cases` liest allerdings `.` direkt und muss mit.
 
 - **TODO · Grabfeld auf dem Freiburger Hauptfriedhof recherchieren** (offen, 13.08.2026)
 

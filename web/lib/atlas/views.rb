@@ -16,10 +16,9 @@ module Atlas
       missing: 'Die Datei liegt nicht im Repo. Wer den Verweis gesetzt hat, hat ihn nicht geprüft.',
       unreadable: 'Die Datei ist da, ließ sich aber nicht lesen.',
       outside_tree: 'Der Pfad zeigt aus dem Repo heraus und wird nicht ausgeliefert.',
-      not_listed: 'Diese Datei steht in keiner Blätter-Tabelle der README.',
+      not_listed: 'Diese Datei steht in keiner Tabelle von atlas/INHALT.md — ohne Zeile dort ' \
+                  'hat sie keine Kennung, keine Blattnummer und kein Quellenregister.',
       not_a_directory: 'Dieses Verzeichnis gibt es nicht.',
-      no_plate_row: 'Für dieses Blatt gibt es keine Zeile in atlas/blaetter.csv — ohne sie ist ' \
-                    'keine Blattnummer und kein Quellenregister zugeordnet.',
       no_source_register: 'Für dieses Blatt gibt es noch kein Quellenregister unter atlas/quellen/.',
       no_sheet_number: 'Ohne Blattnummer lässt sich im Namensregister nichts nachschlagen — ' \
                        'es führt seine Einträge über die Nummern des gebundenen Bandes.'

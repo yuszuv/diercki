@@ -95,9 +95,11 @@ class AtlasTest < Minitest::Test
   # --- the data the pages are built from -----------------------------------
 
   def test_sheet_list_and_register_parse_to_the_expected_size
-    sheets = Atlas::Container['sources.sheets'].all.value!
-    assert_equal 16, sheets.reject(&:deck?).size, 'Blätter from the README tables'
-    assert_equal 11, sheets.select(&:deck?).size, 'Präsentationen'
+    contents = Atlas::Container['sources.contents'].all.value!
+    assert_equal 16, contents.reject(&:deck?).size, 'Blätter in atlas/INHALT.md'
+    assert_equal 11, contents.select(&:deck?).size, 'Präsentationen'
+    assert_empty contents.reject(&:kennung), 'every entry carries a Kennung — it is the address'
+    assert_equal contents.map(&:kennung).uniq.size, contents.size, 'a Kennung addresses one entry'
 
     entries = Atlas::Container['sources.register'].all.value!
     assert_equal 272, entries.size, 'entries in atlas/register.csv'
@@ -106,19 +108,41 @@ class AtlasTest < Minitest::Test
            'a field may only appear on the Blatt that carries a Suchgitter'
   end
 
+  def test_the_signature_of_a_sheet_comes_from_the_list_not_from_its_name
+    # This used to be a table of file names in web/site.js — the fourth list of
+    # the same sheets, and the one nothing checked. The card now carries what
+    # atlas/INHALT.md says, and the hemp family stays the one drawn case.
+    contents = Atlas::Container['sources.contents']
+    hemp = contents.by_kennung.fetch('bb-landwirtschaft')
+    assert_equal %w[hanf brokkoli], hemp.signature_parts
+
+    get '/blaetter'
+    assert_includes last_response.body, 'data-familie="hanf" data-signatur="brokkoli"'
+    refute_includes last_response.body, 'data-signatur="Brandenburg-Landwirtschaft.html"'
+  end
+
+  def test_a_kennung_survives_what_a_file_name_does_not
+    contents = Atlas::Container['sources.contents']
+    entry = contents.by_kennung.fetch('rum-verkehr')
+    assert_equal 'Rumaenien-Verkehr.html', entry.file
+    assert_equal 7, entry.nr
+
+    get "/blatt/#{entry.file}"
+    assert_includes last_response.body, 'rum-verkehr'
+  end
+
   def test_the_sheet_key_marks_its_numbers_as_derived
-    plates = Atlas::Container['sources.plates'].all.value!
-    numbered = plates.select(&:numbered?)
+    numbered = Atlas::Container['sources.contents'].all.value!.select(&:numbered?)
     assert_equal (1..9).to_a, numbered.map(&:nr).sort
     assert numbered.all?(&:derived?),
            'the Blattnummern are derived, not evidenced — see atlas/BLAETTER.md'
   end
 
   def test_no_sheet_number_is_cited_without_a_file
-    plates = Atlas::Container['sources.plates']
+    contents = Atlas::Container['sources.contents']
     cited = Atlas::Container['sources.register'].cited_numbers
-    assert_empty plates.unmapped(cited),
-                 'register.csv cites a Blattnummer that atlas/blaetter.csv does not map'
+    assert_empty contents.unmapped(cited),
+                 'register.csv cites a Blattnummer that atlas/INHALT.md does not map'
   end
 
   def test_a_note_is_filed_as_finished_only_when_it_says_so

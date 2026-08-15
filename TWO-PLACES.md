@@ -29,6 +29,7 @@ The division of labour follows from that. Not "sometimes here, sometimes there" 
 | QGIS-Kartensatz (`atlas/qgis/`) | **local** | QGIS reads and writes these files, XML validity matters |
 | Docs, Quellenregister, research | **local** | they describe the clone, and the clone leads |
 | Namensregister (`atlas/register.csv`) | **UI** | written and maintained there; nothing here writes into it |
+| Inhalt des Atlas (`atlas/INHALT.md`) | **local** | documentation and data at once, and the clone leads on docs. `Inhalt.dc.html` should read it rather than repeat it — that is the next thing to draw over there |
 | Design of the web edition (`web/site.css`, `web/Muster.dc.html`) | **UI** | the Musterblatt shows every building block once and can be drawn there |
 | The rest of the web application (`web/`, `config.ru`, `Gemfile`, `Dockerfile`, `docker-compose.yml`, `bin/`, `test/`) | **local** | the UI does not know it and does not need it |
 | `handarbeit/` | **local, human only** | binary files from QGIS and QField |

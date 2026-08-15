@@ -1,7 +1,10 @@
 # Blattschlüssel
 
-`blaetter.csv` sagt, welche Blattnummer welche Datei meint. Zur Laufzeit gelesen —
-von der Webfassung, für den Verweis vom Registereintrag aufs Blatt und zurück.
+Woher die Blattnummern kommen und was sie taugen. Die Zuordnung Nummer → Datei
+steht seit dem 15.08.2026 in der Spalte `Nr` von `atlas/INHALT.md`, zusammen mit
+allem anderen über ein Blatt; bis dahin trug sie eine eigene Datei
+`atlas/blaetter.csv`. Der Rechenweg unten gilt unverändert — er ist der Grund,
+warum in der Statusspalte dort `abgeleitet` steht.
 
 ## Warum es die Tabelle gibt
 
@@ -42,7 +45,7 @@ Wirtschaft spricht Cernavodă und die zwei Energie-Einträge; entschieden ist es
 Deshalb steht in allen neun Zeilen `status = abgeleitet`, und die Webfassung schreibt
 das ans Blatt. Wer die Zuordnung bestätigt — am gedruckten Band oder am Entwurf —
 setzt die Zeile auf `belegt` und schreibt hier die Quelle dazu. Wer sie widerlegt,
-korrigiert die Spalte `nr`; sonst ändert sich nichts.
+korrigiert die Spalte `Nr` in `atlas/INHALT.md`; sonst ändert sich nichts.
 
 ## Was `nr` ist und was sie nicht ist
 
@@ -59,16 +62,9 @@ keine Datei. Wer etwas dauerhaft adressieren will (Verweise zwischen Blättern, 
 Wegeverzeichnis, eine Führung), braucht eine eigene Kennung; `nr` bleibt hier als
 Angabe stehen und wandert nicht in diese Rolle.
 
-## Die Spalte `quellen`
+## Der Rest steht jetzt woanders
 
-Zeigt auf die Datei unter `atlas/quellen/`. Zwei Namen weichen ab und sind deshalb
-hier explizit statt geraten: `Verkehr.md` gehört zu `Rumaenien-Verkehr.html`,
-`Braunbaer.md` zu `Rumaenien-Braunbaer.html`. Wo die Spalte leer ist, gibt es noch
-kein Quellenregister — derzeit für `Rumaenien-Physisch.html` und
-`Rumaenien-Landschaften.html`.
-
-## Fehlt ein Eintrag
-
-Wird nicht geraten. Ein Blatt ohne Zeile taucht in der Werkstatt als offener Fall
-auf; eine Blattnummer ohne Datei zeigt das Register weiter als bloße Zahl an, so wie
-vor dieser Tabelle. Nichts verschwindet still.
+Was die Spalten `Quellen`, `Signatur`, `Kennung` und `Datei` bedeuten und wie ein
+fehlender Eintrag behandelt wird, erklärt `atlas/INHALT.md` in seinem eigenen
+Abschnitt „Die Spalten". Hier steht nur noch, woher die Nummern kommen — das ist
+der Teil, der eine Begründung braucht und keine Beschreibung.

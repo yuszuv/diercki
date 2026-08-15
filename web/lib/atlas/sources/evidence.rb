@@ -16,7 +16,7 @@ module Atlas
     # never by position; see Transforms.markdown_tables for what that prevents.
     class Evidence
       include Dry::Monads[:result]
-      include Atlas::Import['sources.tree', 'sources.plates', 'sources.workshop']
+      include Atlas::Import['sources.tree', 'sources.contents', 'sources.workshop']
 
       # The vocabulary atlas/quellen/README.md defines. Everything else is real
       # too — it is just not one of these.
@@ -40,7 +40,7 @@ module Atlas
 
       # @return [Dry::Monads::Result<Array<Reading>>] one per sheet that has a register
       def all
-        plates.all.fmap do |list|
+        contents.all.fmap do |list|
           list.filter_map { |plate| read(plate) if plate.sources_path }
         end
       end
@@ -78,7 +78,7 @@ module Atlas
       # is not there is a broken reference; a register no sheet names is a file
       # nobody reaches. Neither is guessed at.
       def open_cases
-        list = plates.all.value_or([])
+        list = contents.all.value_or([])
         named = list.filter_map(&:sources_path).to_set
 
         {

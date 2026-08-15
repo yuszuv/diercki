@@ -28,7 +28,12 @@ benennt eine Seite statt einer Datei. Der Rechenweg steht in `BLAETTER.md`.
 **Signatur** — welche Signatur aus `atlas/signaturen.js` für dieses Blatt steht,
 als `familie / name`. Eine kartographische Entscheidung, kein Automatismus aus
 dem Dateinamen — deshalb steht sie hier und nicht im Code. Leer heißt: noch
-keine gewählt.
+keine gewählt, und der Platz auf der Blattkarte bleibt leer.
+
+Die Familie `hanf` ist der eine Sonderfall: das Landwirtschaftsblatt zeichnet
+seine Signatur selbst über `hanfRaws(name)`, statt eine aus dem Katalog zu
+holen. Das stand bis zum 15.08.2026 als Dateinamen-Vergleich in `web/site.js`
+und war der Grund, warum das Blatt dort scheinbar keine Signatur hatte.
 
 **Quellen** — die Datei unter `atlas/quellen/`. Leer heißt: es gibt noch kein
 Quellenregister, und der Belegstand zeigt das als offenen Fall.
@@ -43,7 +48,7 @@ offenen Fall — eine Datei ohne Zeile und eine Zeile ohne Datei.
 
 | Kennung | Datei | Nr | Signatur | Quellen | Status | Inhalt |
 |---|---|---|---|---|---|---|
-| bb-landwirtschaft | Brandenburg-Landwirtschaft.html | 1 | | Brandenburg-Landwirtschaft.md | abgeleitet | Brandenburg · landwirtschaftliche Nutzung — Hanf 2026 schlaggenau, Kartodiagramm je Kreis, Matrix-Legende, Nebenkarte Kyritz |
+| bb-landwirtschaft | Brandenburg-Landwirtschaft.html | 1 | hanf / brokkoli | Brandenburg-Landwirtschaft.md | abgeleitet | Brandenburg · landwirtschaftliche Nutzung — Hanf 2026 schlaggenau, Kartodiagramm je Kreis, Matrix-Legende, Nebenkarte Kyritz |
 | bb-klima | Brandenburg-Klima.html | 2 | klima / Klimastation | Brandenburg-Klima.md | abgeleitet | Brandenburg · Klima — Kartodiagramme, Walter-Lieth-Randspalte, Geländeklima-Nebenkarte. **Alle Werte noch unbelegt** |
 | loreley-relief | Loreley-Relief.html | 3 | relief / Böschung, Steilstufe | Loreley-Relief.md | abgeleitet | Werkstattblatt: ein Gelände in vier Registern — Isohypsen, Hypsometrie, Schummerung, Böschungsschraffen. Geländemodell konstruiert |
 | rum-physisch | Rumaenien-Physisch.html | 4 | relief / Schummerung | | abgeleitet | Physische Übersicht — Relief, Hypsometrie |
