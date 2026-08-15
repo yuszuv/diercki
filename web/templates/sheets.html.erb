@@ -50,6 +50,35 @@
   </div>
 <% end %>
 
+<% unless open[:stray].empty? %>
+  <div class="fehlfall">
+    <b>Liegt oben, gehört nach unten:</b>
+    <%= open[:stray].join(' · ') %>
+    <br><span class="fehlfall-grund">Ein Export legt die Blätter wieder ins Wurzelverzeichnis,
+    während <code>atlas/INHALT.md</code> sie unter <code>blaetter/</code> führt. Kein Fehler,
+    sondern der Normalfall nach einer UI-Sitzung — aber ungesagt bediente die Anwendung still
+    die ältere von zwei Fassungen. Verschwindet beim Einsortieren.</span>
+  </div>
+<% end %>
+
+<% unless open[:duplicate_slug].empty? %>
+  <div class="fehlfall">
+    <b>Zwei Zeilen, ein Basisname:</b>
+    <%= open[:duplicate_slug].join(' · ') %>
+    <br><span class="fehlfall-grund">Der URL-Raum ist flach, damit die relativen Pfade in den
+    Blättern auflösen. Zwei Dateien mit demselben Basisnamen sind darin eine Adresse.</span>
+  </div>
+<% end %>
+
+<% unless open[:ragged].empty? %>
+  <div class="fehlfall">
+    <b>Zeilen mit zu vielen Zellen:</b>
+    <%= open[:ragged].map { |abschnitt, n| "#{abschnitt} (#{n})" }.join(' · ') %>
+    <br><span class="fehlfall-grund">Eine Markdown-Tabelle wird nach Kopfzeile gelesen, überzählige
+    Zellen fielen also still weg. Fast immer ein <code>|</code> im Fließtext einer Zelle.</span>
+  </div>
+<% end %>
+
 <% unless (ohne_nummer = register_numbers_without_file).empty? %>
   <div class="fehlfall">
     <b>Blattnummern ohne Datei:</b>

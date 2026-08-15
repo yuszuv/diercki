@@ -94,10 +94,10 @@ Geodaten-Beschaffung hat bewusst keinen eigenen Skill — der vorhandene
 
 ## Orientierung
 - `README.md` — Struktur und Blattliste
-- `WEB-APPLICATION.md` — die Webanwendung: Auslieferung, Aufbau, Wächter
-- `TWO-PLACES.md` — der Abgleich mit der Design-Oberfläche
-- `IDEEN.md` — Backlog
-- `DATENBEDARF.md` — was an Daten von Jan noch fehlt
+- `doku/WEB-APPLICATION.md` — die Webanwendung: Auslieferung, Aufbau, Wächter
+- `doku/TWO-PLACES.md` — der Abgleich mit der Design-Oberfläche
+- `doku/IDEEN.md` — Backlog
+- `doku/DATENBEDARF.md` — was an Daten von Jan noch fehlt
 - `atlas/geodaten/LIESMICH.md` — welches Skript welche Geodatei erzeugt
 - `recherche/uebergabe-2026-08-07.md` — wo der Faden liegt
-- `github.md` — Repo-Bindung und Sync-Stand
+- `doku/github.md` — Repo-Bindung und Sync-Stand

@@ -139,6 +139,9 @@ atlas/
                       themen/brandenburg-hanf/ doubles as the QField package for
                       fieldwork (instructions in the README there)
 
+blaetter/             the Kartenblätter and Werkstattblätter, drawn in the design UI
+ds/                   the design system's runtime, loaded by every Blatt
+doku/                 the documentation that is not this file
 bin/                  tools — sync-report.rb compares the clone against the ZIP export,
                       vendor.rb fetches the nine vendored libraries,
                       pruefe-blaetter.rb checks the Blattschlüssel against sheet content
@@ -168,8 +171,15 @@ config.ru             the Rack stack, outside in: auth, guard, rewrite, files, a
 Dockerfile            the image — built by .github/workflows/ci.yml, published to ghcr
 docker-compose.yml    the dev and preview profiles, and the production service
 .env.example          template for the three required values; .env itself is ignored
-github.md             repo binding and the log of syncs with the design UI
 ```
+
+**The URL space is flat, the disk is not.** `blaetter/Rumaenien-Verkehr.html` is
+served as `/Rumaenien-Verkehr.html`, and so is every sheet, deck and runtime file
+that moved. That is not decoration: a Blatt loads its neighbours relatively —
+`./support.js`, `atlas/geodaten/…`, `_ds/…` — and the browser resolves against
+the URL. `atlas/INHALT.md` holds the mapping, `Middleware::Files` applies it, and
+`bin/sync-report.rb` reads the same file so the export, which is flat because the
+design project cannot be nested, still compares.
 
 Not in the clone but in the design project: `scans/` — the reference scans of the
 printed Diercke, around 60 MB. They are comparison material, no Blatt embeds them;
@@ -179,16 +189,16 @@ whoever needs them takes them out of the export.
 
 | File | What |
 |---|---|
-| `WEB-APPLICATION.md` | how the atlas is served, the path of a request, what the application is built from, the Wächter, CI and the image |
-| `TWO-PLACES.md` | the sync between this clone and the Claude design UI, and where the two deliberately differ |
+| `doku/WEB-APPLICATION.md` | how the atlas is served, the path of a request, what the application is built from, the Wächter, CI and the image |
+| `doku/TWO-PLACES.md` | the sync between this clone and the Claude design UI, and where the two deliberately differ |
 | `AGENTS.md` | entry point for coding agents |
 | `CLAUDE.md` | the binding rules |
-| `IDEEN.md` | backlog and loose ends |
-| `DATENBEDARF.md` | what data is still missing from outside |
+| `doku/IDEEN.md` | backlog and loose ends |
+| `doku/DATENBEDARF.md` | what data is still missing from outside |
 | `atlas/BLAETTER.md` | how the Blattnummern were derived |
 | `atlas/GLOSSAR.md` | the Blätter's technical terms |
 | `atlas/geodaten/LIESMICH.md` | which script produces which geodata file |
-| `github.md` | repo binding and the log of syncs with the design UI |
+| `doku/github.md` | repo binding and the log of syncs with the design UI |
 
 Colours and Signaturen go through `atlas/farben.js` and `atlas/signaturen.js` and
 nowhere else — no new hex values, no ad-hoc symbols in individual Blätter. The `.gpl`

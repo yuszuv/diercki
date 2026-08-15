@@ -4,6 +4,8 @@
   by_sheet = evidence.tally_by_sheet
   hits = evidence.filter(status: status, sheet: sheet)
   open = evidence.open_cases
+  offene_lieferungen = deliveries.by_kennung
+  kennungen = contents.all.value_or([]).to_h { |e| [e.slug, e.kennung] }
 %>
 <%== heading('Belegstand',
              'Worauf der Atlas steht, quer über alle Blätter gelesen. Jede Zeile stammt aus dem ' \
@@ -29,9 +31,9 @@
 <div class="tabelle-rahmen"><table class="register">
   <thead><tr><th>Blatt</th><th>belegt</th><th>abgeleitet</th><th>unbelegt</th><th>weitere</th><th></th></tr></thead>
   <tbody>
-    <% by_sheet.sort_by { |_, t| -t[:unbelegt] }.each do |file, t| %>
+    <% by_sheet.sort_by { |_, t| -t[:unbelegt] }.each do |slug, t| %>
       <tr>
-        <td class="z-name"><a href="/blatt/<%= file %>"><b><%= file.sub(/\.(dc\.)?html\z/, '').tr('-', ' ') %></b></a></td>
+        <td class="z-name"><a href="/blatt/<%= slug %>"><b><%= slug.sub(/\.(dc\.)?html\z/, '').tr('-', ' ') %></b></a></td>
         <td class="zahl mono"><%= t[:belegt] %></td>
         <td class="zahl mono"><%= t[:abgeleitet] %></td>
         <td class="zahl mono"><%= t[:unbelegt] %></td>
@@ -59,8 +61,8 @@
   <label for="blatt">Blatt</label>
   <select name="blatt" id="blatt">
     <option value="">alle Blätter</option>
-    <% by_sheet.keys.sort.each do |file| %>
-      <option value="<%= file %>"<%= ' selected' if file == sheet %>><%= file %></option>
+    <% by_sheet.keys.sort.each do |slug| %>
+      <option value="<%= slug %>"<%= ' selected' if slug == sheet %>><%= slug %></option>
     <% end %>
   </select>
   <button class="knopf" type="submit">Filtern</button>
@@ -73,7 +75,7 @@
     <% hits.each do |claim| %>
       <tr>
         <td class="z-name"><%= claim.text %></td>
-        <td class="z-blatt"><a href="/blatt/<%= claim.file %>"><%= claim.sheet %></a></td>
+        <td class="z-blatt"><a href="/blatt/<%= claim.slug %>"><%= claim.sheet %></a></td>
         <td class="z-art"><%= claim.section %></td>
         <td class="z-status"><span class="status<%= " status-#{claim.status}" if claim.known? %>"><%= claim.status %></span></td>
       </tr>
@@ -86,6 +88,29 @@
 
 <% if hits.empty? %>
   <p class="abschnitt-text">Keine Angabe passt auf diese Filter.</p>
+<% end %>
+
+<%# Was eine Lieferung hebt, steht in DATENBEDARF als Prosa. Hier steht nur, wie
+    das betroffene Blatt heute dasteht — blattgenau, nicht aussagengenau. Wer es
+    feiner will, braucht einen Verweis in den Zeilen der Quellenregister selbst. %>
+<% offen = by_sheet.filter_map { |slug, t| [kennungen[slug], slug, t] if offene_lieferungen[kennungen[slug]] } %>
+<% unless offen.empty? %>
+  <h2>Was eine Lieferung heben würde</h2>
+  <div class="tabelle-rahmen"><table class="register">
+    <thead><tr><th>Blatt</th><th>unbelegt</th><th>offene Lieferungen</th></tr></thead>
+    <tbody>
+      <% offen.sort_by { |_, _, t| -t[:unbelegt] }.each do |kennung, slug, t| %>
+        <tr>
+          <td class="z-name"><a href="/blatt/<%= slug %>"><b><%= slug.sub(/\.(dc\.)?html\z/, '').tr('-', ' ') %></b></a></td>
+          <td class="zahl mono"><%= t[:unbelegt] %> von <%= t[:gesamt] %></td>
+          <td class="z-art"><%= offene_lieferungen[kennung].map { |d| "№ #{d.nr} #{d.title}" }.join(' · ') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table></div>
+  <p class="abschnitt-text">Die Zuordnung ist blattgenau: welche einzelne Angabe eine Lieferung
+  hebt, steht in <a href="/werkstatt/doku/DATENBEDARF.md">DATENBEDARF.md</a> als Wirkungszeile
+  und wird hier nicht geraten.</p>
 <% end %>
 
 <% unless open[:without_register].empty? %>

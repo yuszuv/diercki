@@ -2,7 +2,7 @@
 
 Roda, dry-rb, one Puma process. How the atlas is served and what it is built
 from. Orientation, the commands to start it and the Blätter tables are in
-`README.md`; the sync between the clone and the design UI is in `TWO-PLACES.md`.
+`README.md`; the sync between the clone and the design UI is in `doku/TWO-PLACES.md`.
 
 ## Delivery and preview
 

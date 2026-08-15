@@ -18,7 +18,20 @@ Halt in einer Führung, eine Verknüpfung von Blatt zu Blatt. Sie ändert sich
 nicht, wenn die Datei umbenannt wird oder in ein Verzeichnis umzieht — genau
 dafür gibt es sie.
 
-**Datei** — der Pfad relativ zur Wurzel. Darf sich ändern; die Kennung nicht.
+**Datei** — wo das Blatt **auf der Platte** liegt, relativ zur Wurzel. Darf sich
+ändern; die Kennung nicht.
+
+Die **Adresse im Web ist der Basisname**, nicht dieser Pfad:
+`blaetter/Rumaenien-Verkehr.html` wird unter `/Rumaenien-Verkehr.html`
+ausgeliefert. Das ist keine Bequemlichkeit, sondern Bedingung. Ein Blatt lädt
+seine Nachbarn relativ — `./support.js`, `atlas/geodaten/…`, `_ds/…` —, und der
+Browser rechnet gegen die URL. Bliebe die Verschachtelung im URL-Raum sichtbar,
+bräche jeder dieser Pfade, und die Blätter gehören der Oberfläche: dort
+umzuschreiben macht der nächste Export rückgängig.
+
+Daraus folgt eine Regel: **zwei Zeilen dürfen nicht denselben Basisnamen
+tragen.** Im flachen URL-Raum wäre das eine Kollision; die Werkstatt meldet sie
+als offenen Fall.
 
 **Nr** — die Blattnummer des gebundenen Bandes. Eine *Zitiernummer, keine
 Kennung*: abgeleitet, nur für die neun Blätter des Bandes vorhanden, und sie
@@ -48,27 +61,40 @@ offenen Fall — eine Datei ohne Zeile und eine Zeile ohne Datei.
 
 | Kennung | Datei | Nr | Signatur | Quellen | Status | Inhalt |
 |---|---|---|---|---|---|---|
-| bb-landwirtschaft | Brandenburg-Landwirtschaft.html | 1 | hanf / brokkoli | Brandenburg-Landwirtschaft.md | abgeleitet | Brandenburg · landwirtschaftliche Nutzung — Hanf 2026 schlaggenau, Kartodiagramm je Kreis, Matrix-Legende, Nebenkarte Kyritz |
-| bb-klima | Brandenburg-Klima.html | 2 | klima / Klimastation | Brandenburg-Klima.md | abgeleitet | Brandenburg · Klima — Kartodiagramme, Walter-Lieth-Randspalte, Geländeklima-Nebenkarte. **Alle Werte noch unbelegt** |
-| loreley-relief | Loreley-Relief.html | 3 | relief / Böschung, Steilstufe | Loreley-Relief.md | abgeleitet | Werkstattblatt: ein Gelände in vier Registern — Isohypsen, Hypsometrie, Schummerung, Böschungsschraffen. Geländemodell konstruiert |
-| rum-physisch | Rumaenien-Physisch.html | 4 | relief / Schummerung | | abgeleitet | Physische Übersicht — Relief, Hypsometrie |
-| rum-landschaften | Rumaenien-Landschaften.html | 5 | politisch / Staatsfläche: Grenzkolorit | | abgeleitet | Historische Landschaften |
-| rum-wirtschaft | Rumaenien-Wirtschaft.html | 6 | energie / Erdölleitung | Rumaenien-Wirtschaft.md | abgeleitet | Wirtschaft — Rohstoffe, Industrie, Energie |
-| rum-verkehr | Rumaenien-Verkehr.html | 7 | bahnen / Bahnhof, Haltepunkt | Verkehr.md | abgeleitet | Hauptverkehrsnetz — Straßen, Bahnen, Donaudelta-Nebenkarte |
-| banat-liniennetz | Banat-Liniennetz.dc.html | 8 | bevoelkerung / Pendlerverflechtung | Banat-Liniennetz.md | abgeleitet | Banat · Liniennetzplan — oktilinear, topologietreu, nicht lagetreu |
-| rum-braunbaer | Rumaenien-Braunbaer.html | 9 | umwelt / Nationalpark | Braunbaer.md | abgeleitet | Braunbär — Verbreitung, Streusignatur nach GBIF-Nachweisen |
-| nikolais-ort | Nikolais-Ort.dc.html | | | Nikolais-Ort.md | | Freiburger Hauptfriedhof, drei Blätter — Grundriss mit DTK10-Hintergrund, Person, Abschied. Kein Atlas-Bestandteil im engeren Sinn, folgt aber seinen Regeln |
-| zeichenerklaerung | Zeichenerklaerung.dc.html | | chrome / Maßstabsbalken | | | Zeichenerklärung des ganzen Atlas, Blatt für Blatt (Farbsystem, Relief, Gewässer/Siedlung/Schrift, Grenzen, Verkehr, Rohstoffe, Industrie/Energie, Landwirtschaft, …) |
-| qgis-kartensatz | QGIS-Kartensatz.dc.html | | chrome / Gradnetz | | | Anleitung: Blätter in QGIS öffnen, drucken, um eigene Themen erweitern |
-| zeichen-naeherung | Zeichen-Naeherung.dc.html | | | | | Messblatt zur Unicode-Näherung des Sternprodukt-Zeichens — misst Glyphenabdeckung live gegen U+FFFF |
+| bb-landwirtschaft | blaetter/Brandenburg-Landwirtschaft.html | 1 | hanf / brokkoli | Brandenburg-Landwirtschaft.md | abgeleitet | Brandenburg · landwirtschaftliche Nutzung — Hanf 2026 schlaggenau, Kartodiagramm je Kreis, Matrix-Legende, Nebenkarte Kyritz |
+| bb-klima | blaetter/Brandenburg-Klima.html | 2 | klima / Klimastation | Brandenburg-Klima.md | abgeleitet | Brandenburg · Klima — Kartodiagramme, Walter-Lieth-Randspalte, Geländeklima-Nebenkarte. **Alle Werte noch unbelegt** |
+| loreley-relief | blaetter/Loreley-Relief.html | 3 | relief / Böschung, Steilstufe | Loreley-Relief.md | abgeleitet | Werkstattblatt: ein Gelände in vier Registern — Isohypsen, Hypsometrie, Schummerung, Böschungsschraffen. Geländemodell konstruiert |
+| rum-physisch | blaetter/Rumaenien-Physisch.html | 4 | relief / Schummerung | | abgeleitet | Physische Übersicht — Relief, Hypsometrie |
+| rum-landschaften | blaetter/Rumaenien-Landschaften.html | 5 | politisch / Staatsfläche: Grenzkolorit | | abgeleitet | Historische Landschaften |
+| rum-wirtschaft | blaetter/Rumaenien-Wirtschaft.html | 6 | energie / Erdölleitung | Rumaenien-Wirtschaft.md | abgeleitet | Wirtschaft — Rohstoffe, Industrie, Energie |
+| rum-verkehr | blaetter/Rumaenien-Verkehr.html | 7 | bahnen / Bahnhof, Haltepunkt | Verkehr.md | abgeleitet | Hauptverkehrsnetz — Straßen, Bahnen, Donaudelta-Nebenkarte |
+| banat-liniennetz | blaetter/Banat-Liniennetz.dc.html | 8 | bevoelkerung / Pendlerverflechtung | Banat-Liniennetz.md | abgeleitet | Banat · Liniennetzplan — oktilinear, topologietreu, nicht lagetreu |
+| rum-braunbaer | blaetter/Rumaenien-Braunbaer.html | 9 | umwelt / Nationalpark | Braunbaer.md | abgeleitet | Braunbär — Verbreitung, Streusignatur nach GBIF-Nachweisen |
+| nikolais-ort | blaetter/Nikolais-Ort.dc.html | | | Nikolais-Ort.md | | Freiburger Hauptfriedhof, drei Blätter — Grundriss mit DTK10-Hintergrund, Person, Abschied. Kein Atlas-Bestandteil im engeren Sinn, folgt aber seinen Regeln |
+| zeichenerklaerung | blaetter/Zeichenerklaerung.dc.html | | chrome / Maßstabsbalken | | | Zeichenerklärung des ganzen Atlas, Blatt für Blatt (Farbsystem, Relief, Gewässer/Siedlung/Schrift, Grenzen, Verkehr, Rohstoffe, Industrie/Energie, Landwirtschaft, …) |
+| qgis-kartensatz | blaetter/QGIS-Kartensatz.dc.html | | chrome / Gradnetz | | | Anleitung: Blätter in QGIS öffnen, drucken, um eigene Themen erweitern |
+| zeichen-naeherung | blaetter/Zeichen-Naeherung.dc.html | | | | | Messblatt zur Unicode-Näherung des Sternprodukt-Zeichens — misst Glyphenabdeckung live gegen U+FFFF |
 
 ## Weitere Blätter
 
 | Kennung | Datei | Inhalt |
 |---|---|---|
-| inhalt | Inhalt.dc.html | Übersichtsblatt im Sternprodukt-Look — dieselbe Ordnung wie hier, nur gestaltet und mit Signaturen |
-| deckel-entwuerfe | Deckel-Entwuerfe.dc.html | Entwürfe für den Einband |
-| kuechengruss | Kleiner-Gruss-aus-der-Kueche.dc.html | Zwischenstand vom 7. August, zwei Blattausschnitte. Kein Atlas-Bestandteil |
+| inhalt | blaetter/Inhalt.dc.html | Übersichtsblatt im Sternprodukt-Look — dieselbe Ordnung wie hier, nur gestaltet und mit Signaturen |
+| deckel-entwuerfe | blaetter/Deckel-Entwuerfe.dc.html | Entwürfe für den Einband |
+| kuechengruss | blaetter/Kleiner-Gruss-aus-der-Kueche.dc.html | Zwischenstand vom 7. August, zwei Blattausschnitte. Kein Atlas-Bestandteil |
+
+## Laufzeitdateien
+
+Keine Blätter, aber jedes Blatt lädt sie — relativ, also unter ihrem Basisnamen.
+Sie stehen hier, weil sonst nichts wüsste, wo sie nach dem Umzug liegen; der
+Schaukasten zeigt sie nicht.
+
+| Kennung | Datei | Inhalt |
+|---|---|---|
+| ds-support | ds/support.js | Laufzeit des Design-Systems, von jedem Blatt geladen |
+| ds-deck-stage | ds/deck-stage.js | Folienbühne der `.dc.html`-Decks |
+| ds-doc-page | ds/doc-page.js | Dokumentseite der `.dc.html`-Blätter |
+| ds-tweaks | ds/tweaks-panel.jsx | Die Tweaks-Leiste, die ein Blatt umschaltbar macht |
 
 ## Präsentationen
 
@@ -84,4 +110,4 @@ offenen Fall — eine Datei ohne Zeile und eine Zeile ohne Datei.
 | wireframe-a | praesentationen/Wireframe-A-Chips.dc.html | Wireframe A · Themenchips über der Karte — absichtlich grau und unfertig |
 | wireframe-b | praesentationen/Wireframe-B-Tabs.dc.html | Wireframe B · Themenliste mit Tab-Leiste unten |
 | wireframe-c | praesentationen/Wireframe-C-Split.dc.html | Wireframe C · Karte oben, Trefferliste unten. Bekommt keine eigene Folie in den Decks (entschieden 15.08.2026) |
-| gruss-waldmann | Gruss-an-Stefan-Waldmann.dc.html | Persönliche Präsentation, kein Atlas-Bestandteil |
+| gruss-waldmann | praesentationen/Gruss-an-Stefan-Waldmann.dc.html | Persönliche Präsentation, kein Atlas-Bestandteil |

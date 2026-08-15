@@ -96,7 +96,7 @@ class AtlasTest < Minitest::Test
 
   def test_sheet_list_and_register_parse_to_the_expected_size
     contents = Atlas::Container['sources.contents'].all.value!
-    assert_equal 16, contents.reject(&:deck?).size, 'Blätter in atlas/INHALT.md'
+    assert_equal 16, contents.count { |e| %i[sheets further].include?(e.group) }, 'Blätter in atlas/INHALT.md'
     assert_equal 11, contents.select(&:deck?).size, 'Präsentationen'
     assert_empty contents.reject(&:kennung), 'every entry carries a Kennung — it is the address'
     assert_equal contents.map(&:kennung).uniq.size, contents.size, 'a Kennung addresses one entry'
@@ -124,11 +124,67 @@ class AtlasTest < Minitest::Test
   def test_a_kennung_survives_what_a_file_name_does_not
     contents = Atlas::Container['sources.contents']
     entry = contents.by_kennung.fetch('rum-verkehr')
-    assert_equal 'Rumaenien-Verkehr.html', entry.file
+    assert_equal 'blaetter/Rumaenien-Verkehr.html', entry.file, 'where it lies'
+    assert_equal 'Rumaenien-Verkehr.html', entry.slug, 'how it is addressed'
     assert_equal 7, entry.nr
 
-    get "/blatt/#{entry.file}"
+    get "/blatt/#{entry.slug}"
     assert_includes last_response.body, 'rum-verkehr'
+  end
+
+  # --- flat URLs over a nested disk ----------------------------------------
+
+  def test_a_moved_sheet_keeps_its_address
+    # The whole point of the move: the disk is nested, the URL space is not.
+    # A Blatt loads its neighbours relatively and the browser resolves against
+    # the URL, so these four have to answer or every sheet renders naked.
+    { '/Rumaenien-Verkehr.html' => 'blaetter/',
+      '/support.js' => 'ds/',
+      '/doc-page.js' => 'ds/',
+      '/tweaks-panel.jsx' => 'ds/' }.each_key do |url|
+      get url
+      assert_equal 200, last_response.status, "#{url} has to keep answering"
+    end
+
+    # And what a sheet fetches by a path of its own is untouched by the mapping.
+    get '/atlas/geodaten/verkehr-daten.js'
+    assert_equal 200, last_response.status
+  end
+
+  def test_the_guard_did_not_move_with_the_file
+    # web/geschuetzt.csv names URLs, not paths on disk. The deck moved into
+    # praesentationen/ and its line was not touched — this is the proof.
+    get '/Gruss-an-Stefan-Waldmann.dc.html'
+    assert_equal 302, last_response.status
+  end
+
+  def test_a_second_row_with_the_same_basename_is_an_open_case
+    open = Atlas::Container['sources.contents'].open_cases
+    assert_empty open[:duplicate_slug], 'two entries may not share one address'
+    assert_empty open[:stray], 'no sheet is lying in the root that belongs elsewhere'
+    assert_empty open[:ragged], 'no table row carries more cells than its header'
+  end
+
+  def test_a_row_with_a_surplus_cell_is_counted_rather_than_swallowed
+    # A | inside prose is the one way this format loses data quietly. Keying by
+    # header means the surplus cell simply vanishes — so it gets counted.
+    table = Atlas::Transforms.markdown_tables(<<~MD).first
+      ## Blätter
+
+      | Kennung | Datei |
+      |---|---|
+      | a | eins.html |
+      | b | zwei.html | drei |
+    MD
+    assert_equal 1, table[:ragged]
+    assert_equal 2, table[:rows].size
+  end
+
+  def test_every_open_delivery_names_a_sheet_that_exists
+    kennungen = Atlas::Container['sources.contents'].by_kennung.keys
+    unknown = Atlas::Container['sources.deliveries'].open_deliveries
+                                                    .map(&:kennung).uniq - kennungen
+    assert_empty unknown, 'DATENBEDARF names a Kennung atlas/INHALT.md does not know'
   end
 
   def test_the_sheet_key_marks_its_numbers_as_derived
@@ -281,7 +337,7 @@ class AtlasTest < Minitest::Test
   def test_the_sheets_on_disk_are_untouched
     # The rewriting happens on the way out. On disk it would make every future
     # export look like a conflict.
-    original = File.read(File.join(ROOT, 'Rumaenien-Physisch.html'))
+    original = File.read(File.join(ROOT, 'blaetter/Rumaenien-Physisch.html'))
     assert_includes original, 'https://unpkg.com/d3@7.9.0/dist/d3.min.js'
   end
 
@@ -386,7 +442,7 @@ class AtlasTest < Minitest::Test
     # Checked on CONTENT, not on the status code: some spellings are rewritten by
     # Roda before the guard sees them and end up on the home page, which is a 200
     # and perfectly harmless. Only the bytes tell the two apart.
-    deck = File.read(File.join(ROOT, 'Gruss-an-Stefan-Waldmann.dc.html'))
+    deck = File.read(File.join(ROOT, 'praesentationen/Gruss-an-Stefan-Waldmann.dc.html'))
     note = File.read(File.join(ROOT, 'recherche/sternprodukt-notizen.md'))
     png  = File.read(File.join(ROOT, 'uploads/neumaier-frueher.png'), mode: 'rb')
 
@@ -475,7 +531,7 @@ class AtlasTest < Minitest::Test
     # is skipped — and the skip is reported, not silent.
     skipped = Atlas::Container['sources.evidence'].skipped
     assert_equal 1, skipped.size
-    assert_equal 'Rumaenien-Verkehr.html', skipped.first.file
+    assert_equal 'Rumaenien-Verkehr.html', skipped.first.slug
     refute_includes skipped.first.columns, 'status'
 
     claims = Atlas::Container['sources.evidence'].claims
@@ -487,7 +543,7 @@ class AtlasTest < Minitest::Test
     # Nikolais-Ort.md marks a memory as a memory. The three-way split does not
     # cover that and must not be made to: bending it onto "abgeleitet" would
     # claim a source where a person was quoted.
-    claims = Atlas::Container['sources.evidence'].claims.select { |c| c.file.start_with?('Nikolais') }
+    claims = Atlas::Container['sources.evidence'].claims.select { |c| c.slug.start_with?('Nikolais') }
     own = claims.map(&:status).uniq.reject { |s| Atlas::Sources::Evidence::KNOWN.include?(s) }
 
     assert_includes own, 'Angabe des Nutzers'
@@ -504,7 +560,8 @@ class AtlasTest < Minitest::Test
 
   def test_the_belegstand_names_the_sheets_that_have_no_register
     open = Atlas::Container['sources.evidence'].open_cases
-    assert_equal %w[Rumaenien-Landschaften.html Rumaenien-Physisch.html], open[:without_register]
+    assert_equal %w[blaetter/Rumaenien-Landschaften.html blaetter/Rumaenien-Physisch.html],
+                 open[:without_register]
 
     get '/belegstand'
     assert_equal 200, last_response.status

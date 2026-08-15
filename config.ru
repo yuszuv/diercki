@@ -56,6 +56,10 @@ use Atlas::Middleware::Guard
 use Atlas::Middleware::VendorRewrite
 use Atlas::Middleware::Files, root: Atlas::VENDOR_DIR, prefix: '/vendor',
                               cache: 'public, max-age=2592000, immutable'
-use Atlas::Middleware::Files, root: Atlas::ROOT
+# The list, so a flat URL finds a nested file. Resolved here
+# rather than injected: Rack builds middleware with arguments,
+# which is why these are not container components (see the
+# auto_register lambda in web/boot.rb).
+use Atlas::Middleware::Files, root: Atlas::ROOT, contents: Atlas::Container['sources.contents']
 
 run Atlas::App.freeze.app

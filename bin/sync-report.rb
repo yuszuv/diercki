@@ -18,7 +18,7 @@
 # Why this route exists: a full comparison through DesignSync get_file is the expensive
 # dead end — 256 KiB cap, silent truncation, and the detour through a model context
 # normalises invisible characters. The ZIP is byte-exact and complete. The procedure is
-# documented in TWO-PLACES.md.
+# documented in doku/TWO-PLACES.md.
 #
 
 require 'tmpdir'
@@ -104,6 +104,47 @@ def files_under(root)
   end
 end
 
+# --- Where a file lies here, and what it is called over there -----------------
+#
+# The clone nests its sheets under blaetter/, ds/ and doku/; the export is flat,
+# because the design project cannot be nested. Without this mapping every
+# comparison would report seventeen sheets as ONLY LOCAL and the same seventeen
+# as ONLY IN EXPORT — the exact noise the round trip exists to avoid.
+#
+# Read straight from atlas/INHALT.md rather than through Sources::Contents: this
+# script has to run without booting the application. bin/pruefe-blaetter.rb does
+# the same for the same reason, and the duplication is deliberate — a shared
+# reader would be a third place that can disagree.
+def moved_paths(path)
+  return {} unless File.exist?(path)
+
+  head = nil
+  File.read(path).lines.map(&:chomp).each_with_object({}) do |line, map|
+    if line.start_with?('#')
+      head = nil # a new section starts a new table
+      next
+    end
+    next unless line.include?('|')
+    cells = line.sub(/\A\s*\|/, '').sub(/\|\s*\z/, '').split('|').map(&:strip)
+    next if cells.length < 2
+
+    # The divider sits between header and data and is not a row. It must not
+    # clear the header either — that was the bug: every data row then looked
+    # like a new header and nothing was ever mapped.
+    next if line.match?(/\A\s*\|?[\s:|-]+\z/)
+
+    if head.nil?
+      head = cells.map(&:downcase)
+      next
+    end
+    row = head.zip(cells).to_h
+    datei = row['datei'].to_s
+    map[File.basename(datei)] = datei if datei.include?('/')
+  end
+end
+
+MOVED = moved_paths(File.join(ROOT, 'atlas/INHALT.md'))
+
 # --- Arguments ---------------------------------------------------------------
 args     = ARGV.dup
 withdiff = args.delete('--diff')
@@ -125,13 +166,16 @@ Dir.mktmpdir('sync-report') do |tmp|
   entries = Dir.children(tmp)
   base    = (entries.size == 1 && File.directory?(File.join(tmp, entries.first))) ? File.join(tmp, entries.first) : tmp
 
-  there = files_under(base)
+  # Export path → the path the clone keeps it under. Everything else compares
+  # as before.
+  exported = files_under(base).to_h { |p| [MOVED.fetch(p, p), p] }
+  there = exported.keys.to_set
   here  = files_under(ROOT)
 
   same, different, only_here, only_there = [], [], [], []
 
   (there & here).each do |p|
-    a = File.join(base, p)
+    a = File.join(base, exported.fetch(p))
     b = File.join(ROOT, p)
     if File.size(a) == File.size(b) && Digest::SHA256.file(a) == Digest::SHA256.file(b)
       same << p
@@ -189,6 +233,6 @@ Dir.mktmpdir('sync-report') do |tmp|
   puts "SAME #{same.size} · DIFFERENT #{different.size} · ONLY LOCAL #{only_here.size} · ONLY IN EXPORT #{only_there.size}"
   puts
   puts 'Nothing was changed. What gets adopted is your call — the rule is in'
-  puts 'TWO-PLACES.md: when in doubt the clone leads, except for the files that are'
+  puts 'doku/TWO-PLACES.md: when in doubt the clone leads, except for the files that are'
   puts 'drawn in the design UI.'
 end

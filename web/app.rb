@@ -118,6 +118,7 @@ module Atlas
     def contents   = Container['sources.contents']
     def register   = Container['sources.register']
     def evidence   = Container['sources.evidence']
+    def deliveries = Container['sources.deliveries']
     def workshop   = Container['sources.workshop']
     def restricted = Container['sources.restricted']
     def tree       = Container['sources.tree']

@@ -87,8 +87,11 @@ end
 # --- The candidates ------------------------------------------------------------
 # Every HTML file in the root is a candidate, not just the presumed one:
 # otherwise the check would test an assumption against itself.
-SHEETS = Pathname('.').children
-                      .select { |p| p.file? && p.to_s.end_with?('.html') }
+# Keyed by basename, because that is what the Blattschlüssel names and what the
+# web edition serves. Where the file lies is the Datei column's business — since
+# the move that is blaetter/, and this glob follows rather than assumes.
+SHEETS = Pathname('.').glob('{,blaetter/,praesentationen/}*.html')
+                      .select(&:file?)
                       .to_h { |p| [p.basename.to_s, p.read] }
 
 puts "Blattschlüssel checked against sheet content — #{SHEETS.size} files searched."
@@ -105,7 +108,7 @@ key.reject { |row| row['nr'].to_s.strip.empty? }
    .sort_by { |row| row['nr'].to_i }
    .each do |row|
   nr = row['nr'].to_i
-  file = row['datei']
+  file = File.basename(row['datei'].to_s)
   names = register.select { |r| r['blaetter'].to_s.split.include?(nr.to_s) }
                   .map { |r| r['name'] }.reject(&:empty?).uniq
 
