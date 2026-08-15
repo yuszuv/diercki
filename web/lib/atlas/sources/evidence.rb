@@ -26,7 +26,7 @@ module Atlas
       # three ways across the registers and carries no weight here; this one does.
       STATUS = 'status'
 
-      Claim = Data.define(:sheet, :file, :section, :text, :status, :note) do
+      Claim = Data.define(:sheet, :slug, :file, :section, :text, :status, :note) do
         def known?     = KNOWN.include?(status)
         def evidenced? = status == 'belegt'
       end
@@ -34,7 +34,7 @@ module Atlas
       # A register whose tables carry no status column at all. Not an error and
       # not a claim — a fact about the file that stays visible instead of being
       # silently passed over.
-      Skipped = Data.define(:sheet, :file, :section, :columns)
+      Skipped = Data.define(:sheet, :slug, :file, :section, :columns)
 
       Reading = Data.define(:claims, :skipped)
 
@@ -53,7 +53,7 @@ module Atlas
       def filter(status: nil, sheet: nil)
         claims.select do |claim|
           (status.nil? || status.empty? || claim.status == status) &&
-            (sheet.nil? || sheet.empty? || claim.file == sheet)
+            (sheet.nil? || sheet.empty? || claim.slug == sheet)
         end
       end
 
@@ -69,7 +69,7 @@ module Atlas
       # template can rely on them; anything else lands in :sonstige under its own
       # spelling, which is what keeps a seventh word visible.
       def tally_by_sheet
-        claims.group_by(&:file).transform_values { |list| tally(list) }
+        claims.group_by(&:slug).transform_values { |list| tally(list) }
       end
 
       def tally_all = tally(claims)
@@ -116,7 +116,7 @@ module Atlas
           if table[:header].include?(STATUS)
             claims.concat(claims_from(plate, table))
           else
-            skipped << Skipped.new(sheet: title(plate), file: plate.file,
+            skipped << Skipped.new(sheet: title(plate), slug: plate.slug, file: plate.file,
                                    section: section(table), columns: table[:header])
           end
         end
@@ -132,7 +132,7 @@ module Atlas
           text = plain(row[subject])
           next if text.empty?
 
-          Claim.new(sheet: title(plate), file: plate.file, section: section(table),
+          Claim.new(sheet: title(plate), slug: plate.slug, file: plate.file, section: section(table),
                     text: text, status: plain(row[STATUS]), note: note && plain(row[note]))
         end
       end
@@ -152,7 +152,7 @@ module Atlas
 
       def section(table) = table[:heading]&.delete_prefix('## ')&.gsub(/[*`]/, '')
 
-      def title(plate) = File.basename(plate.file).sub(/\.(dc\.)?html\z/, '').tr('-', ' ')
+      def title(plate) = plate.title
     end
   end
 end

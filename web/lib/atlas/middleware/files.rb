@@ -45,10 +45,12 @@ module Atlas
 
       # @param prefix [String, nil] URL prefix to strip, e.g. "/vendor"
       # @param cache [String] Cache-Control for what this instance serves
-      def initialize(app, root:, prefix: nil, cache: 'no-cache')
+      # @param contents [#by_slug, nil] the one list, for the flat URL space
+      def initialize(app, root:, prefix: nil, cache: 'no-cache', contents: nil)
         @app = app
         @prefix = prefix
         @cache = cache
+        @contents = contents
         @files = Rack::Files.new(root.to_s)
       end
 
@@ -66,9 +68,17 @@ module Atlas
 
       private
 
+      # Three ways a URL becomes a path. /vendor strips its prefix; a sheet is
+      # looked up in atlas/INHALT.md; everything else is served where it lies.
+      #
+      # The lookup is what keeps the URL space flat while the disk is nested.
+      # A sheet loads its neighbours relatively and the browser resolves against
+      # the URL, so /Rumaenien-Verkehr.html has to stay that address no matter
+      # which directory the file sits in. web/geschuetzt.csv guards the same
+      # addresses and needs no line changed for the same reason.
       def path_for(env)
         path = env['PATH_INFO'].to_s
-        return path unless @prefix
+        return @contents&.by_slug&.fetch(path, path) || path unless @prefix
 
         return nil unless path.start_with?("#{@prefix}/")
 

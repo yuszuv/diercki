@@ -25,17 +25,26 @@ module Atlas
 
       PATH = 'atlas/INHALT.md'
 
+      # What the Schaukasten shows.
+      SHOWN = %i[sheets further].freeze
+
       # Which heading a table sits under decides what its rows are. A table under
       # a heading not listed here is not a mistake — the file explains its own
       # columns in prose, and prose may carry tables.
       GROUPS = {
         '## Blätter' => :sheets,
         '## Weitere Blätter' => :further,
+        '## Laufzeitdateien' => :runtime,
         '## Präsentationen' => :decks
       }.freeze
 
       Entry = Data.define(:kennung, :file, :nr, :signature, :sources, :status, :text, :group) do
         def title = File.basename(file).sub(/\.(dc\.)?html\z/, '').tr('-', ' ')
+
+        # The published address, and deliberately not the path on disk. A sheet
+        # loads its neighbours relatively and the browser resolves against the
+        # URL, so the URL space stays flat while the disk is nested. Two entries
+        # must therefore not share a slug — open_cases says so if they do.
         def slug  = File.basename(file)
         def deck? = group == :decks
         def numbered? = !nr.nil?
@@ -47,15 +56,26 @@ module Atlas
       end
 
       def all
-        tree.parse(PATH, :contents) do |markdown|
-          Transforms.markdown_tables(markdown).flat_map do |table|
+        tables.fmap do |list|
+          list.flat_map do |table|
             group = GROUPS[table[:heading]]
             group ? table[:rows].filter_map { |row| entry(row, group) } : []
           end
         end
       end
 
-      def cartographic = all.fmap { |list| list.reject(&:deck?) }
+      # Rows whose cell count does not match their header — a `|` in prose, most
+      # likely. Counted per section so the report says where to look.
+      def ragged
+        tables.value_or([])
+              .select { |table| GROUPS[table[:heading]] && table[:ragged].positive? }
+              .to_h { |table| [table[:heading].to_s.delete_prefix('## '), table[:ragged]] }
+      end
+
+      # The Schaukasten shows sheets, not the runtime files every sheet loads.
+      # Named by what it wants rather than by what it rejects: a fifth group
+      # would otherwise appear there by accident.
+      def cartographic = all.fmap { |list| list.select { |e| SHOWN.include?(e.group) } }
       def decks        = all.fmap { |list| list.select(&:deck?) }
 
       def find(slug) = find_by(slug, reason: :not_listed) { |e, wanted| e.slug == wanted }
@@ -67,21 +87,37 @@ module Atlas
       # Sheet numbers register.csv cites that this list does not map.
       def unmapped(cited_numbers) = unmatched(cited_numbers, &:nr).sort
 
-      # Both directions stay visible: a file with no row, and a row with no file.
-      # Reading the root directly is the point of having a server at all.
+      # Every direction a gap can point, and none of them silent.
+      #
+      # stray is the case the move created: an export drops the sheets back into
+      # the root, where this list says they belong under blaetter/. That is the
+      # normal state after a UI session, not a fault — but unsaid it would mean
+      # the application quietly serving the older of two copies.
       def open_cases
         list = all.value_or([])
         listed = list.map(&:file).to_set
-        present = tree.list('.').value_or([]).reject(&:directory?).map(&:name)
+        elsewhere = list.reject { |e| e.file == e.slug }.to_h { |e| [e.slug, e.file] }
+        root = tree.list('.').value_or([]).reject(&:directory?).map(&:name).select { |n| n.end_with?('.html') }
 
         {
-          without_entry: present.select { |n| n.end_with?('.html') && !listed.include?(n) }.sort,
+          without_entry: (root - elsewhere.keys).reject { |n| listed.include?(n) }.sort,
           without_file: list.reject { |e| tree.exist?(e.file) }.map(&:file).sort,
-          duplicate_kennung: list.map(&:kennung).tally.select { |_, n| n > 1 }.keys.sort
+          duplicate_kennung: list.map(&:kennung).tally.select { |_, n| n > 1 }.keys.sort,
+          duplicate_slug: list.map(&:slug).tally.select { |_, n| n > 1 }.keys.sort,
+          stray: (root & elsewhere.keys).sort,
+          ragged: ragged
         }
       end
 
+      # URL → path on disk, for Middleware::Files. Only entries that actually sit
+      # somewhere else are in here: a file already at its slug needs no detour.
+      def by_slug
+        all.value_or([]).reject { |e| e.file == e.slug }.to_h { |e| ["/#{e.slug}", e.file] }
+      end
+
       private
+
+      def tables = tree.parse(PATH, :contents) { |markdown| Transforms.markdown_tables(markdown) }
 
       def entry(row, group)
         file = Transforms.presence(row['datei'])

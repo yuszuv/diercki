@@ -22,7 +22,7 @@ Erledigt (Entscheidungen: `recherche/entscheidungen-2026-08-07.md`):
   keine Korrekturen nötig
 - ✓ Feinschliff Zeichenerklärung (15 Blatt) — Sprache, Konsistenz, Asset-Referenzen
   durchgesehen, keine Korrekturen nötig
-- ✓ QML-Stile druckreif — bereits erledigt, IDEEN.md-Eintrag war veraltet:
+- ✓ QML-Stile druckreif — bereits erledigt, doku/IDEEN.md-Eintrag war veraltet:
   `referencescale=2500000` durchgängig, `scalemaxdenom` gestaffelt in `punkt_ort.qml`
   (5 Ortsgrößen, 600k–6M), Beschriftungsrang als Leiter (10/8/7/6/5/4/2)
 
@@ -36,8 +36,8 @@ In Arbeit:
   **Beim ersten Durchlauf gefunden:** ein Tippfehler „abderleitet" in `Verkehr.md`, der
   als eigene Statuskategorie erschienen wäre — korrigiert. Offen dazu: die zwei Blätter
   ohne Quellenregister (Rumaenien-Physisch, Rumaenien-Landschaften) und die Verknüpfung
-  zu `DATENBEDARF.md` („welche Lieferung hebt wie viele Aussagen"), bewusst zurückgestellt.
-  `web/site.css` ist UI-Eigentum und muss zurückreisen — vermerkt in `TWO-PLACES.md`.
+  zu `doku/DATENBEDARF.md` („welche Lieferung hebt wie viele Aussagen"), bewusst zurückgestellt.
+  `web/site.css` ist UI-Eigentum und muss zurückreisen — vermerkt in `doku/TWO-PLACES.md`.
 
 - ✓ **Der Adressraum steht** (15.08.2026) — `atlas/INHALT.md` ist die eine Liste.
   27 Einträge in drei Abschnitten, je mit **Kennung** (kebab-case, überlebt Umbenennen
@@ -53,11 +53,19 @@ In Arbeit:
   `bin/pruefe-blaetter.rb` liest die Blätter-Tabelle direkt (ohne die Anwendung zu booten)
   und meldet dieselben Werte wie vorher.
 
-  **Offen, in dieser Reihenfolge:** (1) `Inhalt.dc.html` liest die Liste zur Laufzeit,
-  statt sie ein drittes Mal im Markup zu führen — gehört der Oberfläche, ist also die
-  nächste Rückreise. (2) Der **Repo-Zuschnitt**: die 16 Blattdateien aus dem
-  Wurzelverzeichnis. Jetzt billig, weil nur noch die Spalte `Datei` wandert —
-  `Contents#open_cases` liest allerdings `.` direkt und muss mit.
+- ✓ **Repo-Zuschnitt** (15.08.2026) — Wurzel von 35 auf 8 Dateien: `blaetter/`, `ds/`,
+  `doku/`, Decks nach `praesentationen/`. **Der URL-Raum bleibt flach**, weil ein Blatt
+  seine Nachbarn relativ lädt und der Browser gegen die URL rechnet; `INHALT.md` hält die
+  Zuordnung, `Middleware::Files` wendet sie an. `web/geschuetzt.csv` brauchte keine Zeile.
+  `bin/sync-report.rb` liest dieselbe Zuordnung — sonst meldete jeder Abgleich 21
+  Phantom-Unterschiede (gemessen: SAME 158 → 179).
+  Zwei neue Fehlfälle: *liegt oben, gehört nach unten* (der Normalfall nach jedem Export)
+  und *zwei Zeilen, ein Basisname*. Dazu der Format-Wächter: eine Tabellenzeile mit mehr
+  Zellen als Kopfspalten wird gezählt statt verschluckt — das ist der eine Weg, auf dem
+  Markdown als Datenquelle still Daten verlieren kann.
+
+  **Weiter offen:** `Inhalt.dc.html` liest die Liste zur Laufzeit, statt sie ein drittes
+  Mal im Markup zu führen — gehört der Oberfläche, ist also die nächste Rückreise.
 
 - **TODO · Grabfeld auf dem Freiburger Hauptfriedhof recherchieren** (offen, 13.08.2026)
 

@@ -8,14 +8,14 @@ Quellenregister aktualisieren.
 
 ## Offen
 
-### 1 · MMAP-Kreistabelle zur Braunbärenzählung — Braunbär
+### 1 · MMAP-Kreistabelle zur Braunbärenzählung — `rum-braunbaer`
 Abundanz je județ aus dem Bericht des Ministerul Mediului, Apelor și Pădurilor
 (vorläufige Ergebnisse 04/2025). Format egal: CSV, PDF-Tabelle, Screenshot.
 **Wirkung:** die Kreiswerte auf dem Braunbärenblatt sind derzeit eine unbelegte
 Modellannahme; mit der Tabelle wird aus der Modellskizze eine Karte, und der
 Warnhinweis im Untertitel entfällt. Größter Hebel im ganzen Atlas.
 
-### 2 · STPT-GTFS-Paket — Liniennetz Banat
+### 2 · STPT-GTFS-Paket — `banat-liniennetz`
 `stops.txt`, `routes.txt`, `trips.txt`, `stop_times.txt` von tranzy.ai/opendata
 bzw. stpt.ro/open-data.
 **Wirkung:** das Tram-Inset ist derzeit auf fünf Korridore verdichtet. Mit den
@@ -24,28 +24,28 @@ stimmen, und die oktilineare Schematisierung lässt sich aus den realen
 Koordinaten *ableiten* statt sie zu setzen — die Karte bleibt nicht lagetreu,
 aber ihre Generalisierung wird nachvollziehbar.
 
-### 3 · Bahnhofsfolgen der CFR-Strecken im Banat — Liniennetz Banat
+### 3 · Bahnhofsfolgen der CFR-Strecken im Banat — `banat-liniennetz`
 Aus OSM (`railway=station`/`halt` entlang der Streckenrelationen) oder als
 Kursbuchauszug.
 **Wirkung:** die Zwischenhalte sind derzeit in Auswahl gezeigt; damit werden sie
 vollständig und der Vermerk „Bahnhalte in Auswahl" fällt weg.
 
-### 4 · Bienenstock-Register je Kreis — Braunbär
+### 4 · Bienenstock-Register je Kreis — `rum-braunbaer`
 ANSVSA oder APIA, Zahl der gemeldeten Bienenvölker/Stände je județ.
 **Wirkung:** aus den fünf qualitativen Trachtsignaturen wird ein Kartogramm.
 
-### 5 · GBIF-Abzug Wildbienen, country=RO — Braunbär
+### 5 · GBIF-Abzug Wildbienen, country=RO — `rum-braunbaer`
 Familien Andrenidae, Halictidae, Megachilidae; *Hoplitis papaveris* gern separat.
 **Wirkung:** die Wildbienenebene steht derzeit auf dem Lebensraumargument.
 Mit Fundpunkten steht sie auf Nachweisen — und die Nebenkarte zur
 Mohn-Mauerbiene kann von „Beispiel für die Lebensweise" auf ein belegtes
 rumänisches Vorkommen umgestellt werden.
 
-### 6 · Schadensstatistik an Bienenständen — Braunbär
+### 6 · Schadensstatistik an Bienenständen — `rum-braunbaer`
 Aus den Kreisumweltbehörden. **Wirkung:** belegt die Aussage zum Konflikt
 Bär ↔ Imkerei, die derzeit nur allgemein begründet ist.
 
-### 7 · CLC2018 — Bodennutzungsblatt  ✓ *erledigt 08.08.2026*
+### 7 · CLC2018 — `rum-wirtschaft`  ✓ *erledigt 08.08.2026*
 Die neun `nutzung-*.geojson` aus `rumaenien-nutzung.rb` sind da (Upload 08.08.,
 zusammen ≈ 11,6 MB) und liegen unter `atlas/geodaten/`. Das Wirtschaftsblatt lädt
 acht davon als echte Flächenklassen; die Handzeichnung in `nutzung-daten.js` ist
@@ -53,7 +53,7 @@ nur noch Rückfallebene mit Vermerk am Blattfuß. `nutzung-acker.geojson` bleibt
 dem Blatt ungenutzt (Ackerland ist Grundton), liegt aber für QGIS bereit.
 Quellenregister: `atlas/quellen/Rumaenien-Wirtschaft.md`.
 
-### 10 · Hanf: Saattermine je Schlag — Hanf-Integration
+### 10 · Hanf: Saattermine je Schlag — `bb-landwirtschaft`
 **Teilerledigt 07.08.2026:** Die InVeKoS-Schlagdaten 2026 sind da
 (`uploads/hanf_daten-….txt` → `atlas/geodaten/brandenburg/hanf-schlaege.geojson`,
 54 Schläge, 593,8 ha, Geometrie + ha + Sorte + ÖR/Bindungen) und im
@@ -76,7 +76,7 @@ zum Rand legen — konkret fehlen:
 **Wirkung:** vollständige Referenz-Spreads; die Legenden-Rekonstruktion
 (als solche markiert) kann sonst nur den Text, nicht die Chips belegen.
 
-### 8 · Feldplan der Friedhofsverwaltung Freiburg — Nikolais Ort
+### 8 · Feldplan der Friedhofsverwaltung Freiburg — `nikolais-ort`
 **Wer: Stefan** (vorgeschlagen 15.08.2026) — er ist vor Ort, Jan nicht.
 Lage von **Gräberfeld 35** im Grundriss des Hauptfriedhofs. OSM kennt die
 Feldnummern nicht, und ohne den Plan bleibt die Fläche auf dem Blatt unbelegt.
@@ -85,7 +85,7 @@ Quelle: Eigenbetrieb Friedhöfe Stadt Freiburg. Format egal, auch ein abfotograf
 **Wirkung:** aus „irgendwo auf dem Friedhof" wird „innerhalb dieser Fläche" — die
 einzige inhaltliche Lücke, die auf dem Blatt noch als *unbelegt* steht.
 
-### 9 · Baumkataster oder Begehungsdaten — Nikolais Ort
+### 9 · Baumkataster oder Begehungsdaten — `nikolais-ort`
 **Bestätigt 07.08.2026:** der erweiterte OSM-Abzug bringt 233 Einzelbäume, aber
 **null Artangaben** — nur `leaf_type` (broadleaved/needleleaved). Damit ist die Lücke
 gemessen, nicht mehr vermutet.

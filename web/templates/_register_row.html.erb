@@ -12,7 +12,7 @@
       %><% entry.numbers.each_with_index do |nr, i| %><%
         %><% plate = key[nr] %><%
         %><% if i.positive? %> <% end %><%
-        %><% if plate %><a href="/blatt/<%= plate.file %>" title="<%= plate.file %>"><%= nr %></a><%
+        %><% if plate %><a href="/blatt/<%= plate.slug %>" title="<%= plate.file %>"><%= nr %></a><%
         %><% else %><span class="offen" title="atlas/INHALT.md ordnet dieser Nummer keine Datei zu"><%= nr %></span><% end %><%
       %><% end %></td>
   <% end %>

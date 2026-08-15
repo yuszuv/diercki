@@ -2,7 +2,7 @@
 
 How the clone, the Claude design UI and GitHub stay in step. The rules for who
 owns which artefact live here; `README.md` has the orientation and
-`WEB-APPLICATION.md` the web application.
+`doku/WEB-APPLICATION.md` the web application.
 
 This project is developed in two places — in the Claude design UI and here in the
 terminal — and lives in a third: `yuszuv/diercki` on GitHub. That works as long as it is
@@ -34,6 +34,24 @@ The division of labour follows from that. Not "sometimes here, sometimes there" 
 | The rest of the web application (`web/`, `config.ru`, `Gemfile`, `Dockerfile`, `docker-compose.yml`, `bin/`, `test/`) | **local** | the UI does not know it and does not need it |
 | `handarbeit/` | **local, human only** | binary files from QGIS and QField |
 | `_ds/` | **neither** | comes from the Sternprodukt design system and travels along in the export |
+
+## The clone nests, the export is flat
+
+Since 15.08.2026 the clone keeps its sheets under `blaetter/`, the runtime files under
+`ds/` and the documentation under `doku/`. The export cannot: the design project is flat
+and cannot be nested.
+
+`bin/sync-report.rb` therefore reads `atlas/INHALT.md` and maps an export path to the
+path the clone keeps it under, before comparing. Without it every round trip would report
+21 files as ONLY LOCAL and the same 21 as ONLY IN EXPORT.
+
+Two consequences worth knowing before the next session:
+
+- **A new sheet arrives at the root.** It has no row in `atlas/INHALT.md`, so the
+  Werkstatt shows it as an open case. Give it a Kennung and a Datei, then move it.
+- **An export drops the known sheets back into the root** next to the copies under
+  `blaetter/`. The Werkstatt calls that out as *liegt oben, gehört nach unten* — it is
+  the normal state after a UI session and disappears when the files are filed.
 
 ## The round trip
 
@@ -135,5 +153,5 @@ material. What `.gitignore` excludes is justified there.
 
 ## git repo
 
-`yuszuv/diercki`, see `github.md` for roles and the last sync state. The design project
+`yuszuv/diercki`, see `doku/github.md` for roles and the last sync state. The design project
 is the source of truth; changes to `handarbeit/` come from the human only.

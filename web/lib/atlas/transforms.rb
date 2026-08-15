@@ -107,6 +107,11 @@ module Atlas
     # Tables are cut at their divider row, not at headings: `|---|---|` sits
     # directly under a header and nowhere else, so two tables under one heading
     # stay two tables instead of one with a stray row in the middle.
+    #
+    # `ragged` counts rows whose cell count does not match the header. Keying by
+    # header means a surplus cell would otherwise vanish without a sound, and a
+    # `|` inside prose produces exactly that — the one way this format can lose
+    # data quietly. The readers turn a non-zero count into a visible case.
     def markdown_tables(text)
       heading = nil
       previous = nil
@@ -131,7 +136,11 @@ module Atlas
         previous = stripped
       end
 
-      tables.map { |t| t.merge(rows: t[:rows].map { |cells| key_by(t[:header], cells) }) }
+      tables.map do |table|
+        width = table[:header].length
+        table.merge(rows: table[:rows].map { |cells| key_by(table[:header], cells) },
+                    ragged: table[:rows].count { |cells| cells.length != width })
+      end
     end
 
     # The |---|---| under a table's header. Needs both a pipe and a dash: a row

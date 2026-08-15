@@ -22,8 +22,8 @@ module Atlas
 
       FIXED = [
         ['Aufbau des Repos', 'README.md'],
-        ['Die Webanwendung', 'WEB-APPLICATION.md'],
-        ['Arbeiten an zwei Orten', 'TWO-PLACES.md'],
+        ['Die Webanwendung', 'doku/WEB-APPLICATION.md'],
+        ['Arbeiten an zwei Orten', 'doku/TWO-PLACES.md'],
         ['Verbindliche Regeln', 'CLAUDE.md'],
         ['Einstieg für Agents', 'AGENTS.md'],
         ['Glossar der Fachbegriffe', 'atlas/GLOSSAR.md'],
@@ -34,9 +34,9 @@ module Atlas
         ['Hanfsorten und Nutzungsrichtung', 'atlas/geodaten/brandenburg/SORTEN.md'],
         ['Klimastationen', 'atlas/geodaten/brandenburg/KLIMA.md'],
         ['Geodaten Brandenburg', 'atlas/geodaten/brandenburg/README.md'],
-        ['Was an Daten fehlt', 'DATENBEDARF.md'],
-        ['Backlog und lose Enden', 'IDEEN.md'],
-        ['Repo-Bindung und Sync-Stand', 'github.md']
+        ['Was an Daten fehlt', 'doku/DATENBEDARF.md'],
+        ['Backlog und lose Enden', 'doku/IDEEN.md'],
+        ['Repo-Bindung und Sync-Stand', 'doku/github.md']
       ].freeze
 
       Document = Data.define(:title, :path)
