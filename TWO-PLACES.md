@@ -114,6 +114,15 @@ take it for drift and silently roll it back.
   offene Geometrie"), which contradicts its own Kartenblatt: that reads
   `hanf-2026.geojsonl` and `sorten.csv` at runtime.
 
+**The clone is ahead because a view was built here:**
+
+- `web/site.css` carries `.belegbalken` and `.balken` for `/belegstand`, added
+  15.08.2026. The file is UI-owned, so this block has to travel back on the next visit —
+  otherwise the next export rolls it back and the bar on that page loses its geometry
+  while everything else still stands. It uses no new colour: the three bar segments take
+  `--olive`, `--akzent` and `--error`, the same tokens `.status` already uses, and a
+  status word outside the three deliberately gets no segment at all.
+
 **Images are smaller here than over there.** `screenshots/katzundgoldt-crop.png` (472 KB
 instead of 1.2 MB) and `uploads/neumaier-frueher.png` (67 KB instead of 1.5 MB) are
 deliberately reduced — enough for the screen size at which the greetings embed them.

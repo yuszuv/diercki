@@ -27,7 +27,7 @@ A single Blatt needs nothing: open `Rumaenien-Physisch.html` in a browser and th
 is. It will pull d3 and topojson from a CDN, though.
 
 For the whole application — home page, Schaukasten, Blattschau, Namensregister,
-Werkstatt — there are two ways.
+Belegstand, Werkstatt — there are two ways.
 
 ### With Ruby, without Docker
 
@@ -259,6 +259,7 @@ quietly stale when an export script did not run:
 | `atlas/geodaten/brandenburg/klima-stationen.csv` | Klimablatt | `KLIMA.md` |
 | `atlas/register.csv` | Namensregister of the web edition | header comment in the file |
 | `atlas/blaetter.csv` | Blattschau and Register of the web edition | `BLAETTER.md` |
+| `atlas/quellen/*.md` | Quellenregister of a sheet, and `/belegstand` across all of them | `atlas/quellen/README.md` |
 
 Where an entry is missing, nothing is guessed: the case gets a visible class of its own
 ("ungeklärt", "Ort nicht verifiziert"). Check scripts such as

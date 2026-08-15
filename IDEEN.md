@@ -28,6 +28,17 @@ Erledigt (Entscheidungen: `recherche/entscheidungen-2026-08-07.md`):
 
 In Arbeit:
 
+- ✓ **Belegstand des Atlas** (15.08.2026) — `/belegstand` liest die acht Quellenregister
+  als Angaben statt als Prosa und zählt sie: 120 Aussagen, 59 belegt · 29 abgeleitet ·
+  15 unbelegt · 17 mit eigenem Wort. Je Blatt eine Zeile mit Balken, Filter nach Status
+  und Blatt, offene Fälle als `.fehlfall`. Neu: `Sources::Evidence`, `Atlas::Table` (die
+  gemeinsame Form der Leser, Zeilenquelle als Parameter), `Transforms.markdown_tables`.
+  **Beim ersten Durchlauf gefunden:** ein Tippfehler „abderleitet" in `Verkehr.md`, der
+  als eigene Statuskategorie erschienen wäre — korrigiert. Offen dazu: die zwei Blätter
+  ohne Quellenregister (Rumaenien-Physisch, Rumaenien-Landschaften) und die Verknüpfung
+  zu `DATENBEDARF.md` („welche Lieferung hebt wie viele Aussagen"), bewusst zurückgestellt.
+  `web/site.css` ist UI-Eigentum und muss zurückreisen — vermerkt in `TWO-PLACES.md`.
+
 - **Eine kuratierte CSV als Inhaltsverzeichnis — und dann der Repo-Zuschnitt**
   (Idee Jan, 15.08.2026). Gehört mit der Dateinamen-Frage und dem Adressraum für
   Zuschnitt B zusammen; wird als ein Vorhaben angegangen, nicht als drei.
