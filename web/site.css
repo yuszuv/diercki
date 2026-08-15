@@ -24,6 +24,25 @@
     --spalte: var(--content-width);
     /* Abgeleitet, nicht erfunden: eine Spur Fläche unter dem Zeiger. */
     --hover-flaeche: color-mix(in oklab, var(--surface-card) 70%, var(--paper));
+
+    /* Typenstaffel — ein festes Verhältnis auf --base-font-size, dieselbe Regel
+       wie bei den Farben: abgeleitet statt gesetzt. Vorher standen hier dreizehn
+       Einzelwerte von 10 bis 32 px, die niemand mehr auseinanderhalten konnte.
+
+       Zwei Spuren, ein Verhältnis. Mono läuft optisch größer als Gentium und
+       braucht deshalb eine eigene Grundgröße, nicht ein eigenes Verhältnis. */
+    --staffel: 1.2;
+    --grad-0: calc(var(--base-font-size) / var(--staffel) / var(--staffel)); /* 11,8 */
+    --grad-1: calc(var(--base-font-size) / var(--staffel));                  /* 14,2 */
+    --grad-2: var(--base-font-size);                                         /* 17   */
+    --grad-3: calc(var(--base-font-size) * var(--staffel));                  /* 20,4 */
+    --grad-4: calc(var(--grad-3) * var(--staffel));                          /* 24,5 */
+    --grad-5: calc(var(--grad-4) * var(--staffel));                          /* 29,4 */
+
+    --mono-basis: calc(var(--base-font-size) * 0.765);
+    --mono-0: calc(var(--mono-basis) / var(--staffel));                      /* 10,8 */
+    --mono-1: var(--mono-basis);                                            /* 13   */
+    --mono-2: calc(var(--mono-basis) * var(--staffel));                      /* 15,6 */
   }
 
   body {
@@ -72,7 +91,7 @@
     outline-offset: -2px;
   }
 
-  .mono { font: 500 13px/1.5 var(--font-mono); letter-spacing: .03em; }
+  .mono { font: 500 var(--mono-1) / 1.5 var(--font-mono); letter-spacing: .03em; }
   .zahl { font: 500 1em var(--font-mono); color: var(--akzent); }
   .laedt { color: var(--text-muted); font-style: italic; margin-block-start: var(--spacing-unit); }
 }
@@ -92,7 +111,7 @@
       gap: 9px;
       text-decoration: none;
       color: var(--text-body);
-      font: 500 13px/1 var(--font-mono);
+      font: 500 var(--mono-1) / 1 var(--font-mono);
       letter-spacing: .08em;
       text-transform: uppercase;
 
@@ -105,7 +124,7 @@
     gap: var(--spacing-half);
 
     & a {
-      font: 500 13px/1 var(--font-mono);
+      font: 500 var(--mono-1) / 1 var(--font-mono);
       letter-spacing: .04em;
       color: var(--text-muted);
       text-decoration: none;
@@ -133,11 +152,11 @@
   }
   .regel { block-size: 2px; background: var(--text-body); margin-block-start: var(--spacing-half); }
 
-  h2 { font-size: 27px; margin-block: 46px 0; }
+  h2 { font-size: var(--grad-4); margin-block: 46px 0; }
   h3 { font-size: var(--h3-size); margin-block: var(--spacing-unit) var(--spacing-quarter); }
 
   .vorspann {
-    font-size: 21px;
+    font-size: var(--grad-3);
     line-height: 1.45;
     color: var(--grey-dark);
     margin-block: 26px 0;
@@ -145,7 +164,7 @@
   }
   .abschnitt-text {
     color: var(--grey-dark);
-    font-size: 16px;
+    font-size: var(--grad-2);
     margin-block: 10px 0;
     text-wrap: pretty;
   }
@@ -154,7 +173,7 @@
      geworden, damit er ohne JavaScript funktioniert und ein Ziel hat, das man
      weitergeben kann. */
   .knopf {
-    font: 500 13px/1 var(--font-mono);
+    font: 500 var(--mono-1) / 1 var(--font-mono);
     letter-spacing: .06em;
     color: var(--text-body);
     background: var(--surface-card);
@@ -176,7 +195,7 @@
     justify-content: space-between;
     gap: var(--spacing-half);
     flex-wrap: wrap;
-    font: 500 12px/1.6 var(--font-mono);
+    font: 500 var(--mono-0) / 1.6 var(--font-mono);
     letter-spacing: .04em;
     color: var(--text-muted);
 
@@ -207,14 +226,14 @@
 
     .strang-nr {
       grid-area: nr;
-      font: 500 13px/1.5 var(--font-mono);
+      font: 500 var(--mono-1) / 1.5 var(--font-mono);
       color: var(--akzent);
       letter-spacing: .1em;
     }
-    .strang-titel { grid-area: titel; font-size: 19px; font-weight: var(--weight-bold); }
+    .strang-titel { grid-area: titel; font-size: var(--grad-3); font-weight: var(--weight-bold); }
     .strang-text {
       grid-area: text;
-      font-size: 16px;
+      font-size: var(--grad-2);
       color: var(--grey-dark);
       text-wrap: pretty;
     }
@@ -260,16 +279,16 @@
       gap: 18px;
       align-items: baseline;
     }
-    .blatt-titel { font-size: 19px; font-weight: var(--weight-bold); }
+    .blatt-titel { font-size: var(--grad-3); font-weight: var(--weight-bold); }
     .blatt-datei {
-      font: 500 12px/1 var(--font-mono);
+      font: 500 var(--mono-0) / 1 var(--font-mono);
       color: var(--text-muted);
       letter-spacing: .03em;
       white-space: nowrap;
     }
     .blatt-beschreibung {
       display: block;
-      font-size: 16px;
+      font-size: var(--grad-2);
       color: var(--grey-dark);
       margin-block-start: 4px;
       text-wrap: pretty;
@@ -284,16 +303,16 @@
     margin-block-start: var(--spacing-unit);
     border: 1px dashed var(--border-emphasis);
     padding: var(--spacing-half);
-    font-size: 16px;
+    font-size: var(--grad-2);
 
-    .fehlfall-grund { color: var(--text-muted); font-size: 14px; }
+    .fehlfall-grund { color: var(--text-muted); font-size: var(--grad-1); }
   }
 
   /* Nicht öffentlich: der Eintrag bleibt sichtbar, der Verweis führt auf den
      Originalpfad, wo die Passwortabfrage sitzt. Verschweigen wäre eine andere
      Auskunft als verschließen. */
   .verschlossen {
-    font: 500 11px/1 var(--font-mono);
+    font: 500 var(--mono-0) / 1 var(--font-mono);
     letter-spacing: .08em;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -314,7 +333,7 @@
     max-inline-size: 22rem;
 
     & label {
-      font: 500 12px/1.6 var(--font-mono);
+      font: 500 var(--mono-0) / 1.6 var(--font-mono);
       letter-spacing: .06em;
       color: var(--text-muted);
       margin-block-start: var(--spacing-quarter);
@@ -388,7 +407,7 @@
     gap: var(--spacing-unit);
 
     & h2 {
-      font-size: 19px;
+      font-size: var(--grad-3);
       margin-block: 0 var(--spacing-quarter);
       padding-block-end: var(--spacing-quarter);
       border-block-end: 1px solid var(--border-hairline);
@@ -396,7 +415,7 @@
   }
 
   .blattnummer {
-    font: 500 15px/1.4 var(--font-mono);
+    font: 500 var(--mono-2) / 1.4 var(--font-mono);
     letter-spacing: .04em;
     display: flex;
     align-items: center;
@@ -408,7 +427,7 @@
      Stufe kleiner, und seine Überschriften tragen keine eigene Linie mehr —
      die trägt schon das Beiblatt. */
   .prosa-schmal {
-    font-size: 15px;
+    font-size: var(--grad-1);
     margin-block-start: 0;
 
     & :is(h1, h2) {
@@ -417,7 +436,7 @@
       padding-block-start: 0;
       margin-block-start: var(--spacing-half);
     }
-    & h3 { font-size: 15px; }
+    & h3 { font-size: var(--grad-1); }
   }
 
   /* Bewusst einspaltig, auch wenn Platz wäre: die vier Teile bauen aufeinander
@@ -436,7 +455,7 @@
     border-block-end: 2px solid var(--text-body);
 
     & :is(input, select) {
-      font: 400 16px/1.4 var(--font-serif);
+      font: 400 var(--grad-2) / 1.4 var(--font-serif);
       color: var(--text-body);
       background: var(--paper-white);
       border: 1px solid var(--border-emphasis);
@@ -448,13 +467,13 @@
     & input { flex: 1; min-inline-size: 200px; }
 
     & label {
-      font: 500 11px/1 var(--font-mono);
+      font: 500 var(--mono-0) / 1 var(--font-mono);
       letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
 
-    .treffer { font: 500 13px/1 var(--font-mono); color: var(--text-muted); }
+    .treffer { font: 500 var(--mono-1) / 1 var(--font-mono); color: var(--text-muted); }
   }
 
   .tabelle-rahmen { overflow-x: auto; margin-block-start: var(--spacing-half); }
@@ -462,12 +481,12 @@
   table {
     border-collapse: collapse;
     inline-size: 100%;
-    font-size: 16px;
+    font-size: var(--grad-2);
 
     & :is(th, td) { text-align: start; padding: 7px 12px 7px 0; vertical-align: top; }
 
     & thead th {
-      font: 500 11px/1 var(--font-mono);
+      font: 500 var(--mono-0) / 1 var(--font-mono);
       letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--text-muted);
@@ -497,16 +516,16 @@
   .register {
     & tbody tr:hover { background: var(--hover-flaeche); }
 
-    .variante { color: var(--text-muted); font-size: 14px; }
+    .variante { color: var(--text-muted); font-size: var(--grad-1); }
     /* „Feld offen“ sind zwei Wörter und eine Angabe — in einer festen Spalte
        bräche es sonst mittendrin um. */
-    .offen { color: var(--text-muted); font-style: italic; font-size: 14px; white-space: nowrap; }
+    .offen { color: var(--text-muted); font-style: italic; font-size: var(--grad-1); white-space: nowrap; }
 
     .anmerkung td {
       border: 0;
       padding-block: 0 9px;
       color: var(--text-muted);
-      font-size: 14px;
+      font-size: var(--grad-1);
       font-style: italic;
     }
   }
@@ -561,7 +580,7 @@
 
   /* Belegstatus: drei Register, sichtbar unterschieden — ohne neue Farbe. */
   .status {
-    font: 500 12px/1 var(--font-mono);
+    font: 500 var(--mono-0) / 1 var(--font-mono);
     letter-spacing: .04em;
 
     &.status-belegt { color: var(--olive); }
@@ -618,7 +637,7 @@
   }
 
   .dok-pfad {
-    font: 500 12px/1.4 var(--font-mono);
+    font: 500 var(--mono-0) / 1.4 var(--font-mono);
     color: var(--text-muted);
     letter-spacing: .03em;
   }
@@ -634,7 +653,7 @@
     flex-wrap: wrap;
 
     .zurueck {
-      font: 500 13px/1 var(--font-mono);
+      font: 500 var(--mono-1) / 1 var(--font-mono);
       text-decoration: none;
       color: var(--text-muted);
 
@@ -648,7 +667,7 @@
     padding: 4px 0 4px 16px;
 
     .gliederung-titel {
-      font: 500 11px/1 var(--font-mono);
+      font: 500 var(--mono-0) / 1 var(--font-mono);
       letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--text-muted);
@@ -657,13 +676,13 @@
 
     & a {
       display: block;
-      font-size: 15px;
+      font-size: var(--grad-1);
       padding-block: 2px;
       text-decoration: none;
       color: var(--grey-dark);
 
       &:hover { color: var(--link-hover); text-decoration: underline; }
-      &.ebene-3 { padding-inline-start: 16px; font-size: 14px; }
+      &.ebene-3 { padding-inline-start: 16px; font-size: var(--grad-1); }
     }
   }
 
@@ -672,14 +691,14 @@
   .prosa {
     margin-block-start: var(--spacing-unit);
 
-    & h1 { font-size: 32px; margin-block-start: var(--spacing-unit); }
+    & h1 { font-size: var(--grad-5); margin-block-start: var(--spacing-unit); }
     & h2 {
-      font-size: 24px;
+      font-size: var(--grad-4);
       margin-block-start: var(--spacing-unit);
       padding-block-start: var(--spacing-half);
       border-block-start: 1px solid var(--border-hairline);
     }
-    & h3 { font-size: 19px; }
+    & h3 { font-size: var(--grad-3); }
     & img { max-inline-size: 100%; block-size: auto; border: var(--border-frame); }
     & blockquote {
       margin-block: var(--spacing-half);
