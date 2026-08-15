@@ -114,28 +114,15 @@ take it for drift and silently roll it back.
   offene Geometrie"), which contradicts its own Kartenblatt: that reads
   `hanf-2026.geojsonl` and `sorten.csv` at runtime.
 
-**The design of the web edition is UI-owned but has never been over there.**
+**The design of the web edition is now in both places.** `web/site.css` and
+`web/Muster.dc.html` were uploaded on 15.08.2026 — until then they had never been over
+there at all, which is why the table above claimed an ownership the UI could not
+exercise. It can now.
 
-The table above assigns `web/site.css` and `web/Muster.dc.html` to the UI. Checked
-15.08.2026 against the export of 13.08.: neither file is in it — not as a differing
-version, not at all. The whole design column of `web/` is case 6 of the round trip,
-*ONLY LOCAL — CHECK: should this be in the UI?*, and has been since it was written.
-
-What follows is milder than a conflict and easy to get wrong in the other direction:
-**an export cannot roll these back**, because there is nothing over there to roll back
-to. What it does mean is that nothing comes back either — the Musterblatt cannot show a
-building block the UI has never seen, and anybody drawing the web edition over there
-would start from an empty page and then genuinely collide.
-
-Newest addition on this side: `.belegbalken` and `.balken` for `/belegstand`
-(15.08.2026). No new colour — the three bar segments take `--olive`, `--akzent` and
-`--error`, the same tokens `.status` already uses, and a status word outside the three
-deliberately gets no segment at all.
-
-Worth deciding rather than repeating: either these two files go up on the next visit and
-the table stays true, or the table is wrong and the design of the web edition is local
-like the rest of `web/`. It cannot be pushed programmatically — the atlas project is an
-ordinary Claude project, as the asymmetry at the top of this file says.
+That makes the Musterblatt's own rule binding for the first time: whoever adds a class
+adds it on both sides. `.belegbalken`, `.balken` and the `<label>` elements of the
+filter bar were added to `site.css` and the ERB templates before the Musterblatt knew
+them; the Belegstand section there closes that gap and needs to travel up once more.
 
 **Images are smaller here than over there.** `screenshots/katzundgoldt-crop.png` (472 KB
 instead of 1.2 MB) and `uploads/neumaier-frueher.png` (67 KB instead of 1.5 MB) are

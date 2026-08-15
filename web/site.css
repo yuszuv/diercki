@@ -293,7 +293,7 @@
      Originalpfad, wo die Passwortabfrage sitzt. Verschweigen wäre eine andere
      Auskunft als verschließen. */
   .verschlossen {
-    font: 500 10px/1 var(--font-mono);
+    font: 500 11px/1 var(--font-mono);
     letter-spacing: .08em;
     text-transform: uppercase;
     color: var(--text-muted);
@@ -412,7 +412,7 @@
     margin-block-start: 0;
 
     & :is(h1, h2) {
-      font-size: 17px;
+      font-size: var(--base-font-size);
       border-block-start: 0;
       padding-block-start: 0;
       margin-block-start: var(--spacing-half);
@@ -538,7 +538,7 @@
       /* Leere Zellen nehmen keinen Platz — sonst bliebe die Trennpunktkette hängen. */
       & td:empty { display: none; }
 
-      .z-name { font-size: 17px; }
+      .z-name { font-size: var(--base-font-size); }
       .z-art::before { content: '· '; color: var(--text-muted); }
       .z-blatt { color: var(--text-muted); }
       .z-blatt::before { content: '· Blatt '; }
@@ -614,7 +614,7 @@
 
     &:hover { background: var(--hover-flaeche); }
 
-    .dok-titel { font-size: 17px; }
+    .dok-titel { font-size: var(--base-font-size); }
   }
 
   .dok-pfad {
