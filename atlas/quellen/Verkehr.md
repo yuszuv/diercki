@@ -14,7 +14,7 @@ in den Quelldaten. Die wenigen Aussagen:
 | Höhenschichten und Schummerung | belegt | Terrain Tiles (SRTM) über AWS, Zoomstufe 7 |
 | Flüsse, Strichstärke nach Größenrang | belegt | Natural Earth 1:10 M, Feld `scalerank`. **Nur 18 Objekte im Ausschnitt** — Siret, Someș, Jiu, Argeș, Bega und Timiș fehlen, weil sie im Datensatz `rivers_lake_centerlines` nicht enthalten sind |
 | Staatsgrenzen, Küsten | belegt | Natural Earth 1:50 M |
-| Maßstab 1 : 3 810 000 | abderleitet | aus der Projektion gemessen: Großkreisdistanz zwischen zwei Bildpunkten der Blattmitte gegen deren Bildabstand |
+| Maßstab 1 : 3 810 000 | abgeleitet | aus der Projektion gemessen: Großkreisdistanz zwischen zwei Bildpunkten der Blattmitte gegen deren Bildabstand |
 | Nebenkarte 1 : 1 670 000 | abgeleitet | gleiche Rechnung für den Deltaausschnitt |
 
 ## Von Hand gesetzt (nicht aus Daten)
