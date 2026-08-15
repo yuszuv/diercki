@@ -1,8 +1,10 @@
-# Datenbedarf — was von Jan kommt
+# Datenbedarf — was von außen kommt
 
 Sammelstelle für Geo- und Fachdaten, die einzelne Blätter von *abgeleitet* auf
-*belegt* heben. Nach Wirkung sortiert. Wenn etwas geliefert ist: Zeile nach
-„Erledigt" verschieben, Blatt nachziehen, Quellenregister aktualisieren.
+*belegt* heben. Nach Wirkung sortiert. Wenn nichts anderes dabeisteht, kommt die
+Lieferung von Jan; wo jemand anderes zuständig ist, steht es in der Zeile.
+Wenn etwas geliefert ist: Zeile nach „Erledigt" verschieben, Blatt nachziehen,
+Quellenregister aktualisieren.
 
 ## Offen
 
@@ -75,6 +77,7 @@ zum Rand legen — konkret fehlen:
 (als solche markiert) kann sonst nur den Text, nicht die Chips belegen.
 
 ### 8 · Feldplan der Friedhofsverwaltung Freiburg — Nikolais Ort
+**Wer: Stefan** (vorgeschlagen 15.08.2026) — er ist vor Ort, Jan nicht.
 Lage von **Gräberfeld 35** im Grundriss des Hauptfriedhofs. OSM kennt die
 Feldnummern nicht, und ohne den Plan bleibt die Fläche auf dem Blatt unbelegt.
 Quelle: Eigenbetrieb Friedhöfe Stadt Freiburg. Format egal, auch ein abfotografierter

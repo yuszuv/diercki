@@ -10,6 +10,9 @@ module Atlas
     class Sheets
       include Dry::Monads[:result]
       include Atlas::Import['sources.tree', 'sources.plates', 'sources.register']
+      # The macro does not fit — this list comes from three sections of one file,
+      # not one table. The lookup helpers do.
+      include Atlas::Table
 
       HEADINGS = {
         sheets: '## Blätter',
@@ -35,12 +38,7 @@ module Atlas
       def cartographic = all.fmap { |list| list.reject(&:deck?) }
       def decks        = all.fmap { |list| list.select(&:deck?) }
 
-      def find(slug)
-        all.bind do |list|
-          hit = list.find { |s| s.slug == slug }
-          hit ? Success(hit) : Failure([:not_listed, slug])
-        end
-      end
+      def find(slug) = find_by(slug, reason: :not_listed) { |s, wanted| s.slug == wanted }
 
       # Both directions are documentation faults and both stay visible.
       #

@@ -82,6 +82,17 @@ module Atlas
         end
       end
 
+      # The evidence standing of the whole atlas. /register answers it per entry,
+      # the Blattschau per sheet; this is the only place that answers it for the
+      # atlas as a thing.
+      r.on('belegstand') do
+        r.get(true) do
+          page :belegstand, title: 'Belegstand',
+                            status: r.params['status'].to_s,
+                            sheet: r.params['blatt'].to_s
+        end
+      end
+
       r.on 'werkstatt' do
         r.get(true) { page :workshop, title: 'Werkstatt' }
         document_page(remaining(r))
@@ -98,32 +109,15 @@ module Atlas
       view('error', locals: { error: e })
     end
 
-    # Every Failure becomes one of these. The wording per reason lives in one
-    # place so the same missing file reads the same way wherever it turns up.
-    REASONS = {
-      missing: 'Die Datei liegt nicht im Repo. Wer den Verweis gesetzt hat, hat ihn nicht geprüft.',
-      unreadable: 'Die Datei ist da, ließ sich aber nicht lesen.',
-      outside_tree: 'Der Pfad zeigt aus dem Repo heraus und wird nicht ausgeliefert.',
-      not_listed: 'Diese Datei steht in keiner Blätter-Tabelle der README.',
-      not_a_directory: 'Dieses Verzeichnis gibt es nicht.',
-      no_plate_row: 'Für dieses Blatt gibt es keine Zeile in atlas/blaetter.csv — ohne sie ist ' \
-                    'keine Blattnummer und kein Quellenregister zugeordnet.',
-      no_source_register: 'Für dieses Blatt gibt es noch kein Quellenregister unter atlas/quellen/.',
-      no_sheet_number: 'Ohne Blattnummer lässt sich im Namensregister nichts nachschlagen — ' \
-                       'es führt seine Einträge über die Nummern des gebundenen Bandes.'
-    }.freeze
-
-    def open_case(result, title: 'Offener Fall')
-      reason, path = result.failure
-      render('_open_case',
-             locals: { title: title, path: path,
-                       reason: REASONS.fetch(reason, reason.to_s) })
-    end
+    # REASONS and #open_case come from Views, included above. They used to stand
+    # here as well, word for word, and this class overrode the module it had just
+    # included — identical today, two opinions about the same Fehlfall tomorrow.
 
     # --- readers -------------------------------------------------------------
 
     def sheets     = Container['sources.sheets']
     def register   = Container['sources.register']
+    def evidence   = Container['sources.evidence']
     def plates     = Container['sources.plates']
     def workshop   = Container['sources.workshop']
     def restricted = Container['sources.restricted']

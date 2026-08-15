@@ -89,6 +89,7 @@ flowchart TB
     S["Sheets"]:::r
     R["Register"]:::r
     P["Plates"]:::r
+    E["Evidence"]:::r
     W["Workshop"]:::r
     X["Restricted"]:::r
   end
@@ -99,6 +100,7 @@ flowchart TB
     V2["/blaetter"]
     V3["/blatt/…"]
     V4["/register"]
+    V6["/belegstand"]
     V5["/werkstatt/…"]
   end
 
@@ -117,8 +119,9 @@ flowchart TB
 
   S --> V1 & V2 & V3
   R --> V1 & V3 & V4
-  P --> V3 & V4
-  W --> V5
+  P --> V3 & V4 & V6
+  E --> V6
+  W --> V5 & V6
   leser -.->|"Failure"| FF
 
   BLATT[("Kartenblatt<br/><small>unchanged</small>")]
@@ -146,6 +149,36 @@ Five things the picture is meant to show:
    caught and smoothed over; it is drawn.
 4. **The Kartenblatt sits outside.** It passes through the static layer unchanged and is
    only framed by the Blattschau — it hangs off no reader.
+
+### The Belegstand
+
+`/belegstand` reads the eight Quellenregister under `atlas/quellen/` as data rather than
+as prose and counts them: what this atlas states, and what each statement stands on.
+`/register` answers that per entry and the Blattschau per sheet; this is the only place
+that answers it for the atlas as a whole.
+
+It is the same rule the sheets already keep, applied one level up — and it needed a
+reader because `App#sheet_sources` renders those files to opaque HTML, where a status is
+prose. Both parses now run under their own tag, `:html` and `:evidence`, because
+`Tree#parse` memoises per tag and two callers with different blocks must not share one
+entry.
+
+Three decisions carry it, and each is a place where the obvious shortcut is wrong:
+
+- **Tables are recognised by their header, never by position.** The first column is
+  spelled three ways across the registers; `Verkehr.md` carries a table whose columns
+  are Element and Anmerkung, with prose where a status would be. Read by position, that
+  one table alone yields dozens of invented status words. A table with no `Status`
+  column is counted as skipped and named on the page.
+- **Status words are not bent onto the three.** Nine registers carry six words, and
+  `Nikolais-Ort.md` adds its own — "Angabe des Nutzers", "Erinnerung des Nutzers,
+  wörtlich übernommen" — because a memory is marked as a memory rather than dressed up
+  as a source. Unknown words are shown raw and counted apart, the way
+  `Register::KIND_LABEL` handles an unknown kind. They also get no colour: colouring one
+  in would be filing it under a category it does not belong to.
+- **Only the sheets of the bound volume are held to having a register.** The
+  Zeichenerklärung and the Einbandentwürfe make no claims about the world, so listing
+  them as gaps would drown the two that are real.
 
 ## What the application is built from
 

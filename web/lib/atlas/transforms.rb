@@ -92,5 +92,56 @@ module Atlas
     def rows(text)
       semicolon_table(drop_comments(lines(text)))
     end
+
+    # Every markdown table in a document, each with its own header and the
+    # `## Heading` it sits under. nil heading means above the first one, which is
+    # where most Quellenregister keep their main table.
+    #
+    # Rows come back keyed by their table's header cells, downcased — never by
+    # position, and that is the whole point. The Quellenregister spell their first
+    # column three ways ("Angabe", "Aussage", "Angabe auf dem Blatt", two of them
+    # inside Braunbaer.md), and Verkehr.md carries a table with no Status column
+    # at all whose second column is prose. Read by position, that one table alone
+    # yields dozens of invented status words.
+    #
+    # Tables are cut at their divider row, not at headings: `|---|---|` sits
+    # directly under a header and nowhere else, so two tables under one heading
+    # stay two tables instead of one with a stray row in the middle.
+    def markdown_tables(text)
+      heading = nil
+      previous = nil
+      current = nil
+      tables = []
+
+      lines(text).each do |line|
+        stripped = line.strip
+
+        if stripped.start_with?('## ')
+          heading = stripped
+          current = nil
+        elsif divider_row?(stripped)
+          current = { heading: heading, header: pipe_cells(previous.to_s).map { |c| c.downcase }, rows: [] }
+          tables << current
+        elsif current && stripped.include?('|')
+          current[:rows] << pipe_cells(stripped)
+        else
+          current = nil
+        end
+
+        previous = stripped
+      end
+
+      tables.map { |t| t.merge(rows: t[:rows].map { |cells| key_by(t[:header], cells) }) }
+    end
+
+    # The |---|---| under a table's header. Needs both a pipe and a dash: a row
+    # of empty cells is not a divider, and neither is a line of dashes.
+    def divider_row?(line)
+      line.include?('|') && line.include?('-') && line.match?(/\A\s*\|?[\s:|-]+\z/)
+    end
+
+    def key_by(header, cells)
+      header.each_with_index.to_h { |name, i| [name, cells[i].to_s.strip] }
+    end
   end
 end

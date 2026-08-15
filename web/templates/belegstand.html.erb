@@ -1,0 +1,128 @@
+<%
+  reading = evidence.all
+  totals = evidence.tally_all
+  by_sheet = evidence.tally_by_sheet
+  hits = evidence.filter(status: status, sheet: sheet)
+  open = evidence.open_cases
+  key = plates.by_number
+%>
+<%== heading('Belegstand',
+             'Worauf der Atlas steht, quer über alle Blätter gelesen. Jede Zeile stammt aus dem ' \
+             'Quellenregister ihres Blattes — dieselbe Angabe, die dort am Blattrand steht, hier nur ' \
+             'zusammengezählt.') %>
+
+<% if reading.failure? %>
+  <%== open_case(reading, title: 'Die Quellenregister ließen sich nicht lesen') %>
+<% else %>
+
+<%# The three known words carry their own count; everything else is listed by its
+    own spelling. Nine registers spell six, and Nikolais-Ort adds its own — a
+    memory is marked as a memory. Bending them onto three would be the one thing
+    this page exists to prevent. %>
+<p class="vorspann">
+  <b><%= totals[:gesamt] %></b> Angaben aus <%= by_sheet.size %> Quellenregistern:
+  <span class="status status-belegt"><%= totals[:belegt] %> belegt</span> ·
+  <span class="status status-abgeleitet"><%= totals[:abgeleitet] %> abgeleitet</span> ·
+  <span class="status status-unbelegt"><%= totals[:unbelegt] %> unbelegt</span><%
+  %><% unless totals[:sonstige].empty? %> · <span class="status"><%= totals[:sonstige].values.sum %> mit eigenem Wort</span><% end %>
+</p>
+
+<div class="tabelle-rahmen"><table class="register">
+  <thead><tr><th>Blatt</th><th>belegt</th><th>abgeleitet</th><th>unbelegt</th><th>weitere</th><th></th></tr></thead>
+  <tbody>
+    <% by_sheet.sort_by { |_, t| -t[:unbelegt] }.each do |file, t| %>
+      <tr>
+        <td class="z-name"><a href="/blatt/<%= file %>"><b><%= file.sub(/\.(dc\.)?html\z/, '').tr('-', ' ') %></b></a></td>
+        <td class="zahl mono"><%= t[:belegt] %></td>
+        <td class="zahl mono"><%= t[:abgeleitet] %></td>
+        <td class="zahl mono"><%= t[:unbelegt] %></td>
+        <td class="zahl mono"><%= t[:sonstige].values.sum.positive? ? t[:sonstige].values.sum : '' %></td>
+        <td class="belegbalken" title="<%= t[:gesamt] %> Angaben">
+          <% %i[belegt abgeleitet unbelegt].each do |word| %><%
+            %><% next unless t[word].positive? %><%
+            %><span class="balken balken-<%= word %>" style="flex:<%= t[word] %>"></span><%
+          %><% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table></div>
+
+<%# A GET form, like /register: every filtered view is a linkable address. %>
+<form class="filterleiste" method="get" action="/belegstand">
+  <label for="status">Status</label>
+  <select name="status" id="status">
+    <option value="">alle Belegstatus</option>
+    <% evidence.statuses.each do |s| %>
+      <option value="<%= s %>"<%= ' selected' if s == status %>><%= s %></option>
+    <% end %>
+  </select>
+  <label for="blatt">Blatt</label>
+  <select name="blatt" id="blatt">
+    <option value="">alle Blätter</option>
+    <% by_sheet.keys.sort.each do |file| %>
+      <option value="<%= file %>"<%= ' selected' if file == sheet %>><%= file %></option>
+    <% end %>
+  </select>
+  <button class="knopf" type="submit">Filtern</button>
+  <span class="treffer"><%= hits.size %> von <%= totals[:gesamt] %></span>
+</form>
+
+<div class="tabelle-rahmen"><table class="register">
+  <thead><tr><th>Angabe</th><th>Blatt</th><th>Abschnitt</th><th>Status</th></tr></thead>
+  <tbody>
+    <% hits.each do |claim| %>
+      <tr>
+        <td class="z-name"><%= claim.text %></td>
+        <td class="z-blatt"><a href="/blatt/<%= claim.file %>"><%= claim.sheet %></a></td>
+        <td class="z-art"><%= claim.section %></td>
+        <td class="z-status"><span class="status<%= " status-#{claim.status}" if claim.known? %>"><%= claim.status %></span></td>
+      </tr>
+      <% if claim.note && !claim.note.empty? %>
+        <tr class="anmerkung"><td colspan="4"><%= claim.note %></td></tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table></div>
+
+<% if hits.empty? %>
+  <p class="abschnitt-text">Keine Angabe passt auf diese Filter.</p>
+<% end %>
+
+<% unless open[:without_register].empty? %>
+  <div class="fehlfall">
+    <b>Blätter des Bandes ohne Quellenregister</b>
+    <br><span class="fehlfall-grund">
+      <%= open[:without_register].join(', ') %> — was auf diesen Blättern steht, ist hier nicht gezählt,
+      weil es nirgends aufgeschrieben ist. Nicht belegt und nicht unbelegt: ungeprüft.
+    </span>
+  </div>
+<% end %>
+
+<% unless open[:unreadable].empty? %>
+  <div class="fehlfall">
+    <b>Quellenregister, die es nicht gibt</b>
+    <br><span class="fehlfall-grund">atlas/blaetter.csv nennt <%= open[:unreadable].join(', ') %>, die Datei fehlt.</span>
+  </div>
+<% end %>
+
+<% unless open[:unclaimed].empty? %>
+  <div class="fehlfall">
+    <b>Quellenregister, die kein Blatt nennt</b>
+    <br><span class="fehlfall-grund"><%= open[:unclaimed].join(', ') %> — gepflegt, aber von keiner Zeile in atlas/blaetter.csv erreicht.</span>
+  </div>
+<% end %>
+
+<% unless evidence.skipped.empty? %>
+  <div class="fehlfall">
+    <b>Tabellen ohne Statusspalte</b>
+    <br><span class="fehlfall-grund">
+      <% evidence.skipped.each do |s| %>
+        <%= s.file %> · <%= s.section %> (Spalten: <%= s.columns.join(', ') %>).
+      <% end %>
+      Nicht ausgewertet statt geraten — eine zweite Spalte, die nicht Status heißt, ist keine.
+    </span>
+  </div>
+<% end %>
+
+<% end %>

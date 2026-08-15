@@ -10,20 +10,19 @@ module Atlas
     # authenticating.
     class Restricted
       include Atlas::Import['sources.tree']
+      include Atlas::Table
 
       PATH = 'web/geschuetzt.csv'
 
       Rule = Data.define(:path, :reason)
 
-      def all
-        tree.parse(PATH, :rules) do |csv|
-          Transforms.rows(csv).filter_map do |row|
-            path = Transforms.presence(row[:pfad])
-            next unless path
+      # normalise is an instance method, so the block cannot call it — it runs
+      # inside Tree#parse with nothing but the row, which is the contract. Hence
+      # the module function.
+      table(path: PATH, tag: :rules, rows_from: Transforms.method(:rows)) do |row|
+        path = Transforms.presence(row[:pfad])
 
-            Rule.new(path: normalise(path), reason: row[:grund].to_s.strip)
-          end
-        end
+        Rule.new(path: Restricted.normalise(path), reason: row[:grund].to_s.strip) if path
       end
 
       # Fails closed. Every other reader in this application may fall back to an
@@ -40,11 +39,9 @@ module Atlas
       # want to display a reason ask this; callers that decide access ask
       # #restricted? above.
       def rule_for(path)
-        wanted = normalise(path)
-        all.value_or([]).find { |r| r.path == wanted }
+        wanted = Restricted.normalise(path)
+        lookup_by { |r| r.path == wanted }
       end
-
-      private
 
       # The identity of a path, not the way it was spelled.
       #
@@ -53,7 +50,10 @@ module Atlas
       # are the same file to the reader and were two different strings to the
       # guard. Nine spellings of the four guarded paths answered 200 without a
       # login — measured, not feared.
-      def normalise(path)
+      #
+      # A module function because both sides need it: #rule_for on an instance,
+      # and the row block, which has no instance to ask.
+      def self.normalise(path)
         Pathname("/#{path.to_s.strip.delete_prefix('/')}").cleanpath.to_s
       end
     end
