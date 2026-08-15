@@ -44,6 +44,21 @@ das ans Blatt. Wer die Zuordnung bestätigt — am gedruckten Band oder am Entwu
 setzt die Zeile auf `belegt` und schreibt hier die Quelle dazu. Wer sie widerlegt,
 korrigiert die Spalte `nr`; sonst ändert sich nichts.
 
+## Was `nr` ist und was sie nicht ist
+
+Eine **Zitiernummer, keine Kennung.** Sie beantwortet „auf welcher Seite des
+gebundenen Bandes steht das", und dafür wird sie gebraucht: die Spalte `blaetter`
+in `register.csv` zitiert sie 272-fach, und `Plates#by_number` ist der einzige Weg
+von dort aufs Blatt. Sie ist also nicht stillgelegt.
+
+Als **Adresse** taugt sie trotzdem nicht, und zwar aus drei Gründen, die
+zusammenkommen: sie ist *abgeleitet* (der Rechenweg steht oben, 6 gegen 7 ist offen),
+sie gibt es nur für die neun Blätter des Bandes — sieben Zeilen dieser Tabelle
+tragen keine, und Nebenkarten tragen überhaupt keine —, und sie benennt eine Seite,
+keine Datei. Wer etwas dauerhaft adressieren will (Verweise zwischen Blättern, ein
+Wegeverzeichnis, eine Führung), braucht eine eigene Kennung; `nr` bleibt hier als
+Angabe stehen und wandert nicht in diese Rolle.
+
 ## Die Spalte `quellen`
 
 Zeigt auf die Datei unter `atlas/quellen/`. Zwei Namen weichen ab und sind deshalb
